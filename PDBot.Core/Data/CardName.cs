@@ -61,6 +61,16 @@ namespace PDBot.Data
             Names = names.ToArray();
         }
 
+        public CardName(IEnumerable<string> names) : this(names.First())
+        {
+            if (names.Count() > 1)
+            {
+                // Flip/Transform cards.
+                Names = Names.Union(names).ToArray();
+            }
+            
+        }
+
         public bool Equals(CardName other)
         {
             return this.FullName == other.FullName;
