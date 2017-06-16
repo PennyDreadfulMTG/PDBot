@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Tests
 {
-    class CommandTests
+    class TestResolver
     {
         [Test]
         public void TestCommands()
