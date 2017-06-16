@@ -59,15 +59,24 @@ namespace PDBot.Core.GameObservers
 
         private async void CheckForLeague()
         {
+            Console.WriteLine("Checking for League");
             if (match.Players.Length != 2)
                 return;
 
             HostRun = await League.GetRun(match.Players[0]);
+            var desc = match.Comments.ToLower();
             if (HostRun == null)
+            {
+                if (desc.Contains("league"))
+                {
+                    match.SendChat($"[sD][sR]This is not a valid @[League] pairing!");
+                    match.SendChat($"[sD][sR]{match.Players[0]}, you do not have an active run.");
+                }
+
                 return;
+            }
 
             var opp = match.Players[1];
-            var desc = match.Comments.ToLower();
             LeagueRunOpp = await League.GetRun(opp);
             if (HostRun.CanPlay.Contains(opp, StringComparer.InvariantCultureIgnoreCase))
             {

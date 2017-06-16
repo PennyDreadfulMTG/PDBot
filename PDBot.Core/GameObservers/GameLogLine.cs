@@ -27,7 +27,7 @@ namespace PDBot.Core.GameObservers
                 var end = line.IndexOf("]");
                 var name = line.Substring(1, end - 1);
                 line = line.Substring(end + 2);
-                var IsToken = line.StartsWith(" token");
+                var IsToken = line.TrimStart().StartsWith("token");
                 if (LegendaryTokens.Contains(name))
                     IsToken = true;
 

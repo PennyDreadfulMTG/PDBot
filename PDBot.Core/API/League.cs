@@ -27,9 +27,15 @@ namespace PDBot.API
 
             public Card(JToken blob)
             {
-                Name = new CardName(blob.SelectToken("names")?.Select(jt => jt.ToObject<string>()));
+                try
+                {
+                    Name = new CardName(blob.SelectToken("names")?.Select(jt => jt.ToObject<string>()));
+                }
+                catch (Exception)
+                {
+                    Name = new CardName(blob.Value<string>("name"));
+                }
                 Quantity = blob.Value<int>("n");
-
             }
 
             public int Quantity { get; private set; }
