@@ -13,6 +13,7 @@ namespace Tests
         [TestCase("skinnersweet1880 is being attacked by [Vampire] token, [Vampire] token, [Vampire Nighthawk], [Vampire Lacerator], and [Lord of Lineage].", 3, 2)]
         [TestCase("[Eldrazi Scion] token blocks [Lightning Berserker].", 1, 1)]
         [TestCase("[Elvish Visionary] blocks [Tuktuk the Returned].", 1, 1)]
+        [TestCase("Blockers for [Vampire Nighthawk] are ordered as follows: [Glint-Nest Crane], [Faerie Mechanist]", 3, 0)]
         public void TestLogHandler(string line, int cards, int tokens)
         {
             var parser = new GameLogLine(line);
