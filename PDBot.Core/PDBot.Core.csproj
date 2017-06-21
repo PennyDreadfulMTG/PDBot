@@ -82,7 +82,7 @@
     <Compile Include="Data\CardName.cs" />
     <Compile Include="DiscordService.cs" />
     <Compile Include="GameObservers\BuggedCardObserver.cs" />
-    <Compile Include="GameObservers\DetermineFormat.cs" />
+    <Compile Include="DetermineFormat.cs" />
     <Compile Include="GameObservers\GameLogLine.cs" />
     <Compile Include="GameObservers\IMatch.cs" />
     <Compile Include="GameObservers\IGameObserver.cs" />
