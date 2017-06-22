@@ -27,6 +27,8 @@ namespace PDBot.Discord
 
         }
 
+        readonly static string[] modo_commands = new string[] { "!drop", "!retire"};
+
         private static async Task Client_MessageReceived(SocketMessage arg)
         {
             if (arg.Author.IsBot)
@@ -34,6 +36,13 @@ namespace PDBot.Discord
             if (arg.Channel is SocketDMChannel)
             {
                 await arg.Channel.SendMessageAsync("I don't respond to messages over discord.  Please send that to me through Magic Online instead.");
+                return;
+            }
+
+            if (modo_commands.Contains(arg.Content.ToLower()))
+            {
+                await arg.Channel.SendMessageAsync("I don't respond to messages over discord.  Please send that to me through Magic Online instead.");
+                return;
             }
         }
 
