@@ -1,10 +1,12 @@
 ﻿using NUnit.Framework;
+using PDBot.Core;
 using PDBot.Core.GameObservers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Tests.Mocks;
 
 namespace Tests
 {
@@ -19,6 +21,14 @@ namespace Tests
             var parser = new GameLogLine(line);
             Assert.AreEqual(cards, parser.Cards.Count());
             Assert.AreEqual(tokens, parser.Tokens.Count());
+        }
+
+        [Test]
+        public void TestPDIllegal()
+        {
+            var checker = Resolver.GetInstances<IGameObserver>().Single(o => o.GetType().Name == "PennyDreadfulLegality").GetInstanceForMatch(new MockMatch());
+            Assert.IsNotNull(checker.HandleLine(new GameLogLine("[Black Lotus] is never going to be 0.01 TIX.")));
+            Assert.IsNull(checker.HandleLine(new GameLogLine("[Black Lotus] is never going to be 0.01 TIX.")));
         }
     }
 }

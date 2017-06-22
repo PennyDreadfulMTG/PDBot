@@ -45,6 +45,7 @@ namespace PDBot.Core.GameObservers
                 }
                 else if (!IsCardLegal(name))
                 {
+                    warnings.Add(name);
                     IllegalCount++;
                     int nWarnings = 3;
                     if (IllegalCount < nWarnings)
@@ -58,7 +59,6 @@ namespace PDBot.Core.GameObservers
                                 "[sG]For more information about Penny Dreadful, see pdmtgo.com or reddit.com/r/PennyDreadfulMTG";
                     }
 
-                    warnings.Add(name);
                 }
             }
             return null;
