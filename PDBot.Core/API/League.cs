@@ -2,6 +2,7 @@
 using PDBot.Data;
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -89,8 +90,10 @@ namespace PDBot.API
 
             public bool Retire()
             {
-                System.Collections.Specialized.NameValueCollection nameValueCollection = new System.Collections.Specialized.NameValueCollection();
-                nameValueCollection.Add("api_token", API_TOKEN);
+                NameValueCollection nameValueCollection = new NameValueCollection
+                {
+                    { "api_token", API_TOKEN }
+                };
                 var v = Encoding.UTF8.GetString(wc.UploadValues($"/api/league/drop/{Person}", nameValueCollection));
                 File.WriteAllText("drop.json", v);
                 var blob = JToken.Parse(v);

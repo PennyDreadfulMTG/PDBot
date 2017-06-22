@@ -16,19 +16,16 @@ namespace PDBot.Core.GameObservers
         public static MagicFormat GuessFormat(string comment, string format)
         {
             comment = comment.ToLower();
-            Console.WriteLine($"Guessing Format for {format}, {comment}");
             MagicFormat value;
             if (!Enum.TryParse<MagicFormat>(format, out value))
             {
                 throw new ArgumentException($"{format} is not a valid format!");
             }
-            Console.WriteLine($"Guessed {value}");
             if (value == MagicFormat.Freeform && IsPenny(comment))
                 value = MagicFormat.PennyDreadful;
             if (value == MagicFormat.Commander && IsPenny(comment))
                 value = MagicFormat.PennyDreadfulCommander;
             // If we want to someday support Frontier/Heirloom/other weird formats, add checks them here.
-            Console.WriteLine($"Outputting {value}");
             return value;
         }
 
