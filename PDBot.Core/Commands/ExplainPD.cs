@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PDBot.Core.GameObservers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,7 +16,7 @@ namespace PDBot.Commands
 
         public bool AcceptsPM => false;
 
-        public async Task<string> Run(string user, string[] args)
+        public async Task<string> Run(string user, IMatch game, string[] args)
         {
             return $"[sU]Penny Dreadful is a Player-run format for MTGO where only cards that cost 0.01 tix online are legal.\n" +
                 $"For more information about Penny Dreadful, see pdmtgo.com or reddit.com/r/PennyDreadfulMTG";

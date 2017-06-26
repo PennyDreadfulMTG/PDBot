@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PDBot.Core.GameObservers;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,6 +15,6 @@ namespace PDBot.Commands
 
         bool AcceptsPM { get; }
 
-        Task<string> Run(string player, string[] args);
+        Task<string> Run(string player, IMatch game, string[] args);
     }
 }

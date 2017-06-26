@@ -79,6 +79,8 @@
     <Compile Include="Commands\DropLeague.cs" />
     <Compile Include="Commands\ExplainPD.cs" />
     <Compile Include="Commands\ICommand.cs" />
+    <Compile Include="Commands\LeagueCommand.cs" />
+    <Compile Include="Commands\RecordCommand.cs" />
     <Compile Include="Data\CardName.cs" />
     <Compile Include="DiscordService.cs" />
     <Compile Include="GameObservers\BuggedCardObserver.cs" />
