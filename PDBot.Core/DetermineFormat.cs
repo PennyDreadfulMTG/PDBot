@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PDBot.Core.GameObservers
+namespace PDBot.Core
 {
     /// <summary>
     /// Non-definitive 
@@ -14,7 +14,8 @@ namespace PDBot.Core.GameObservers
         Standard, Modern, Legacy, Vintage, Commander, Pauper,
         Freeform, FreeformVanguard, Test,
         PennyDreadful, PennyDreadfulCommander,
-        MomirBasic, Planechase, Planeswalker
+        MomirBasic, Planechase, Planeswalker,
+        Hierloom, Frontier
     };
 
     public static class DetermineFormat
@@ -32,7 +33,11 @@ namespace PDBot.Core.GameObservers
                 value = MagicFormat.PennyDreadful;
             if (value == MagicFormat.Commander && IsPenny(comment))
                 value = MagicFormat.PennyDreadfulCommander;
-            // If we want to someday support Frontier/Heirloom/other weird formats, add checks them here.
+            if (value == MagicFormat.Legacy && IsHeirloom(comment))
+                value = MagicFormat.Hierloom;
+            if (value == MagicFormat.Freeform && IsFrontier(comment))
+                value = MagicFormat.Frontier;
+            // If we want to someday support other weird formats, add checks them here.
             return value;
         }
 
@@ -55,6 +60,16 @@ namespace PDBot.Core.GameObservers
                 return true;
             }
             return false;
+        }
+
+        private static bool IsFrontier(string comment)
+        {
+            return comment.Contains("frontier");
+        }
+
+        private static bool IsHeirloom(string comment)
+        {
+            return comment.Contains("heirloom");
         }
     }
 }

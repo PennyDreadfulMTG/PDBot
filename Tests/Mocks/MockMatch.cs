@@ -16,6 +16,8 @@ namespace Tests.Mocks
 
         public Dictionary<int, string> Winners => throw new NotImplementedException();
 
+        public IGameObserver[] Observers => new IGameObserver[0];
+
         public void GetRecord(out KeyValuePair<string, int> first, out string record)
         {
             first = default(KeyValuePair<string, int>);
