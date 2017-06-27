@@ -12,8 +12,8 @@ namespace PDBot.Core.GameObservers
     {
         private IMatch match;
 
-        public League.Deck HostRun { get; private set; }
-        public League.Deck LeagueRunOpp { get; private set; }
+        public League.Deck HostRun { get; internal set; }
+        public League.Deck LeagueRunOpp { get; internal set; }
 
         public LeagueObserver()
         {
@@ -82,8 +82,11 @@ namespace PDBot.Core.GameObservers
             {
                 if (desc.Contains("league"))
                     match.SendChat($"[sD]Good luck in your @[League] match!");
+                else if (match.GameRoom == Room.GettingSerious)
+                    match.SendChat($"[sD]If this is a league game, don't forget to @[Report]!\nIf you do not want this match to be auto-reported, type !notleague");
                 else
                     match.SendChat($"[sD]If this is a league game, don't forget to @[Report]!");
+
             }
             else if (desc.Contains("league"))
             {

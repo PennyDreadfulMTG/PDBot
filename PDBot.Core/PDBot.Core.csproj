@@ -80,6 +80,7 @@
     <Compile Include="Commands\ExplainPD.cs" />
     <Compile Include="Commands\ICommand.cs" />
     <Compile Include="Commands\LeagueCommand.cs" />
+    <Compile Include="Commands\NotLeagueCommand.cs" />
     <Compile Include="Commands\RecordCommand.cs" />
     <Compile Include="Data\CardName.cs" />
     <Compile Include="DiscordService.cs" />

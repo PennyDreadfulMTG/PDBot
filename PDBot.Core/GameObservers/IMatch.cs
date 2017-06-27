@@ -12,6 +12,7 @@ namespace PDBot.Core.GameObservers
         string Comments { get; }
         Dictionary<int, string> Winners { get; }
         IGameObserver[] Observers { get; }
+        Room GameRoom { get; }
 
         void GetRecord(out KeyValuePair<string, int> first, out string record);
         void SendChat(string message);
