@@ -18,6 +18,8 @@ namespace Tests.Mocks
 
         public IGameObserver[] Observers => new IGameObserver[0];
 
+        public Room GameRoom => Room.JustForFun;
+
         public void GetRecord(out KeyValuePair<string, int> first, out string record)
         {
             first = default(KeyValuePair<string, int>);

@@ -48,7 +48,21 @@ namespace PDBot.Core
         {
             List<Type> found = new List<Type>();
 
-            foreach (var t in assembly.GetTypes())
+            Type[] types;
+            try
+            {
+                types = assembly.GetTypes();
+            }
+            catch (ReflectionTypeLoadException e)
+            {
+                types = e.Types;
+                Console.WriteLine("Error loading all types.");
+                foreach (var le in e.LoaderExceptions)
+                {
+                    Console.WriteLine(le);
+                }
+            }
+            foreach (var t in types)
             {
                 if (typeof(T).IsAssignableFrom(t) && typeof(T) != t)
                 {
