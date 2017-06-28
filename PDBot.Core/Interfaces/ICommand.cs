@@ -1,11 +1,12 @@
 ﻿using PDBot.Core.GameObservers;
+using PDBot.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PDBot.Commands
+namespace PDBot.Interfaces
 {
     public interface ICommand
     {

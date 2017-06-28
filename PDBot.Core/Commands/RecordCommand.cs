@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using PDBot.Core.GameObservers;
+using PDBot.Interfaces;
+using PDBot.Core.Interfaces;
 
 namespace PDBot.Core.Commands
 {

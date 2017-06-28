@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PDBot.Core.GameObservers
+namespace PDBot.Core.Interfaces
 {
     public interface IMatch
     {

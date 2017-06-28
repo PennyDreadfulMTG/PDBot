@@ -1,4 +1,6 @@
 ﻿using Newtonsoft.Json.Linq;
+using PDBot.Core.Data;
+using PDBot.Core.Interfaces;
 using PDBot.Data;
 using System;
 using System.Collections.Generic;
@@ -34,6 +36,8 @@ namespace PDBot.Core.GameObservers
         List<string> warnings = new List<string>();
 
         public int IllegalCount { get; private set; }
+
+        public bool PreventReboot => warnings.Any();
 
         public string HandleLine(GameLogLine gameLogLine)
         {

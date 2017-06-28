@@ -78,7 +78,7 @@
     <Compile Include="Commands\Discord.cs" />
     <Compile Include="Commands\DropLeague.cs" />
     <Compile Include="Commands\ExplainPD.cs" />
-    <Compile Include="Commands\ICommand.cs" />
+    <Compile Include="Interfaces\ICommand.cs" />
     <Compile Include="Commands\LeagueCommand.cs" />
     <Compile Include="Commands\NotLeagueCommand.cs" />
     <Compile Include="Commands\RecordCommand.cs" />
@@ -86,9 +86,9 @@
     <Compile Include="DiscordService.cs" />
     <Compile Include="GameObservers\BuggedCardObserver.cs" />
     <Compile Include="DetermineFormat.cs" />
-    <Compile Include="GameObservers\GameLogLine.cs" />
-    <Compile Include="GameObservers\IMatch.cs" />
-    <Compile Include="GameObservers\IGameObserver.cs" />
+    <Compile Include="Data\GameLogLine.cs" />
+    <Compile Include="Interfaces\IMatch.cs" />
+    <Compile Include="Interfaces\IGameObserver.cs" />
     <Compile Include="GameObservers\LeagueObserver.cs" />
     <Compile Include="GameObservers\PennyDreadfulLegality.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,4 +1,6 @@
 ﻿using PDBot.API;
+using PDBot.Core.Data;
+using PDBot.Core.Interfaces;
 using PDBot.Discord;
 using System;
 using System.Collections.Generic;
@@ -14,6 +16,8 @@ namespace PDBot.Core.GameObservers
 
         public League.Deck HostRun { get; internal set; }
         public League.Deck LeagueRunOpp { get; internal set; }
+
+        public bool PreventReboot => HostRun != null && LeagueRunOpp != null;
 
         public LeagueObserver()
         {
@@ -97,6 +101,8 @@ namespace PDBot.Core.GameObservers
                     match.SendChat($"[sD][sR]{opp}, you do not have an active run.");
                 else
                     match.SendChat($"[sD][sR]You have both already played each other with these decks.");
+                HostRun = null;
+                LeagueRunOpp = null;
             }
         }
 

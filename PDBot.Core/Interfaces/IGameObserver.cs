@@ -1,7 +1,8 @@
-﻿using System;
+﻿using PDBot.Core.Data;
+using System;
 using System.Collections.Generic;
 
-namespace PDBot.Core.GameObservers
+namespace PDBot.Core.Interfaces
 {
     public enum Room
     {
@@ -18,5 +19,7 @@ namespace PDBot.Core.GameObservers
         IGameObserver GetInstanceForMatch(IMatch match);
         string HandleLine(GameLogLine gameLogLine);
         void ProcessWinner(string winner, int gameID);
+
+        bool PreventReboot { get; }
     }
 }

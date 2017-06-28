@@ -1,4 +1,6 @@
-﻿using System;
+﻿using PDBot.Core.Data;
+using PDBot.Core.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +11,8 @@ namespace PDBot.Core.GameObservers
     class BuggedCardObserver : IGameObserver
     {
         private List<string> warnings = new List<string>();
+
+        public bool PreventReboot => false;
 
         public IGameObserver GetInstanceForMatch(IMatch match)
         {
