@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using PDBot.Commands;
 using PDBot.Core;
+using PDBot.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;

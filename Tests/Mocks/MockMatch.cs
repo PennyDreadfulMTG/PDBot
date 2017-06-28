@@ -1,5 +1,6 @@
 ﻿using NUnit.Framework;
 using PDBot.Core.GameObservers;
+using PDBot.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
