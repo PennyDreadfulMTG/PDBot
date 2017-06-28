@@ -6,21 +6,26 @@ using Discord.WebSocket;
 using Discord.Net.Providers.WS4Net;
 using System.Diagnostics;
 using System.Threading;
+using System.Net;
 
 namespace PDBot.Discord
 {
-    public class DiscordService
+    public static class DiscordService
     {
-        static DiscordSocketClient client;
+        static DiscordSocketClient client = new DiscordSocketClient(new DiscordSocketConfig
+        {
+            WebSocketProvider = WS4NetProvider.Instance
+        });
+
+        public static event EventHandler Ready;
+
+        private static bool Initialized = false;
 
         public static async Task Init(string token)
         {
-            if (client != null)
+            if (Initialized)
                 return;
-            client = new DiscordSocketClient(new DiscordSocketConfig
-            {
-                WebSocketProvider = WS4NetProvider.Instance
-            });
+            Initialized = true;
             client.Log += Client_Log;
             client.Ready += Client_ReadyAsync;
             client.Disconnected += Client_Disconnected;
@@ -32,6 +37,7 @@ namespace PDBot.Discord
         readonly static string[] modo_commands = new string[] { "!drop", "!retire"};
 
         public static string Playing { get; private set; }
+        public static string CurrentAvatar { get; private set; }
 
         private static async Task Client_MessageReceived(SocketMessage arg)
         {
@@ -47,6 +53,11 @@ namespace PDBot.Discord
             {
                 await arg.Channel.SendMessageAsync("I don't respond to messages over discord.  Please send that to me through Magic Online instead.");
                 return;
+            }
+
+            if (arg.Content.ToLower() == "!avatar")
+            {
+                await arg.Channel.SendMessageAsync($"My current Avatar is {CurrentAvatar}.");
             }
         }
 
@@ -65,6 +76,7 @@ namespace PDBot.Discord
             if (!string.IsNullOrEmpty(Playing))
                 SetGame(Playing);
             //client.CurrentUser.ModifyAsync((e) => e.Avatar)
+            Ready?.Invoke(client, new EventArgs());
         }
 
         public static async void SendToGeneralAsync(string msg)
@@ -98,9 +110,18 @@ namespace PDBot.Discord
 
         public static async void SendToLeagueAsync(string msg)
         {
+            try
+            {
+
             SocketGuild Server = client.Guilds.Single(s => s.Name == "Penny Dreadful");
             var channel = Server.GetTextChannel(220320082998460416);
             await channel.SendMessageAsync(msg);
+            }
+            catch (WebException c)
+            {
+                // Discord.Net sometimes has issues.
+                Console.WriteLine(c.Message);
+            }
         }
 
         [Conditional("DEBUG")]
@@ -129,12 +150,15 @@ namespace PDBot.Discord
             Playing = game;
         }
 
-        public static void SetAvatar(string image)
+        public static async void SetAvatar(string image, string name)
         {
-            client.CurrentUser.ModifyAsync((props) =>
+            Console.WriteLine($"Setting Avatar to {name} ({image})");
+            CurrentAvatar = name;
+            await client.CurrentUser.ModifyAsync((props) =>
             {
                 props.Avatar = new Optional<Image?>(new Image(image));
             });
+            Console.WriteLine("Avatar Updated");
         }
 
         public static void Disconnect()
