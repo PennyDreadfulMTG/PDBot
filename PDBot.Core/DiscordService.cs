@@ -5,6 +5,7 @@ using Discord;
 using Discord.WebSocket;
 using Discord.Net.Providers.WS4Net;
 using System.Diagnostics;
+using System.Threading;
 
 namespace PDBot.Discord
 {
@@ -14,6 +15,8 @@ namespace PDBot.Discord
 
         public static async Task Init(string token)
         {
+            if (client != null)
+                return;
             client = new DiscordSocketClient(new DiscordSocketConfig
             {
                 WebSocketProvider = WS4NetProvider.Instance
@@ -24,10 +27,11 @@ namespace PDBot.Discord
             client.MessageReceived += Client_MessageReceived;
             await client.LoginAsync(TokenType.Bot, token);
             await client.StartAsync();
-
         }
 
         readonly static string[] modo_commands = new string[] { "!drop", "!retire"};
+
+        public static string Playing { get; private set; }
 
         private static async Task Client_MessageReceived(SocketMessage arg)
         {
@@ -58,15 +62,9 @@ namespace PDBot.Discord
 
         private static async Task Client_ReadyAsync()
         {
-            try
-            {
-                //SocketGuild TestServer = client.Guilds.Single(s => s.Name == "TestServer");
-                //var channel = TestServer.GetTextChannel(226920619302715392);
-                //await channel.SendMessageAsync("Test?");
-            }
-            catch (Exception c)
-            {
-            }
+            if (!string.IsNullOrEmpty(Playing))
+                SetGame(Playing);
+            //client.CurrentUser.ModifyAsync((e) => e.Avatar)
         }
 
         public static async void SendToGeneralAsync(string msg)
@@ -74,6 +72,14 @@ namespace PDBot.Discord
             SocketGuild Server = client.Guilds.Single(s => s.Name == "Penny Dreadful");
             var channel = Server.GetTextChannel(207281932214599682);
             await channel.SendMessageAsync(msg);
+        }
+
+        public static async void SendToAllServersAsync(string msg)
+        {
+            foreach (SocketGuild Server in client.Guilds)
+            {
+                await Server.DefaultChannel.SendMessageAsync(msg);
+            }
         }
 
         public static async void SendToLFGAsync(string msg)
@@ -106,16 +112,29 @@ namespace PDBot.Discord
             await channel.SendMessageAsync(msg);
         }
 
-
         public static async void SetGame(string game)
         {
+            if (client.ConnectionState < ConnectionState.Connected)
+            {
+                Playing = game;
+                return;
+            }
+                
             if (game == null && !client.CurrentUser.Game.HasValue)
                 return;
             if (client.CurrentUser.Game.HasValue && client.CurrentUser.Game.Value.Name == game)
                 return;
             Console.WriteLine($"Setting Discord Game to {game}");
             await client.SetGameAsync(game);
-            SocketGuild Server = client.Guilds.Single(s => s.Name == "Penny Dreadful");
+            Playing = game;
+        }
+
+        public static void SetAvatar(string image)
+        {
+            client.CurrentUser.ModifyAsync((props) =>
+            {
+                props.Avatar = new Optional<Image?>(new Image(image));
+            });
         }
 
         public static void Disconnect()
