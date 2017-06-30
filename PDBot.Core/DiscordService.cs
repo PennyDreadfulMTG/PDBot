@@ -2,10 +2,10 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Discord;
+using Discord.Net;
 using Discord.WebSocket;
 using Discord.Net.Providers.WS4Net;
 using System.Diagnostics;
-using System.Threading;
 using System.Net;
 
 namespace PDBot.Discord
@@ -83,14 +83,14 @@ namespace PDBot.Discord
         {
             SocketGuild Server = client.Guilds.Single(s => s.Name == "Penny Dreadful");
             var channel = Server.GetTextChannel(207281932214599682);
-            await channel.SendMessageAsync(msg);
+            await SendMessageAsync(msg, channel);
         }
 
         public static async void SendToAllServersAsync(string msg)
         {
             foreach (SocketGuild Server in client.Guilds)
             {
-                await Server.DefaultChannel.SendMessageAsync(msg);
+                await SendMessageAsync(msg, Server.DefaultChannel);
             }
         }
 
@@ -98,30 +98,22 @@ namespace PDBot.Discord
         {
             SocketGuild Server = client.Guilds.Single(s => s.Name == "Penny Dreadful");
             var channel = Server.GetTextChannel(209488769567424512);
-            await channel.SendMessageAsync(msg);
+            await SendMessageAsync(msg, channel);
         }
 
         public static async void SendToPDHAsync(string msg)
         {
             SocketGuild Server = client.Guilds.Single(s => s.Name == "Penny Dreadful");
             var channel = Server.GetTextChannel(234787370711515136);
-            await channel.SendMessageAsync(msg);
+            await SendMessageAsync(msg, channel);
         }
 
         public static async void SendToLeagueAsync(string msg)
         {
-            try
-            {
 
             SocketGuild Server = client.Guilds.Single(s => s.Name == "Penny Dreadful");
             var channel = Server.GetTextChannel(220320082998460416);
-            await channel.SendMessageAsync(msg);
-            }
-            catch (WebException c)
-            {
-                // Discord.Net sometimes has issues.
-                Console.WriteLine(c.Message);
-            }
+            await SendMessageAsync(msg, channel);
         }
 
         [Conditional("DEBUG")]
@@ -130,7 +122,24 @@ namespace PDBot.Discord
             // This one goes to #botspam on Katelyn's test server. 
             SocketGuild Server = client.Guilds.Single(s => s.Name == "TestServer");
             var channel = Server.GetTextChannel(226920619302715392);
-            await channel.SendMessageAsync(msg);
+            await SendMessageAsync(msg, channel);
+        }
+
+        private static async Task SendMessageAsync(string msg, SocketTextChannel channel)
+        {
+            try
+            {
+                await channel.SendMessageAsync(msg);
+            }
+            catch (WebException c)
+            {
+                Console.WriteLine(c.Message);
+            }
+            catch (RateLimitedException c)
+            {
+                // Thanks, Brainlesss's cat.
+                Console.WriteLine("Hit Rate Limit.");
+            }
         }
 
         public static async void SetGame(string game)
