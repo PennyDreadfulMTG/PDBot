@@ -7,6 +7,7 @@ using Discord.WebSocket;
 using Discord.Net.Providers.WS4Net;
 using System.Diagnostics;
 using System.Net;
+using System.IO;
 
 namespace PDBot.Discord
 {
@@ -43,11 +44,11 @@ namespace PDBot.Discord
         {
             if (arg.Author.IsBot)
                 return;
-            if (arg.Channel is SocketDMChannel)
-            {
-                await arg.Channel.SendMessageAsync("I don't respond to messages over discord.  Please send that to me through Magic Online instead.");
-                return;
-            }
+            //if (arg.Channel is SocketDMChannel)
+            //{
+            //    await arg.Channel.SendMessageAsync("I don't respond to messages over discord.  Please send that to me through Magic Online instead.");
+            //    return;
+            //}
 
             if (modo_commands.Contains(arg.Content.ToLower()))
             {
@@ -55,9 +56,25 @@ namespace PDBot.Discord
                 return;
             }
 
+            string[] words = arg.Content.ToLower().Split();
+
             if (arg.Content.ToLower() == "!avatar")
             {
                 await arg.Channel.SendMessageAsync($"My current Avatar is {CurrentAvatar}.");
+                return;
+            }
+
+            if (words.FirstOrDefault() == "!log")
+            {
+                string file = Path.Combine("Logs", words.Skip(1).FirstOrDefault().ToString() + ".txt");
+                if (File.Exists(file))
+                {
+                    var contents = File.ReadAllLines(file);
+                    var caption = $"Format={contents[0]}, Comment=\"{contents[1]}\", Players=[{contents[3]}]";
+                    await arg.Channel.TriggerTypingAsync();
+                    await arg.Channel.SendFileAsync(file, caption);
+                    return;
+                }
             }
         }
 
