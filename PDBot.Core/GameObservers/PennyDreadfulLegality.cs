@@ -83,7 +83,7 @@ namespace PDBot.Core.GameObservers
             return false;
         }
 
-        private static bool IsRearFace(string name)
+        public static bool IsRearFace(string name)
         {
             if (Transforms == null)
             {

@@ -42,7 +42,7 @@ namespace PDBot.Core.GameObservers
                 if (HostRun == null || LeagueRunOpp == null)
                     return null;
 
-                var InList = HostRun.ContainsCard(name) || LeagueRunOpp.ContainsCard(name) || PennyDreadfulLegality.Transforms.Contains(name);
+                var InList = HostRun.ContainsCard(name) || LeagueRunOpp.ContainsCard(name) || PennyDreadfulLegality.IsRearFace(name);
                 if (!InList)
                 {
                     HostRun = LeagueRunOpp = null;
