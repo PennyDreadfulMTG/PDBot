@@ -113,9 +113,13 @@ namespace PDBot.Discord
 
         public static async void SendToLFGAsync(string msg)
         {
-            SocketGuild Server = client.Guilds.Single(s => s.Name == "Penny Dreadful");
-            var channel = Server.GetTextChannel(209488769567424512);
-            await SendMessageAsync(msg, channel);
+            try
+            {
+                SocketGuild Server = client.Guilds.Single(s => s.Name == "Penny Dreadful");
+                var channel = Server.GetTextChannel(209488769567424512);
+                await SendMessageAsync(msg, channel);
+            }
+            catch (InvalidOperationException) { }
         }
 
         public static async void SendToPDHAsync(string msg)
@@ -139,6 +143,13 @@ namespace PDBot.Discord
             // This one goes to #botspam on Katelyn's test server. 
             SocketGuild Server = client.Guilds.Single(s => s.Name == "TestServer");
             var channel = Server.GetTextChannel(226920619302715392);
+            await SendMessageAsync(msg, channel);
+        }
+
+        public static async void SendToPMLog(string msg)
+        {
+            SocketGuild Server = client.Guilds.Single(s => s.Name == "TestServer");
+            var channel = Server.GetTextChannel(331405678218313730);
             await SendMessageAsync(msg, channel);
         }
 
@@ -180,11 +191,19 @@ namespace PDBot.Discord
         {
             Console.WriteLine($"Setting Avatar to {name} ({image})");
             CurrentAvatar = name;
+            try
+            {
+
             await client.CurrentUser.ModifyAsync((props) =>
             {
                 props.Avatar = new Optional<Image?>(new Image(image));
             });
             Console.WriteLine("Avatar Updated");
+            }
+            catch (HttpException)
+            {
+                Console.WriteLine("HTTP Exception");
+            }
         }
 
         public static void Disconnect()

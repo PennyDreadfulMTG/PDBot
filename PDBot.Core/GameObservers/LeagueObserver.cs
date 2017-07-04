@@ -66,12 +66,23 @@ namespace PDBot.Core.GameObservers
             Console.WriteLine("Checking for League");
             if (match.Players.Length != 2)
                 return;
-
-            HostRun = await League.GetRun(match.Players[0]);
             var desc = match.Comments.ToLower();
+            bool loud = desc.Contains("league");
+            try
+            {
+                HostRun = await League.GetRun(match.Players[0]);
+            }
+            catch
+            {
+                if (loud)
+                {
+                    match.SendChat($"[sD][sR]Error contacting pennydreadfulmagic.com, Please @[Report] manually!");
+                }
+                return;
+            }
             if (HostRun == null)
             {
-                if (desc.Contains("league"))
+                if (loud)
                 {
                     match.SendChat($"[sD][sR]This is not a valid @[League] pairing!");
                     match.SendChat($"[sD][sR]{match.Players[0]}, you do not have an active run.");
@@ -81,10 +92,22 @@ namespace PDBot.Core.GameObservers
             }
 
             var opp = match.Players[1];
-            LeagueRunOpp = await League.GetRun(opp);
+            try
+            {
+                LeagueRunOpp = await League.GetRun(opp);
+            }
+            catch
+            {
+                if (loud)
+                {
+                    match.SendChat($"[sD][sR]Error contacting pennydreadfulmagic.com, Please @[Report] manually!");
+                }
+                return;
+            }
+
             if (HostRun.CanPlay.Contains(opp, StringComparer.InvariantCultureIgnoreCase))
             {
-                if (desc.Contains("league"))
+                if (loud)
                     match.SendChat($"[sD]Good luck in your @[League] match!");
                 else if (match.GameRoom == Room.GettingSerious)
                     match.SendChat($"[sD]If this is a league game, don't forget to @[Report]!\nIf you do not want this match to be auto-reported, type !notleague");
@@ -92,7 +115,7 @@ namespace PDBot.Core.GameObservers
                     match.SendChat($"[sD]If this is a league game, don't forget to @[Report]!");
 
             }
-            else if (desc.Contains("league"))
+            else if (loud)
             {
                 match.SendChat($"[sD][sR]This is not a valid @[League] pairing!");
                 if (HostRun == null)

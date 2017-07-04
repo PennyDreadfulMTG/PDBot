@@ -135,6 +135,19 @@ namespace PDBot.API
                 Deck run = new Deck(blob);
                 return run;
             }
+            catch (WebException c)
+            {
+                //var stream = File.OpenWrite("leagueerror");
+                using (var sw = new StreamWriter("leagueerror.txt"))
+                {
+                    using (Stream response = c.Response.GetResponseStream())
+                    {
+                        var bytes = new byte[response.Length];
+                        sw.Write(response.Read(bytes, 0, (int)response.Length));
+                    }
+                }
+                throw;
+            }
             catch (Exception c)
             {
                 Console.WriteLine(c);
