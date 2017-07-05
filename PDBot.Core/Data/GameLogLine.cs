@@ -25,6 +25,11 @@ namespace PDBot.Core.Data
             {
                 line = line.Substring(i);
                 var end = line.IndexOf("]");
+                if (end == -1 && line.Contains("..."))
+                {
+                    // Ugh.
+                    return;
+                }
                 var name = line.Substring(1, end - 1);
                 line = line.Substring(end + 1);
                 var IsToken = line.TrimStart().StartsWith("token");

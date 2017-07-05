@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace PDBot.Core
 {
     /// <summary>
-    /// Non-definitive 
+    /// Incomplete list of all Magic Formats.
     /// </summary>
     public enum MagicFormat
     {
@@ -15,7 +15,8 @@ namespace PDBot.Core
         Freeform, FreeformVanguard, Test,
         PennyDreadful, PennyDreadfulCommander,
         MomirBasic, Planechase, Planeswalker,
-        Hierloom, Frontier
+        Hierloom, Frontier,
+        JhioraBasic, MoStoJho
     };
 
     public static class DetermineFormat

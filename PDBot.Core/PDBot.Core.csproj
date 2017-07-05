@@ -74,7 +74,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API\BuggedCards.cs" />
-    <Compile Include="API\League.cs" />
+    <Compile Include="API\DecksiteApi.cs" />
+    <Compile Include="API\DecksiteApi.Generated.cs" />
     <Compile Include="Commands\Discord.cs" />
     <Compile Include="Commands\DropLeague.cs" />
     <Compile Include="Commands\ExplainPD.cs" />

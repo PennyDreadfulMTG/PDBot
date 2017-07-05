@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using PDBot.Data;
 using System;
 using System.Collections.Generic;
@@ -11,11 +12,11 @@ using System.Threading.Tasks;
 
 namespace PDBot.API
 {
-    public static class League
+    public static partial class DecksiteApi
     {
         private static string API_TOKEN = null;
 
-        static League()
+        static DecksiteApi()
         {
             if (File.Exists("PDM_API_KEY.txt"))
                 API_TOKEN = File.ReadAllText("PDM_API_KEY.txt");
@@ -110,7 +111,7 @@ namespace PDBot.API
         static WebClient wc => new WebClient()
         {
             BaseAddress = "http://pennydreadfulmagic.com/",
-            Encoding=Encoding.UTF8
+            Encoding = Encoding.UTF8
         };
 
         public static Deck GetRunSync(string player)
@@ -143,7 +144,8 @@ namespace PDBot.API
                     using (Stream response = c.Response.GetResponseStream())
                     {
                         var bytes = new byte[response.Length];
-                        sw.Write(response.Read(bytes, 0, (int)response.Length));
+                        response.Read(bytes, 0, (int)response.Length);
+                        sw.Write(bytes);
                     }
                 }
                 throw;
@@ -174,6 +176,27 @@ namespace PDBot.API
                 { "result", record },
                 { "draws", "0" }
             });
+        }
+
+        public static Rotation GetRotation()
+        {
+            var blob = wc.DownloadString($"/api/rotation");
+            return JsonConvert.DeserializeObject<Rotation>(blob);
+        }
+
+        public static async Task<Rotation> GetRotationAsync()
+        {
+            var blob = await wc.DownloadStringTaskAsync($"/api/rotation");
+            return JsonConvert.DeserializeObject<Rotation>(blob);
+        }
+
+        public static IEnumerable<CardStat> PopularCards()
+        {
+            var blob = wc.DownloadString($"/api/cards");
+            var jArray = JArray.Parse(blob);
+            if (jArray.Type == JTokenType.Null)
+                return null;
+            return from c in jArray.Children() select JsonConvert.DeserializeObject<CardStat>(c.ToString());
         }
     }
 }
