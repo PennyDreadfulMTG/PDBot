@@ -11,19 +11,20 @@ namespace PDBot.Core
     /// </summary>
     public enum MagicFormat
     {
-        Standard, Modern, Legacy, Vintage, Commander, Pauper,
-        Freeform, FreeformVanguard, Test,
-        PennyDreadful, PennyDreadfulCommander,
-        MomirBasic, Planechase, Planeswalker,
-        Hierloom, Frontier,
-        JhioraBasic, MoStoJho
+        Standard = 0, Modern, Legacy, Vintage, Commander, Pauper, Commander1v1 = 18,
+        Freeform = 6, FreeformVanguard, Test,
+        PennyDreadful = 9, PennyDreadfulCommander,
+        MomirBasic = 11, Planechase, Planeswalker,
+        Hierloom = 14, Frontier,
+        JhioraBasic = 16, MoStoJho,
+        
     };
 
     public static class DetermineFormat
     {
         public static MagicFormat GuessFormat(string comment, string format)
         {
-            format = format.Replace(" ", "");
+            format = format.Replace(" ", "").Replace("(", "").Replace(")", "");
             comment = comment.ToLower();
             MagicFormat value;
             if (!Enum.TryParse<MagicFormat>(format, out value))
