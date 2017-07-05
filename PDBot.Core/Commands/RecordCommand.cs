@@ -18,7 +18,7 @@ namespace PDBot.Core.Commands
 
         public bool AcceptsPM => false;
 
-        public async Task<string> Run(string player, IMatch game, string[] args)
+        public async Task<string> RunAsync(string player, IMatch game, string[] args)
         {
             game.GetRecord(out var first, out var record);
             return $"[sD]Record:  {first.Key ?? ""} {record}";

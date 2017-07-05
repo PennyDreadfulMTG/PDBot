@@ -16,6 +16,6 @@ namespace PDBot.Interfaces
 
         bool AcceptsPM { get; }
 
-        Task<string> Run(string player, IMatch game, string[] args);
+        Task<string> RunAsync(string player, IMatch game, string[] args);
     }
 }

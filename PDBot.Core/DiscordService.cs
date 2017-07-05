@@ -98,8 +98,7 @@ namespace PDBot.Discord
 
         public static async void SendToGeneralAsync(string msg)
         {
-            SocketGuild Server = client.Guilds.Single(s => s.Name == "Penny Dreadful");
-            var channel = Server.GetTextChannel(207281932214599682);
+            SocketTextChannel channel = FindChannel("Penny Dreadful", 207281932214599682);
             await SendMessageAsync(msg, channel);
         }
 
@@ -113,48 +112,54 @@ namespace PDBot.Discord
 
         public static async void SendToLFGAsync(string msg)
         {
-            try
-            {
-                SocketGuild Server = client.Guilds.Single(s => s.Name == "Penny Dreadful");
-                var channel = Server.GetTextChannel(209488769567424512);
-                await SendMessageAsync(msg, channel);
-            }
-            catch (InvalidOperationException) { }
+            var channel = FindChannel("Penny Dreadful", 209488769567424512);
+            await SendMessageAsync(msg, channel);
         }
 
         public static async void SendToPDHAsync(string msg)
         {
-            SocketGuild Server = client.Guilds.Single(s => s.Name == "Penny Dreadful");
-            var channel = Server.GetTextChannel(234787370711515136);
+            var channel = FindChannel("Penny Dreadful", 234787370711515136);
             await SendMessageAsync(msg, channel);
         }
 
         public static async void SendToLeagueAsync(string msg)
         {
-
-            SocketGuild Server = client.Guilds.Single(s => s.Name == "Penny Dreadful");
-            var channel = Server.GetTextChannel(220320082998460416);
+            var channel = FindChannel("Penny Dreadful", 220320082998460416);
             await SendMessageAsync(msg, channel);
         }
 
         [Conditional("DEBUG")]
         public static async void SendToTestAsync(string msg)
         {
-            // This one goes to #botspam on Katelyn's test server. 
-            SocketGuild Server = client.Guilds.Single(s => s.Name == "TestServer");
-            var channel = Server.GetTextChannel(226920619302715392);
+            // This one goes to #botspam on Katelyn's test server.
+            var channel = FindChannel("TestServer", 226920619302715392);
             await SendMessageAsync(msg, channel);
         }
 
         public static async void SendToPMLog(string msg)
         {
-            SocketGuild Server = client.Guilds.Single(s => s.Name == "TestServer");
-            var channel = Server.GetTextChannel(331405678218313730);
+            var channel = FindChannel("TestServer", 331405678218313730);
             await SendMessageAsync(msg, channel);
         }
 
+        private static SocketTextChannel FindChannel(string GuildName, ulong chanId)
+        {
+            try
+            {
+                SocketGuild Server = client.Guilds.Single(s => s.Name == GuildName);
+                var channel = Server.GetTextChannel(chanId);
+                return channel;
+            }
+            catch (InvalidOperationException) { }
+            return null;
+}
+
         private static async Task SendMessageAsync(string msg, SocketTextChannel channel)
         {
+            if (channel == null)
+            {
+                return;
+            }
             try
             {
                 await channel.SendMessageAsync(msg);
@@ -187,7 +192,7 @@ namespace PDBot.Discord
             Playing = game;
         }
 
-        public static async void SetAvatar(string image, string name)
+        public static async Task SetAvatar(string image, string name)
         {
             Console.WriteLine($"Setting Avatar to {name} ({image})");
             CurrentAvatar = name;

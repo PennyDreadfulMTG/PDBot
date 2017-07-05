@@ -14,8 +14,8 @@ namespace PDBot.Core.GameObservers
     {
         private IMatch match;
 
-        public League.Deck HostRun { get; internal set; }
-        public League.Deck LeagueRunOpp { get; internal set; }
+        public DecksiteApi.Deck HostRun { get; internal set; }
+        public DecksiteApi.Deck LeagueRunOpp { get; internal set; }
 
         public bool PreventReboot => HostRun != null && LeagueRunOpp != null;
 
@@ -70,7 +70,7 @@ namespace PDBot.Core.GameObservers
             bool loud = desc.Contains("league");
             try
             {
-                HostRun = await League.GetRun(match.Players[0]);
+                HostRun = await DecksiteApi.GetRun(match.Players[0]);
             }
             catch
             {
@@ -94,7 +94,7 @@ namespace PDBot.Core.GameObservers
             var opp = match.Players[1];
             try
             {
-                LeagueRunOpp = await League.GetRun(opp);
+                LeagueRunOpp = await DecksiteApi.GetRun(opp);
             }
             catch
             {
@@ -137,8 +137,8 @@ namespace PDBot.Core.GameObservers
                 if (HostRun != null && LeagueRunOpp != null)
                 {
                     var WinningRun = HostRun.Person.Equals(winner, StringComparison.InvariantCultureIgnoreCase) ? HostRun : LeagueRunOpp;
-                    var LosingRun = (new League.Deck[] { HostRun, LeagueRunOpp }).Single(d => d != WinningRun);
-                    League.UploadResults(WinningRun, LosingRun, record);
+                    var LosingRun = (new DecksiteApi.Deck[] { HostRun, LeagueRunOpp }).Single(d => d != WinningRun);
+                    DecksiteApi.UploadResults(WinningRun, LosingRun, record);
                     DiscordService.SendToLeagueAsync($":trophy: {WinningRun.Person} {record} {LosingRun.Person}");
                 }
             }

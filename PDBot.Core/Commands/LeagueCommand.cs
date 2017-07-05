@@ -18,7 +18,7 @@ namespace PDBot.Core.Commands
 
         public bool AcceptsPM => true;
 
-        public async Task<string> Run(string player, IMatch game, string[] args)
+        public async Task<string> RunAsync(string player, IMatch game, string[] args)
         {
 
             if (game?.Observers?.SingleOrDefault(o => o is GameObservers.LeagueObserver) is GameObservers.LeagueObserver LeagueObserver && LeagueObserver.HostRun != null && LeagueObserver.LeagueRunOpp != null)

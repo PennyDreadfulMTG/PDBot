@@ -17,7 +17,7 @@ namespace PDBot.Commands
 
         public bool AcceptsPM => true;
 
-        public async Task<string> Run(string user, IMatch game, string[] args)
+        public async Task<string> RunAsync(string user, IMatch game, string[] args)
         {
             return $"Join our Discord community! https://discord.gg/RxhTEEP";
         }

@@ -20,12 +20,12 @@ namespace PDBot.Commands
 
         public bool AcceptsPM => true;
 
-        public async Task<string> Run(string user, IMatch game, string[] args)
+        public async Task<string> RunAsync(string user, IMatch game, string[] args)
         {
-            League.Deck run;
+            DecksiteApi.Deck run;
             try
             {
-                run = await League.GetRun(user);
+                run = await DecksiteApi.GetRun(user);
             }
             catch (WebException c)
             {
