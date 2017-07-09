@@ -51,7 +51,7 @@ namespace PDBot.API
             public string n_maindecks_season { get; set; }
             public object power { get; set; }
             public object bug_class { get; set; }
-            public int pd_legal { get; set; }
+            public string pd_legal { get; set; }
             public string count_decks_all { get; set; }
             public object bug_desc { get; set; }
             public string layout { get; set; }
@@ -79,7 +79,8 @@ namespace PDBot.API
 
             public class Set
             {
-                public string name { get; set; }
+                [JsonProperty("name")]
+                public string Name { get; set; }
                 public string rough_exit_date { get; set; }
                 public string block { get; set; }
                 public string enter_date { get; set; }

@@ -20,8 +20,8 @@ namespace PDBot.Core.Commands
 
         public async Task<string> RunAsync(string player, IMatch game, string[] args)
         {
-            game.GetRecord(out var first, out var record);
-            return $"[sD]Record:  {first.Key ?? ""} {record}";
+            game.Winners.GetRecordData(out var first, out var record);
+            return $"[sD]Record:  {first.Player ?? ""} {record}";
         }
     }
 }

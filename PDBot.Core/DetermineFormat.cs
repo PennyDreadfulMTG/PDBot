@@ -26,14 +26,16 @@ namespace PDBot.Core
         {
             format = format.Replace(" ", "").Replace("(", "").Replace(")", "");
             comment = comment.ToLower();
-            MagicFormat value;
-            if (!Enum.TryParse<MagicFormat>(format, out value))
+            if (!Enum.TryParse<MagicFormat>(format, out MagicFormat value))
             {
                 throw new ArgumentException($"{format} is not a valid format!");
             }
+
             if (value == MagicFormat.Freeform && IsPenny(comment))
                 value = MagicFormat.PennyDreadful;
             if (value == MagicFormat.Commander && IsPenny(comment))
+                value = MagicFormat.PennyDreadfulCommander;
+            if (value == MagicFormat.Commander1v1 && IsPenny(comment))
                 value = MagicFormat.PennyDreadfulCommander;
             if (value == MagicFormat.Legacy && IsHeirloom(comment))
                 value = MagicFormat.Hierloom;

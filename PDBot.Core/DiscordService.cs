@@ -38,7 +38,7 @@ namespace PDBot.Discord
         readonly static string[] modo_commands = new string[] { "!drop", "!retire"};
 
         public static string Playing { get; private set; }
-        public static string CurrentAvatar { get; private set; }
+        public static string CurrentAvatar { get; private set; } = "unknown";
 
         private static async Task Client_MessageReceived(SocketMessage arg)
         {

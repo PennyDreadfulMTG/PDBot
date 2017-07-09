@@ -131,8 +131,8 @@ namespace PDBot.Core.GameObservers
 
         public void ProcessWinner(string winner, int gameID)
         {
-            match.GetRecord(out var first, out var record);
-            if (first.Value == 2)
+            match.Winners.GetRecordData(out var first, out var record);
+            if (first.Wins == 2)
             {
                 if (HostRun != null && LeagueRunOpp != null)
                 {
