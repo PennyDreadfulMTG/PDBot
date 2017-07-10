@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace PDBot.Core.GameObservers
 {
-    class PennyDreadfulLegality : IGameObserver
+    public class PennyDreadfulLegality : IGameObserver
     {
         public static string[] LegalCards { get; private set; }
 
@@ -68,7 +68,7 @@ namespace PDBot.Core.GameObservers
             return null;
         }
 
-        private static bool IsCardLegal(string name)
+        public static bool IsCardLegal(string name)
         {
             if (LegalCards == null)
             {

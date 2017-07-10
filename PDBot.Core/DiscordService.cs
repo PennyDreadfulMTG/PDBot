@@ -8,6 +8,7 @@ using Discord.Net.Providers.WS4Net;
 using System.Diagnostics;
 using System.Net;
 using System.IO;
+using System.Threading;
 
 namespace PDBot.Discord
 {
@@ -168,6 +169,10 @@ namespace PDBot.Discord
             {
                 Console.WriteLine(c.Message);
             }
+            catch (HttpException c)
+            {
+                Console.WriteLine(c.Message);
+            }
             catch (RateLimitedException c)
             {
                 // Thanks, Brainlesss's cat.
@@ -195,19 +200,23 @@ namespace PDBot.Discord
         public static async Task SetAvatar(string image, string name)
         {
             Console.WriteLine($"Setting Avatar to {name} ({image})");
-            CurrentAvatar = name;
             try
             {
-
-            await client.CurrentUser.ModifyAsync((props) =>
-            {
-                props.Avatar = new Optional<Image?>(new Image(image));
-            });
-            Console.WriteLine("Avatar Updated");
+                await client.CurrentUser.ModifyAsync((props) =>
+                {
+                    props.Avatar = new Optional<Image?>(new Image(image));
+                });
+                CurrentAvatar = name;
+                Console.WriteLine("Avatar Updated");
             }
             catch (HttpException)
             {
                 Console.WriteLine("HTTP Exception");
+            }
+            catch (RateLimitedException r)
+            {
+                Thread.Sleep(TimeSpan.FromMinutes(10));
+                await SetAvatar(image, name);
             }
         }
 
