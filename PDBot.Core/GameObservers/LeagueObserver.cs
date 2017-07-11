@@ -27,12 +27,20 @@ namespace PDBot.Core.GameObservers
         public LeagueObserver(IMatch match)
         {
             this.match = match;
-            CheckForLeague(); // Do this on an async thread.
+             // Do this on an async thread.
         }
 
-        public IGameObserver GetInstanceForMatch(IMatch match)
+        public async Task<IGameObserver> GetInstanceForMatchAsync(IMatch match)
         {
-            return new LeagueObserver(match);
+            if (match.Format != MagicFormat.PennyDreadful && match.Format != MagicFormat.PennyDreadfulCommander)
+                return null;
+                
+            var obs =  new LeagueObserver(match);
+            if (await obs.CheckForLeague())
+                return obs;
+            else
+                return null;
+            
         }
 
         public string HandleLine(GameLogLine gameLogLine)
@@ -52,20 +60,11 @@ namespace PDBot.Core.GameObservers
             return null;
         }
 
-        public bool IsApplicable(string comment, MagicFormat format, Room room)
-        {
-            if (format == MagicFormat.PennyDreadful || format == MagicFormat.PennyDreadfulCommander)
-            {
-                return true;
-            }
-            return false;
-        }
-
-        private async void CheckForLeague()
+        private async Task<bool> CheckForLeague()
         {
             Console.WriteLine("Checking for League");
             if (match.Players.Length != 2)
-                return;
+                return false;
             var desc = match.Comments.ToLower();
             bool loud = desc.Contains("league");
             try
@@ -78,7 +77,7 @@ namespace PDBot.Core.GameObservers
                 {
                     match.SendChat($"[sD][sR]Error contacting pennydreadfulmagic.com, Please @[Report] manually!");
                 }
-                return;
+                return false;
             }
             if (HostRun == null)
             {
@@ -88,7 +87,7 @@ namespace PDBot.Core.GameObservers
                     match.SendChat($"[sD][sR]{match.Players[0]}, you do not have an active run.");
                 }
 
-                return;
+                return false;
             }
 
             var opp = match.Players[1];
@@ -102,7 +101,7 @@ namespace PDBot.Core.GameObservers
                 {
                     match.SendChat($"[sD][sR]Error contacting pennydreadfulmagic.com, Please @[Report] manually!");
                 }
-                return;
+                return false;
             }
 
             if (HostRun.CanPlay.Contains(opp, StringComparer.InvariantCultureIgnoreCase))
@@ -113,6 +112,7 @@ namespace PDBot.Core.GameObservers
                     match.SendChat($"[sD]If this is a league game, don't forget to @[Report]!\nIf you do not want this match to be auto-reported, type !notleague");
                 else
                     match.SendChat($"[sD]If this is a league game, don't forget to @[Report]!");
+                return true;
 
             }
             else if (loud)
@@ -126,7 +126,10 @@ namespace PDBot.Core.GameObservers
                     match.SendChat($"[sD][sR]You have both already played each other with these decks.");
                 HostRun = null;
                 LeagueRunOpp = null;
+                return false;
             }
+            else
+                return false;
         }
 
         public void ProcessWinner(string winner, int gameID)
@@ -142,6 +145,12 @@ namespace PDBot.Core.GameObservers
                     DiscordService.SendToLeagueAsync($":trophy: {WinningRun.Person} {record} {LosingRun.Person}");
                 }
             }
+        }
+
+        public bool ShouldJoin(IMatch match)
+        {
+            // Don't attempt to join here.  That'll come from PennyDreadfulLegality
+            return false;
         }
     }
 }

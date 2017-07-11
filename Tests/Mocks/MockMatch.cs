@@ -7,14 +7,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PDBot.Core;
 
 namespace Tests.Mocks
 {
     class MockMatch : IMatch
     {
-        public string[] Players { get; set; } = new string[] { "silasary", "hexalite" };
+        public MockMatch(string comments= "Penny Dreadful", string[] players = null, MagicFormat format = MagicFormat.PennyDreadful)
+        {
+            Comments = comments;
+            if (players == null)
+                Players = new string[] { "silasary", "hexalite" };
+            else
+                Players = players;
 
-        public string Comments { get; set; } = "Penny Dreadful";
+            Format = format;
+
+            var tasks = Task.WhenAll(Resolver.GetInstances<IGameObserver>().Select(o => o.GetInstanceForMatchAsync(this)).ToArray());
+            tasks.Wait();
+            Observers = tasks.Result;
+
+        }
+
+        public string[] Players { get; set; }
+
+        public string Comments { get; set; }
 
         public WinnerDictionary Winners { get; set; } = new WinnerDictionary()
         {
@@ -26,6 +43,8 @@ namespace Tests.Mocks
         public IGameObserver[] Observers { get; set; } = new IGameObserver[0];
 
         public Room GameRoom => Room.JustForFun;
+
+        public MagicFormat Format { get; }
 
         public void SendChat(string message)
         {

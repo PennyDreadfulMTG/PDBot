@@ -1,6 +1,7 @@
 ﻿using PDBot.Core.Data;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace PDBot.Core.Interfaces
 {
@@ -15,8 +16,8 @@ namespace PDBot.Core.Interfaces
 
     public interface IGameObserver
     {
-        bool IsApplicable(string comment, MagicFormat format, Room room);
-        IGameObserver GetInstanceForMatch(IMatch match);
+        bool ShouldJoin(IMatch match);
+        Task<IGameObserver> GetInstanceForMatchAsync(IMatch match);
         string HandleLine(GameLogLine gameLogLine);
         void ProcessWinner(string winner, int gameID);
 

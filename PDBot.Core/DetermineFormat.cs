@@ -25,7 +25,7 @@ namespace PDBot.Core
         public static MagicFormat GuessFormat(string comment, string format)
         {
             format = format.Replace(" ", "").Replace("(", "").Replace(")", "");
-            comment = comment.ToLower();
+            comment = comment.ToLower().Replace("#", "");
             if (!Enum.TryParse<MagicFormat>(format, out MagicFormat value))
             {
                 throw new ArgumentException($"{format} is not a valid format!");

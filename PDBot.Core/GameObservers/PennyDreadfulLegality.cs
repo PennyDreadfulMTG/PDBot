@@ -19,18 +19,22 @@ namespace PDBot.Core.GameObservers
         public static List<string> Transforms { get; private set; }
         public static List<string> NotTransforms = new List<string>();
 
-        public bool IsApplicable(string comment, MagicFormat format, Room room)
+        public bool ShouldJoin(IMatch match)
         {
-            if (format == MagicFormat.PennyDreadful || format == MagicFormat.PennyDreadfulCommander)
+            if (match.Format == MagicFormat.PennyDreadful || match.Format == MagicFormat.PennyDreadfulCommander)
             {
                 return true;
             }
             return false;
         }
 
-        public IGameObserver GetInstanceForMatch(IMatch match)
+        public async Task<IGameObserver> GetInstanceForMatchAsync(IMatch match)
         {
-            return new PennyDreadfulLegality();
+            if (match.Format == MagicFormat.PennyDreadful || match.Format == MagicFormat.PennyDreadfulCommander)
+            {
+                return new PennyDreadfulLegality();
+            }
+            return null;
         }
 
         List<string> warnings = new List<string>();

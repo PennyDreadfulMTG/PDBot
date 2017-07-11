@@ -14,7 +14,7 @@ namespace PDBot.Core.GameObservers
 
         public bool PreventReboot => false;
 
-        public IGameObserver GetInstanceForMatch(IMatch match)
+        public async Task<IGameObserver> GetInstanceForMatchAsync(IMatch match)
         {
             return new BuggedCardObserver();
         }
@@ -34,15 +34,15 @@ namespace PDBot.Core.GameObservers
             return null;
         }
 
-        public bool IsApplicable(string comment, MagicFormat format, Room room)
-        {
-            // This one doesn't care about Legality.
-            return true;
-        }
-
         public void ProcessWinner(string winner, int gameID)
         {
 
+        }
+
+        public bool ShouldJoin(IMatch match)
+        {
+            // Bugged cards is never enough of a reason to join a match.  It's just an added bonus
+            return false;
         }
     }
 }

@@ -28,7 +28,8 @@ namespace Tests
         [Test]
         public void TestPDIllegal()
         {
-            var checker = Resolver.GetInstances<IGameObserver>().Single(o => o.GetType().Name == "PennyDreadfulLegality").GetInstanceForMatch(new MockMatch());
+            var match = new MockMatch();
+            var checker = match.Observers.OfType<PennyDreadfulLegality>().Single();
             Assert.IsNotNull(checker.HandleLine(new GameLogLine("[Black Lotus] is never going to be 0.01 TIX.")));
             Assert.IsNull(checker.HandleLine(new GameLogLine("[Black Lotus] is never going to be 0.01 TIX.")));
         }

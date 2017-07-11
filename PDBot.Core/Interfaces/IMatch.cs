@@ -14,6 +14,7 @@ namespace PDBot.Core.Interfaces
         WinnerDictionary Winners { get; }
         IGameObserver[] Observers { get; }
         Room GameRoom { get; }
+        MagicFormat Format { get; }
 
         void SendChat(string message);
     }

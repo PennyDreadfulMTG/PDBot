@@ -129,6 +129,12 @@ namespace PDBot.Discord
             await SendMessageAsync(msg, channel);
         }
 
+        public static async void SendToChatRoomsAsync(string msg)
+        {
+            var channel = FindChannel("Penny Dreadful", 334220558159970304);
+            await SendMessageAsync(msg, channel);
+        }
+
         [Conditional("DEBUG")]
         public static async void SendToTestAsync(string msg)
         {
