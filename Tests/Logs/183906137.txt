@@ -1,0 +1,291 @@
+PennyDreadfulCommander
+Penny Dreadful or GTFO, Please
+BuggedCardObserver, PennyDreadfulLegality
+Wargowitto,muselage,fifftybmg1,subparpaladin
+
+== Game 1 (540122118) ==
+PDBot has started watching.
+muselage joined the game.
+fifftybmg1 chooses to play first.
+fifftybmg1 chooses [Daretti, Scrap Savant] as their commander.
+subparpaladin chooses [Iname, Death Aspect] as their commander.
+Wargowitto chooses [Lyzolda, the Blood Witch] as their commander.
+muselage chooses [Vorosh, the Hunter] as their commander.
+[CHAT] Wargowitto: glhf all
+[CHAT] PDBot: [sR]Daretti, Scrap Savant[sR] is not legal in Penny Dreadful.
+fifftybmg1 keeps this hand.
+subparpaladin keeps this hand.
+Wargowitto keeps this hand.
+[CHAT] muselage: We got someone who didn't read...
+muselage keeps this hand.
+[CHAT] Wargowitto: we sure get the blindest folks for a card game, don't we folks?
+Wargowitto has voted to eject fifftybmg1. 2 more votes are required for ejection.
+muselage has voted to eject fifftybmg1. 1 more vote is required for ejection.
+[CHAT] fifftybmg1: I just click join random game bro 
+[CHAT] Wargowitto: do you guys mind kicking him? planewalkers is poison for this gametype
+[CHAT] Wargowitto: thats fine
+[CHAT] Wargowitto: but this isnt for you
+[CHAT] Wargowitto: so please leave
+[CHAT] muselage: I don't know how to vote
+[CHAT] Wargowitto: its /eject fifftybmg1
+[CHAT] muselage: oh i did it, nevermind
+[CHAT] fifftybmg1: I will man next time try to set it up as private or something so someone just cant auto join
+subparpaladin has voted to eject fifftybmg1. fifftybmg1 has been forced to concede by the majority of remaining players
+fifftybmg1 has conceded from the game.
+fifftybmg1 is now a watcher.
+[CHAT] Wargowitto: i sure wish i could
+[CHAT] Wargowitto: i've thought of adding every pd person i play with and making them buddy only...
+[CHAT] Wargowitto: but it turns out i'm insufferable
+Turn 1: subparpaladin.
+subparpaladin plays [Swamp].
+subparpaladin casts [Disowned Ancestor].
+Turn 1: Wargowitto.
+Wargowitto plays [Vivid Marsh].
+Turn 1: muselage.
+muselage plays [Forest].
+Turn 2: subparpaladin.
+subparpaladin plays [Swamp].
+subparpaladin casts [Nyxborn Eidolon].
+Turn 2: Wargowitto.
+Wargowitto plays [Swamp].
+Wargowitto casts [Plague Myr].
+Turn 2: muselage.
+muselage plays [Transguild Promenade].
+muselage puts triggered ability from [Transguild Promenade] onto the stack (When Transguild Promenade enters the battlefield, sacrifice it unless you pay {1}.).
+Turn 3: subparpaladin.
+subparpaladin plays [Swamp].
+subparpaladin activates an ability of [Disowned Ancestor] (Outlast {1B}).
+Turn 3: Wargowitto.
+Wargowitto plays [Swamp].
+Wargowitto casts [Wayfarer's Bauble].
+Wargowitto activates an ability of [Wayfarer's Bauble] ({2}, {T}, Sacrifice Wayfarer's Bauble: Search your library for a basic land card and put that card...).
+muselage is being attacked by [Plague Myr].
+muselage has 1 poison counter.
+Turn 3: muselage.
+muselage plays [Woodland Stream].
+muselage casts [Urborg Elf].
+Turn 4: subparpaladin.
+subparpaladin plays [Swamp].
+muselage is being attacked by [Disowned Ancestor].
+Wargowitto is being attacked by [Nyxborn Eidolon].
+subparpaladin casts [Razorjaw Oni].
+Turn 4: Wargowitto.
+Wargowitto casts [Bontu's Monument].
+Wargowitto casts [Fleshbag Marauder].
+Wargowitto puts triggered ability from [Bontu's Monument] onto the stack (Whenever you cast a creature spell, each opponent loses 1 life and you gain 1 life.).
+Wargowitto puts triggered ability from [Fleshbag Marauder] onto the stack (When Fleshbag Marauder enters the battlefield, each player sacrifices a creature.).
+Wargowitto sacrifices [Plague Myr].
+muselage sacrifices [Urborg Elf].
+subparpaladin sacrifices [Disowned Ancestor].
+Turn 4: muselage.
+muselage plays [Forest].
+muselage casts [Oviya Pashiri, Sage Lifecrafter].
+muselage casts [Ulvenwald Mysteries].
+Turn 5: subparpaladin.
+subparpaladin plays [Swamp].
+muselage is being attacked by [Nyxborn Eidolon].
+Wargowitto is being attacked by [Razorjaw Oni].
+Turn 5: Wargowitto.
+Wargowitto plays [Swamp].
+Wargowitto casts [Shrine of Limitless Power].
+Wargowitto casts [Lyzolda, the Blood Witch].
+Wargowitto puts triggered ability from [Shrine of Limitless Power] onto the stack (At the beginning of your upkeep or whenever you cast a black spell, put a charge counter on Shrine...).
+Wargowitto puts triggered ability from [Bontu's Monument] onto the stack (Whenever you cast a creature spell, each opponent loses 1 life and you gain 1 life.).
+subparpaladin is being attacked by [Fleshbag Marauder].
+Turn 5: muselage.
+muselage casts [Bloodbriar].
+Turn 6: subparpaladin.
+subparpaladin plays [Swamp].
+muselage is being attacked by [Razorjaw Oni].
+Wargowitto is being attacked by [Nyxborn Eidolon].
+subparpaladin casts [Kyoki, Sanity's Eclipse].
+Turn 6: Wargowitto.
+Wargowitto puts triggered ability from [Shrine of Limitless Power] onto the stack (At the beginning of your upkeep or whenever you cast a black spell, put a charge counter on Shrine...).
+Wargowitto plays [Swamp].
+Wargowitto casts [Murderous Redcap].
+Wargowitto puts triggered ability from [Shrine of Limitless Power] onto the stack (At the beginning of your upkeep or whenever you cast a black spell, put a charge counter on Shrine...).
+Wargowitto puts triggered ability from [Bontu's Monument] onto the stack (Whenever you cast a creature spell, each opponent loses 1 life and you gain 1 life.).
+Wargowitto puts triggered ability from [Murderous Redcap] onto the stack targeting [Kyoki, Sanity's Eclipse] (When Murderous Redcap enters the battlefield, it deals damage equal to its power to target creatur...).
+Wargowitto activates an ability of [Lyzolda, the Blood Witch] targeting [Kyoki, Sanity's Eclipse] ( Lyzolda, the Blood Witch deals 2 damage to target creature or player if the sacrificed creature w...).
+Wargowitto puts triggered ability from [Murderous Redcap] onto the stack (Persist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefiel...).
+Wargowitto puts triggered ability from [Murderous Redcap] onto the stack targeting [Nyxborn Eidolon] (When Murderous Redcap enters the battlefield, it deals damage equal to its power to target creatur...).
+Wargowitto draws a card with [Lyzolda, the Blood Witch]'s ability.
+subparpaladin is being attacked by [Lyzolda, the Blood Witch] and [Fleshbag Marauder].
+subparpaladin has been dealt 3 total damage by Wargowitto's commander, [Lyzolda, the Blood Witch].
+Turn 6: muselage.
+muselage plays [Forest].
+muselage casts [Deranged Hermit].
+[CHAT] Wargowitto: YES
+muselage puts triggered ability from [Deranged Hermit] onto the stack (When Deranged Hermit enters the battlefield, create four 1/1 green Squirrel creature tokens.).
+muselage's [Deranged Hermit] creates four Squirrel tokens.
+subparpaladin is being attacked by [Oviya Pashiri, Sage Lifecrafter].
+Wargowitto is being attacked by [Bloodbriar].
+Turn 7: subparpaladin.
+Wargowitto is being attacked by [Razorjaw Oni].
+subparpaladin casts [Brain Pry] targeting Wargowitto.
+subparpaladin names Jace, the Mind Sculptor for [Brain Pry].
+Wargowitto reveals their hand to [Brain Pry], containing [Vivid Crag], [Molten Primordial], and [Tymaret, the Murder King].
+Turn 7: Wargowitto.
+Wargowitto puts triggered ability from [Shrine of Limitless Power] onto the stack (At the beginning of your upkeep or whenever you cast a black spell, put a charge counter on Shrine...).
+Wargowitto plays [Vivid Crag].
+Wargowitto activates an ability of [Lyzolda, the Blood Witch] targeting muselage ( Lyzolda, the Blood Witch deals 2 damage to target creature or player if the sacrificed creature w...).
+Wargowitto draws a card with [Lyzolda, the Blood Witch]'s ability.
+Wargowitto casts [Tymaret, the Murder King].
+Wargowitto puts triggered ability from [Shrine of Limitless Power] onto the stack (At the beginning of your upkeep or whenever you cast a black spell, put a charge counter on Shrine...).
+Wargowitto puts triggered ability from [Bontu's Monument] onto the stack (Whenever you cast a creature spell, each opponent loses 1 life and you gain 1 life.).
+Wargowitto casts [Leaden Myr].
+Wargowitto puts triggered ability from [Bontu's Monument] onto the stack (Whenever you cast a creature spell, each opponent loses 1 life and you gain 1 life.).
+subparpaladin is being attacked by [Lyzolda, the Blood Witch] and [Fleshbag Marauder].
+subparpaladin has been dealt 6 total damage by Wargowitto's commander, [Lyzolda, the Blood Witch].
+Turn 7: muselage.
+muselage puts triggered ability from [Deranged Hermit] onto the stack (Pay cost).
+muselage puts triggered ability from [Bloodbriar] onto the stack (Whenever you sacrifice another permanent, put a +1/+1 counter on Bloodbriar.).
+muselage puts triggered ability from [Ulvenwald Mysteries] onto the stack (Whenever a nontoken creature you control dies, investigate.).
+muselage's [Ulvenwald Mysteries] creates a Clue token.
+muselage casts [Bloodthrone Vampire].
+muselage casts [Orochi Eggwatcher].
+subparpaladin is being attacked by [Squirrel] token.
+Wargowitto is being attacked by [Squirrel] token and [Bloodbriar].
+Turn 8: subparpaladin.
+subparpaladin casts [Whip of Erebos].
+muselage is being attacked by [Razorjaw Oni].
+[Squirrel] token blocks [Razorjaw Oni].
+muselage activates an ability of [Bloodthrone Vampire] ( Bloodthrone Vampire gets +2/+2 until end of turn.).
+muselage puts triggered ability from [Bloodbriar] onto the stack (Whenever you sacrifice another permanent, put a +1/+1 counter on Bloodbriar.).
+Turn 8: Wargowitto.
+Wargowitto puts triggered ability from [Shrine of Limitless Power] onto the stack (At the beginning of your upkeep or whenever you cast a black spell, put a charge counter on Shrine...).
+Wargowitto discards [Mountain].
+Wargowitto casts [Tormenting Voice].
+Wargowitto draws two cards with [Tormenting Voice].
+Wargowitto plays [Bloodfell Caves].
+Wargowitto puts triggered ability from [Bloodfell Caves] onto the stack (When Bloodfell Caves enters the battlefield, you gain 1 life.).
+Wargowitto activates an ability of [Lyzolda, the Blood Witch] targeting [Orochi Eggwatcher] ( Lyzolda, the Blood Witch deals 2 damage to target creature or player if the sacrificed creature w...).
+muselage activates an ability of [Bloodthrone Vampire] ( Bloodthrone Vampire gets +2/+2 until end of turn.).
+muselage puts triggered ability from [Bloodbriar] onto the stack (Whenever you sacrifice another permanent, put a +1/+1 counter on Bloodbriar.).
+muselage puts triggered ability from [Ulvenwald Mysteries] onto the stack (Whenever a nontoken creature you control dies, investigate.).
+muselage's [Ulvenwald Mysteries] creates a Clue token.
+Wargowitto's Lyzolda, the Blood Witch is countered because it has no legal targets.
+Wargowitto activates an ability of [Tymaret, the Murder King] ( Return Tymaret, the Murder King from your graveyard to your hand.).
+[Tymaret, the Murder King] is returned to Wargowitto's hand from the graveyard.
+Wargowitto casts [Tymaret, the Murder King].
+Wargowitto puts triggered ability from [Shrine of Limitless Power] onto the stack (At the beginning of your upkeep or whenever you cast a black spell, put a charge counter on Shrine...).
+Wargowitto puts triggered ability from [Bontu's Monument] onto the stack (Whenever you cast a creature spell, each opponent loses 1 life and you gain 1 life.).
+Turn 8: muselage.
+muselage activates an ability of [Clue] token ( Draw a card.).
+muselage puts triggered ability from [Bloodbriar] onto the stack (Whenever you sacrifice another permanent, put a +1/+1 counter on Bloodbriar.).
+muselage puts triggered ability from [Ulvenwald Mysteries] onto the stack (Whenever you sacrifice a Clue, create a 1/1 white Human Soldier creature token.).
+muselage's [Ulvenwald Mysteries] creates a Human Soldier token.
+muselage draws a card with [Clue] token's ability.
+muselage casts [Bloodflow Connoisseur].
+subparpaladin is being attacked by [Oviya Pashiri, Sage Lifecrafter].
+Wargowitto is being attacked by [Bloodthrone Vampire] and [Bloodbriar].
+subparpaladin casts [Terror] targeting [Bloodbriar].
+muselage activates an ability of [Bloodflow Connoisseur] ( Put a +1/+1 counter on Bloodflow Connoisseur.).
+muselage puts triggered ability from [Ulvenwald Mysteries] onto the stack (Whenever a nontoken creature you control dies, investigate.).
+muselage's [Ulvenwald Mysteries] creates a Clue token.
+subparpaladin's [Terror] is countered because it has no legal targets.
+Turn 9: subparpaladin.
+subparpaladin casts [Iname, Death Aspect].
+subparpaladin puts triggered ability from [Iname, Death Aspect] onto the stack (When Iname, Death Aspect enters the battlefield, you may search your library for any number of Spi...).
+Wargowitto is being attacked by [Razorjaw Oni].
+Turn 9: Wargowitto.
+Wargowitto puts triggered ability from [Shrine of Limitless Power] onto the stack (At the beginning of your upkeep or whenever you cast a black spell, put a charge counter on Shrine...).
+Wargowitto activates an ability of [Lyzolda, the Blood Witch] targeting muselage ( Lyzolda, the Blood Witch deals 2 damage to target creature or player if the sacrificed creature w...).
+Wargowitto draws a card with [Lyzolda, the Blood Witch]'s ability.
+Wargowitto casts [Kaervek the Merciless].
+Wargowitto puts triggered ability from [Shrine of Limitless Power] onto the stack (At the beginning of your upkeep or whenever you cast a black spell, put a charge counter on Shrine...).
+Wargowitto puts triggered ability from [Bontu's Monument] onto the stack (Whenever you cast a creature spell, each opponent loses 1 life and you gain 1 life.).
+subparpaladin is being attacked by [Lyzolda, the Blood Witch].
+subparpaladin has been dealt 9 total damage by Wargowitto's commander, [Lyzolda, the Blood Witch].
+Turn 9: muselage.
+muselage casts [Nullmage Shepherd].
+Wargowitto puts triggered ability from [Kaervek the Merciless] onto the stack targeting muselage (Whenever an opponent casts a spell, Kaervek the Merciless deals damage to target creature or playe...).
+killswitch has started watching.
+muselage activates an ability of [Nullmage Shepherd] targeting [Whip of Erebos] ( Destroy target artifact or enchantment.).
+killswitch has stopped watching.
+[CHAT] Wargowitto: oh no, landfuck :(
+Turn 10: subparpaladin.
+subparpaladin plays [Swamp].
+muselage is being attacked by [Iname, Death Aspect] and [Razorjaw Oni].
+[Squirrel] token blocks [Razorjaw Oni].
+[Squirrel] token blocks [Iname, Death Aspect].
+muselage activates an ability of [Nullmage Shepherd] targeting [Shrine of Limitless Power] ( Destroy target artifact or enchantment.).
+muselage activates an ability of [Bloodflow Connoisseur] ( Put a +1/+1 counter on Bloodflow Connoisseur.).
+muselage activates an ability of [Bloodflow Connoisseur] ( Put a +1/+1 counter on Bloodflow Connoisseur.).
+subparpaladin casts [Mind Rot] targeting muselage.
+Wargowitto puts triggered ability from [Kaervek the Merciless] onto the stack targeting [Bloodthrone Vampire] (Whenever an opponent casts a spell, Kaervek the Merciless deals damage to target creature or playe...).
+muselage puts triggered ability from [Ulvenwald Mysteries] onto the stack (Whenever a nontoken creature you control dies, investigate.).
+muselage's [Ulvenwald Mysteries] creates a Clue token.
+muselage discards [Viscerid Drone].
+muselage discards [Korozda Guildmage].
+subparpaladin casts [Horrifying Revelation] targeting muselage.
+Wargowitto puts triggered ability from [Kaervek the Merciless] onto the stack targeting [Squirrel] token (Whenever an opponent casts a spell, Kaervek the Merciless deals damage to target creature or playe...).
+muselage activates an ability of [Bloodflow Connoisseur] ( Put a +1/+1 counter on Bloodflow Connoisseur.).
+Wargowitto's Triggered ability from Kaervek the Merciless is countered because it has no legal targets.
+muselage discards [Gutter Grime].
+subparpaladin casts [Emissary of Despair].
+Wargowitto puts triggered ability from [Kaervek the Merciless] onto the stack targeting muselage (Whenever an opponent casts a spell, Kaervek the Merciless deals damage to target creature or playe...).
+Turn 10: Wargowitto.
+Wargowitto plays [Swamp].
+Wargowitto casts [Molten Primordial].
+Wargowitto puts triggered ability from [Bontu's Monument] onto the stack (Whenever you cast a creature spell, each opponent loses 1 life and you gain 1 life.).
+Wargowitto puts triggered ability from [Molten Primordial] onto the stack targeting [Bloodflow Connoisseur], and [Iname, Death Aspect] (When Molten Primordial enters the battlefield, for each opponent, gain control of up to one target...).
+muselage activates an ability of [Bloodflow Connoisseur] ( Put a +1/+1 counter on Bloodflow Connoisseur.).
+muselage puts triggered ability from [Ulvenwald Mysteries] onto the stack (Whenever a nontoken creature you control dies, investigate.).
+muselage's [Ulvenwald Mysteries] creates a Clue token.
+[CHAT] subparpaladin: huh, i figured you would take the razorjaw and sac it so you could block
+subparpaladin is being attacked by [Molten Primordial], [Kaervek the Merciless], and [Iname, Death Aspect].
+[CHAT] subparpaladin: gg frienderinos
+[CHAT] Wargowitto: gg lad
+[CHAT] muselage: gg
+subparpaladin has been dealt 4 total damage by subparpaladin's commander, [Iname, Death Aspect].
+subparpaladin is now a watcher.
+[CHAT] Wargowitto: cool deck btw
+Wargowitto casts [Magus of the Scroll].
+Wargowitto puts triggered ability from [Bontu's Monument] onto the stack (Whenever you cast a creature spell, each opponent loses 1 life and you gain 1 life.).
+Turn 10: muselage.
+muselage activates an ability of [Clue] token ( Draw a card.).
+muselage puts triggered ability from [Ulvenwald Mysteries] onto the stack (Whenever you sacrifice a Clue, create a 1/1 white Human Soldier creature token.).
+muselage's [Ulvenwald Mysteries] creates a Human Soldier token.
+[CHAT] subparpaladin: thank you
+muselage draws a card with [Clue] token's ability.
+muselage activates an ability of [Clue] token ( Draw a card.).
+muselage puts triggered ability from [Ulvenwald Mysteries] onto the stack (Whenever you sacrifice a Clue, create a 1/1 white Human Soldier creature token.).
+muselage's [Ulvenwald Mysteries] creates a Human Soldier token.
+muselage draws a card with [Clue] token's ability.
+muselage plays [Forest].
+muselage activates an ability of [Clue] token ( Draw a card.).
+muselage puts triggered ability from [Ulvenwald Mysteries] onto the stack (Whenever you sacrifice a Clue, create a 1/1 white Human Soldier creature token.).
+muselage's [Ulvenwald Mysteries] creates a Human Soldier token.
+muselage draws a card with [Clue] token's ability.
+Wargowitto casts [Grave Servitude] targeting [Human Soldier] token.
+Turn 11: Wargowitto.
+[CHAT] Wargowitto: do you have ever after in it?
+[CHAT] muselage: it's legal
+Wargowitto casts [Ever After] targeting [Murderous Redcap], and [Fleshbag Marauder].
+[CHAT] muselage: oh, I thought you said "How do you have"
+Wargowitto puts [Ever After] on the bottom of the library.
+Wargowitto puts triggered ability from [Fleshbag Marauder] onto the stack (When Fleshbag Marauder enters the battlefield, each player sacrifices a creature.).
+Wargowitto puts triggered ability from [Murderous Redcap] onto the stack targeting muselage (When Murderous Redcap enters the battlefield, it deals damage equal to its power to target creatur...).
+[CHAT] Wargowitto: ah, lol
+Wargowitto sacrifices [Leaden Myr].
+muselage sacrifices [Human Soldier] token.
+Wargowitto activates an ability of [Lyzolda, the Blood Witch] targeting muselage ( Lyzolda, the Blood Witch deals 2 damage to target creature or player if the sacrificed creature w...).
+Wargowitto puts triggered ability from [Murderous Redcap] onto the stack (Persist (When this creature dies, if it had no -1/-1 counters on it, return it to the battlefiel...).
+[CHAT] subparpaladin: i do have it. i have almost all of the legal reanimation
+[CHAT] Wargowitto: i would think so, heh
+Wargowitto puts triggered ability from [Murderous Redcap] onto the stack targeting muselage (When Murderous Redcap enters the battlefield, it deals damage equal to its power to target creatur...).
+Wargowitto draws a card with [Lyzolda, the Blood Witch]'s ability.
+muselage activates an ability of [Nullmage Shepherd] targeting [Bontu's Monument] ( Destroy target artifact or enchantment.).
+Turn 11: muselage.
+muselage activates an ability of [Clue] token ( Draw a card.).
+muselage puts triggered ability from [Ulvenwald Mysteries] onto the stack (Whenever you sacrifice a Clue, create a 1/1 white Human Soldier creature token.).
+muselage's [Ulvenwald Mysteries] creates a Human Soldier token.
+muselage draws a card with [Clue] token's ability.
+[CHAT] muselage: gg
+muselage has conceded from the game.
+Winner: Wargowitto
+Game 1 Completed.
+muselage has left the game.
+fifftybmg1 has stopped watching.
+subparpaladin has stopped watching.

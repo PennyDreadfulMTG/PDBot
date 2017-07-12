@@ -23,9 +23,9 @@ namespace Tests.Mocks
 
             Format = format;
 
-            var tasks = Task.WhenAll(Resolver.GetInstances<IGameObserver>().Select(o => o.GetInstanceForMatchAsync(this)).ToArray());
-            tasks.Wait();
-            Observers = tasks.Result;
+            Task<IGameObserver[]> task = Resolver.GetObservers(this);
+            task.Wait();
+            Observers = task.Result;
 
         }
 

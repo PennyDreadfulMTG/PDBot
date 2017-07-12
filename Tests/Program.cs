@@ -21,7 +21,10 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 // ***********************************************************************
 
+using NUnit.Framework;
 using NUnitLite;
+
+[assembly: Parallelizable(ParallelScope.Fixtures)]
 
 namespace NUnitLite.Tests
 {

@@ -1,0 +1,180 @@
+PennyDreadful
+PDT SFv brainlesss96
+BuggedCardObserver, PennyDreadfulLegality
+bakert99,Brainlesss96
+
+== Game 1 (538389016) ==
+PDBot has started watching.
+Brainlesss96 chooses to play first.
+[CHAT] Brainlesss96: Hi ya good sir gl hf
+Brainlesss96 keeps this hand.
+benwaeseperlman has started watching.
+bakert99 keeps this hand.
+Brainlesss96 skips their draw step.
+benwaeseperlman has stopped watching.
+Brainlesss96 plays [Forest].
+[CHAT] bakert99: you too
+Turn 1: bakert99.
+bakert99 plays [Swamp].
+bakert99 casts [Diregraf Ghoul].
+Turn 2: Brainlesss96.
+Brainlesss96 plays [Mystic Monastery].
+Turn 2: bakert99.
+bakert99 plays [Swamp].
+bakert99 casts [Hymn to Tourach] targeting Brainlesss96.
+Brainlesss96 discards [Woodland Wanderer].
+Brainlesss96 discards [Crater's Claws].
+Brainlesss96 is being attacked by [Diregraf Ghoul].
+Turn 3: Brainlesss96.
+Brainlesss96 plays [Mountain].
+Brainlesss96 casts [Temur Ascendancy].
+Turn 3: bakert99.
+bakert99 plays [Dread Statuary].
+bakert99 casts [Hymn to Tourach] targeting Brainlesss96.
+Brainlesss96 discards [Crater's Claws].
+Brainlesss96 discards [Woodland Wanderer].
+Brainlesss96 is being attacked by [Diregraf Ghoul].
+Turn 4: Brainlesss96.
+Brainlesss96 plays [Frontier Bivouac].
+Turn 4: bakert99.
+Brainlesss96 is being attacked by [Diregraf Ghoul].
+bakert99 casts [Skirsdag High Priest].
+bakert99 casts [Diregraf Ghoul].
+Turn 5: Brainlesss96.
+Brainlesss96 casts a card face down using an alternate cost.
+Turn 5: bakert99.
+Brainlesss96 is being attacked by [Diregraf Ghoul] and [Diregraf Ghoul].
+bakert99 casts [Weaponcraft Enthusiast].
+bakert99 puts triggered ability from [Weaponcraft Enthusiast] onto the stack (Fabricate 2 (When this creature enters the battlefield, put two +1/+1 counters on it or create t...).
+bakert99's [Weaponcraft Enthusiast] creates two Servos.
+Turn 6: Brainlesss96.
+Brainlesss96 turns Rattleclaw Mystic (face-down creature #1) face up.
+Brainlesss96 puts triggered ability from [Rattleclaw Mystic] onto the stack (When Rattleclaw Mystic is turned face up, add {GUR} to your mana pool.).
+Brainlesss96 casts [Wolfir Silverheart].
+Brainlesss96 puts triggered ability from [Temur Ascendancy] onto the stack (Whenever a creature with power 4 or greater enters the battlefield under your control, you may dra...).
+Brainlesss96 puts triggered ability from [Wolfir Silverheart] onto the stack (Soulbond (When this creature enters the battlefield, you may pair it with another unpaired creat...).
+Brainlesss96 draws a card with [Temur Ascendancy]'s ability.
+Turn 6: bakert99.
+bakert99 plays [Swamp].
+bakert99 casts [Ultimate Price] targeting [Wolfir Silverheart].
+Brainlesss96 is being attacked by [Servo], [Servo], [Diregraf Ghoul], and [Diregraf Ghoul].
+Brainlesss96 has conceded from the game.
+Winner: bakert99
+Game 1 Completed.
+== Game 2 (538390254) ==
+PDBot has started watching.
+Brainlesss96 chooses to play first.
+Brainlesss96 keeps this hand.
+bakert99 keeps this hand.
+Brainlesss96 skips their draw step.
+Brainlesss96 plays [Vivid Crag].
+Turn 1: bakert99.
+bakert99 plays [Swamp].
+Turn 2: Brainlesss96.
+Brainlesss96 plays [Frontier Bivouac].
+Turn 2: bakert99.
+bakert99 plays [Swamp].
+bakert99 casts [Hymn to Tourach] targeting Brainlesss96.
+Brainlesss96 discards [Yasova Dragonclaw].
+Brainlesss96 discards [Forest].
+Turn 3: Brainlesss96.
+Brainlesss96 plays [Island].
+Brainlesss96 casts [Temur Ascendancy].
+Turn 3: bakert99.
+bakert99 casts [Sultai Emissary].
+bakert99 plays [Swamp].
+bakert99 casts [Cry of Contrition] targeting Brainlesss96.
+Brainlesss96 discards [Crater's Claws].
+bakert99 puts triggered ability from [Cry of Contrition] onto the stack targeting [Sultai Emissary] (When Cry of Contrition is put into a graveyard after resolving, exile it haunting target creature.).
+Turn 4: Brainlesss96.
+Brainlesss96 plays [Forest].
+Brainlesss96 casts [Woodland Wanderer] (with 4 colors).
+Brainlesss96 puts triggered ability from [Temur Ascendancy] onto the stack (Whenever a creature with power 4 or greater enters the battlefield under your control, you may dra...).
+Brainlesss96 draws a card with [Temur Ascendancy]'s ability.
+bakert99 is being attacked by [Woodland Wanderer].
+[Sultai Emissary] blocks [Woodland Wanderer].
+bakert99 puts triggered ability from [Cry of Contrition] onto the stack targeting Brainlesss96 ( When the creature Cry of Contrition haunts dies, target player discards a card.).
+bakert99 puts triggered ability from [Sultai Emissary] onto the stack (When Sultai Emissary dies, manifest the top card of your library.).
+bakert99 manifests the top card of his or her library with Sultai Emissary.
+Brainlesss96 discards [Frontier Bivouac].
+Turn 4: bakert99.
+bakert99 plays [Swamp].
+bakert99 casts [Carrier Thrall].
+bakert99 casts [Carrier Thrall].
+Turn 5: Brainlesss96.
+Brainlesss96 casts [Flametongue Kavu].
+Brainlesss96 puts triggered ability from [Flametongue Kavu] onto the stack targeting manifested creature #1 (When Flametongue Kavu enters the battlefield, it deals 4 damage to target creature.).
+Brainlesss96 puts triggered ability from [Temur Ascendancy] onto the stack (Whenever a creature with power 4 or greater enters the battlefield under your control, you may dra...).
+Brainlesss96 draws a card with [Temur Ascendancy]'s ability.
+bakert99 reveals manifested creature #1 as Weaponcraft Enthusiast.
+bakert99 is being attacked by [Flametongue Kavu] and [Woodland Wanderer].
+[Carrier Thrall] blocks [Flametongue Kavu].
+bakert99 puts triggered ability from [Carrier Thrall] onto the stack (When Carrier Thrall dies, create a 1/1 colorless Eldrazi Scion creature token. It has 'Sacrifice t...).
+bakert99's [Carrier Thrall] creates an Eldrazi Scion token.
+Turn 5: bakert99.
+bakert99 plays [Swamp].
+Turn 6: Brainlesss96.
+Brainlesss96 plays [Temple of Abandon].
+Brainlesss96 puts triggered ability from [Temple of Abandon] onto the stack (When Temple of Abandon enters the battlefield, scry 1.).
+Brainlesss96 put a card on top of Brainlesss96's library.
+bakert99 is being attacked by [Woodland Wanderer].
+Brainlesss96 casts [Searing Spear] targeting bakert99.
+Winner: Brainlesss96
+Game 2 Completed.
+Brainlesss96 has left the game.
+== Game 3 (538391216) ==
+PDBot has started watching.
+Brainlesss96 put a card on the bottom of the library.
+bakert99 skips their draw step.
+bakert99 plays [Swamp].
+bakert99 casts [Diregraf Ghoul].
+Turn 1: Brainlesss96.
+Brainlesss96 plays [Frontier Bivouac].
+Turn 2: bakert99.
+bakert99 plays [Spawning Pool].
+Brainlesss96 is being attacked by [Diregraf Ghoul].
+Turn 2: Brainlesss96.
+Brainlesss96 plays [Forest].
+Brainlesss96 casts [Rattleclaw Mystic].
+Turn 3: bakert99.
+bakert99 plays [Swamp].
+Brainlesss96 is being attacked by [Diregraf Ghoul].
+bakert99 casts [Hymn to Tourach] targeting Brainlesss96.
+Brainlesss96 discards [Flametongue Kavu].
+Brainlesss96 discards [Temur Ascendancy].
+Turn 3: Brainlesss96.
+Brainlesss96 casts [Temur Ascendancy].
+Brainlesss96 plays [Temple of Abandon].
+Brainlesss96 puts triggered ability from [Temple of Abandon] onto the stack (When Temple of Abandon enters the battlefield, scry 1.).
+Brainlesss96 put a card on top of Brainlesss96's library.
+Turn 4: bakert99.
+bakert99 plays [Dread Statuary].
+bakert99 casts [Grim Haruspex].
+Brainlesss96 is being attacked by [Diregraf Ghoul].
+Turn 4: Brainlesss96.
+Brainlesss96 plays [Temple of Abandon].
+Brainlesss96 puts triggered ability from [Temple of Abandon] onto the stack (When Temple of Abandon enters the battlefield, scry 1.).
+Brainlesss96 put a card on top of Brainlesss96's library.
+Brainlesss96 casts [Woodland Wanderer] (with 3 colors).
+Brainlesss96 puts triggered ability from [Temur Ascendancy] onto the stack (Whenever a creature with power 4 or greater enters the battlefield under your control, you may dra...).
+Brainlesss96 draws a card with [Temur Ascendancy]'s ability.
+bakert99 is being attacked by [Woodland Wanderer].
+Turn 5: bakert99.
+Brainlesss96 is being attacked by [Diregraf Ghoul].
+bakert99 plays [Dread Statuary].
+Turn 5: Brainlesss96.
+Brainlesss96 casts [Woodland Wanderer] (with 3 colors).
+Brainlesss96 puts triggered ability from [Temur Ascendancy] onto the stack (Whenever a creature with power 4 or greater enters the battlefield under your control, you may dra...).
+Brainlesss96 draws a card with [Temur Ascendancy]'s ability.
+Brainlesss96 plays [Island].
+Brainlesss96 casts [Crater's Claws] targeting [Grim Haruspex]. (X is 0).
+bakert99 is being attacked by [Woodland Wanderer] and [Woodland Wanderer].
+bakert99 activates an ability of [Spawning Pool] ( Spawning Pool becomes a 1/1 black Skeleton creature with '{B}: Regenerate this creature' until en...).
+[Spawning Pool] blocks [Woodland Wanderer].
+bakert99 activates an ability of [Spawning Pool] ( Regenerate this creature.).
+Turn 6: bakert99.
+bakert99 has conceded from the game.
+Winner: Brainlesss96
+Game 3 Completed.
+Match Winner: Brainlesss96: 2–1
+bakert99 has left the game.

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PDBot.Core.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -78,6 +79,12 @@ namespace PDBot.Core
             {
                 SearchResults[typeof(T)] = found.ToArray();
             }
+        }
+
+        public static async Task<IGameObserver[]> GetObservers(IMatch match)
+        {
+            IGameObserver[] observers = await Task.WhenAll(Resolver.GetInstances<IGameObserver>().Select(o => o.GetInstanceForMatchAsync(match)));
+            return observers.Where(o => o != null).ToArray();
         }
     }
 }
