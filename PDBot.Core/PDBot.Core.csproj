@@ -81,6 +81,7 @@
     <Compile Include="Commands\ExplainPD.cs" />
     <Compile Include="Commands\RotationCommand.cs" />
     <Compile Include="Data\WinnerDictionary.cs" />
+    <Compile Include="Interfaces\IChatDispatcher.cs" />
     <Compile Include="Interfaces\ICommand.cs" />
     <Compile Include="Commands\LeagueCommand.cs" />
     <Compile Include="Commands\NotLeagueCommand.cs" />

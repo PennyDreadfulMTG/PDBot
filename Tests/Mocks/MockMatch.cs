@@ -23,7 +23,7 @@ namespace Tests.Mocks
 
             Format = format;
 
-            Task<IGameObserver[]> task = Resolver.GetObservers(this);
+            Task<IGameObserver[]> task = Resolver.Helpers.GetObservers(this);
             task.Wait();
             Observers = task.Result;
 

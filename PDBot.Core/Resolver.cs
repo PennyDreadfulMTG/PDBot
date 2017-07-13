@@ -31,6 +31,13 @@ namespace PDBot.Core
 
             var Implementations = GetImplementations<T>();
 
+            if (!Implementations.Any())
+            {
+                // Try again
+                SearchAssembly<T>(Assembly.GetEntryAssembly());
+                Implementations = SearchResults[typeof(T)];
+            }
+
             if (Instances[typeof(T)].Length != Implementations.Length)
             {
                 var list = new List<object>(Instances[typeof(T)]);
@@ -81,10 +88,18 @@ namespace PDBot.Core
             }
         }
 
-        public static async Task<IGameObserver[]> GetObservers(IMatch match)
+        public class Helpers
         {
-            IGameObserver[] observers = await Task.WhenAll(Resolver.GetInstances<IGameObserver>().Select(o => o.GetInstanceForMatchAsync(match)));
-            return observers.Where(o => o != null).ToArray();
+            public static async Task<IGameObserver[]> GetObservers(IMatch match)
+            {
+                IGameObserver[] observers = await Task.WhenAll(Resolver.GetInstances<IGameObserver>().Select(o => o.GetInstanceForMatchAsync(match)));
+                return observers.Where(o => o != null).ToArray();
+            }
+
+            public static IChatDispatcher GetChatDispatcher()
+            {
+                return GetInstances<Core.Interfaces.IChatDispatcher>().Single();
+            }
         }
     }
 }
