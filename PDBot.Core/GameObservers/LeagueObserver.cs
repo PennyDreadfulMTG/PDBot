@@ -36,11 +36,8 @@ namespace PDBot.Core.GameObservers
                 return null;
                 
             var obs =  new LeagueObserver(match);
-            if (await obs.CheckForLeague())
-                return obs;
-            else
-                return null;
-            
+            obs.CheckForLeague();
+            return obs;            
         }
 
         public string HandleLine(GameLogLine gameLogLine)

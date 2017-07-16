@@ -9,6 +9,10 @@ using System.Diagnostics;
 using System.Net;
 using System.IO;
 using System.Threading;
+using Discord.Rest;
+using System.Text.RegularExpressions;
+using System.Collections.Generic;
+using System.Net.Http;
 
 namespace PDBot.Discord
 {
@@ -97,10 +101,21 @@ namespace PDBot.Discord
             Ready?.Invoke(client, new EventArgs());
         }
 
-        public static async void SendToGeneralAsync(string msg)
+        public static async Task SendToGeneralAsync(string msg, bool pin = false)
         {
             SocketTextChannel channel = FindChannel("Penny Dreadful", 207281932214599682);
-            await SendMessageAsync(msg, channel);
+            var res = await SendMessageAsync(msg, channel);
+            if (pin)
+            {
+                try
+                {
+                    await res.PinAsync();
+                }
+                catch (Exception)
+                {
+
+                }
+            }
         }
 
         public static async void SendToAllServersAsync(string msg)
@@ -149,8 +164,16 @@ namespace PDBot.Discord
             await SendMessageAsync(msg, channel);
         }
 
+        public static async void SendToArbiraryChannel(string msg, string ServerName, ulong Channel)
+        {
+            var channel = FindChannel(ServerName, Channel);
+            await SendMessageAsync(msg, channel);
+        }
+
         private static SocketTextChannel FindChannel(string GuildName, ulong chanId)
         {
+            while (!client.Guilds.Any() || !client.Guilds.All(c => c.IsSynced))
+                Thread.Sleep(100);
             try
             {
                 SocketGuild Server = client.Guilds.Single(s => s.Name == GuildName);
@@ -161,15 +184,16 @@ namespace PDBot.Discord
             return null;
 }
 
-        private static async Task SendMessageAsync(string msg, SocketTextChannel channel)
+        private static async Task<RestUserMessage> SendMessageAsync(string msg, SocketTextChannel channel)
         {
+            msg = SubstitueEmotes(msg, channel.Guild);
             if (channel == null)
             {
-                return;
+                return null;
             }
             try
             {
-                await channel.SendMessageAsync(msg);
+                return await channel.SendMessageAsync(msg);
             }
             catch (WebException c)
             {
@@ -179,11 +203,44 @@ namespace PDBot.Discord
             {
                 Console.WriteLine(c.Message);
             }
+            catch (HttpRequestException c)
+            {
+                Console.WriteLine(c);
+            }
             catch (RateLimitedException c)
             {
                 // Thanks, Brainlesss's cat.
                 Console.WriteLine("Hit Rate Limit.");
             }
+            return null;
+        }
+
+        private static string SubstitueEmotes(string msg, SocketGuild guild)
+        {
+            Regex emote = new Regex(@"\[(\w+)\]");
+            return emote.Replace(msg, (match) =>
+                {
+                    string symbol = match.Groups[1].Value;
+                    if (Emotes.ContainsKey(symbol))
+                    {
+                        if (Emotes[symbol].StartsWith(":"))
+                            return Emotes[symbol];
+                        return FindEmote(Emotes[symbol], guild);
+                    }
+                    return match.Value;
+                }
+            );
+        }
+
+        private static string FindEmote(string v, SocketGuild guild)
+        {
+            var emote = guild.Emotes.FirstOrDefault(e => e.Name.Trim(':') == v);
+            if (emote != null)
+                return emote.ToString();
+            emote = client.Guilds.SelectMany(g => g.Emotes).FirstOrDefault(e => e.Name.Trim(':') == v);
+            if (emote != null)
+                return emote.ToString();
+            return v;
         }
 
         public static async void SetGame(string game)
@@ -230,5 +287,59 @@ namespace PDBot.Discord
         {
             client.LogoutAsync().Wait();
         }
+
+        private static readonly Dictionary<string, string> Emotes = new Dictionary<string, string>
+        {
+            // WUBRG
+            { "sW", "WW" },
+            { "sU", "UU" },
+            { "sB", "BB" },
+            { "sR", "RR" },
+            { "sG", "GG" },
+            // Tap
+            { "sT", "TT" },
+            { "sJ", "QQ" },
+            // Hybrids
+            { "s_", "BG"},
+            { "s=", "BR"},
+            { "s$", "UB"},
+            { "s`", "UR"},
+            { "s&amp,", "GU"}, // Yes, this is literally the name of the symbol
+            { "s-", "GW"},
+            { "s'", "RG"},
+            { "s~", "RW" },
+            { "s,", "WB" },
+            { "s+", "WU" },
+            // Snow
+            { "so", "SS" },
+            // Symbols
+            { "sD", ":trophy:" },
+            { "sV", ":small_red_triangle_down:" },
+            // Numbers
+            { "s0", "00" },
+            { "s1", "01" },
+            { "s2", "02" },
+            { "s3", "03" },
+            { "s4", "04" },
+            { "s5", "05" },
+            { "s6", "06" },
+            { "s7", "07" },
+            { "s8", "08" },
+            { "s9", "09" },
+            { "sa", "10" },
+            { "sb", "11" },
+            { "sc", "12" },
+            { "sd", "13" },
+            { "se", "14" },
+            { "sf", "15" },
+            { "sg", "16" },
+            { "sh", "17" },
+            { "si", "18" },
+            { "sj", "19" },
+            { "sk", "20" },
+            { "sX", "XX" }
+            // TODO: twobrid
+            // TODO: Implement the rest of these
+        };
     }
 }
