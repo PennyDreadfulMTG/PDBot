@@ -13,6 +13,7 @@ using Discord.Rest;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.Net.Http;
+using PDBot.Core;
 
 namespace PDBot.Discord
 {
@@ -61,7 +62,7 @@ namespace PDBot.Discord
                 return;
             }
 
-            string[] words = arg.Content.ToLower().Split();
+            string[] words = arg.Content.Split();
 
             if (arg.Content.ToLower() == "!avatar")
             {
@@ -69,7 +70,7 @@ namespace PDBot.Discord
                 return;
             }
 
-            if (words.FirstOrDefault() == "!log")
+            if (words.FirstOrDefault().ToLower() == "!log")
             {
                 string file = Path.Combine("Logs", words.Skip(1).FirstOrDefault().ToString() + ".txt");
                 if (File.Exists(file))
@@ -81,11 +82,16 @@ namespace PDBot.Discord
                     return;
                 }
             }
+
+            if (arg.Content.StartsWith("#"))
+            {
+                Resolver.Helpers.GetChatDispatcher().SendPM(words[0], $"【Discord】 {arg.Author.Username}: {string.Join(" ", words.Skip(1))}");
+                return;
+            }
         }
 
         private static async Task Client_Log(LogMessage arg)
         {
-            //Console.WriteLine(arg);
         }
 
         private static async Task Client_Disconnected(Exception arg)
@@ -97,7 +103,6 @@ namespace PDBot.Discord
         {
             if (!string.IsNullOrEmpty(Playing))
                 SetGame(Playing);
-            //client.CurrentUser.ModifyAsync((e) => e.Avatar)
             Ready?.Invoke(client, new EventArgs());
         }
 
@@ -111,10 +116,7 @@ namespace PDBot.Discord
                 {
                     await res.PinAsync();
                 }
-                catch (Exception)
-                {
-
-                }
+                catch (Exception) { }
             }
         }
 
@@ -223,11 +225,21 @@ namespace PDBot.Discord
                     string symbol = match.Groups[1].Value;
                     if (Emotes.ContainsKey(symbol))
                     {
-                        if (Emotes[symbol].StartsWith(":"))
-                            return Emotes[symbol];
-                        return FindEmote(Emotes[symbol], guild);
+                        symbol = Emotes[symbol];
                     }
-                    return match.Value;
+
+                    if (symbol.StartsWith(":"))
+                    {
+                        return symbol;
+                    }
+
+                    string found = FindEmote(symbol, guild);
+                    if  (!string.IsNullOrEmpty(found))
+                    {
+                        return found;
+                    }
+
+                    return $"[{match.Value}]";
                 }
             );
         }
@@ -315,6 +327,9 @@ namespace PDBot.Discord
             // Symbols
             { "sD", ":trophy:" },
             { "sV", ":small_red_triangle_down:" },
+            { "sPig", ":pig:" },
+            { "sLizard", ":lizard:" },
+            { "sLifeHeart", ":heart:" },
             // Numbers
             { "s0", "00" },
             { "s1", "01" },
