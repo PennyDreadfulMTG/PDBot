@@ -85,7 +85,7 @@ namespace PDBot.Discord
 
             if (arg.Content.StartsWith("#"))
             {
-                Resolver.Helpers.GetChatDispatcher().SendPM(words[0], $"【Discord】 {arg.Author.Username}: {string.Join(" ", words.Skip(1))}");
+                Resolver.Helpers.GetChatDispatcher().SendPM(words[0], $"【Discord】 {arg.Author.Username}: {arg.Content.Substring(arg.Content.IndexOf(' ')).Trim()}");
                 return;
             }
         }

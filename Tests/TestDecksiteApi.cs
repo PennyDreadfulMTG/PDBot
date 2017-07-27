@@ -16,6 +16,10 @@ namespace Tests
             Assert.IsNotEmpty(cards);
             var first = cards.First();
             Assert.IsNotEmpty(first.name);
+            foreach (var item in cards)
+            {
+                Assert.IsNotNull(item.id);
+            }
         }
     }
 }

@@ -95,7 +95,7 @@ namespace PDBot.API
                 {
                     { "api_token", API_TOKEN }
                 };
-                var v = Encoding.UTF8.GetString(wc.UploadValues($"/api/league/drop/{Person}", nameValueCollection));
+                var v = Encoding.UTF8.GetString(Api.UploadValues($"/api/league/drop/{Person}", nameValueCollection));
                 File.WriteAllText("drop.json", v);
                 var blob = JToken.Parse(v);
                 if (blob.Type == JTokenType.Null)
@@ -108,9 +108,9 @@ namespace PDBot.API
             }
         }
 
-        static WebClient wc => new WebClient()
+        static WebClient Api => new WebClient()
         {
-            BaseAddress = "http://pennydreadfulmagic.com/",
+            BaseAddress = "https://pennydreadfulmagic.com/",
             Encoding = Encoding.UTF8
         };
 
@@ -126,7 +126,7 @@ namespace PDBot.API
             try
             {
 
-                string v = await wc.DownloadStringTaskAsync($"/api/league/run/{player}");
+                string v = await Api.DownloadStringTaskAsync($"/api/league/run/{player}");
                 var blob = JToken.Parse(v);
                 if (blob.Type == JTokenType.Null)
                 {
@@ -159,7 +159,7 @@ namespace PDBot.API
 
         public static Deck GetDeck(int id)
         {
-            var blob = wc.DownloadString($"/api/decks/{id}");
+            var blob = Api.DownloadString($"/api/decks/{id}");
             JObject jObject = JObject.Parse(blob);
             if (jObject.Type == JTokenType.Null)
                 return null;
@@ -168,7 +168,7 @@ namespace PDBot.API
 
         public static void UploadResults(Deck winningRun, Deck losingRun, string record)
         {
-            wc.UploadValues("/report/", new System.Collections.Specialized.NameValueCollection
+            Api.UploadValues("/report/", new System.Collections.Specialized.NameValueCollection
             {
                 //{ "api_token", API_TOKEN },
                 { "entry", winningRun.Id.ToString() },
@@ -180,19 +180,19 @@ namespace PDBot.API
 
         public static Rotation GetRotation()
         {
-            var blob = wc.DownloadString($"/api/rotation");
+            var blob = Api.DownloadString($"/api/rotation");
             return JsonConvert.DeserializeObject<Rotation>(blob);
         }
 
         public static async Task<Rotation> GetRotationAsync()
         {
-            var blob = await wc.DownloadStringTaskAsync($"/api/rotation");
+            var blob = await Api.DownloadStringTaskAsync($"/api/rotation");
             return JsonConvert.DeserializeObject<Rotation>(blob);
         }
 
         public static IEnumerable<CardStat> PopularCards()
         {
-            var blob = wc.DownloadString($"/api/cards");
+            var blob = Api.DownloadString($"/api/cards");
             var jArray = JArray.Parse(blob);
             if (jArray.Type == JTokenType.Null)
                 return null;
