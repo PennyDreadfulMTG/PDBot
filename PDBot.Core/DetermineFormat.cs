@@ -15,7 +15,7 @@ namespace PDBot.Core
         Freeform = 6, FreeformVanguard, Test,
         PennyDreadful = 9, PennyDreadfulCommander,
         MomirBasic = 11, Planechase, Planeswalker,
-        Hierloom = 14, Frontier,
+        Heirloom = 14, Frontier,
         JhioraBasic = 16, MoStoJho,
         
     };
@@ -38,7 +38,7 @@ namespace PDBot.Core
             if (value == MagicFormat.Commander1v1 && IsPenny(comment))
                 value = MagicFormat.PennyDreadfulCommander;
             if (value == MagicFormat.Legacy && IsHeirloom(comment))
-                value = MagicFormat.Hierloom;
+                value = MagicFormat.Heirloom;
             if (value == MagicFormat.Freeform && IsFrontier(comment))
                 value = MagicFormat.Frontier;
             // If we want to someday support other weird formats, add checks them here.

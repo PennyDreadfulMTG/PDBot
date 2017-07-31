@@ -12,132 +12,33 @@ using System.Threading.Tasks;
 
 namespace PDBot.Core.GameObservers
 {
-    public class PennyDreadfulLegality : IGameObserver
+    public class PennyDreadfulLegality : BaseLegalityChecker, IGameObserver
     {
-        public static string[] LegalCards { get; private set; }
+        public override string FormatName => "Penny Dreadful";
 
-        public static List<string> Transforms { get; private set; }
-        public static List<string> NotTransforms = new List<string>();
+        public override string MoreInfo => "pdmtgo.com or reddit.com/r/PennyDreadfulMTG";
 
-        public bool ShouldJoin(IMatch match)
+        protected override string LegalListUrl => "http://pdmtgo.com/legal_cards.txt";
+
+        public override async Task<IGameObserver> GetInstanceForMatchAsync(IMatch match)
         {
-            if (match.Format == MagicFormat.PennyDreadful || match.Format == MagicFormat.PennyDreadfulCommander)
-            {
-                return true;
-            }
-            return false;
-        }
-
-        public async Task<IGameObserver> GetInstanceForMatchAsync(IMatch match)
-        {
-            if (match.Format == MagicFormat.PennyDreadful || match.Format == MagicFormat.PennyDreadfulCommander)
+            if (ShouldJoin(match))
             {
                 return new PennyDreadfulLegality();
             }
             return null;
         }
 
-        List<string> warnings = new List<string>();
-
-        public int IllegalCount { get; private set; }
-
-        public bool PreventReboot => warnings.Any();
-
-        public string HandleLine(GameLogLine gameLogLine)
+        public override bool ShouldJoin(IMatch match)
         {
-            foreach (var name in gameLogLine.Cards)
-            {
-                if (warnings.Contains(name))
-                {
-                    // Already Acknowledged.
-                }
-                else if (!IsCardLegal(name))
-                {
-                    warnings.Add(name);
-                    IllegalCount++;
-                    int nWarnings = 3;
-                    if (IllegalCount < nWarnings)
-                    {
-                        return $"[sR]{name}[sR] is not legal in Penny Dreadful.";
-                    }
-                    else if (IllegalCount == nWarnings)
-                    {
-                        return $"[sR]{name}[sR] is not legal in Penny Dreadful.\n" +
-                                "[sG]In order to prevent further spamming, I'll stop warning you now.\n" +
-                                "[sG]For more information about Penny Dreadful, see pdmtgo.com or reddit.com/r/PennyDreadfulMTG";
-                    }
-
-                }
-            }
-            return null;
+            return match.Format == MagicFormat.PennyDreadful || match.Format == MagicFormat.PennyDreadfulCommander;
         }
 
-        public static bool IsCardLegal(string name)
-        {
-            if (LegalCards == null)
-            {
-                LegalCards = new WebClient().DownloadString("http://pdmtgo.com/legal_cards.txt").Split('\n');
-                LegalCards = LegalCards.Select(n => new CardName(n)).SelectMany(cn => cn.Names).ToArray();
-            }
-            if (LegalCards.Contains(name, StringComparer.InvariantCultureIgnoreCase))
-                return true;
-            if (IsRearFace(name))
-                return true;
+        //static PennyDreadfulLegality staticInstance = new PennyDreadfulLegality();
 
-            return false;
-        }
-
-        public static bool IsRearFace(string name)
-        {
-            if (Transforms == null)
-            {
-                Transforms = new List<string>();
-                if (File.Exists("transforms.txt"))
-                {
-                    Transforms.AddRange(File.ReadAllLines("transforms.txt"));
-                }
-
-            }
-
-            if (Transforms.Contains(name))
-                return true;
-
-            if (NotTransforms.Contains(name))
-                return false;
-
-            var url = $"https://api.scryfall.com/cards/named?exact={name}";
-            var wc = new WebClient();
-            try
-            {
-                var blob = wc.DownloadString(url);
-                JObject json = Newtonsoft.Json.JsonConvert.DeserializeObject(blob) as JObject;
-                if (json.Value<string>("layout") == "transform")
-                {
-                    if (!json.TryGetValue("mana_cost", out var cost) || string.IsNullOrEmpty(json.Value<string>("mana_cost")))
-                    {
-                        Transforms.Add(name);
-                        File.AppendAllText("transforms.txt", name + '\n');
-                        return true;
-                    }
-                    else
-                    {
-                        NotTransforms.Add(name);
-                    }
-                }
-            }
-            catch (WebException c)
-            {
-                NotTransforms.Add(name);
-                Console.WriteLine(name);
-                Console.WriteLine(c);
-            }
-
-            return false;
-
-        }
-
-        public void ProcessWinner(string winner, int gameID)
-        {
-        }
+        //public static bool IsCardLegal(string cardname)
+        //{
+        //    return ((BaseLegalityChecker)staticInstance).IsCardLegal(cardname);
+        //}
     }
 }

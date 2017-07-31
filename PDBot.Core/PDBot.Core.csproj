@@ -85,6 +85,8 @@
     <Compile Include="Commands\RotationCommand.cs" />
     <Compile Include="Data\WinnerDictionary.cs" />
     <Compile Include="GameObservers\AustreamSealedLeague.cs" />
+    <Compile Include="GameObservers\BaseLegalityChecker.cs" />
+    <Compile Include="GameObservers\HeirloomLegality.cs" />
     <Compile Include="Interfaces\IChatDispatcher.cs" />
     <Compile Include="Interfaces\ICommand.cs" />
     <Compile Include="Commands\LeagueCommand.cs" />

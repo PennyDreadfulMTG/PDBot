@@ -1,0 +1,45 @@
+Heirloom
+classic heirloom
+BuggedCardObserver
+jatienza,BlazingBowXT
+
+== Game 1 (537645116) ==
+PDBot has started watching.
+Turn 2: BlazingBowXT.
+BlazingBowXT plays [Swamp].
+BlazingBowXT casts [Cuombajj Witches].
+Turn 2: jatienza.
+jatienza plays [Mountain].
+Turn 3: BlazingBowXT.
+BlazingBowXT plays [Swamp].
+BlazingBowXT casts [Hymn to Tourach] targeting jatienza.
+jatienza casts [Mana Leak] targeting [Hymn to Tourach].
+jatienza is being attacked by [Cuombajj Witches].
+Turn 3: jatienza.
+jatienza plays [Island].
+Turn 4: BlazingBowXT.
+BlazingBowXT plays [Swamp].
+BlazingBowXT casts [Gifted Aetherborn].
+jatienza is being attacked by [Cuombajj Witches].
+jatienza casts [Electrolyze] targeting BlazingBowXT for 2.
+jatienza draws a card with [Electrolyze].
+Turn 4: jatienza.
+jatienza casts [Ponder].
+jatienza chooses to not shuffle his or her library.
+jatienza draws a card with [Ponder].
+jatienza plays [Island].
+jatienza casts [Burst Lightning] targeting [Cuombajj Witches].
+jatienza casts [Burst Lightning] targeting [Cuombajj Witches].
+jatienza casts [Delver of Secrets].
+Turn 5: BlazingBowXT.
+BlazingBowXT casts [Sinkhole] targeting [Swiftwater Cliffs].
+BlazingBowXT casts [Sinkhole] targeting [Island].
+jatienza is being attacked by [Gifted Aetherborn].
+Turn 5: jatienza.
+jatienza puts triggered ability from [Delver of Secrets] onto the stack (At the beginning of your upkeep, look at the top card of your library. You may reveal that card. I...).
+jatienza reveals [Fire/Ice].
+[CHAT] BlazingBowXT: gtg
+BlazingBowXT has conceded from the game.
+Game 1 Completed.
+Winner: jatienza
+jatienza has left the game.
