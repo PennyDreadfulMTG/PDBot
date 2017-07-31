@@ -42,7 +42,7 @@ namespace Tests.Mocks
 
         public IGameObserver[] Observers { get; set; } = new IGameObserver[0];
 
-        public Room GameRoom => Room.JustForFun;
+        public Room GameRoom { get; set; } = Room.JustForFun;
 
         public MagicFormat Format { get; }
 
