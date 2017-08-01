@@ -40,6 +40,8 @@ namespace PDBot.Data
 
         public CardName(string FullName)
         {
+            if (FullName.StartsWith("\""))
+                FullName = FullName.Trim('\"');
             this.FullName = FullName;
             List<string> names = new List<string>();
             names.Add(FullName);

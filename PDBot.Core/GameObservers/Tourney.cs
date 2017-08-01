@@ -69,6 +69,8 @@ namespace PDBot.Core.GameObservers
                 else if (now.DayOfWeek == DayOfWeek.Thursday)
                     channel = "#PDT";
             }
+            else if (match.Format == MagicFormat.Legacy && match.Comments.Contains("CLL"))
+                channel = "#CLL";
             return channel;
         }
 
@@ -76,7 +78,11 @@ namespace PDBot.Core.GameObservers
         {
             if (match.GameRoom != Room.GettingSerious)
                 return false;
-            return match.Format == MagicFormat.PennyDreadful || match.Format == MagicFormat.Heirloom;
+            if (match.Format == MagicFormat.PennyDreadful || match.Format == MagicFormat.Heirloom)
+                return true;
+            if (match.Format == MagicFormat.Legacy && match.Comments.Contains("CLL"))
+                return true;
+            return false;
         }
     }
 }

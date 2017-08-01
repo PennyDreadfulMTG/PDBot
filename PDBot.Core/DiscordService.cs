@@ -152,6 +152,18 @@ namespace PDBot.Discord
             await SendMessageAsync(msg, channel);
         }
 
+        public static async void SendToCommunityLegacyLeague(string msg)
+        {
+            var channel = FindChannel("Community Legacy League", 341709019058143242);
+            await SendMessageAsync(msg, channel);
+        }
+
+        public static async void SendToHeirloom(string msg)
+        {
+            var channel = FindChannel("torskafton", 246656730535034881);
+            await SendMessageAsync(msg, channel);
+        }
+
         [Conditional("DEBUG")]
         public static async void SendToTestAsync(string msg)
         {
@@ -182,9 +194,11 @@ namespace PDBot.Discord
                 var channel = Server.GetTextChannel(chanId);
                 return channel;
             }
-            catch (InvalidOperationException) { }
-            return null;
-}
+            catch (InvalidOperationException)
+            {
+                return client.GetChannel(chanId) as SocketTextChannel;
+            }
+        }
 
         private static async Task<RestUserMessage> SendMessageAsync(string msg, SocketTextChannel channel)
         {
@@ -352,9 +366,12 @@ namespace PDBot.Discord
             { "si", "18" },
             { "sj", "19" },
             { "sk", "20" },
-            { "sX", "XX" }
+            { "sX", "XX" },
             // TODO: twobrid
             // TODO: Implement the rest of these
+            { "sS", ":slight_smile:" },
+            { "sF", ":frowning:" },
+            { "sY", ":nauseated_face:" },
         };
     }
 }
