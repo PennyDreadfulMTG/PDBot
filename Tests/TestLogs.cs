@@ -33,5 +33,14 @@ namespace Tests
             Assert.IsNotNull(checker.HandleLine(new GameLogLine("[Black Lotus] is never going to be 0.01 TIX.")));
             Assert.IsNull(checker.HandleLine(new GameLogLine("[Black Lotus] is never going to be 0.01 TIX.")));
         }
+        [Test]
+        public void TestHeirloomLegality()
+        {
+            var match = new MockMatch("Heirloom", null, MagicFormat.Heirloom);
+            var checker = match.Observers.OfType<HeirloomLegality>().Single();
+            Assert.IsNotNull(checker.HandleLine(new GameLogLine("[Dark Ritual] is banned.")));
+            Assert.IsNull(checker.HandleLine(new GameLogLine("[Part the Waterveil] is good.")));
+            Assert.IsNull(checker.HandleLine(new GameLogLine("[Ajani Goldmane][Ajani Steadfast][Ajani Unyielding][Ajani, Caller of the Pride], and [Ajani, Mentor of Heroes] are all legal.")));
+        }
     }
 }

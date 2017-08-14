@@ -122,7 +122,9 @@ namespace PDBot.Discord
 
         public static async void SendToAllServersAsync(string msg)
         {
-            foreach (SocketGuild Server in client.Guilds)
+            string[] SpammyServers =  { "Penny Dreadful", "TestServer" };
+            var guilds = client.Guilds.Where(g => SpammyServers.Contains(g.Name, StringComparer.CurrentCultureIgnoreCase));
+            foreach (SocketGuild Server in guilds)
             {
                 await SendMessageAsync(msg, Server.DefaultChannel);
             }
@@ -190,9 +192,10 @@ namespace PDBot.Discord
                 Thread.Sleep(100);
             try
             {
-                SocketGuild Server = client.Guilds.Single(s => s.Name == GuildName);
-                var channel = Server.GetTextChannel(chanId);
-                return channel;
+                return client.GetChannel(chanId) as SocketTextChannel;
+                //SocketGuild Server = client.Guilds.Single(s => s.Name == GuildName);
+                //var channel = Server.GetTextChannel(chanId);
+                //return channel;
             }
             catch (InvalidOperationException)
             {
