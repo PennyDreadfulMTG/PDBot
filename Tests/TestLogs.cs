@@ -3,6 +3,7 @@ using PDBot.Core;
 using PDBot.Core.Data;
 using PDBot.Core.GameObservers;
 using PDBot.Core.Interfaces;
+using PDBot.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,6 +40,16 @@ namespace Tests
             Assert.IsNotNull(checker.HandleLine(new GameLogLine("[Black Lotus] is never going to be 0.01 TIX.", match)));
             Assert.IsNull(checker.HandleLine(new GameLogLine("[Black Lotus] is never going to be 0.01 TIX.", match)));
         }
+
+        [Test]
+        public void TestAccents()
+        {
+            var match = new MockMatch();
+            var legality = new PennyDreadfulLegality();
+            Assert.IsTrue(legality.IsCardLegal(CardName.FixAccents("Dandan")));
+            Assert.IsTrue(legality.IsCardLegal(CardName.FixAccents("Junún Efreet")));
+            Assert.IsTrue(legality.IsCardLegal(CardName.FixAccents("JunAþn Efreet")));
+            Assert.IsFalse(legality.IsCardLegal(CardName.FixAccents("Lim-dl")));
         }
 
         [Test]

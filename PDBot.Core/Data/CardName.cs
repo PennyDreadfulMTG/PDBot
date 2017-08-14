@@ -3,12 +3,37 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace PDBot.Data
 {
     public class CardName : IEquatable<CardName>, IEquatable<string>
     {
+        static readonly Regex LimDul = new Regex("Lim-D.{1,2}l", RegexOptions.Compiled);
+        static readonly Regex Seance = new Regex("S.{1,2}ance", RegexOptions.Compiled);
+        static readonly Regex Jotun = new Regex("J.{1,2}tun", RegexOptions.Compiled);
+        static readonly Regex DanDan = new Regex("Dand.{1,2}n", RegexOptions.Compiled);
+        static readonly Regex Ghazban = new Regex("Ghazb.{1,2}n Ogre", RegexOptions.Compiled);
+        static readonly Regex Khabal = new Regex("Khab.{1,2}l Ghoul", RegexOptions.Compiled);
+        static readonly Regex Junun = new Regex("Jun.{1,2}n Efreet", RegexOptions.Compiled);
+        /// <summary>
+        /// Takes a name, and fixes up any messy encoding issues that might have occured.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
+        public static string FixAccents(string name)
+        {
+            name = LimDul.Replace(name, "Lim-Dûl");
+            name = Seance.Replace(name, "Séance");
+            name = Jotun.Replace(name, "Jötun");
+            name = DanDan.Replace(name, "Dandân");
+            name = Ghazban.Replace(name, "Ghazbán Ogre");
+            name = Khabal.Replace(name, "Khabál Ghoul");
+            name = Junun.Replace(name, "Junún Efreet");
+            return name;
+        }
+
         public static string NormalizeString(string name)
         {
             String normalizedString = name.Normalize(NormalizationForm.FormKD);
@@ -40,9 +65,11 @@ namespace PDBot.Data
 
         public CardName(string FullName)
         {
+
             FullName = FullName.Trim('\r');
             if (FullName.StartsWith("\""))
                 FullName = FullName.Trim('\"');
+            FullName = FixAccents(FullName);
             this.FullName = FullName;
             List<string> names = new List<string>();
             names.Add(FullName);

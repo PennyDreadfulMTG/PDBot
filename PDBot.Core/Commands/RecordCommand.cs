@@ -20,8 +20,12 @@ namespace PDBot.Core.Commands
 
         public async Task<string> RunAsync(string player, IMatch game, string[] args)
         {
+
             game.Winners.GetRecordData(out var first, out var record);
-            return $"[sD]Record:  {first.Player ?? ""} {record}";
+            var loser = game.Players.FirstOrDefault(d => d != first.Player);
+            if (string.IsNullOrEmpty(first.Player))
+                loser = "";
+            return $"[sD]Record:  {first.Player ?? ""} {record} {loser}";
         }
     }
 }

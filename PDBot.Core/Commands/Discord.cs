@@ -13,9 +13,9 @@ namespace PDBot.Commands
     {
         public string[] Handle => new string[] { "!discord" };
 
-        public bool AcceptsGameChat => true;
+        public bool AcceptsGameChat => false;
 
-        public bool AcceptsPM => true;
+        public bool AcceptsPM => false;
 
         public async Task<string> RunAsync(string user, IMatch game, string[] args)
         {
