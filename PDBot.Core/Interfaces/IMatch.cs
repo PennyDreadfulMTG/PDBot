@@ -17,5 +17,7 @@ namespace PDBot.Core.Interfaces
         MagicFormat Format { get; }
 
         void SendChat(string message);
+
+        List<string> NamedTokens { get; }
     }
 }

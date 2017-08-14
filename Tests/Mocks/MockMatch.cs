@@ -46,6 +46,8 @@ namespace Tests.Mocks
 
         public MagicFormat Format { get; }
 
+        public List<string> NamedTokens { get; } = new List<string>();
+
         public void SendChat(string message)
         {
             Assert.IsNotNull(message);

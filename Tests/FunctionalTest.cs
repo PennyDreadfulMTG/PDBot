@@ -75,9 +75,10 @@ namespace Tests
                 }
                 else
                 {
+                    PDBot.Core.Data.GameLogLine gameLogLine = new PDBot.Core.Data.GameLogLine(input, match);
                     foreach (var item in match.Observers)
                     {
-                        var output = item.HandleLine(new PDBot.Core.Data.GameLogLine(input));
+                        var output = item.HandleLine(gameLogLine);
                     }
                 }
             }
