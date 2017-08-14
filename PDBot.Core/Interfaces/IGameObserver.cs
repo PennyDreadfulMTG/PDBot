@@ -23,4 +23,9 @@ namespace PDBot.Core.Interfaces
 
         bool PreventReboot { get; }
     }
+
+    public interface ILeagueObserver
+    {
+        bool IsLeagueGame { get; }
+    }
 }

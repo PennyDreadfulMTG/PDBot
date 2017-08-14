@@ -4,20 +4,23 @@ using PDBot.Core.Interfaces;
 using PDBot.Discord;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace PDBot.Core.GameObservers
 {
-    class LeagueObserver : IGameObserver
+    class LeagueObserver : IGameObserver, ILeagueObserver
     {
         private IMatch match;
 
         public DecksiteApi.Deck HostRun { get; internal set; }
         public DecksiteApi.Deck LeagueRunOpp { get; internal set; }
 
-        public bool PreventReboot => HostRun != null && LeagueRunOpp != null;
+        public bool PreventReboot => IsLeagueGame;
+
+        public bool IsLeagueGame => HostRun != null && LeagueRunOpp != null;
 
         public LeagueObserver()
         {
@@ -27,7 +30,6 @@ namespace PDBot.Core.GameObservers
         public LeagueObserver(IMatch match)
         {
             this.match = match;
-             // Do this on an async thread.
         }
 
         public async Task<IGameObserver> GetInstanceForMatchAsync(IMatch match)
@@ -36,8 +38,10 @@ namespace PDBot.Core.GameObservers
                 return null;
                 
             var obs =  new LeagueObserver(match);
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             obs.CheckForLeague();
-            return obs;            
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+            return obs;
         }
 
         public string HandleLine(GameLogLine gameLogLine)
@@ -103,6 +107,11 @@ namespace PDBot.Core.GameObservers
 
             if (HostRun.CanPlay.Contains(opp, StringComparer.InvariantCultureIgnoreCase))
             {
+                if (File.Exists(Path.Combine("Updates", "urgent.txt")))
+                {
+                    match.SendChat("[sD]PDBot will be going down for scheduled maintenance.  Please @[Report] this league match manually.");
+                }
+
                 if (loud)
                     match.SendChat($"[sD]Good luck in your @[League] match!");
                 else if (match.GameRoom == Room.GettingSerious)

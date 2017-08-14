@@ -71,6 +71,7 @@ namespace PDBot.Core.GameObservers
             if (LegalCards == null)
             {
                 LegalCards = new WebClient().DownloadString(LegalListUrl).Split('\n');
+                //LegalCards.Select(name => name.Trim('\r', '"'))
                 LegalCards = LegalCards.Select(n => new CardName(n)).SelectMany(cn => cn.Names).ToArray();
             }
             if (LegalCards.Contains(name, StringComparer.InvariantCultureIgnoreCase))
