@@ -69,8 +69,10 @@ namespace PDBot.Core.GameObservers
                 else if (now.DayOfWeek == DayOfWeek.Thursday)
                     channel = "#PDT";
             }
-            else if (match.Format == MagicFormat.Legacy && match.Comments.Contains("CLL"))
+            else if (IsCLL(match))
                 channel = "#CLL";
+            else if (IsPCT(match))
+                channel = "#PCT";
             return channel;
         }
 
@@ -80,7 +82,32 @@ namespace PDBot.Core.GameObservers
                 return false;
             if (match.Format == MagicFormat.PennyDreadful || match.Format == MagicFormat.Heirloom)
                 return true;
-            if (match.Format == MagicFormat.Legacy && match.Comments.Contains("CLL"))
+            if (IsCLL(match))
+                return true;
+            if (IsPCT(match))
+                return true;
+            //Console.WriteLine($"Missed Tourney game:\n\t{match.Format.ToString()}\n\t{match.Comments}");
+            return false;
+        }
+
+        private static bool IsCLL(IMatch match)
+        {
+            if (match.Format != MagicFormat.Legacy)
+                return false;
+            if (match.Comments.ToUpper().Contains("CLL"))
+                return true;
+            if (match.Comments.ToLower().Contains("community legacy league"))
+                return true;
+            return false;
+        }
+
+        private static bool IsPCT(IMatch match)
+        {
+            if (match.Format != MagicFormat.Pauper)
+                return false;
+            if (match.Comments.ToLower().Contains("pct"))
+                return true;
+            if (match.Comments.ToLower().Contains("pauper classic tuesdays"))
                 return true;
             return false;
         }
