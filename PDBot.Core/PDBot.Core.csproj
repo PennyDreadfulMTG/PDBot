@@ -88,6 +88,7 @@
     <Compile Include="GameObservers\AustreamSealedLeague.cs" />
     <Compile Include="GameObservers\BaseLegalityChecker.cs" />
     <Compile Include="GameObservers\HeirloomLegality.cs" />
+    <Compile Include="GameObservers\StalkerMode.cs" />
     <Compile Include="GameObservers\Tourney.cs" />
     <Compile Include="Interfaces\IChatDispatcher.cs" />
     <Compile Include="Interfaces\ICommand.cs" />
