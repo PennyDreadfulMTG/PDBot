@@ -70,8 +70,10 @@ namespace PDBot.Data
             if (FullName.StartsWith("\""))
                 FullName = FullName.Trim('\"');
             FullName = FixAccents(FullName);
+            if (Regex.IsMatch(FullName, @"(\w+)/(\w+)"))
+                FullName = FullName.Replace("/", " // ");
             this.FullName = FullName;
-            List<string> names = new List<string>();
+            var names = new List<string>();
             names.Add(FullName);
 
             var normalized = NormalizeString(FullName);
@@ -82,8 +84,7 @@ namespace PDBot.Data
 
             if (FullName.Contains(" // "))
             {
-
-                string realname = FullName.Replace(" // ", "/");
+                var realname = FullName.Replace(" // ", "/");
                 names.Add(realname);
                 names.Add(realname.Replace("/", " & "));
                 names.AddRange(realname.Split('/'));
