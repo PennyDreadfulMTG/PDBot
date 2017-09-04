@@ -14,9 +14,9 @@ namespace PDBot.Core.GameObservers
 
         public bool PreventReboot => false;
 
-        public async Task<IGameObserver> GetInstanceForMatchAsync(IMatch match)
+        public Task<IGameObserver> GetInstanceForMatchAsync(IMatch match)
         {
-            return new BuggedCardObserver();
+            return Task.FromResult<IGameObserver>(new BuggedCardObserver());
         }
 
         public string HandleLine(GameLogLine gameLogLine)

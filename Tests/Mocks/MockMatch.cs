@@ -13,7 +13,7 @@ namespace Tests.Mocks
 {
     class MockMatch : IMatch
     {
-        public MockMatch(string comments= "Penny Dreadful", string[] players = null, MagicFormat format = MagicFormat.PennyDreadful)
+        public MockMatch(string comments= "Penny Dreadful", string[] players = null, MagicFormat format = MagicFormat.PennyDreadful, bool SkipObservers = false)
         {
             Comments = comments;
             if (players == null)
@@ -23,10 +23,16 @@ namespace Tests.Mocks
 
             Format = format;
 
-            Task<IGameObserver[]> task = Resolver.Helpers.GetObservers(this);
-            task.Wait();
-            Observers = task.Result;
-
+            if (SkipObservers)
+            {
+                Observers = new IGameObserver[0];
+            }
+            else
+            {
+                var task = Resolver.Helpers.GetObservers(this);
+                task.Wait();
+                Observers = task.Result;
+            }
         }
 
         public string[] Players { get; set; }

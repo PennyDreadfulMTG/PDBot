@@ -24,13 +24,13 @@ namespace PDBot.Core.GameObservers
 
         public bool PreventReboot => true;
 
-        public async Task<IGameObserver> GetInstanceForMatchAsync(IMatch match)
+        public Task<IGameObserver> GetInstanceForMatchAsync(IMatch match)
         {
             if (ShouldJoin(match))
             {
-                return new Tourney(match);
+                return Task.FromResult<IGameObserver>(new Tourney(match));
             }
-            return null;
+            return Task.FromResult<IGameObserver>(null);
         }
 
         public string HandleLine(GameLogLine gameLogLine)
@@ -60,7 +60,7 @@ namespace PDBot.Core.GameObservers
             }
             else if (match.Format == MagicFormat.PennyDreadful)
             {
-                TimeZoneInfo tz = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
+                var tz = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
                 var now = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, tz);
                 if (now.DayOfWeek == DayOfWeek.Sunday)
                     channel = "#PDS";

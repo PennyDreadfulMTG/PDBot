@@ -18,20 +18,20 @@ namespace PDBot.Core.Commands
 
         public bool AcceptsPM => true;
 
-        public async Task<string> RunAsync(string player, IMatch game, string[] args)
+        public Task<string> RunAsync(string player, IMatch game, string[] args)
         {
 
             if (game?.Observers?.SingleOrDefault(o => o is GameObservers.LeagueObserver) is GameObservers.LeagueObserver LeagueObserver && LeagueObserver.HostRun != null && LeagueObserver.LeagueRunOpp != null)
             {
-                return $"You can @[Report] your results on the website.";
+                return Task.FromResult($"You can @[Report] your results on the website.");
             }
             else if (game != null)
             {
-                return $"This isn't a @[League] match.";
+                return Task.FromResult($"This isn't a @[League] match.");
             }
             else
             {
-                return "Find out more about the Penny Dreadful @[League].";
+                return Task.FromResult("Find out more about the Penny Dreadful @[League].");
             }
         }
     }

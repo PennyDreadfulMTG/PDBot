@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using PDBot.Commands;
 using PDBot.Core;
+using PDBot.Core.Interfaces;
 using PDBot.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,17 @@ namespace Tests
         {
             var commands = Resolver.GetInstances<ICommand>();
             Assert.IsNotEmpty(commands);
+        }
 
+        [Test]
+        public void TestObservers()
+        {
+            var match = new Mocks.MockMatch(SkipObservers: true);
+            foreach (var observer in Resolver.GetInstances<IGameObserver>())
+            {
+                var actual = observer.GetInstanceForMatchAsync(match);
+                Assert.IsNotNull(actual, $"{observer.GetType().Name} returned null.  Should have returned a task.");
+            }
         }
     }
 }

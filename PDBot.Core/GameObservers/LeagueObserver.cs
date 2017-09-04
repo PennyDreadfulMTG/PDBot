@@ -67,7 +67,7 @@ namespace PDBot.Core.GameObservers
             if (match.Players.Length != 2)
                 return false;
             var desc = match.Comments.ToLower();
-            bool loud = desc.Contains("league");
+            var loud = desc.Contains("league");
             try
             {
                 HostRun = await DecksiteApi.GetRun(match.Players[0]);

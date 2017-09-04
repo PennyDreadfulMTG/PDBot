@@ -60,14 +60,14 @@ namespace PDBot.Core.GameObservers
         /// </summary>
         /// <param name="match"></param>
         /// <returns></returns>
-        public async Task<IGameObserver> GetInstanceForMatchAsync(IMatch match)
+        public Task<IGameObserver> GetInstanceForMatchAsync(IMatch match)
         {
             // In this case, we use the same logic as we did for joining.  Very simple.
             if (ShouldJoin(match))
             {
-                return new AustreamSealedLeague(match);
+                return Task.FromResult<IGameObserver>(new AustreamSealedLeague(match));
             }
-            return null;
+            return Task.FromResult<IGameObserver>(null);
         }
 
         /// <summary>

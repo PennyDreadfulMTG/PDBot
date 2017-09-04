@@ -92,7 +92,7 @@ namespace PDBot.Core
         {
             public static async Task<IGameObserver[]> GetObservers(IMatch match)
             {
-                IGameObserver[] observers = await Task.WhenAll(Resolver.GetInstances<IGameObserver>().Select(o => o.GetInstanceForMatchAsync(match)));
+                var observers = await Task.WhenAll(Resolver.GetInstances<IGameObserver>().Select(o => o.GetInstanceForMatchAsync(match)));
                 return observers.Where(o => o != null).ToArray();
             }
 

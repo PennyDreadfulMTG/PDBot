@@ -33,9 +33,9 @@ namespace PDBot.Discord
             if (Initialized)
                 return;
             Initialized = true;
-            client.Log += Client_Log;
+            client.Log += Client_LogAsync;
             client.Ready += Client_ReadyAsync;
-            client.Disconnected += Client_Disconnected;
+            client.Disconnected += Client_DisconnectedAsync;
             client.MessageReceived += Client_MessageReceived;
             await client.LoginAsync(TokenType.Bot, token);
             await client.StartAsync();
@@ -62,7 +62,7 @@ namespace PDBot.Discord
                 return;
             }
 
-            string[] words = arg.Content.Split();
+            var words = arg.Content.Split();
 
             if (arg.Content.ToLower() == "!avatar")
             {
@@ -72,7 +72,7 @@ namespace PDBot.Discord
 
             if (words.FirstOrDefault().ToLower() == "!log")
             {
-                string file = Path.Combine("Logs", words.Skip(1).FirstOrDefault().ToString() + ".txt");
+                var file = Path.Combine("Logs", words.Skip(1).FirstOrDefault().ToString() + ".txt");
                 if (File.Exists(file))
                 {
                     var contents = File.ReadAllLines(file);
@@ -90,11 +90,12 @@ namespace PDBot.Discord
             }
         }
 
-        private static async Task Client_Log(LogMessage arg)
+        private static async Task Client_LogAsync(LogMessage arg)
         {
+
         }
 
-        private static async Task Client_Disconnected(Exception arg)
+        private static async Task Client_DisconnectedAsync(Exception arg)
         {
 
         }
@@ -102,13 +103,13 @@ namespace PDBot.Discord
         private static async Task Client_ReadyAsync()
         {
             if (!string.IsNullOrEmpty(Playing))
-                SetGame(Playing);
+                await SetGame(Playing);
             Ready?.Invoke(client, new EventArgs());
         }
 
         public static async Task SendToGeneralAsync(string msg, bool pin = false)
         {
-            SocketTextChannel channel = FindChannel("Penny Dreadful", 207281932214599682);
+            var channel = FindChannel("Penny Dreadful", 207281932214599682);
             var res = await SendMessageAsync(msg, channel);
             if (pin)
             {
@@ -130,60 +131,59 @@ namespace PDBot.Discord
             }
         }
 
-        public static async void SendToLFGAsync(string msg)
+        public static Task SendToLFGAsync(string msg)
         {
             var channel = FindChannel("Penny Dreadful", 209488769567424512);
-            await SendMessageAsync(msg, channel);
+            return SendMessageAsync(msg, channel);
         }
 
-        public static async void SendToPDHAsync(string msg)
+        public static Task SendToPDHAsync(string msg)
         {
             var channel = FindChannel("Penny Dreadful", 234787370711515136);
-            await SendMessageAsync(msg, channel);
+            return SendMessageAsync(msg, channel);
         }
 
-        public static async void SendToLeagueAsync(string msg)
+        public static Task SendToLeagueAsync(string msg)
         {
             var channel = FindChannel("Penny Dreadful", 220320082998460416);
-            await SendMessageAsync(msg, channel);
+            return SendMessageAsync(msg, channel);
         }
 
-        public static async void SendToChatRoomsAsync(string msg)
+        public static Task SendToChatRoomsAsync(string msg)
         {
             var channel = FindChannel("Penny Dreadful", 334220558159970304);
-            await SendMessageAsync(msg, channel);
+            return SendMessageAsync(msg, channel);
         }
 
-        public static async void SendToCommunityLegacyLeague(string msg)
+        public static Task SendToCommunityLegacyLeague(string msg)
         {
             var channel = FindChannel("Community Legacy League", 341709019058143242);
-            await SendMessageAsync(msg, channel);
+            return SendMessageAsync(msg, channel);
         }
 
-        public static async void SendToHeirloom(string msg)
+        public static Task SendToHeirloom(string msg)
         {
             var channel = FindChannel("torskafton", 246656730535034881);
-            await SendMessageAsync(msg, channel);
+            return SendMessageAsync(msg, channel);
         }
 
-        [Conditional("DEBUG")]
-        public static async void SendToTestAsync(string msg)
+        public static Task SendToTestAsync(string msg)
         {
             // This one goes to #botspam on Katelyn's test server.
             var channel = FindChannel("TestServer", 226920619302715392);
-            await SendMessageAsync(msg, channel);
+            return SendMessageAsync(msg, channel);
         }
 
-        public static async void SendToPMLog(string msg)
+        public static Task SendToPMLog(string msg)
         {
             var channel = FindChannel("TestServer", 331405678218313730);
-            await SendMessageAsync(msg, channel);
+            return SendMessageAsync(msg, channel);
         }
 
-        public static async void SendToArbiraryChannel(string msg, string ServerName, ulong Channel)
+        public static Task SendToArbiraryChannel(string msg, string ServerName, ulong Channel)
         {
             var channel = FindChannel(ServerName, Channel);
-            await SendMessageAsync(msg, channel);
+            return SendMessageAsync(msg, channel);
         }
 
         private static SocketTextChannel FindChannel(string GuildName, ulong chanId)
@@ -236,10 +236,10 @@ namespace PDBot.Discord
 
         private static string SubstitueEmotes(string msg, SocketGuild guild)
         {
-            Regex emote = new Regex(@"\[(\w+)\]");
+            var emote = new Regex(@"\[(\w+)\]", RegexOptions.Compiled);
             return emote.Replace(msg, (match) =>
                 {
-                    string symbol = match.Groups[1].Value;
+                    var symbol = match.Groups[1].Value;
                     if (Emotes.ContainsKey(symbol))
                     {
                         symbol = Emotes[symbol];
@@ -250,7 +250,7 @@ namespace PDBot.Discord
                         return symbol;
                     }
 
-                    string found = FindEmote(symbol, guild);
+                    var found = FindEmote(symbol, guild);
                     if  (!string.IsNullOrEmpty(found))
                     {
                         return found;
@@ -272,7 +272,7 @@ namespace PDBot.Discord
             return v;
         }
 
-        public static async void SetGame(string game)
+        public static async Task SetGame(string game)
         {
             if (client.ConnectionState < ConnectionState.Connected)
             {
@@ -289,7 +289,7 @@ namespace PDBot.Discord
             Playing = game;
         }
 
-        public static async Task SetAvatar(string image, string name)
+        public static async Task SetAvatarAsync(string image, string name)
         {
             Console.WriteLine($"Setting Avatar to {name} ({image})");
             try
@@ -307,8 +307,8 @@ namespace PDBot.Discord
             }
             catch (RateLimitedException r)
             {
-                Thread.Sleep(TimeSpan.FromMinutes(10));
-                await SetAvatar(image, name);
+                await Task.Delay(TimeSpan.FromMinutes(10));
+                await SetAvatarAsync(image, name);
             }
         }
 
