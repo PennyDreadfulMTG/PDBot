@@ -33,12 +33,5 @@ namespace PDBot.Core.GameObservers
         {
             return match.Format == MagicFormat.PennyDreadful || match.Format == MagicFormat.PennyDreadfulCommander;
         }
-
-        //static PennyDreadfulLegality staticInstance = new PennyDreadfulLegality();
-
-        //public static bool IsCardLegal(string cardname)
-        //{
-        //    return ((BaseLegalityChecker)staticInstance).IsCardLegal(cardname);
-        //}
     }
 }

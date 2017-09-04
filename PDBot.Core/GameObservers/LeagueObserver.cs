@@ -13,7 +13,7 @@ namespace PDBot.Core.GameObservers
 {
     class LeagueObserver : IGameObserver, ILeagueObserver
     {
-        private IMatch match;
+        private readonly IMatch match;
 
         public DecksiteApi.Deck HostRun { get; internal set; }
         public DecksiteApi.Deck LeagueRunOpp { get; internal set; }
@@ -36,7 +36,7 @@ namespace PDBot.Core.GameObservers
         {
             if (match.Format != MagicFormat.PennyDreadful && match.Format != MagicFormat.PennyDreadfulCommander)
                 return null;
-                
+
             var obs =  new LeagueObserver(match);
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             obs.CheckForLeague();

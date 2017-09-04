@@ -17,7 +17,7 @@ namespace PDBot.Core.GameObservers
         /// This is a list of the players we care about.
         /// Due to a number of reasons, I'm just hardcoding it.
         /// </summary>
-        string[] AustreamMembers = 
+        readonly string[] AustreamMembers =
             {
             "voitstarr",        // CheshirePlaysGames
             "LadyDanger",       // xLadyDangerx
@@ -29,7 +29,7 @@ namespace PDBot.Core.GameObservers
             "CoopDeGrace",      // WholeBoxAndDice
         };
 
-        private IMatch match;
+        private readonly IMatch match;
 
         /// <summary>
         /// We need an empty constructor.  This will be used when generating the prototype instance

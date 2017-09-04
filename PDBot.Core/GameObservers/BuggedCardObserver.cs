@@ -10,7 +10,7 @@ namespace PDBot.Core.GameObservers
 {
     class BuggedCardObserver : IGameObserver
     {
-        private List<string> warnings = new List<string>();
+        private readonly List<string> warnings = new List<string>();
 
         public bool PreventReboot => false;
 

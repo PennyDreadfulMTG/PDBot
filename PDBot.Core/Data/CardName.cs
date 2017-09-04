@@ -36,8 +36,8 @@ namespace PDBot.Data
 
         public static string NormalizeString(string name)
         {
-            String normalizedString = name.Normalize(NormalizationForm.FormKD);
-            StringBuilder stringBuilder = new StringBuilder();
+            var normalizedString = name.Normalize(NormalizationForm.FormKD);
+            var stringBuilder = new StringBuilder();
 
             foreach (char c in normalizedString)
             {
@@ -73,8 +73,10 @@ namespace PDBot.Data
             if (Regex.IsMatch(FullName, @"(\w+)/(\w+)"))
                 FullName = FullName.Replace("/", " // ");
             this.FullName = FullName;
-            var names = new List<string>();
-            names.Add(FullName);
+            var names = new List<string>
+            {
+                FullName
+            };
 
             var normalized = NormalizeString(FullName);
             if (normalized != FullName)
@@ -99,7 +101,6 @@ namespace PDBot.Data
                 // Flip/Transform cards.
                 Names = Names.Union(names).ToArray();
             }
-            
         }
 
         public bool Equals(CardName other)
