@@ -79,11 +79,14 @@
     <Compile Include="API\BuggedCards.cs" />
     <Compile Include="API\DecksiteApi.cs" />
     <Compile Include="API\DecksiteApi.Generated.cs" />
+    <Compile Include="API\MtgoStatus.cs" />
+    <Compile Include="API\Scryfall.cs" />
     <Compile Include="Commands\Discord.cs" />
     <Compile Include="Commands\DropLeague.cs" />
     <Compile Include="Commands\ExplainPD.cs" />
     <Compile Include="Commands\HelpCommand.cs" />
     <Compile Include="Commands\RotationCommand.cs" />
+    <Compile Include="Data\Card.cs" />
     <Compile Include="Data\WinnerDictionary.cs" />
     <Compile Include="GameObservers\AustreamSealedLeague.cs" />
     <Compile Include="GameObservers\BaseLegalityChecker.cs" />
