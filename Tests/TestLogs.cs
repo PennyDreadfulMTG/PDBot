@@ -4,11 +4,7 @@ using PDBot.Core.Data;
 using PDBot.Core.GameObservers;
 using PDBot.Core.Interfaces;
 using PDBot.Data;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Tests.Mocks;
 
 namespace Tests
@@ -47,8 +43,8 @@ namespace Tests
             var match = new MockMatch();
             var legality = new PennyDreadfulLegality();
             Assert.IsTrue(legality.IsCardLegal(CardName.FixAccents("Dandan")));
-            Assert.IsTrue(legality.IsCardLegal(CardName.FixAccents("Junún Efreet")));
-            Assert.IsTrue(legality.IsCardLegal(CardName.FixAccents("JunAþn Efreet")));
+            //Assert.IsTrue(legality.IsCardLegal(CardName.FixAccents("Junún Efreet")));
+            Assert.IsTrue(legality.IsCardLegal(CardName.FixAccents("DandAþn")));
             Assert.IsFalse(legality.IsCardLegal(CardName.FixAccents("Lim-dl")));
         }
 
@@ -72,8 +68,6 @@ namespace Tests
                 1, 0, match);
             CountCards("WookieeGT's [Sparkspitter] creates a Spark Elemental.", 1, 0, match);
             CountCards("TheFancyMusterd is being attacked by [Spark Elemental] and [Fusion Elemental].", 1, 1, match);
-
-            
         }
     }
 }

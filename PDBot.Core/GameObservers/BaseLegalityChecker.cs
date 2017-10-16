@@ -31,7 +31,7 @@ namespace PDBot.Core.GameObservers
 
         public abstract Task<IGameObserver> GetInstanceForMatchAsync(IMatch match);
 
-        List<string> warnings = new List<string>();
+        readonly List<string> warnings = new List<string>();
 
         public int IllegalCount { get; private set; }
 
@@ -49,7 +49,7 @@ namespace PDBot.Core.GameObservers
                 {
                     warnings.Add(name);
                     IllegalCount++;
-                    int nWarnings = 3;
+                    var nWarnings = 3;
                     if (IllegalCount < nWarnings)
                     {
                         return $"[sR]{name}[sR] is not legal in {FormatName}.";
@@ -70,9 +70,12 @@ namespace PDBot.Core.GameObservers
         {
             if (LegalCards == null)
             {
-                LegalCards = new WebClient().DownloadString(LegalListUrl).Split('\n');
-                //LegalCards.Select(name => name.Trim('\r', '"'))
-                LegalCards = LegalCards.Select(n => new CardName(n)).SelectMany(cn => cn.Names).ToArray();
+                using (var webClient = new WebClient())
+                {
+                    LegalCards = webClient.DownloadString(LegalListUrl).Split('\n');
+                    //LegalCards.Select(name => name.Trim('\r', '"'))
+                    LegalCards = LegalCards.Select(n => new CardName(n)).SelectMany(cn => cn.Names).ToArray();
+                }
             }
             if (LegalCards.Contains(name, StringComparer.InvariantCultureIgnoreCase))
                 return true;
@@ -100,34 +103,36 @@ namespace PDBot.Core.GameObservers
                 return false;
 
             var url = $"https://api.scryfall.com/cards/named?exact={name}";
-            var wc = new WebClient();
-            try
+            using (var wc = new WebClient())
             {
-                var blob = wc.DownloadString(url);
-                JObject json = JsonConvert.DeserializeObject(blob) as JObject;
-                if (json.Value<string>("layout") == "transform")
+                try
                 {
-                    if (!json.TryGetValue("mana_cost", out var cost) || string.IsNullOrEmpty(json.Value<string>("mana_cost")))
+                    var blob = wc.DownloadString(url);
+                    var json = JsonConvert.DeserializeObject(blob) as JObject;
+                    if (json.Value<string>("layout") == "transform")
                     {
-                        Transforms.Add(name);
-                        File.AppendAllText("transforms.txt", name + '\n');
-                        return true;
-                    }
-                    else
-                    {
-                        NotTransforms.Add(name);
+
+                        if (!json.TryGetValue("mana_cost", out var cost) || string.IsNullOrEmpty(json.Value<string>("mana_cost")))
+                        {
+                            Transforms.Add(name);
+                            return true;
+                        }
+                        else
+                        {
+                            NotTransforms.Add(name);
+                            return false;
+                        }
                     }
                 }
-                // TODO: Check for séance and its ilk.
-            }
-            catch (WebException c)
-            {
-                NotTransforms.Add(name);
-                Console.WriteLine(name);
-                Console.WriteLine(c);
-            }
+                catch (WebException c)
+                {
+                    NotTransforms.Add(name);
+                    Console.WriteLine(name);
+                    Console.WriteLine(c);
+                }
 
-            return false;
+                return false;
+            }
 
         }
 

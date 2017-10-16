@@ -92,12 +92,13 @@ namespace PDBot.Discord
 
         private static async Task Client_LogAsync(LogMessage arg)
         {
-
+            Console.WriteLine($"[Discord] {arg.Message}");
         }
 
         private static async Task Client_DisconnectedAsync(Exception arg)
         {
-
+            //await client.StopAsync();
+            //await client.StartAsync();
         }
 
         private static async Task Client_ReadyAsync()
