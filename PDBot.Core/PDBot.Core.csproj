@@ -96,6 +96,7 @@
     <Compile Include="Features.cs" />
     <Compile Include="GameObservers\AustreamSealedLeague.cs" />
     <Compile Include="GameObservers\BaseLegalityChecker.cs" />
+    <Compile Include="GameObservers\FrontierObserver.cs" />
     <Compile Include="GameObservers\HeirloomLegality.cs" />
     <Compile Include="GameObservers\StalkerMode.cs" />
     <Compile Include="GameObservers\Tourney.cs" />
