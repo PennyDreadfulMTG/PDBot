@@ -47,7 +47,10 @@ namespace PDBot.Core.GameObservers
             if (first.Wins == 2)
             {
                 var loser = match.Players.FirstOrDefault(d => d != winner);
-                Resolver.Helpers.GetChatDispatcher().SendPM(channel, $"[sD] {winner} {record} {loser}");
+                if (Features.PublishResults)
+                {
+                    Resolver.Helpers.GetChatDispatcher().SendPM(channel, $"[sD] {winner} {record} {loser}");
+                }
             }
         }
 

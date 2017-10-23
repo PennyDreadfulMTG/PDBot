@@ -51,7 +51,7 @@ namespace PDBot.Core.GameObservers
                 if (HostRun == null || LeagueRunOpp == null)
                     return null;
 
-                var InList = HostRun.ContainsCard(name) || LeagueRunOpp.ContainsCard(name) || PennyDreadfulLegality.IsRearFace(name);
+                var InList = HostRun.ContainsCard(name) || LeagueRunOpp.ContainsCard(name) || BaseLegalityChecker.IsRearFace(name);
                 if (!InList)
                 {
                     HostRun = LeagueRunOpp = null;
@@ -72,7 +72,7 @@ namespace PDBot.Core.GameObservers
             {
                 HostRun = await DecksiteApi.GetRun(match.Players[0]);
             }
-            catch
+            catch (Exception)
             {
                 if (loud)
                 {
@@ -96,7 +96,7 @@ namespace PDBot.Core.GameObservers
             {
                 LeagueRunOpp = await DecksiteApi.GetRun(opp);
             }
-            catch
+            catch (Exception)
             {
                 if (loud)
                 {
@@ -147,7 +147,11 @@ namespace PDBot.Core.GameObservers
                 {
                     var WinningRun = HostRun.Person.Equals(winner, StringComparison.InvariantCultureIgnoreCase) ? HostRun : LeagueRunOpp;
                     var LosingRun = (new DecksiteApi.Deck[] { HostRun, LeagueRunOpp }).Single(d => d != WinningRun);
-                    DecksiteApi.UploadResults(WinningRun, LosingRun, record);
+                    if (Features.PublishResults)
+                    {
+                        DecksiteApi.UploadResults(WinningRun, LosingRun, record);
+                    }
+
                     DiscordService.SendToLeagueAsync($":trophy: {WinningRun.Person} {record} {LosingRun.Person}");
                 }
             }
