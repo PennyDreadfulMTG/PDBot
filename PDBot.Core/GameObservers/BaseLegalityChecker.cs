@@ -111,8 +111,8 @@ namespace PDBot.Core.GameObservers
                     var json = JsonConvert.DeserializeObject(blob) as JObject;
                     if (json.Value<string>("layout") == "transform")
                     {
-
-                        if (!json.TryGetValue("mana_cost", out var cost) || string.IsNullOrEmpty(json.Value<string>("mana_cost")))
+                        var face = json["card_faces"].First(f => f.Value<string>("name") == name) as JObject;
+                        if (!face.TryGetValue("mana_cost", out var cost) || string.IsNullOrEmpty(face.Value<string>("mana_cost")))
                         {
                             Transforms.Add(name);
                             return true;
