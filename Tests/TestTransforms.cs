@@ -1,10 +1,5 @@
 ﻿using NUnit.Framework;
 using PDBot.Core.GameObservers;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Tests
 {
@@ -17,5 +12,11 @@ namespace Tests
             Assert.IsTrue(BaseLegalityChecker.IsRearFace("Insectile Aberration"));
         }
 
+        [Test]
+        public void TestMelds()
+        {
+            Assert.IsFalse(BaseLegalityChecker.IsRearFace("Graf Rats"));
+            Assert.IsTrue(BaseLegalityChecker.IsRearFace("Chittering Host"));
+        }
     }
 }

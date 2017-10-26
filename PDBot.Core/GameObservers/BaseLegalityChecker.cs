@@ -109,19 +109,29 @@ namespace PDBot.Core.GameObservers
                 {
                     var blob = wc.DownloadString(url);
                     var json = JsonConvert.DeserializeObject(blob) as JObject;
+                    JObject face;
                     if (json.Value<string>("layout") == "transform")
                     {
-                        var face = json["card_faces"].First(f => f.Value<string>("name") == name) as JObject;
-                        if (!face.TryGetValue("mana_cost", out var cost) || string.IsNullOrEmpty(face.Value<string>("mana_cost")))
-                        {
-                            Transforms.Add(name);
-                            return true;
-                        }
-                        else
-                        {
-                            NotTransforms.Add(name);
-                            return false;
-                        }
+                        face = json["card_faces"].First(f => f.Value<string>("name") == name) as JObject;
+                    }
+                    else if (json.Value<string>("layout") == "meld")
+                    {
+                        face = json;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+
+                    if (!face.TryGetValue("mana_cost", out var cost) || string.IsNullOrEmpty(face.Value<string>("mana_cost")))
+                    {
+                        Transforms.Add(name);
+                        return true;
+                    }
+                    else
+                    {
+                        NotTransforms.Add(name);
+                        return false;
                     }
                 }
                 catch (WebException c)
