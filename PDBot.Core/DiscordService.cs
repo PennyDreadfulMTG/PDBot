@@ -50,11 +50,6 @@ namespace PDBot.Discord
         {
             if (arg.Author.IsBot)
                 return;
-            //if (arg.Channel is SocketDMChannel)
-            //{
-            //    await arg.Channel.SendMessageAsync("I don't respond to messages over discord.  Please send that to me through Magic Online instead.");
-            //    return;
-            //}
 
             if (modo_commands.Contains(arg.Content.ToLower()))
             {
