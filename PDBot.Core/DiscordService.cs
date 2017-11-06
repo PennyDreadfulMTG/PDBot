@@ -80,7 +80,21 @@ namespace PDBot.Discord
 
             if (arg.Content.StartsWith("#"))
             {
-                Resolver.Helpers.GetChatDispatcher().SendPM(words[0], $"【Discord】 {arg.Author.Username}: {arg.Content.Substring(arg.Content.IndexOf(' ')).Trim()}");
+                var success = Resolver.Helpers.GetChatDispatcher().SendPM(words[0], $"【Discord】 {arg.Author.Username}: {arg.Content.Substring(arg.Content.IndexOf(' ')).Trim()}");
+                if (success && arg.Content.Length > 200)
+                {
+                    try
+                    {
+                        await arg.DeleteAsync(new RequestOptions
+                        {
+                            AuditLogReason = "Cleaning up an overly long message before we echo it."
+                        });
+                    }
+                    catch (Exception)
+                    {
+                        // Shrug.
+                    }
+                }
                 return;
             }
         }

@@ -8,6 +8,6 @@ namespace PDBot.Core.Interfaces
 {
     public interface IChatDispatcher
     {
-        void SendPM(string Username, string message);
+        bool SendPM(string Username, string message);
     }
 }
