@@ -45,6 +45,7 @@ namespace PDBot.Discord
 
         public static string Playing { get; private set; }
         public static string CurrentAvatar { get; private set; } = "unknown";
+        public static bool Connected => client.ConnectionState == ConnectionState.Connected;
 
         private static async Task Client_MessageReceived(SocketMessage arg)
         {
@@ -319,6 +320,13 @@ namespace PDBot.Discord
             {
                 await Task.Delay(TimeSpan.FromMinutes(10));
                 await SetAvatarAsync(image, name);
+            }
+            catch (Exception c)
+            {
+                Console.WriteLine("Caught error while updating Avatar:");
+                Console.WriteLine(c.ToString());
+                //await Task.Delay(TimeSpan.FromMinutes(1));
+                //await SetAvatarAsync(image, name);
             }
         }
 
