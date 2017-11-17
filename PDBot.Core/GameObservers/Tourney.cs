@@ -72,6 +72,10 @@ namespace PDBot.Core.GameObservers
                 else if (now.DayOfWeek == DayOfWeek.Thursday)
                     channel = "#PDT";
             }
+            else if (match.Format == MagicFormat.Squire)
+            {
+                channel = "#squire";
+            }
             else if (IsCLL(match))
                 channel = "#CLL";
             else if (IsPCT(match))
@@ -83,7 +87,7 @@ namespace PDBot.Core.GameObservers
         {
             if (match.GameRoom != Room.GettingSerious)
                 return false;
-            if (match.Format == MagicFormat.PennyDreadful || match.Format == MagicFormat.Heirloom)
+            if (match.Format == MagicFormat.PennyDreadful || match.Format == MagicFormat.Heirloom || match.Format == MagicFormat.Squire)
                 return true;
             if (IsCLL(match))
                 return true;

@@ -17,7 +17,8 @@ namespace PDBot.Core
         MomirBasic = 11, Planechase, Planeswalker,
         Heirloom = 14, Frontier,
         JhioraBasic = 16, MoStoJho,
-        
+        Squire = 19, // SilverBlack, but with a points system.
+
     };
 
     public static class DetermineFormat
@@ -41,6 +42,8 @@ namespace PDBot.Core
                 value = MagicFormat.Heirloom;
             if (value == MagicFormat.Freeform && IsFrontier(comment))
                 value = MagicFormat.Frontier;
+            if (value == MagicFormat.Freeform && IsSquire(comment))
+                value = MagicFormat.Squire;
             // If we want to someday support other weird formats, add checks them here.
             return value;
         }
@@ -74,6 +77,11 @@ namespace PDBot.Core
         private static bool IsHeirloom(string comment)
         {
             return comment.Contains("heirloom");
+        }
+
+        private static bool IsSquire(string comment)
+        {
+            return comment.Contains("squire");
         }
     }
 }
