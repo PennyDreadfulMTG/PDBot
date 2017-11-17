@@ -96,6 +96,10 @@ namespace PDBot.Discord
                         // Shrug.
                     }
                 }
+                else if (!success && arg is SocketUserMessage msg)
+                {
+                    await msg.AddReactionAsync(new Emoji("📵"));
+                }
                 return;
             }
         }
