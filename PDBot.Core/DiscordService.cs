@@ -334,9 +334,17 @@ namespace PDBot.Discord
             }
         }
 
-        public static void Disconnect()
+        public static bool Disconnect()
         {
-            client.LogoutAsync().Wait();
+            try
+            {
+                return client.LogoutAsync().Wait(TimeSpan.FromSeconds(5));
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Tried disconnecting from Discord, but already disconnected.");
+                return false;
+            }
         }
 
         private static readonly Dictionary<string, string> Emotes = new Dictionary<string, string>
