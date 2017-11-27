@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace PDBot.Core
 {
-    class Features
+    public class Features
     {
         /// <summary>
         /// There is a bug with MTGO that gets the names wrong.
         /// We don't want to tell people incorrect results when this happens.
         /// </summary>
-        public static readonly bool PublishResults = false;
+        public static bool PublishResults { get; set; } = false;
     }
 }

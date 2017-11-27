@@ -51,10 +51,10 @@ namespace PDBot.Discord
         {
             if (arg.Author.IsBot)
                 return;
-
+            var channel = arg.Channel;
             if (modo_commands.Contains(arg.Content.ToLower()))
             {
-                await arg.Channel.SendMessageAsync("I don't respond to messages over discord.  Please send that to me through Magic Online instead.");
+                await channel.SendMessageAsync("I don't respond to messages over discord.  Please send that to me through Magic Online instead.");
                 return;
             }
 
@@ -62,21 +62,15 @@ namespace PDBot.Discord
 
             if (arg.Content.ToLower() == "!avatar")
             {
-                await arg.Channel.SendMessageAsync($"My current Avatar is {CurrentAvatar}.");
+                await channel.SendMessageAsync($"My current Avatar is {CurrentAvatar}.");
                 return;
             }
 
             if (words.FirstOrDefault().ToLower() == "!log")
             {
-                var file = Path.Combine("Logs", words.Skip(1).FirstOrDefault().ToString() + ".txt");
-                if (File.Exists(file))
-                {
-                    var contents = File.ReadAllLines(file);
-                    var caption = $"Format={contents[0]}, Comment=\"{contents[1]}\", Players=[{contents[3]}]";
-                    await arg.Channel.TriggerTypingAsync();
-                    await arg.Channel.SendFileAsync(file, caption);
-                    return;
-                }
+                string id = words.Skip(1).FirstOrDefault().ToString();
+                await SendLogToChannel(channel, id);
+                return;
             }
 
             if (arg.Content.StartsWith("#"))
@@ -101,6 +95,28 @@ namespace PDBot.Discord
                     await msg.AddReactionAsync(new Emoji("📵"));
                 }
                 return;
+            }
+        }
+
+        public static Task SendLogToChannel(ulong channel, int id)
+        {
+            return SendLogToChannel(FindChannel(null, channel), id.ToString());
+        }
+
+        private static async Task SendLogToChannel(ISocketMessageChannel channel, string id)
+        {
+            var file = Path.Combine("Logs", id + ".txt");
+            if (File.Exists(file))
+            {
+                var contents = File.ReadAllLines(file);
+                var caption = $"Format={contents[0]}, Comment=\"{contents[1]}\", Players=[{contents[3]}]";
+                await channel.TriggerTypingAsync();
+                await channel.SendFileAsync(file, caption);
+            }
+            else
+            {
+                await channel.TriggerTypingAsync();
+                await channel.SendMessageAsync($"Could not find log for MatchID {id}");
             }
         }
 

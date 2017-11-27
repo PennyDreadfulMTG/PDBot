@@ -54,6 +54,12 @@ namespace Tests.Mocks
 
         public List<string> NamedTokens { get; } = new List<string>();
 
+        public string Log(string message)
+        {
+            Console.WriteLine(message);
+            return message;
+        }
+
         public void SendChat(string message)
         {
             Assert.IsNotNull(message);

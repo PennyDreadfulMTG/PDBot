@@ -63,7 +63,6 @@ namespace PDBot.Core.GameObservers
 
         private async Task<bool> CheckForLeague()
         {
-            Console.WriteLine("Checking for League");
             if (match.Players.Length != 2)
                 return false;
             var desc = match.Comments.ToLower();
@@ -118,6 +117,7 @@ namespace PDBot.Core.GameObservers
                     match.SendChat($"[sD]If this is a league game, don't forget to @[Report]!\nIf you do not want this match to be auto-reported, type !notleague");
                 else
                     match.SendChat($"[sD]If this is a league game, don't forget to @[Report]!");
+                match.Log($"[League] {HostRun} ({HostRun.Id}) vs {LeagueRunOpp} ({LeagueRunOpp.Id})");
                 return true;
 
             }
@@ -150,9 +150,13 @@ namespace PDBot.Core.GameObservers
                     if (Features.PublishResults)
                     {
                         DecksiteApi.UploadResults(WinningRun, LosingRun, record);
+                        DiscordService.SendToLeagueAsync($":trophy: {WinningRun.Person} {record} {LosingRun.Person}");
+                    }
+                    else
+                    {
+                        DiscordService.SendToLeagueAsync($":trophy: {WinningRun.Person} {record} {LosingRun.Person} (Please verify and report manually)");
                     }
 
-                    DiscordService.SendToLeagueAsync($":trophy: {WinningRun.Person} {record} {LosingRun.Person}");
                 }
             }
         }
