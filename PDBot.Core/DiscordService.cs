@@ -19,6 +19,9 @@ namespace PDBot.Discord
 {
     public static class DiscordService
     {
+
+        // https://discordapp.com/oauth2/authorize?client_id=227647606149480449&scope=bot&permissions=270400
+
         static DiscordSocketClient client = new DiscordSocketClient(new DiscordSocketConfig
         {
             WebSocketProvider = WS4NetProvider.Instance

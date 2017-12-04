@@ -40,7 +40,7 @@ namespace PDBot.Core.GameObservers
 
         public void ProcessWinner(string winner, int gameID)
         {
-            var channel = GetChannel();
+            var channel = GetChannel(match);
             if (channel == null)
                 return;
             match.Winners.GetRecordData(out var first, out var record);
@@ -54,7 +54,7 @@ namespace PDBot.Core.GameObservers
             }
         }
 
-        private string GetChannel()
+        private static string GetChannel(IMatch match)
         {
             string channel = null;
             if (match.Format == MagicFormat.Heirloom)
@@ -65,7 +65,7 @@ namespace PDBot.Core.GameObservers
             {
                 var tz = TimeZoneInfo.FindSystemTimeZoneById("Eastern Standard Time");
                 var now = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, tz);
-                if (now.DayOfWeek == DayOfWeek.Sunday)
+                if (now.DayOfWeek == DayOfWeek.Sunday || now.DayOfWeek == DayOfWeek.Saturday)
                     channel = "#PDS";
                 else if (now.DayOfWeek == DayOfWeek.Monday)
                     channel = "#PDM";
@@ -73,13 +73,13 @@ namespace PDBot.Core.GameObservers
                     channel = "#PDT";
             }
             else if (match.Format == MagicFormat.Squire)
-            {
                 channel = "#squire";
-            }
             else if (IsCLL(match))
                 channel = "#CLL";
             else if (IsPCT(match))
                 channel = "#PCT";
+            else if (IsPauperPower(match))
+                channel = "#pauperpower";
             return channel;
         }
 
@@ -87,11 +87,7 @@ namespace PDBot.Core.GameObservers
         {
             if (match.GameRoom != Room.GettingSerious)
                 return false;
-            if (match.Format == MagicFormat.PennyDreadful || match.Format == MagicFormat.Heirloom || match.Format == MagicFormat.Squire)
-                return true;
-            if (IsCLL(match))
-                return true;
-            if (IsPCT(match))
+            if (GetChannel(match) != null)
                 return true;
             //Console.WriteLine($"Missed Tourney game:\n\t{match.Format.ToString()}\n\t{match.Comments}");
             return false;
@@ -117,6 +113,18 @@ namespace PDBot.Core.GameObservers
             if (match.Comments.ToLower().Contains("pauper classic tuesdays"))
                 return true;
             return false;
+        }
+
+        private static bool IsPauperPower(IMatch match)
+        {
+            if (match.Format != MagicFormat.Pauper)
+                return false;
+            if (match.Comments.ToLower().Contains("pauperpower"))
+                return true;
+            if (match.Comments.ToLower().Contains("pauper power"))
+                return true;
+            return false;
+
         }
     }
 }
