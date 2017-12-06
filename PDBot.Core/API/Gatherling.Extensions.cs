@@ -11,7 +11,7 @@ namespace PDBot.API.GatherlingExtensions
     {
         public static bool PageRequiresLogin(this HtmlDocument playerCP)
         {
-            return playerCP.DocumentNode.Descendants("a").FirstOrDefault(a => a.Attributes["href"].Value == "login.php") != null;
+            return playerCP.DocumentNode.Descendants("a")?.FirstOrDefault(a => a.Attributes["href"]?.Value == "login.php") != null;
 
             IEnumerable<HtmlNode> divs = playerCP.DocumentNode.Descendants("div");
             var submenu = divs.FirstOrDefault(div => div.HasClass("submenu"));

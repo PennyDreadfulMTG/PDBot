@@ -31,6 +31,9 @@ namespace Tests
         {
             var events = Gatherling.Localhost.GetActiveEventsAsync().GetAwaiter().GetResult();
             Assume.That(events.Length > 0);
+            var pairings = Gatherling.Localhost.GetCurrentPairings(events.First()).GetAwaiter().GetResult();
+            Assume.That(pairings.Matches.Any());
+
         }
     }
 }

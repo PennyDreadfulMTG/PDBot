@@ -63,19 +63,7 @@ namespace PDBot.API
             {
                 var uri = new Uri(new Uri(Settings.Host), "player.php");
                 var playerCP = new HtmlDocument();
-                using (var wc = CreateWebClient())
-                {
-                    playerCP.LoadHtml(await wc.DownloadStringTaskAsync(uri));
-                    if (playerCP.PageRequiresLogin())
-                    {
-                        await AuthenticateAsync().ConfigureAwait(false);
-                        playerCP.LoadHtml(await wc.DownloadStringTaskAsync(uri));
-                        if (playerCP.PageRequiresLogin())
-                        {
-                            throw new InvalidOperationException("Can't log in!");
-                        }
-                    }
-                }
+                await Scrape(uri, playerCP);
                 var tables = playerCP.DocumentNode.Descendants("table");
                 var activeEvents = tables.First(t => t.Descendants("b").FirstOrDefault(b => b.InnerText.Trim() == "ACTIVE EVENTS") != null);
                 var rows = activeEvents.Descendants("tr");
@@ -85,13 +73,37 @@ namespace PDBot.API
             return await Task.FromResult(new string[0]);
         }
 
+        private async Task Scrape(Uri uri, HtmlDocument document)
+        {
+            using (var wc = CreateWebClient())
+            {
+                document.LoadHtml(await wc.DownloadStringTaskAsync(uri));
+                if (document.PageRequiresLogin())
+                {
+                    await AuthenticateAsync().ConfigureAwait(false);
+                    document.LoadHtml(await wc.DownloadStringTaskAsync(uri));
+                    if (document.PageRequiresLogin())
+                    {
+                        throw new InvalidOperationException("Can't log in!");
+                    }
+                }
+            }
+        }
 
-        public async Task GetCurrentPairings(string eventName)
+        public async Task<Round> GetCurrentPairings(string eventName)
         {
             if (ApiVersion >= 1)
             {
-
+                var uri = new Uri(new Uri(Settings.Host), "event.php?view=match&name=" + eventName);
+                var eventCP = new HtmlDocument();
+                await Scrape(uri, eventCP);
+                var paste = eventCP.DocumentNode.Descendants("code").FirstOrDefault();
+                var lines = from l in paste.ChildNodes
+                            where !string.IsNullOrWhiteSpace(l.InnerText)
+                            select l.InnerText;
+                return Round.FromPaste(lines.ToArray());
             }
+            return null;
         }
 
         public async Task AuthenticateAsync()
