@@ -61,6 +61,7 @@
       <HintPath>..\..\packages\System.Collections.Immutable.1.4.0\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Interactive.Async, Version=3.0.1000.0, Culture=neutral, PublicKeyToken=94bc3704cddfc263, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.Interactive.Async.3.1.1\lib\net45\System.Interactive.Async.dll</HintPath>
@@ -84,6 +85,8 @@
     <Compile Include="API\BuggedCards.cs" />
     <Compile Include="API\DecksiteApi.cs" />
     <Compile Include="API\DecksiteApi.Generated.cs" />
+    <Compile Include="API\Gatherling.Classes.cs" />
+    <Compile Include="API\Gatherling.cs" />
     <Compile Include="API\MtgoStatus.cs" />
     <Compile Include="API\Scryfall.cs" />
     <Compile Include="Commands\Discord.cs" />
@@ -91,6 +94,7 @@
     <Compile Include="Commands\ExplainPD.cs" />
     <Compile Include="Commands\HelpCommand.cs" />
     <Compile Include="Commands\RotationCommand.cs" />
+    <Compile Include="Commands\VerifyGatherling.cs" />
     <Compile Include="Data\Card.cs" />
     <Compile Include="Data\WinnerDictionary.cs" />
     <Compile Include="Features.cs" />

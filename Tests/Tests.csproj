@@ -52,6 +52,7 @@
     <Compile Include="Mocks\ChatMock.cs" />
     <Compile Include="Mocks\MockMatch.cs" />
     <Compile Include="TestDecksiteApi.cs" />
+    <Compile Include="TestGatherlingAPI.cs" />
     <Compile Include="TestResolver.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
