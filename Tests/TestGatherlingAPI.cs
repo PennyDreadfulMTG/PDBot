@@ -25,5 +25,12 @@ namespace Tests
             string code = Gatherling.PennyDreadful.GetVerificationCodeAsync("PDBot").GetAwaiter().GetResult();
             Assert.IsNotNull(code);
         }
+
+        [Theory]
+        public void GetActiveEvents()
+        {
+            var events = Gatherling.Localhost.GetActiveEventsAsync().GetAwaiter().GetResult();
+            Assume.That(events.Length > 0);
+        }
     }
 }
