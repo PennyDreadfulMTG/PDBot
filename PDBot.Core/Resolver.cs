@@ -44,7 +44,13 @@ namespace PDBot.Core
                 foreach (var t in Implementations)
                 {
                     if (!list.Any(i => i.GetType() == t))
-                        list.Add(Activator.CreateInstance(t));
+                    {
+                        var existing = Instances.SelectMany(i => i.Value).FirstOrDefault(i => i.GetType() == t);
+                        if (existing != null)
+                            list.Add(existing);
+                        else
+                            list.Add(Activator.CreateInstance(t));
+                    }
                 }
                 Instances[typeof(T)] = list.ToArray();
             }
@@ -72,7 +78,7 @@ namespace PDBot.Core
             }
             foreach (var t in types)
             {
-                if (typeof(T).IsAssignableFrom(t) && typeof(T) != t)
+                if (typeof(T).IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract)
                 {
                     found.Add(t);
                 }

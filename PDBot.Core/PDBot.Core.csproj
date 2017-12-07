@@ -121,12 +121,14 @@
     <Compile Include="GameObservers\BuggedCardObserver.cs" />
     <Compile Include="DetermineFormat.cs" />
     <Compile Include="Data\GameLogLine.cs" />
+    <Compile Include="Interfaces\ICronObject.cs" />
     <Compile Include="Interfaces\IMatch.cs" />
     <Compile Include="Interfaces\IGameObserver.cs" />
     <Compile Include="GameObservers\LeagueObserver.cs" />
     <Compile Include="GameObservers\PennyDreadfulLegality.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resolver.cs" />
+    <Compile Include="Tournaments\TournamentManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
