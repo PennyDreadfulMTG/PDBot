@@ -32,7 +32,7 @@ namespace PDBot.API
                 var val = Servers.SingleOrDefault(s => s.Host == host);
                 if (val == null)
                 {
-                    this.Servers.Add(new Server { Host = host, Passkey = "" });
+                    this.Servers.Add(val = new Server { Host = host, Passkey = "" });
                     Save();
                 }
                 return val;

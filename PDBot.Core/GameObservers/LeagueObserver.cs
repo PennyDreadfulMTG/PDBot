@@ -55,7 +55,7 @@ namespace PDBot.Core.GameObservers
                 if (!InList)
                 {
                     HostRun = LeagueRunOpp = null;
-                    return $"[sD][sR]{name} was not on a submitted decklist. This is not a league match.";
+                    return $"[sD][sR] {name} was not on a submitted decklist. This is not a league match.";
                 }
             }
             return null;
@@ -75,7 +75,7 @@ namespace PDBot.Core.GameObservers
             {
                 if (loud)
                 {
-                    match.SendChat($"[sD][sR]Error contacting pennydreadfulmagic.com, Please @[Report] manually!");
+                    match.SendChat($"[sD][sR] Error contacting pennydreadfulmagic.com, Please @[Report] manually!");
                 }
                 return false;
             }
@@ -83,8 +83,8 @@ namespace PDBot.Core.GameObservers
             {
                 if (loud)
                 {
-                    match.SendChat($"[sD][sR]This is not a valid @[League] pairing!");
-                    match.SendChat($"[sD][sR]{match.Players[0]}, you do not have an active run.");
+                    match.SendChat($"[sD][sR] This is not a valid @[League] pairing!");
+                    match.SendChat($"[sD][sR] {match.Players[0]}, you do not have an active run.");
                 }
 
                 return false;
@@ -99,7 +99,7 @@ namespace PDBot.Core.GameObservers
             {
                 if (loud)
                 {
-                    match.SendChat($"[sD][sR]Error contacting pennydreadfulmagic.com, Please @[Report] manually!");
+                    match.SendChat($"[sD][sR] Error contacting pennydreadfulmagic.com, Please @[Report] manually!");
                 }
                 return false;
             }
@@ -108,28 +108,28 @@ namespace PDBot.Core.GameObservers
             {
                 if (File.Exists(Path.Combine("Updates", "urgent.txt")))
                 {
-                    match.SendChat("[sD]PDBot will be going down for scheduled maintenance.  Please @[Report] this league match manually.");
+                    match.SendChat("[sD] PDBot will be going down for scheduled maintenance.  Please @[Report] this league match manually.");
                 }
 
                 if (loud)
-                    match.SendChat($"[sD]Good luck in your @[League] match!");
+                    match.SendChat($"[sD] Good luck in your @[League] match!");
                 else if (match.GameRoom == Room.GettingSerious)
-                    match.SendChat($"[sD]If this is a league game, don't forget to @[Report]!\nIf you do not want this match to be auto-reported, type !notleague");
+                    match.SendChat($"[sD] If this is a league game, don't forget to @[Report]!\nIf you do not want this match to be auto-reported, type !notleague");
                 else
-                    match.SendChat($"[sD]If this is a league game, don't forget to @[Report]!");
+                    match.SendChat($"[sD] If this is a league game, don't forget to @[Report]!");
                 match.Log($"[League] {HostRun} ({HostRun.Id}) vs {LeagueRunOpp} ({LeagueRunOpp.Id})");
                 return true;
 
             }
             else if (loud)
             {
-                match.SendChat($"[sD][sR]This is not a valid @[League] pairing!");
+                match.SendChat($"[sD][sR] This is not a valid @[League] pairing!");
                 if (HostRun == null)
-                    match.SendChat($"[sD][sR]{match.Players[0]}, you do not have an active run.");
+                    match.SendChat($"[sD][sR] {match.Players[0]}, you do not have an active run.");
                 else if (LeagueRunOpp == null)
-                    match.SendChat($"[sD][sR]{opp}, you do not have an active run.");
+                    match.SendChat($"[sD][sR] {opp}, you do not have an active run.");
                 else
-                    match.SendChat($"[sD][sR]You have both already played each other with these decks.");
+                    match.SendChat($"[sD][sR] You have both already played each other with these decks.");
                 HostRun = null;
                 LeagueRunOpp = null;
                 return false;

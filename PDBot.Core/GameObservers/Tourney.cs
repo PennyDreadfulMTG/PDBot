@@ -80,6 +80,8 @@ namespace PDBot.Core.GameObservers
                 channel = "#PCT";
             else if (IsPauperPower(match))
                 channel = "#pauperpower";
+            else if (IsModernTimes(match))
+                channel = "#modern";
             return channel;
         }
 
@@ -126,5 +128,13 @@ namespace PDBot.Core.GameObservers
             return false;
 
         }
+
+        private static bool IsModernTimes(IMatch match)
+        {
+            if (match.Format != MagicFormat.Modern)
+                return false;
+            return match.Comments.ToLower().Replace(" ", "").Contains("moderntimes");
+        }
+
     }
 }

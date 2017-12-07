@@ -57,8 +57,8 @@ namespace PDBot.Core.GameObservers
                     else if (IllegalCount == nWarnings)
                     {
                         return $"[sR]{name}[sR] is not legal in {FormatName}.\n" +
-                                "[sG]In order to prevent further spamming, I'll stop warning you now.\n" +
-                                (string.IsNullOrEmpty(MoreInfo) ? "" : $"[sG]For more information about {FormatName}, see {MoreInfo}");
+                                "[sG] In order to prevent further spamming, I'll stop warning you now.\n" +
+                                (string.IsNullOrEmpty(MoreInfo) ? "" : $"[sG] For more information about {FormatName}, see {MoreInfo}");
                     }
 
                 }
@@ -138,7 +138,7 @@ namespace PDBot.Core.GameObservers
                 {
                     NotTransforms.Add(name);
                     Console.WriteLine(name);
-                    Console.WriteLine(c);
+                    //Console.WriteLine(c);
                 }
 
                 return false;

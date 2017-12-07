@@ -11,7 +11,7 @@ namespace PDBot.Core.Tournaments
 {
     class TournamentManager : ICronObject
     {
-        Dictionary<string, Gatherling.Round> ActiveEvents { get; set; }
+        Dictionary<string, Gatherling.Round> ActiveEvents { get; set; } = new Dictionary<string, Gatherling.Round>();
 
         private IChatDispatcher chatDispatcher;
         public IChatDispatcher Chat { get { if (chatDispatcher == null) chatDispatcher = Resolver.Helpers.GetChatDispatcher(); return chatDispatcher; } }
@@ -42,20 +42,20 @@ namespace PDBot.Core.Tournaments
             if (room != null)
             {
                 var builder = new StringBuilder();
-                builder.Append("[sD]");
+                builder.Append($"[sD] Pairings for round {round.RoundNum}:\n");
                 foreach (var pairing in round.Matches)
                 {
                     if (pairing.Res == "BYE")
                     {
-                        builder.Append("[sG]");
+                        builder.Append("[sG] ");
                     }
                     else if (pairing.Res == "vs.")
                     {
-                        builder.Append("[sR]");
+                        builder.Append("[sR] ");
                     }
                     else
                     {
-                        builder.Append("[sT]");
+                        builder.Append("[sT] ");
                     }
                     builder.Append(pairing.ToString());
                     builder.Append("\n");
@@ -79,6 +79,10 @@ namespace PDBot.Core.Tournaments
                     return "#heirloom";
                 case "Community Legacy League":
                     return "#CLL";
+                case "PauperPower":
+                    return "#pauperpower";
+                case "Modern Times":
+                    return "#modern";
                 default:
                     break;
             }

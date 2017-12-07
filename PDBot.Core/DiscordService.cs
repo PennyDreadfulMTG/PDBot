@@ -419,11 +419,19 @@ namespace PDBot.Discord
             { "sj", "19" },
             { "sk", "20" },
             { "sX", "XX" },
-            // TODO: twobrid
-            // TODO: Implement the rest of these
+            // twobrid
+            { "s&gt,", "2G" },
+            { "s&lt,", "2R" },
+            {  "s%", "2B" },
+            { "s@", "2U" },
+            { "s!", "2W" },
+            // Misc
             { "sS", ":slight_smile:" },
             { "sF", ":frowning:" },
             { "sY", ":nauseated_face:" },
+            { "sMute", ":zipper_mouth:" },
+            { "sZ", ":zzz:" },
+            { "sAdept", ":eye:" },
         };
     }
 }
