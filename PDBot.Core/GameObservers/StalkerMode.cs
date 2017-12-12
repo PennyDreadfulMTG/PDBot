@@ -26,7 +26,7 @@ namespace PDBot.Core.GameObservers
 
         public void ProcessWinner(string winner, int gameID)
         {
-
+            // Stalker doesn't care who wins.
         }
 
         public bool ShouldJoin(IMatch match)

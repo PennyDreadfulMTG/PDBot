@@ -34,15 +34,15 @@ namespace PDBot.Core
 
             if (value == MagicFormat.Freeform && IsPenny(comment))
                 value = MagicFormat.PennyDreadful;
-            if (value == MagicFormat.Commander && IsPenny(comment))
+            else if (value == MagicFormat.Commander && IsPenny(comment))
                 value = MagicFormat.PennyDreadfulCommander;
-            if (value == MagicFormat.Commander1v1 && IsPenny(comment))
+            else if (value == MagicFormat.Commander1v1 && IsPenny(comment))
                 value = MagicFormat.PennyDreadfulCommander;
-            if (value == MagicFormat.Legacy && IsHeirloom(comment))
+            else if (value == MagicFormat.Legacy && IsHeirloom(comment))
                 value = MagicFormat.Heirloom;
-            if (value == MagicFormat.Freeform && IsFrontier(comment))
+            else if (value == MagicFormat.Freeform && IsFrontier(comment))
                 value = MagicFormat.Frontier;
-            if (value == MagicFormat.Freeform && IsSquire(comment))
+            else if (value == MagicFormat.Freeform && IsSquire(comment))
                 value = MagicFormat.Squire;
             // If we want to someday support other weird formats, add checks them here.
             return value;

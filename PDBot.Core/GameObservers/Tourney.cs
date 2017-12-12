@@ -10,7 +10,7 @@ namespace PDBot.Core.GameObservers
 {
     class Tourney : IGameObserver
     {
-        private IMatch match;
+        private readonly IMatch match;
 
         public Tourney()
         {

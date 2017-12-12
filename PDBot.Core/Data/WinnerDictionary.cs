@@ -9,7 +9,7 @@ namespace PDBot.Core.Data
     public class WinnerDictionary : Dictionary<int, string>
     {
         [Serializable]
-        public struct Record
+        public struct Record : IEquatable<Record>
         {
             public Record(string player, int wins)
             {
@@ -27,6 +27,11 @@ namespace PDBot.Core.Data
             {
                 get;
                 private set;
+            }
+
+            public bool Equals(Record other)
+            {
+                return this.Player.Equals(other.Player) && this.Wins.Equals(other.Wins);
             }
 
             public override string ToString()

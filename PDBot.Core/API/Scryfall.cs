@@ -23,7 +23,9 @@ namespace PDBot.API
         public static Card GetCard(string name)
         {
             if (Cache.ContainsKey(name))
+            {
                 return Cache[name];
+            }
 
             var address = $"cards/named?exact={name}";
             var card = HitAPI(address);
@@ -33,7 +35,10 @@ namespace PDBot.API
         public static Card GetCardFromCatID(int id)
         {
             if (IDCache.ContainsKey(id))
+            {
                 return IDCache[id];
+            }
+
             System.Threading.Thread.Sleep(30);
             var address = $"cards/mtgo/{id}";
             var card = HitAPI(address);
@@ -50,10 +55,10 @@ namespace PDBot.API
             try
             {
 
-            using (var wc = new WebClient
-            {
-                BaseAddress = "https://api.scryfall.com/"
-            })
+                using (var wc = new WebClient
+                {
+                    BaseAddress = "https://api.scryfall.com/"
+                })
                 {
                     var blob = wc.DownloadString(address);
                     var json = Newtonsoft.Json.JsonConvert.DeserializeObject(blob) as JObject;
@@ -72,7 +77,10 @@ namespace PDBot.API
             {
                 var card = new Card(json);
                 if (card.CatID != -1)
+                {
                     IDCache[card.CatID] = card;
+                }
+
                 foreach (var name in card.Names)
                 {
                     Cache[name] = card;
@@ -116,11 +124,13 @@ namespace PDBot.API
                 {
                     var c = ParseJson(jo as JObject);
                     if (c != null)
+                    {
                         yield return c;
+                    }
                 }
                 if (json.Value<bool>("has_more"))
                 {
-                    foreach (var more in Scryfall.HitMultiCardAPI(json.Value<string>("next_page")))
+                    foreach (var more in HitMultiCardAPI(json.Value<string>("next_page")))
                     {
                         yield return more;
                     }

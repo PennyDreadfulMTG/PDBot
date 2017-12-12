@@ -16,15 +16,15 @@ namespace PDBot.Core.Data
         /// <summary>
         /// A list of tokens that are too good for the word "token"
         /// </summary>
-        public static string[] LegendaryTokens = new string[] { "Marit Lage", "Kaldra", "Ragavan", "Ashaya, the Awoken World", "Stangg Twin", "Voja", "Urami", "Tuktuk the Returned", "Servo" };
+        public static string[] LegendaryTokens { get; } = new string[] { "Marit Lage", "Kaldra", "Ragavan", "Ashaya, the Awoken World", "Stangg Twin", "Voja", "Urami", "Tuktuk the Returned", "Servo" };
 
         public string Line { get; private set; }
-        public List<string> Cards = new List<string>();
-        public List<string> Tokens = new List<string>();
+        public List<string> Cards { get; } = new List<string>();
+        public List<string> Tokens { get; } = new List<string>();
 
         public GameLogLine(string line, IMatch match)
         {
-            Match createsMatch = NewToken.Match(line);
+            var createsMatch = NewToken.Match(line);
             if (createsMatch.Success)
             {
                 var name = createsMatch.Groups["name"].Value;
@@ -34,7 +34,7 @@ namespace PDBot.Core.Data
                 }
             }
             this.Line = line;
-            int i = -1;
+            var i = -1;
             while ((i = line.IndexOf('[')) != -1)
             {
                 line = line.Substring(i);

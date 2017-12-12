@@ -20,7 +20,7 @@ namespace PDBot.API
             }
         }
 
-        public static List<Bug> Bugs = new List<Bug>();
+        public static List<Bug> Bugs { get; } = new List<Bug>();
 
         static DateTime LastUpdate;
 

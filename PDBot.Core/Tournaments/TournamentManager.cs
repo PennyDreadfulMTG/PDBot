@@ -43,6 +43,7 @@ namespace PDBot.Core.Tournaments
             {
                 var builder = new StringBuilder();
                 builder.Append($"[sD] Pairings for round {round.RoundNum}:\n");
+                int misses = 0;
                 foreach (var pairing in round.Matches)
                 {
                     if (pairing.Res == "BYE")
@@ -55,12 +56,22 @@ namespace PDBot.Core.Tournaments
                     }
                     else
                     {
+                        misses += 1;
                         builder.Append("[sT] ");
                     }
                     builder.Append(pairing.ToString());
                     builder.Append("\n");
                 }
-                Chat.SendPM(room, builder.ToString().Trim());
+                if (misses == 0)
+                {
+                    int minutes = (DateTime.UtcNow.Minute + 10) % 60;
+                    builder.Append($"[sPig] Free win time: XX:{minutes.ToString("D2")}!");
+                }
+                if (misses < 3)
+                {
+                    Chat.SendPM(room, builder.ToString());
+                }
+                // If misses >= 3, we have clearly just rebooted.  Don't send anything.
             }
         }
 
@@ -86,6 +97,9 @@ namespace PDBot.Core.Tournaments
                 default:
                     break;
             }
+            if (series.StartsWith("CLL Quarterly"))
+                return "#CLL";
+
             return null;
         }
     }
