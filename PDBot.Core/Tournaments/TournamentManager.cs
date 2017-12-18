@@ -69,7 +69,12 @@ namespace PDBot.Core.Tournaments
                 }
                 if (misses < 3)
                 {
-                    Chat.SendPM(room, builder.ToString());
+                    var sent = Chat.SendPM(room, builder.ToString());
+                    if (!sent)
+                    {
+                        Chat.Join(room);
+                        Chat.SendPM(room, builder.ToString());
+                    }
                 }
                 // If misses >= 3, we have clearly just rebooted.  Don't send anything.
             }
@@ -94,10 +99,14 @@ namespace PDBot.Core.Tournaments
                     return "#pauperpower";
                 case "Modern Times":
                     return "#modern";
+                case "Pauper Classic Tuesdays":
+                    return "#pct";
+                case "Vintage MTGO Swiss":
+                    return "#vintageswiss";
                 default:
                     break;
             }
-            if (series.StartsWith("CLL Quarterly"))
+            if (series.StartsWith("CLL Quarterly") || series.StartsWith("Community Legacy League"))
                 return "#CLL";
 
             return null;

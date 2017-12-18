@@ -10,6 +10,12 @@ namespace Tests.Mocks
 {
     class ChatMock : IChatDispatcher
     {
+        public void Join(string room)
+        {
+            Assert.That(room, Is.Not.Null.Or.Empty);
+
+        }
+
         public bool SendPM(string Username, string message)
         {
             Assert.That(Username, Is.Not.Null.Or.Empty);

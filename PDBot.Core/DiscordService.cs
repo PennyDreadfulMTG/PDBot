@@ -103,7 +103,7 @@ namespace PDBot.Discord
 
         public static Task SendLogToChannel(ulong channel, int id)
         {
-            return SendLogToChannel(FindChannel(null, channel), id.ToString());
+            return SendLogToChannel(FindChannel(channel), id.ToString());
         }
 
         private static async Task SendLogToChannel(ISocketMessageChannel channel, string id)
@@ -143,7 +143,7 @@ namespace PDBot.Discord
 
         public static async Task SendToGeneralAsync(string msg, bool pin = false)
         {
-            var channel = FindChannel("Penny Dreadful", 207281932214599682);
+            var channel = FindChannel(207281932214599682);
             var res = await SendMessageAsync(msg, channel);
             if (pin)
             {
@@ -167,60 +167,60 @@ namespace PDBot.Discord
 
         public static Task SendToLFGAsync(string msg)
         {
-            var channel = FindChannel("Penny Dreadful", 209488769567424512);
+            var channel = FindChannel(209488769567424512);
             return SendMessageAsync(msg, channel);
         }
 
         public static Task SendToPDHAsync(string msg)
         {
-            var channel = FindChannel("Penny Dreadful", 234787370711515136);
+            var channel = FindChannel(234787370711515136);
             return SendMessageAsync(msg, channel);
         }
 
         public static Task SendToLeagueAsync(string msg)
         {
-            var channel = FindChannel("Penny Dreadful", 220320082998460416);
+            var channel = FindChannel(220320082998460416);
             return SendMessageAsync(msg, channel);
         }
 
         public static Task SendToChatRoomsAsync(string msg)
         {
-            var channel = FindChannel("Penny Dreadful", 334220558159970304);
+            var channel = FindChannel(334220558159970304);
             return SendMessageAsync(msg, channel);
         }
 
         public static Task SendToCommunityLegacyLeague(string msg)
         {
-            var channel = FindChannel("Community Legacy League", 341709019058143242);
+            var channel = FindChannel(341709019058143242);
             return SendMessageAsync(msg, channel);
         }
 
         public static Task SendToHeirloom(string msg)
         {
-            var channel = FindChannel("torskafton", 246656730535034881);
+            var channel = FindChannel(246656730535034881);
             return SendMessageAsync(msg, channel);
         }
 
         public static Task SendToTestAsync(string msg)
         {
             // This one goes to #botspam on Katelyn's test server.
-            var channel = FindChannel("TestServer", 226920619302715392);
+            var channel = FindChannel(226920619302715392);
             return SendMessageAsync(msg, channel);
         }
 
         public static Task SendToPMLog(string msg)
         {
-            var channel = FindChannel("TestServer", 331405678218313730);
+            var channel = FindChannel(331405678218313730);
             return SendMessageAsync(msg, channel);
         }
 
-        public static Task SendToArbiraryChannel(string msg, string ServerName, ulong Channel)
+        public static Task SendToArbiraryChannel(string msg, ulong Channel)
         {
-            var channel = FindChannel(ServerName, Channel);
+            var channel = FindChannel(Channel);
             return SendMessageAsync(msg, channel);
         }
 
-        private static SocketTextChannel FindChannel(string GuildName, ulong chanId)
+        private static SocketTextChannel FindChannel(ulong chanId)
         {
             while (!client.Guilds.Any() || !client.Guilds.All(c => c.IsSynced))
                 Thread.Sleep(100);
@@ -364,6 +364,28 @@ namespace PDBot.Discord
                 Console.WriteLine("Tried disconnecting from Discord, but already disconnected.");
                 return false;
             }
+        }
+
+        public static Task EchoChannelToDiscord(string chan, string message)
+        {
+            switch (chan.ToLowerInvariant())
+            {
+                case "cll":
+                    return SendToCommunityLegacyLeague(message);
+                case "heirloom":
+                    return SendToHeirloom(message);
+                case "squire":
+                    return SendToArbiraryChannel(message, 377307172599496704);
+                case "pauperpower":
+                case "pct":
+                    return SendToArbiraryChannel(message, 387127632266788870);
+                case "modern":
+                    return SendToArbiraryChannel(message, 294436932371611659);
+            }
+            if (chan.StartsWith("PD", StringComparison.CurrentCultureIgnoreCase))
+                return SendToChatRoomsAsync(message);
+            else
+                return SendToArbiraryChannel(message, 352107915173167106);
         }
 
         private static readonly Dictionary<string, string> Emotes = new Dictionary<string, string>

@@ -9,5 +9,6 @@ namespace PDBot.Core.Interfaces
     public interface IChatDispatcher
     {
         bool SendPM(string Username, string message);
+        void Join(string room);
     }
 }

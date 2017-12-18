@@ -94,7 +94,7 @@ namespace PDBot.Core.GameObservers
             if (first.Wins == 2)
             {
                 var loser = match.Players.FirstOrDefault(d => d != winner);
-                DiscordService.SendToArbiraryChannel($":trophy: {winner} {record} {loser}", "MTG Austream", 291179039291473920);
+                DiscordService.SendToArbiraryChannel($":trophy: {winner} {record} {loser}", 291179039291473920);
             }
         }
 
