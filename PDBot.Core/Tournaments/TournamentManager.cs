@@ -11,7 +11,7 @@ namespace PDBot.Core.Tournaments
 {
     class TournamentManager : ICronObject
     {
-        Dictionary<string, Gatherling.Round> ActiveEvents { get; set; } = new Dictionary<string, Gatherling.Round>();
+        public Dictionary<string, Gatherling.Round> ActiveEvents { get; } = new Dictionary<string, Gatherling.Round>();
 
         private IChatDispatcher chatDispatcher;
         public IChatDispatcher Chat { get { if (chatDispatcher == null) chatDispatcher = Resolver.Helpers.GetChatDispatcher(); return chatDispatcher; } }
@@ -42,8 +42,8 @@ namespace PDBot.Core.Tournaments
             if (room != null)
             {
                 var builder = new StringBuilder();
-                builder.Append($"[sD] Pairings for round {round.RoundNum}:\n");
-                int misses = 0;
+                builder.Append($"[sD] Pairings for Round {round.RoundNum}:\n");
+                var misses = 0;
                 foreach (var pairing in round.Matches)
                 {
                     if (pairing.Res == "BYE")

@@ -9,6 +9,7 @@ namespace PDBot.Core.Interfaces
 {
     public interface IMatch
     {
+        int MatchID { get; }
         string[] Players { get; }
         string Comments { get; }
         WinnerDictionary Winners { get; }

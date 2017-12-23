@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using PDBot.Data;
 using System;
@@ -91,7 +91,7 @@ namespace PDBot.API
 
             public bool Retire()
             {
-                NameValueCollection nameValueCollection = new NameValueCollection
+                var nameValueCollection = new NameValueCollection
                 {
                     { "api_token", API_TOKEN }
                 };
@@ -166,15 +166,16 @@ namespace PDBot.API
             return new Deck(jObject);
         }
 
-        public static void UploadResults(Deck winningRun, Deck losingRun, string record)
+        public static void UploadResults(Deck winningRun, Deck losingRun, string record, int MatchID)
         {
             Api.UploadValues("/report/", new System.Collections.Specialized.NameValueCollection
             {
-                //{ "api_token", API_TOKEN },
+                { "api_token", API_TOKEN },
                 { "entry", winningRun.Id.ToString() },
                 { "opponent", losingRun.Id.ToString() },
                 { "result", record },
-                { "draws", "0" }
+                { "draws", "0" },
+                { "matchID", MatchID.ToString() },
             });
         }
 

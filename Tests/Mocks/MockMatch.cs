@@ -54,6 +54,8 @@ namespace Tests.Mocks
 
         public List<string> NamedTokens { get; } = new List<string>();
 
+        public int MatchID => 1;
+
         public string Log(string message)
         {
             Console.WriteLine(message);

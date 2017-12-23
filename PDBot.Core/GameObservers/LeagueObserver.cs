@@ -149,7 +149,7 @@ namespace PDBot.Core.GameObservers
                     var LosingRun = (new DecksiteApi.Deck[] { HostRun, LeagueRunOpp }).Single(d => d != WinningRun);
                     if (Features.PublishResults)
                     {
-                        DecksiteApi.UploadResults(WinningRun, LosingRun, record);
+                        DecksiteApi.UploadResults(WinningRun, LosingRun, record, match.MatchID);
                         DiscordService.SendToLeagueAsync($":trophy: {WinningRun.Person} {record} {LosingRun.Person}");
                     }
                     else
