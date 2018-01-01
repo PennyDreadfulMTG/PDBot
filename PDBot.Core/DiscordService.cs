@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Discord;
@@ -368,20 +368,29 @@ namespace PDBot.Discord
 
         public static Task EchoChannelToDiscord(string chan, string message)
         {
+            bool success = false;
             switch (chan.ToLowerInvariant())
             {
                 case "cll":
-                    return SendToCommunityLegacyLeague(message);
+                    success =  SendToCommunityLegacyLeague(message) != null;
+                    break;
                 case "heirloom":
-                    return SendToHeirloom(message);
+                    success = SendToHeirloom(message) != null;
+                    break;
                 case "squire":
-                    return SendToArbiraryChannel(message, 377307172599496704);
+                    success = SendToArbiraryChannel(message, 377307172599496704) != null;
+                    break;
                 case "pauperpower":
                 case "pct":
-                    return SendToArbiraryChannel(message, 387127632266788870);
+                    success = SendToArbiraryChannel(message, 387127632266788870) != null;
+                    break;
                 case "modern":
-                    return SendToArbiraryChannel(message, 294436932371611659);
+                    success = SendToArbiraryChannel(message, 294436932371611659) != null;
+                    break;
             }
+            if (success)
+                return Task.FromResult(success);
+
             if (chan.StartsWith("PD", StringComparison.CurrentCultureIgnoreCase))
                 return SendToChatRoomsAsync(message);
             else

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,7 +19,7 @@ namespace PDBot.Commands
 
         public async Task<string> RunAsync(string user, IMatch game, string[] args)
         {
-            return $"Join our Discord community! https://discord.gg/RxhTEEP";
+            return await Task.FromResult($"Join our Discord community! https://discord.gg/RxhTEEP");
         }
     }
 }
