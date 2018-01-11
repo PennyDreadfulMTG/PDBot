@@ -1,4 +1,4 @@
-﻿using PDBot.API;
+using PDBot.API;
 using PDBot.Core.Interfaces;
 using PDBot.Interfaces;
 using System;
@@ -19,6 +19,7 @@ namespace PDBot.Core.Tournaments
         public async Task EveryMinute()
         {
             var events = await Gatherling.GatherlingDotCom.GetActiveEventsAsync();
+            events = events.Union(await Gatherling.PennyDreadful.GetActiveEventsAsync()).ToArray();
             foreach (var ae in events)
             {
                 if (!ActiveEvents.ContainsKey(ae))

@@ -1,4 +1,4 @@
-﻿using PDBot.API;
+using PDBot.API;
 using PDBot.Core.Data;
 using PDBot.Core.Interfaces;
 using PDBot.Discord;
@@ -65,6 +65,7 @@ namespace PDBot.Core.GameObservers
         {
             if (match.Players.Length != 2)
                 return false;
+            await Task.Delay(TimeSpan.FromSeconds(2)); // Sometimes PDBot gets into a game before one of the players.  If this happens, they miss the message.
             var desc = match.Comments.ToLower();
             var loud = desc.Contains("league");
             try

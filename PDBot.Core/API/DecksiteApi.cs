@@ -179,6 +179,23 @@ namespace PDBot.API
             });
         }
 
+        public static void UploadLog(int id)
+        {
+
+            var lines = File.ReadAllText($"Logs/{id}.txt");
+            using (var api = Api)
+            {
+                api.UploadValues("https://logs.pennydreadfulmagic.com/api/upload",
+                    new NameValueCollection
+                    {
+                        { "api_token", API_TOKEN },
+                        { "match_id", id.ToString() },
+                        { "lines",  lines },
+                    });
+            }
+
+        }
+
         public static Rotation GetRotation()
         {
             var blob = Api.DownloadString($"/api/rotation");

@@ -13,13 +13,13 @@ namespace PDBot.Commands
     {
         public string[] Handle => new string[] { "!discord" };
 
-        public bool AcceptsGameChat => false;
+        public bool AcceptsGameChat => true;
 
-        public bool AcceptsPM => false;
+        public bool AcceptsPM => true;
 
-        public async Task<string> RunAsync(string user, IMatch game, string[] args)
+        public Task<string> RunAsync(string user, IMatch game, string[] args)
         {
-            return await Task.FromResult($"Join our Discord community! https://discord.gg/RxhTEEP");
+            return Task.FromResult($"Join our Discord community! https://discord.gg/RxhTEEP");
         }
     }
 }
