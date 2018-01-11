@@ -111,10 +111,20 @@ namespace PDBot.Discord
             var file = Path.Combine("Logs", id + ".txt");
             if (File.Exists(file))
             {
+                await channel.TriggerTypingAsync();
+                try
+                {
+                    API.DecksiteApi.UploadLog(int.Parse(id));
+                    await channel.SendMessageAsync($"https://logs.pennydreadfulmagic.com/match/{id}/");
+
+                }
+                catch (WebException)
+                {
+
                 var contents = File.ReadAllLines(file);
                 var caption = $"Format={contents[0]}, Comment=\"{contents[1]}\", Players=[{contents[3]}]";
-                await channel.TriggerTypingAsync();
                 await channel.SendFileAsync(file, caption);
+                }
             }
             else
             {

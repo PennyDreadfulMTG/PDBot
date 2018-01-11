@@ -4,6 +4,7 @@ using PDBot.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,14 +20,31 @@ namespace PDBot.Core.Tournaments
         public async Task EveryMinute()
         {
             var events = await Gatherling.GatherlingDotCom.GetActiveEventsAsync();
-            events = events.Union(await Gatherling.PennyDreadful.GetActiveEventsAsync()).ToArray();
+            try
+            {
+                //events = events.Union(await Gatherling.PennyDreadful.GetActiveEventsAsync()).ToArray();
+            }
+#pragma warning disable CC0004 // Catch block cannot be empty
+            catch (WebException)
+            {
+
+            }
+#pragma warning restore CC0004 // Catch block cannot be empty
             foreach (var ae in events)
             {
                 if (!ActiveEvents.ContainsKey(ae))
                 {
                     ActiveEvents.Add(ae, new Gatherling.Round());
                 }
-                var round = await Gatherling.GatherlingDotCom.GetCurrentPairings(ae);
+                Gatherling.Round round;
+                try
+                {
+                    round = await Gatherling.GatherlingDotCom.GetCurrentPairings(ae).ConfigureAwait(false);
+                }
+                catch (WebException c)
+                {
+                    throw new WebException($"Error retrieving {ae} round.", c);
+                }
                 if (round.RoundNum > ActiveEvents[ae].RoundNum)
                 {
                     ActiveEvents[ae] = round;
