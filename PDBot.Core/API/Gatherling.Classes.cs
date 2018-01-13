@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -41,6 +41,24 @@ namespace PDBot.API
             {
                 public string Host { get; set; }
                 public string Passkey { get; set; }
+            }
+        }
+
+        public class Event
+        {
+            internal Gatherling Gatherling;
+
+            [JsonProperty("name")]
+            public string Name { get; set; }
+
+
+            public string Channel { get; set; }
+
+            public string Series { get; set; }
+
+            public Task<Round> GetCurrentPairings()
+            {
+                return Gatherling.GetCurrentPairings(Name);
             }
         }
 

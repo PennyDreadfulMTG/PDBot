@@ -1,4 +1,4 @@
-﻿using HtmlAgilityPack;
+using HtmlAgilityPack;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using PDBot.API.GatherlingExtensions;
@@ -57,7 +57,7 @@ namespace PDBot.API
             }
         }
 
-        public async Task<string[]> GetActiveEventsAsync()
+        public async Task<Event[]> GetActiveEventsAsync()
         {
             if (ApiVersion >= 1)
             {
@@ -68,9 +68,9 @@ namespace PDBot.API
                 var activeEvents = tables.First(t => t.Descendants("b").FirstOrDefault(b => b.InnerText.Trim() == "ACTIVE EVENTS") != null);
                 var rows = activeEvents.Descendants("tr");
                 var paths = rows.Select(tr => tr.Descendants("a").FirstOrDefault()?.Attributes["href"]?.Value);
-                return paths.Where(n => n != null).Select(n => n.Replace("eventreport.php?event=", string.Empty)).ToArray();
+                return paths.Where(n => n != null).Select(n => n.Replace("eventreport.php?event=", string.Empty)).Select(n => LoadEvent(n)).ToArray();
             }
-            return await Task.FromResult(new string[0]);
+            return await Task.FromResult(new Event[0]);
         }
 
         private async Task Scrape(Uri uri, HtmlDocument document)
@@ -144,6 +144,53 @@ namespace PDBot.API
             };
             webClient.Headers[HttpRequestHeader.UserAgent] = "infobot/PDBot";
             return webClient;
+        }
+
+        public Event LoadEvent(string name)
+        {
+            return new Event
+            {
+                Name = name,
+                Series = name.Trim(' ', '.', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'),
+                Channel = RoomForSeries(name),
+                Gatherling = this,
+            };
+        }
+
+        /// <summary>
+        /// Hack for v0 events.
+        /// </summary>
+        private static string RoomForSeries(string eventName)
+        {
+            var series = eventName.Trim(' ', '.', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
+            switch (series)
+            {
+                case "Penny Dreadful Thursdays":
+                    return "#PDT";
+                case "Penny Dreadful Saturdays":
+                case "Penny Dreadful Sundays":
+                    return "#PDS";
+                case "Penny Dreadful Mondays":
+                    return "#PDM";
+                case "Classic Heirloom":
+                    return "#heirloom";
+                case "Community Legacy League":
+                    return "#CLL";
+                case "PauperPower":
+                    return "#pauperpower";
+                case "Modern Times":
+                    return "#modern";
+                case "Pauper Classic Tuesdays":
+                    return "#pct";
+                case "Vintage MTGO Swiss":
+                    return "#vintageswiss";
+                default:
+                    break;
+            }
+            if (series.StartsWith("CLL Quarterly") || series.StartsWith("Community Legacy League"))
+                return "#CLL";
+
+            return null;
         }
     }
 }

@@ -190,7 +190,8 @@ namespace PDBot.API
 
         public static void UploadLog(int id)
         {
-            var lines = File.ReadAllText($"Logs/{id}.txt");
+            var f = $"Logs/{id}.txt";
+            var lines = File.ReadAllText(f);
             using (var api = Api)
             {
                 api.UploadValues("https://logs.pennydreadfulmagic.com/api/upload",
@@ -199,6 +200,8 @@ namespace PDBot.API
                         { "api_token", API_TOKEN },
                         { "match_id", id.ToString() },
                         { "lines",  lines },
+                        { "start_time_utc", File.GetCreationTimeUtc(f).ToString() },
+                        { "end_time_utc", File.GetLastWriteTimeUtc(f).ToString() },
                     });
             }
         }

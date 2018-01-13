@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+using NUnit.Framework;
 using PDBot.API;
 using System;
 using System.Collections.Generic;
@@ -31,7 +31,7 @@ namespace Tests
         {
             var events = Gatherling.Localhost.GetActiveEventsAsync().GetAwaiter().GetResult();
             Assume.That(events.Length > 0);
-            var pairings = Gatherling.Localhost.GetCurrentPairings(events.First()).GetAwaiter().GetResult();
+            var pairings = events.First().GetCurrentPairings().GetAwaiter().GetResult();
             Assume.That(pairings.Matches.Any());
 
         }

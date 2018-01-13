@@ -12,7 +12,7 @@ namespace PDBot.Core.Tournaments
 {
     class TournamentManager : ICronObject
     {
-        public Dictionary<string, Gatherling.Round> ActiveEvents { get; } = new Dictionary<string, Gatherling.Round>();
+        public Dictionary<Gatherling.Event, Gatherling.Round> ActiveEvents { get; } = new Dictionary<Gatherling.Event, Gatherling.Round>();
 
         private IChatDispatcher chatDispatcher;
         public IChatDispatcher Chat { get { if (chatDispatcher == null) chatDispatcher = Resolver.Helpers.GetChatDispatcher(); return chatDispatcher; } }
@@ -39,7 +39,7 @@ namespace PDBot.Core.Tournaments
                 Gatherling.Round round;
                 try
                 {
-                    round = await Gatherling.GatherlingDotCom.GetCurrentPairings(ae).ConfigureAwait(false);
+                    round = await ae.GetCurrentPairings().ConfigureAwait(false);
                 }
                 catch (WebException c)
                 {
@@ -53,11 +53,9 @@ namespace PDBot.Core.Tournaments
             }
         }
 
-        private void PostPairings(string eventName, Gatherling.Round round)
+        private void PostPairings(Gatherling.Event eventModel, Gatherling.Round round)
         {
-            var series = eventName.Trim(' ', '.', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
-            string room;
-            room = RoomForSeries(series);
+            var room = eventModel.Channel;
             if (room != null)
             {
                 var builder = new StringBuilder();
@@ -97,38 +95,6 @@ namespace PDBot.Core.Tournaments
                 }
                 // If misses >= 3, we have clearly just rebooted.  Don't send anything.
             }
-        }
-
-        private static string RoomForSeries(string series)
-        {
-            switch (series)
-            {
-                case "Penny Dreadful Thursdays":
-                    return "#PDT";
-                case "Penny Dreadful Saturdays":
-                case "Penny Dreadful Sundays":
-                    return "#PDS";
-                case "Penny Dreadful Mondays":
-                    return "#PDM";
-                case "Classic Heirloom":
-                    return "#heirloom";
-                case "Community Legacy League":
-                    return "#CLL";
-                case "PauperPower":
-                    return "#pauperpower";
-                case "Modern Times":
-                    return "#modern";
-                case "Pauper Classic Tuesdays":
-                    return "#pct";
-                case "Vintage MTGO Swiss":
-                    return "#vintageswiss";
-                default:
-                    break;
-            }
-            if (series.StartsWith("CLL Quarterly") || series.StartsWith("Community Legacy League"))
-                return "#CLL";
-
-            return null;
         }
     }
 }
