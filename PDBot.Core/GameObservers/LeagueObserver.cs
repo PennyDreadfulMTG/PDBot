@@ -74,6 +74,7 @@ namespace PDBot.Core.GameObservers
             }
             catch (Exception)
             {
+                match.Log($"[League] Unable to reach PDM");
                 if (loud)
                 {
                     match.SendChat($"[sD][sR] Error contacting pennydreadfulmagic.com, Please @[Report] manually!");
@@ -82,6 +83,7 @@ namespace PDBot.Core.GameObservers
             }
             if (HostRun == null)
             {
+                match.Log($"[League] Host doesn't have active run");
                 if (loud)
                 {
                     match.SendChat($"[sD][sR] This is not a valid @[League] pairing!");
@@ -98,6 +100,7 @@ namespace PDBot.Core.GameObservers
             }
             catch (Exception)
             {
+                match.Log($"[League] Unable to reach PDM");
                 if (loud)
                 {
                     match.SendChat($"[sD][sR] Error contacting pennydreadfulmagic.com, Please @[Report] manually!");
@@ -122,21 +125,32 @@ namespace PDBot.Core.GameObservers
                 return true;
 
             }
-            else if (loud)
+            else 
             {
                 match.SendChat($"[sD][sR] This is not a valid @[League] pairing!");
                 if (HostRun == null)
-                    match.SendChat($"[sD][sR] {match.Players[0]}, you do not have an active run.");
+                {
+                    if (loud)
+                        match.SendChat($"[sD][sR] {match.Players[0]}, you do not have an active run.");
+                match.Log($"[League] {match.Players[0]} doesn't have active run");
+                }
                 else if (LeagueRunOpp == null)
-                    match.SendChat($"[sD][sR] {opp}, you do not have an active run.");
+                {
+                    if (loud)
+                        match.SendChat($"[sD][sR] {opp}, you do not have an active run.");
+                    match.Log($"[League] {opp} doesn't have active run");
+                }
                 else
-                    match.SendChat($"[sD][sR] You have both already played each other with these decks.");
+                {
+                    if (loud)
+                        match.SendChat($"[sD][sR] You have both already played each other with these decks.");
+                    match.Log($"[League] Duplicate Pairing: {HostRun} ({HostRun.Id}) vs {LeagueRunOpp} ({LeagueRunOpp.Id})");
+                }
+
                 HostRun = null;
                 LeagueRunOpp = null;
                 return false;
             }
-            else
-                return false;
         }
 
         public void ProcessWinner(string winner, int gameID)
