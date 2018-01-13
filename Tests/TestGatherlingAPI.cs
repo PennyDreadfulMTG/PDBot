@@ -1,3 +1,4 @@
+using Gatherling;
 using NUnit.Framework;
 using PDBot.API;
 using System;
@@ -13,7 +14,7 @@ namespace Tests
         [TestCase]
         public void TestGatherlingDecks()
         {
-            var deck = Gatherling.PennyDreadful.GetDeckAsync(10564).GetAwaiter().GetResult();
+            var deck = GatherlingClient.PennyDreadful.GetDeckAsync(10564).GetAwaiter().GetResult();
             Assert.AreEqual(true, deck.Found);
             Assert.AreEqual(10564, deck.Id);
             Assert.AreEqual("Dragons!", deck.Name);
@@ -22,14 +23,14 @@ namespace Tests
         [TestCase]
         public void TestVerification()
         {
-            string code = Gatherling.PennyDreadful.GetVerificationCodeAsync("PDBot").GetAwaiter().GetResult();
+            string code = GatherlingClient.PennyDreadful.GetVerificationCodeAsync("PDBot").GetAwaiter().GetResult();
             Assert.IsNotNull(code);
         }
 
         [Theory]
         public void GetActiveEvents()
         {
-            var events = Gatherling.Localhost.GetActiveEventsAsync().GetAwaiter().GetResult();
+            var events = GatherlingClient.Localhost.GetActiveEventsAsync().GetAwaiter().GetResult();
             Assume.That(events.Length > 0);
             var pairings = events.First().GetCurrentPairings().GetAwaiter().GetResult();
             Assume.That(pairings.Matches.Any());

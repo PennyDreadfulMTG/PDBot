@@ -9,10 +9,11 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>PDBot.Core</RootNamespace>
     <AssemblyName>PDBot.Core</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -86,14 +87,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="API\BuggedCards.cs" />
-    <Compile Include="API\CookieAwareWebClient.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="API\DecksiteApi.cs" />
     <Compile Include="API\DecksiteApi.Generated.cs" />
-    <Compile Include="API\Gatherling.Classes.cs" />
-    <Compile Include="API\Gatherling.cs" />
-    <Compile Include="API\Gatherling.Extensions.cs" />
     <Compile Include="API\MtgoStatus.cs" />
     <Compile Include="API\Scryfall.cs" />
     <Compile Include="Commands\Discord.cs" />
@@ -134,6 +129,12 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Gatherling\Gatherling.csproj">
+      <Project>{cacfd6ca-a0a2-447e-be71-b4adcc3835bb}</Project>
+      <Name>Gatherling</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\NETStandard.Library.2.0.1\build\NETStandard.Library.targets" Condition="Exists('..\..\packages\NETStandard.Library.2.0.1\build\NETStandard.Library.targets')" />

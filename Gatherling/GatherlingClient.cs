@@ -1,3 +1,4 @@
+using Gatherling.Models;
 using HtmlAgilityPack;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -10,18 +11,18 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
-namespace PDBot.API
+namespace Gatherling
 {
-    public partial class Gatherling
+    public partial class GatherlingClient
     {
-        public static Gatherling GatherlingDotCom { get; } = new Gatherling("https://gatherling.com/");
-        public static Gatherling PennyDreadful { get; } = new Gatherling("https://gatherling.pennydreadfulmagic.com/");
-        public static Gatherling Pauper { get; } = new Gatherling("https://pdcmagic.com/gatherling/");
-        public static Gatherling Localhost { get; } = new Gatherling("http://127.0.0.1/gatherling/", "xxxx");
+        public static GatherlingClient GatherlingDotCom { get; } = new GatherlingClient("https://gatherling.com/");
+        public static GatherlingClient PennyDreadful { get; } = new GatherlingClient("https://gatherling.pennydreadfulmagic.com/");
+        public static GatherlingClient Pauper { get; } = new GatherlingClient("https://pdcmagic.com/gatherling/");
+        public static GatherlingClient Localhost { get; } = new GatherlingClient("http://127.0.0.1/gatherling/", "xxxx");
 
         public InfoBotSettings.Server Settings { get; }
 
-        private Gatherling(string Hostname, string passkey = null)
+        private GatherlingClient(string Hostname, string passkey = null)
         {
             Settings = new InfoBotSettings().GetServer(Hostname);
             cookies = new CookieContainer();

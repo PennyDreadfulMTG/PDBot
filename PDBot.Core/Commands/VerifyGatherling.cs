@@ -1,4 +1,4 @@
-﻿using PDBot.Interfaces;
+using PDBot.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +8,7 @@ using PDBot.Core.Interfaces;
 using System.Net;
 using System.Xml.Linq;
 using PDBot.API;
+using Gatherling;
 
 namespace PDBot.Commands
 {
@@ -21,7 +22,7 @@ namespace PDBot.Commands
 
         public Task<string> RunAsync(string player, IMatch game, string[] args)
         {
-            return Gatherling.PennyDreadful.GetVerificationCodeAsync(player);
+            return GatherlingClient.PennyDreadful.GetVerificationCodeAsync(player);
         }
     }
 }

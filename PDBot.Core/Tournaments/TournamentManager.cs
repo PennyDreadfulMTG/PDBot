@@ -1,3 +1,5 @@
+using Gatherling;
+using Gatherling.Models;
 using PDBot.API;
 using PDBot.Core.Interfaces;
 using PDBot.Interfaces;
@@ -12,14 +14,14 @@ namespace PDBot.Core.Tournaments
 {
     class TournamentManager : ICronObject
     {
-        public Dictionary<Gatherling.Event, Gatherling.Round> ActiveEvents { get; } = new Dictionary<Gatherling.Event, Gatherling.Round>();
+        public Dictionary<Event, Round> ActiveEvents { get; } = new Dictionary<Event, Round>();
 
         private IChatDispatcher chatDispatcher;
         public IChatDispatcher Chat { get { if (chatDispatcher == null) chatDispatcher = Resolver.Helpers.GetChatDispatcher(); return chatDispatcher; } }
 
         public async Task EveryMinute()
         {
-            var events = await Gatherling.GatherlingDotCom.GetActiveEventsAsync();
+            var events = await GatherlingClient.GatherlingDotCom.GetActiveEventsAsync();
             try
             {
                 //events = events.Union(await Gatherling.PennyDreadful.GetActiveEventsAsync()).ToArray();
@@ -34,9 +36,9 @@ namespace PDBot.Core.Tournaments
             {
                 if (!ActiveEvents.ContainsKey(ae))
                 {
-                    ActiveEvents.Add(ae, new Gatherling.Round());
+                    ActiveEvents.Add(ae, new Round());
                 }
-                Gatherling.Round round;
+                Round round;
                 try
                 {
                     round = await ae.GetCurrentPairings().ConfigureAwait(false);
@@ -53,7 +55,7 @@ namespace PDBot.Core.Tournaments
             }
         }
 
-        private void PostPairings(Gatherling.Event eventModel, Gatherling.Round round)
+        private void PostPairings(Event eventModel, Round round)
         {
             var room = eventModel.Channel;
             if (room != null)
