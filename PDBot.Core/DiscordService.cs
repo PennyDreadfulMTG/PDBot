@@ -24,7 +24,7 @@ namespace PDBot.Discord
 
         static DiscordSocketClient client = new DiscordSocketClient(new DiscordSocketConfig
         {
-            WebSocketProvider = WS4NetProvider.Instance
+            //WebSocketProvider = WS4NetProvider.Instance
         });
 
         public static event EventHandler Ready;
@@ -135,7 +135,7 @@ namespace PDBot.Discord
 
         private static async Task Client_LogAsync(LogMessage arg)
         {
-            Console.WriteLine($"[Discord] {arg.Message}");
+            Console.WriteLine($"[Discord] {arg.ToString()}");
         }
 
         private static async Task Client_DisconnectedAsync(Exception arg)

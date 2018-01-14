@@ -25,18 +25,11 @@ namespace Gatherling
         private GatherlingClient(string Hostname, string passkey = null)
         {
             cookies = new CookieContainer();
-            if (AppContext.TryGetSwitch("Switch.Gatherling.UseAppConfig", out var enabled) && enabled)
+            Settings = new ServerSettings
             {
-                Settings = new InfoBotSettings().GetServer(Hostname);
-            }
-            else
-            {
-                Settings = new ServerSettings
-                {
-                    Host = Hostname,
-                    Passkey = passkey
-                };
-            }
+                Host = Hostname,
+                Passkey = passkey
+            };
             if (string.IsNullOrEmpty(Settings.Passkey) && !string.IsNullOrEmpty(passkey))
             {
                 Settings.Passkey = passkey;
