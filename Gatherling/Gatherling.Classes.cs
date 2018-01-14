@@ -1,3 +1,4 @@
+using Gatherling.Models;
 using Newtonsoft.Json;
 using System;
 using System.Collections;
@@ -13,11 +14,11 @@ namespace Gatherling
     public class InfoBotSettings : ApplicationSettingsBase
     {
         [UserScopedSetting]
-        public List<Server> Servers
+        public List<ServerSettings> Servers
         {
             get
             {
-                return this[nameof(Servers)] as List<Server>;
+                return this[nameof(Servers)] as List<ServerSettings>;
             }
             set
             {
@@ -25,22 +26,18 @@ namespace Gatherling
             }
         }
 
-        public Server GetServer(string host)
+        public ServerSettings GetServer(string host)
         {
             if (Servers == null)
-                Servers = new List<Server>();
+                Servers = new List<ServerSettings>();
             var val = Servers.SingleOrDefault(s => s.Host == host);
             if (val == null)
             {
-                this.Servers.Add(val = new Server { Host = host, Passkey = "" });
+                this.Servers.Add(val = new ServerSettings { Host = host, Passkey = "" });
                 Save();
             }
             return val;
         }
-        public class Server
-        {
-            public string Host { get; set; }
-            public string Passkey { get; set; }
-        }
+
     }
 }

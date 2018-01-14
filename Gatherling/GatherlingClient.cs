@@ -20,12 +20,23 @@ namespace Gatherling
         public static GatherlingClient Pauper { get; } = new GatherlingClient("https://pdcmagic.com/gatherling/");
         public static GatherlingClient Localhost { get; } = new GatherlingClient("http://127.0.0.1/gatherling/", "xxxx");
 
-        public InfoBotSettings.Server Settings { get; }
+        public ServerSettings Settings { get; }
 
         private GatherlingClient(string Hostname, string passkey = null)
         {
-            Settings = new InfoBotSettings().GetServer(Hostname);
             cookies = new CookieContainer();
+            if (AppContext.TryGetSwitch("Switch.Gatherling.UseAppConfig", out var enabled) && enabled)
+            {
+                Settings = new InfoBotSettings().GetServer(Hostname);
+            }
+            else
+            {
+                Settings = new ServerSettings
+                {
+                    Host = Hostname,
+                    Passkey = passkey
+                };
+            }
             if (string.IsNullOrEmpty(Settings.Passkey) && !string.IsNullOrEmpty(passkey))
             {
                 Settings.Passkey = passkey;
