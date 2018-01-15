@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Net;
 using Discord.WebSocket;
-using Discord.Net.Providers.WS4Net;
 using System.Diagnostics;
 using System.Net;
 using System.IO;
@@ -24,7 +23,6 @@ namespace PDBot.Discord
 
         static DiscordSocketClient client = new DiscordSocketClient(new DiscordSocketConfig
         {
-            //WebSocketProvider = WS4NetProvider.Instance
         });
 
         public static event EventHandler Ready;
