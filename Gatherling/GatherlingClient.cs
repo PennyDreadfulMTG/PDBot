@@ -4,10 +4,8 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using PDBot.API.GatherlingExtensions;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
@@ -15,6 +13,21 @@ namespace Gatherling
 {
     public partial class GatherlingClient
     {
+        private static IPasskeyProvider passkeyProvider;
+        public static IPasskeyProvider PasskeyProvider {
+            get => passkeyProvider;
+            set
+            {
+                if (value == passkeyProvider)
+                    return;
+                passkeyProvider = value;
+                GatherlingDotCom.Settings.Update(passkeyProvider);
+                PennyDreadful.Settings.Update(passkeyProvider);
+                Pauper.Settings.Update(passkeyProvider);
+                Localhost.Settings.Update(passkeyProvider);
+            }
+        }
+
         public static GatherlingClient GatherlingDotCom { get; } = new GatherlingClient("https://gatherling.com/");
         public static GatherlingClient PennyDreadful { get; } = new GatherlingClient("https://gatherling.pennydreadfulmagic.com/");
         public static GatherlingClient Pauper { get; } = new GatherlingClient("https://pdcmagic.com/gatherling/");

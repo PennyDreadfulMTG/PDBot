@@ -8,5 +8,11 @@ namespace Gatherling.Models
     {
         public string Host { get; set; }
         public string Passkey { get; set; }
+
+        internal void Update(IPasskeyProvider passkeyProvider)
+        {
+            var copy = passkeyProvider.GetServer(Host);
+            this.Passkey = copy.Passkey;
+        }
     }
 }

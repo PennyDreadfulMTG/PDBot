@@ -5,6 +5,7 @@ using PDBot.Core.Interfaces;
 using PDBot.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -14,7 +15,41 @@ namespace PDBot.Core.Tournaments
 {
     class TournamentManager : ICronObject
     {
-        public Dictionary<Event, Round> ActiveEvents { get; } = new Dictionary<Event, Round>();
+        public class InfoBotSettings : ApplicationSettingsBase, IPasskeyProvider
+        {
+            [ApplicationScopedSetting]
+            public List<ServerSettings> Servers
+            {
+                get
+                {
+                    return this[nameof(Servers)] as List<ServerSettings>;
+                }
+                set
+                {
+                    this[nameof(Servers)] = value;
+                }
+            }
+
+            public ServerSettings GetServer(string host)
+            {
+                if (Servers == null)
+                    Servers = new List<ServerSettings>();
+                var val = Servers.SingleOrDefault(s => s.Host == host);
+                if (val == null)
+                {
+                    this.Servers.Add(val = new ServerSettings { Host = host, Passkey = "" });
+                    Save();
+                }
+                return val;
+            }
+        }
+
+        public TournamentManager()
+        {
+            GatherlingClient.PasskeyProvider = new InfoBotSettings();
+        }
+
+    public Dictionary<Event, Round> ActiveEvents { get; } = new Dictionary<Event, Round>();
 
         private IChatDispatcher chatDispatcher;
         public IChatDispatcher Chat { get { if (chatDispatcher == null) chatDispatcher = Resolver.Helpers.GetChatDispatcher(); return chatDispatcher; } }
@@ -24,7 +59,7 @@ namespace PDBot.Core.Tournaments
             var events = await GatherlingClient.GatherlingDotCom.GetActiveEventsAsync();
             try
             {
-                //events = events.Union(await Gatherling.PennyDreadful.GetActiveEventsAsync()).ToArray();
+                events = events.Union(await GatherlingClient.PennyDreadful.GetActiveEventsAsync()).ToArray();
             }
 #pragma warning disable CC0004 // Catch block cannot be empty
             catch (WebException)
