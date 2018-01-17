@@ -12,7 +12,8 @@ namespace Gatherling.Models
         internal void Update(IPasskeyProvider passkeyProvider)
         {
             var copy = passkeyProvider.GetServer(Host);
-            this.Passkey = copy.Passkey;
+            if (!string.IsNullOrEmpty(copy.Passkey))
+                this.Passkey = copy.Passkey;
         }
     }
 }
