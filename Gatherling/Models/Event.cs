@@ -8,7 +8,7 @@ namespace Gatherling.Models
 {
     public class Event
     {
-        internal GatherlingClient Gatherling;
+        internal IGatherlingApi Gatherling;
 
         [JsonProperty("name")]
         public string Name { get; set; }
