@@ -15,7 +15,7 @@ namespace Gatherling
     {
         private static IPasskeyProvider passkeyProvider;
         public static IPasskeyProvider PasskeyProvider {
-            get => passkeyProvider;
+            get => passkeyProvider ?? new DefaultPasskeyProvider();
             set
             {
                 if (value == passkeyProvider)
@@ -62,6 +62,7 @@ namespace Gatherling
                 Host = Hostname,
                 Passkey = passkey
             };
+            passkey = PasskeyProvider.GetServer(Hostname).Passkey;
             if (string.IsNullOrEmpty(Settings.Passkey) && !string.IsNullOrEmpty(passkey))
             {
                 Settings.Passkey = passkey;

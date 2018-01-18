@@ -13,10 +13,16 @@ using System.Threading.Tasks;
 
 namespace PDBot.Core.Tournaments
 {
-    class TournamentManager : ICronObject
+    public class TournamentManager : ICronObject
     {
         public class InfoBotSettings : ApplicationSettingsBase, IPasskeyProvider
         {
+            public InfoBotSettings()
+            {
+                var path = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal).FilePath;
+                Console.WriteLine($"Config path: {path}");
+            }
+
             [ApplicationScopedSetting]
             public List<ServerSettings> Servers
             {

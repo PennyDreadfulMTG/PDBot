@@ -14,7 +14,11 @@ namespace Gatherling
     {
         public ServerSettings GetServer(string host)
         {
-            return null;
+            return new ServerSettings
+            {
+                Host = host,
+                Passkey = null,
+            };
         }
     }
 }

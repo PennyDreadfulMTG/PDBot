@@ -14,9 +14,6 @@ namespace Gatherling.VersionedApis
 {
     class V1 : BaseApi
     {
-        private readonly CookieContainer cookies;
-        public ServerSettings Settings { get; }
-
         public override int ApiVersion { get; } = 1;
 
         public V1(ServerSettings settings, CookieContainer cookies)

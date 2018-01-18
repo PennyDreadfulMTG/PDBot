@@ -1,6 +1,7 @@
 using Gatherling;
 using NUnit.Framework;
 using PDBot.API;
+using PDBot.Core.Tournaments;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,12 @@ namespace Tests
 {
     class TestGatherlingAPI
     {
+        [OneTimeSetUp]
+        public void Setup()
+        {
+            GatherlingClient.PasskeyProvider = new TournamentManager.InfoBotSettings();
+        }
+
         [TestCase]
         public void TestGatherlingDecks()
         {
