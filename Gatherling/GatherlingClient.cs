@@ -43,8 +43,11 @@ namespace Gatherling
                     switch (ApiVersion)
                     {
                         case 1:
-                        default:
                             api = new VersionedApis.V1(Settings, cookies);
+                            break;
+                        case 2:
+                        default:
+                            api = new VersionedApis.V2(Settings, cookies);
                             break;
                     }
                 }
@@ -104,11 +107,6 @@ namespace Gatherling
         public Task<string> GetVerificationCodeAsync(string playerName)
         {
             return VersionedApi.GetVerificationCodeAsync(playerName);
-        }
-
-        public Event LoadEvent(string name)
-        {
-            return VersionedApi.LoadEvent(name);
         }
 
         private int _apiVersion;

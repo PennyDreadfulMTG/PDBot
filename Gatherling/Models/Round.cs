@@ -2,12 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json.Linq;
 
 namespace Gatherling.Models
 {
     public class Round
     {
         public int RoundNum { get; private set; }
+
+        public bool IsFinals { get; private set; }
 
         public List<Pairing> Matches { get; } = new List<Pairing>();
 
@@ -50,6 +53,11 @@ namespace Gatherling.Models
                 }
             }
             return round;
+        }
+
+        internal static Round FromJson(JObject jObject)
+        {
+            return null;
         }
     }
 }

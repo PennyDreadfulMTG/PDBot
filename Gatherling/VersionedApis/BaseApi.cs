@@ -64,7 +64,5 @@ namespace Gatherling.VersionedApis
                 return JsonConvert.DeserializeObject<Deck>(await wc.DownloadStringTaskAsync($"ajax.php?action=deckinfo&deck={deckID}").ConfigureAwait(false));
             }
         }
-
-        public abstract Event LoadEvent(string name);
     }
 }

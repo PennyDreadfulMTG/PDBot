@@ -84,9 +84,14 @@ namespace PDBot.Core.Tournaments
                 {
                     round = await ae.GetCurrentPairings().ConfigureAwait(false);
                 }
-                catch (WebException c)
+                catch (Exception c)
                 {
                     throw new WebException($"Error retrieving {ae} round.", c);
+                }
+                if (round == null)
+                {
+                    Console.WriteLine($"No active round for {ae}?");
+                    continue;
                 }
                 if (round.RoundNum > ActiveEvents[ae].RoundNum)
                 {

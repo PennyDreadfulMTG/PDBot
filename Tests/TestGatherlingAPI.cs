@@ -37,7 +37,7 @@ namespace Tests
         [Theory]
         public void GetActiveEvents()
         {
-            var events = GatherlingClient.Localhost.GetActiveEventsAsync().GetAwaiter().GetResult();
+            var events = GatherlingClient.PennyDreadful.GetActiveEventsAsync().GetAwaiter().GetResult();
             Assume.That(events.Length > 0);
             var pairings = events.First().GetCurrentPairings().GetAwaiter().GetResult();
             Assume.That(pairings.Matches.Any());

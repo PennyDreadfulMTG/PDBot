@@ -127,7 +127,8 @@ namespace PDBot.Core.GameObservers
             }
             else 
             {
-                match.SendChat($"[sD][sR] This is not a valid @[League] pairing!");
+                if (loud)
+                    match.SendChat($"[sD][sR] This is not a valid @[League] pairing!");
                 if (HostRun == null)
                 {
                     if (loud)

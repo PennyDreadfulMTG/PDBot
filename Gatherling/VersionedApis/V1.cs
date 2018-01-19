@@ -51,28 +51,27 @@ namespace Gatherling.VersionedApis
         }
         public override async Task<Round> GetCurrentPairings(string eventName)
         {
-            if (ApiVersion >= 1)
+            var uri = new Uri(new Uri(Settings.Host), "event.php?view=match&name=" + eventName);
+            var eventCP = new HtmlDocument();
+            await Scrape(uri, eventCP);
+            var paste = eventCP.DocumentNode.Descendants("code").FirstOrDefault();
+            if (paste == null)
             {
-                var uri = new Uri(new Uri(Settings.Host), "event.php?view=match&name=" + eventName);
-                var eventCP = new HtmlDocument();
-                await Scrape(uri, eventCP);
-                var paste = eventCP.DocumentNode.Descendants("code").FirstOrDefault();
-                var lines = from l in paste.ChildNodes
-                            where !string.IsNullOrWhiteSpace(l.InnerText)
-                            select l.InnerText;
-                return Round.FromPaste(lines.ToArray());
+                return null;
             }
-            return null;
+            var lines = from l in paste.ChildNodes
+                        where !string.IsNullOrWhiteSpace(l.InnerText)
+                        select l.InnerText;
+            return Round.FromPaste(lines.ToArray());
         }
 
-        public override Event LoadEvent(string name)
+        private Event LoadEvent(string name)
         {
-            return new Event
+            return new Event(this)
             {
                 Name = name,
                 Series = name.Trim(' ', '.', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'),
                 Channel = RoomForSeries(name),
-                Gatherling = this,
             };
         }
 

@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using Gatherling.Models;
 
 namespace Gatherling
@@ -13,6 +13,5 @@ namespace Gatherling
         Task<Round> GetCurrentPairings(string eventName);
         Task<Deck> GetDeckAsync(int deckID);
         Task<string> GetVerificationCodeAsync(string playerName);
-        Event LoadEvent(string name);
     }
 }
