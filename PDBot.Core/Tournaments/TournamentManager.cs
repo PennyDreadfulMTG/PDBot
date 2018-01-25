@@ -65,7 +65,7 @@ namespace PDBot.Core.Tournaments
             var events = await GatherlingClient.GatherlingDotCom.GetActiveEventsAsync();
             try
             {
-                events = events.Union(await GatherlingClient.PennyDreadful.GetActiveEventsAsync()).ToArray();
+                //events = events.Union(await GatherlingClient.PennyDreadful.GetActiveEventsAsync()).ToArray();
             }
 #pragma warning disable CC0004 // Catch block cannot be empty
             catch (WebException)
@@ -104,16 +104,30 @@ namespace PDBot.Core.Tournaments
         private void PostPairings(Event eventModel, Round round)
         {
             var room = eventModel.Channel;
-            if (room != null)
+            if (room == null)
+            {
+                Console.WriteLine($"No MTGO room defined for {eventModel}.");
+                return;
+            }
+            else
             {
                 var builder = new StringBuilder();
                 builder.Append($"[sD] Pairings for Round {round.RoundNum}:\n");
                 var misses = 0;
                 foreach (var pairing in round.Matches)
                 {
-                    if (pairing.Res == "BYE")
+                    if (pairing.Verification == "verified")
+                    {
+                        misses += 1;
+                        builder.Append("[sT] ");
+                    }
+                    else if (pairing.Res == "BYE")
                     {
                         builder.Append("[sG] ");
+                    }
+                    else if (pairing.Verification == "unverified")
+                    {
+                        builder.Append("[sR] ");
                     }
                     else if (pairing.Res == "vs.")
                     {

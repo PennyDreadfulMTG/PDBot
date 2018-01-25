@@ -55,9 +55,39 @@ namespace Gatherling.Models
             return round;
         }
 
-        internal static Round FromJson(JObject jObject)
+        internal static Round FromJson(JArray matches)
         {
-            return null;
+            var round = new Round();
+            foreach (var m in matches)
+            {
+                if (m.Value<int>(nameof(round)) != round.RoundNum)
+                {
+                    round = new Round
+                    {
+                        RoundNum = m.Value<int>(nameof(round)),
+                        IsFinals = m.Value<int>("timing") > 1,
+                    };
+                }
+                Pairing p = new Pairing
+                {
+                    A = m.Value<string>("playera"),
+                    B = m.Value<string>("playerb"),
+                    Verification = m.Value<string>("verification"),
+                };
+                try
+                {
+
+                if (m["res"] != null)
+                    p.Res = m.Value<string>("res");
+                }
+                catch (NullReferenceException c)
+                {
+                    Console.WriteLine(c);
+                }
+                round.Matches.Add(p);
+            }
+            
+            return round;
         }
     }
 }

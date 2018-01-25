@@ -37,10 +37,14 @@ namespace Tests
         [Theory]
         public void GetActiveEvents()
         {
-            var events = GatherlingClient.PennyDreadful.GetActiveEventsAsync().GetAwaiter().GetResult();
+            var events = GatherlingClient.GatherlingDotCom.GetActiveEventsAsync().GetAwaiter().GetResult();
+            if (events.Length == 0)
+                events = GatherlingClient.PennyDreadful.GetActiveEventsAsync().GetAwaiter().GetResult();
             Assume.That(events.Length > 0);
-            var pairings = events.First().GetCurrentPairings().GetAwaiter().GetResult();
+            Gatherling.Models.Event first = events.First();
+            var pairings = first.GetCurrentPairings().GetAwaiter().GetResult();
             Assume.That(pairings.Matches.Any());
+            Assume.That(first.Channel != null);
 
         }
     }

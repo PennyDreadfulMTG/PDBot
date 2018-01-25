@@ -42,14 +42,26 @@ namespace Gatherling.Models
 
         public Event(IGatherlingApi api)
         {
-
+            Gatherling = api ?? throw new ArgumentNullException(nameof(api));
         }
 
         public Event(string name, JObject data, IGatherlingApi api)
         {
-            Gatherling = api;
+            if (string.IsNullOrEmpty(name))
+            {
+                throw new ArgumentException("Event Name is null", nameof(name));
+            }
+
+            if (data == null)
+            {
+                throw new ArgumentNullException(nameof(data));
+            }
+
+            Gatherling = api ?? throw new ArgumentNullException(nameof(api));
             Name = name;
             Channel = data.Value<string>("mtgo_room");
+            if (Channel != null && !Channel.StartsWith("#"))
+                Channel = "#" + Channel;
             Series = data.Value<string>("series");
         }
 

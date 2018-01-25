@@ -78,7 +78,9 @@ namespace Gatherling.VersionedApis
         /// <summary>
         /// Hack for v0 events.
         /// </summary>
-        private static string RoomForSeries(string eventName)
+        /// <param name="eventName">Name of an event or series</param>
+        /// <returns>Name of the room</returns>
+        protected static string RoomForSeries(string eventName)
         {
             var series = eventName.Trim(' ', '.', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
             switch (series)
