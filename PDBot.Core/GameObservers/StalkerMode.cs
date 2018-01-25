@@ -1,4 +1,4 @@
-﻿using PDBot.Core.Interfaces;
+using PDBot.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +10,15 @@ namespace PDBot.Core.GameObservers
 {
     class StalkerMode : IGameObserver
     {
-        static readonly string[] FavoritePlayers = new string[] { "silasary", "hexalite", "j_meka", "brainlesss96" };
+        static readonly string[] FavoritePlayers = new string[]
+        {
+            "silasary",
+            "hexalite",
+            "j_meka",
+            "brainlesss96",
+            "FinalVerb",
+            "BuryMe246",
+        };
 
         public bool PreventReboot => false;
 

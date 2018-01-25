@@ -1,4 +1,4 @@
-﻿using PDBot.Core.Data;
+using PDBot.Core.Data;
 using PDBot.Core.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -28,7 +28,8 @@ namespace PDBot.Core.GameObservers
                 if (API.BuggedCards.IsCardBugged(name) is API.BuggedCards.Bug bug)
                 {
                     warnings.Add(name);
-                    return $"[sU]{name}[sU] has a {bug.Classification} bug.  {bug.Description}";
+                    var description = bug.Description.Replace("[", "").Replace("]","");
+                    return $"[sU]{name}[sU] has a {bug.Classification} bug.  {description}";
                 }
             }
             return null;

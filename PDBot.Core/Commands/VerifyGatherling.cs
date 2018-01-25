@@ -20,9 +20,23 @@ namespace PDBot.Commands
 
         public bool AcceptsPM => true;
 
-        public Task<string> RunAsync(string player, IMatch game, string[] args)
+        public async Task<string> RunAsync(string player, IMatch game, string[] args)
         {
-            return GatherlingClient.PennyDreadful.GetVerificationCodeAsync(player);
+            var server = args.FirstOrDefault();
+            switch (server?.ToLower())
+            {
+                case null:
+                    return "Please provide the full verify command.";
+                case "pdg":
+                    return await GatherlingClient.PennyDreadful.GetVerificationCodeAsync(player);
+                case "g":
+                case "gatherling":
+                case "gatherling.com":
+                    return await GatherlingClient.GatherlingDotCom.GetVerificationCodeAsync(player);
+
+                default:
+                    return "Unknown servercode.";
+            }
         }
     }
 }
