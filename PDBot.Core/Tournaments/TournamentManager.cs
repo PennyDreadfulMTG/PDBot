@@ -112,7 +112,12 @@ namespace PDBot.Core.Tournaments
             else
             {
                 var builder = new StringBuilder();
-                builder.Append($"[sD] Pairings for Round {round.RoundNum}:\n");
+                if (round.IsFinals && round.Matches.Count == 1)
+                    builder.Append($"[sD] Pairings for Finals:\n");
+                else if (round.IsFinals)
+                    builder.Append($"[sD] Pairings for Top {round.Matches.Count * 2}:\n");
+                else
+                    builder.Append($"[sD] Pairings for Round {round.RoundNum}:\n");
                 var misses = 0;
                 foreach (var pairing in round.Matches)
                 {

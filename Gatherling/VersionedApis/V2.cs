@@ -35,9 +35,8 @@ namespace Gatherling.VersionedApis
                     }
                     return events.ToArray();
                 }
+                return new Event[0];
             }
-            return await base.GetActiveEventsAsync();
-
         }
 
         public override async Task<Round> GetCurrentPairings(string eventName)
