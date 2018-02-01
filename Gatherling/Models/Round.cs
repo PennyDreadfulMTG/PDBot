@@ -68,12 +68,17 @@ namespace Gatherling.Models
                         IsFinals = m.Value<int>("timing") > 1,
                     };
                 }
-                Pairing p = new Pairing
+                var p = new Pairing
                 {
                     A = m.Value<string>("playera"),
                     B = m.Value<string>("playerb"),
                     Verification = m.Value<string>("verification"),
                 };
+                if (m["playera_wins"] != null)
+                {
+                    p.A_wins = m.Value<int>("playera_wins");
+                    p.B_wins = m.Value<int>("playerb_wins");
+                }
                 try
                 {
 
@@ -86,7 +91,7 @@ namespace Gatherling.Models
                 }
                 round.Matches.Add(p);
             }
-            
+
             return round;
         }
     }

@@ -121,14 +121,14 @@ namespace PDBot.Core.Tournaments
                 var misses = 0;
                 foreach (var pairing in round.Matches)
                 {
-                    if (pairing.Verification == "verified")
+                    if (pairing.Res == "BYE")
+                    {
+                        builder.Append("[sG] ");
+                    }
+                    else if (pairing.Verification == "verified")
                     {
                         misses += 1;
                         builder.Append("[sT] ");
-                    }
-                    else if (pairing.Res == "BYE")
-                    {
-                        builder.Append("[sG] ");
                     }
                     else if (pairing.Verification == "unverified")
                     {
@@ -148,7 +148,7 @@ namespace PDBot.Core.Tournaments
                 }
                 if (misses == 0)
                 {
-                    int minutes = (DateTime.UtcNow.Minute + 10) % 60;
+                    var minutes = (DateTime.UtcNow.Minute + 10) % 60;
                     builder.Append($"[sPig] Free win time: XX:{minutes.ToString("D2")}!");
                 }
                 if (misses < 3)

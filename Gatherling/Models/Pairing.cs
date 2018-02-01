@@ -7,7 +7,9 @@ namespace Gatherling.Models
     public class Pairing
     {
         public string A { get; internal set; }
+        public int A_wins { get; internal set; }
         public string B { get; internal set; }
+        public int B_wins { get; internal set; }
         public string Res { get; internal set; }
         public string Verification { get; internal set; }
 
@@ -21,7 +23,14 @@ namespace Gatherling.Models
                 }
                 else if (Verification == "verified")
                 {
-                    Res = $"?-?";
+                    if (A_wins == 0 && B_wins == 0)
+                    {
+                        Res = $"?-?";
+                    }
+                    else
+                    {
+                        Res = $"{A_wins}-{B_wins}";
+                    }
                 }
                 else
                 {
