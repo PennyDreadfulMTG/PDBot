@@ -44,6 +44,11 @@ namespace PDBot.API
             public CardName Name { get; private set; }
         }
 
+        internal static object CurrentLeagueName()
+        {
+            return "this month's league"; // TODO: Provide an API for this on server.
+        }
+
         public class Deck
         {
 

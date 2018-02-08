@@ -13,51 +13,17 @@ using System.Threading.Tasks;
 
 namespace PDBot.Core.Tournaments
 {
-    public class TournamentManager : ICronObject
+    public class TournamentManager : ICronObject, ITournamentManager
     {
-        public class InfoBotSettings : ApplicationSettingsBase, IPasskeyProvider
-        {
-            public InfoBotSettings()
-            {
-                var path = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal).FilePath;
-                Console.WriteLine($"Config path: {path}");
-            }
 
-            [ApplicationScopedSetting]
-            public List<ServerSettings> Servers
-            {
-                get
-                {
-                    return this[nameof(Servers)] as List<ServerSettings>;
-                }
-                set
-                {
-                    this[nameof(Servers)] = value;
-                }
-            }
-
-            public ServerSettings GetServer(string host)
-            {
-                if (Servers == null)
-                    Servers = new List<ServerSettings>();
-                var val = Servers.SingleOrDefault(s => s.Host == host);
-                if (val == null)
-                {
-                    this.Servers.Add(val = new ServerSettings { Host = host, Passkey = "" });
-                    Save();
-                }
-                return val;
-            }
-        }
+        private IChatDispatcher chatDispatcher;
 
         public TournamentManager()
         {
             GatherlingClient.PasskeyProvider = new InfoBotSettings();
         }
 
-    public Dictionary<Event, Round> ActiveEvents { get; } = new Dictionary<Event, Round>();
-
-        private IChatDispatcher chatDispatcher;
+        public Dictionary<Event, Round> ActiveEvents { get; } = new Dictionary<Event, Round>();
         public IChatDispatcher Chat { get { if (chatDispatcher == null) chatDispatcher = Resolver.Helpers.GetChatDispatcher(); return chatDispatcher; } }
 
         public async Task EveryMinute()
@@ -121,7 +87,7 @@ namespace PDBot.Core.Tournaments
                 var misses = 0;
                 foreach (var pairing in round.Matches)
                 {
-                    if (pairing.Res == "BYE")
+                    if (pairing.A == pairing.B)
                     {
                         builder.Append("[sG] ");
                     }
@@ -149,8 +115,9 @@ namespace PDBot.Core.Tournaments
                 if (misses == 0)
                 {
                     var minutes = (DateTime.UtcNow.Minute + 10) % 60;
-                    builder.Append($"[sPig] Free win time: XX:{minutes.ToString("D2")}!");
+                    builder.AppendLine($"[sB] No-Show win time: XX:{minutes.ToString("D2")}");
                 }
+                builder.Append("[sD] Good luck, everyone!");
                 if (misses < 3)
                 {
                     var sent = Chat.SendPM(room, builder.ToString());
@@ -161,6 +128,40 @@ namespace PDBot.Core.Tournaments
                     }
                 }
                 // If misses >= 3, we have clearly just rebooted.  Don't send anything.
+            }
+        }
+        public class InfoBotSettings : ApplicationSettingsBase, IPasskeyProvider
+        {
+            public InfoBotSettings()
+            {
+                var path = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal).FilePath;
+                Console.WriteLine($"Config path: {path}");
+            }
+
+            [ApplicationScopedSetting]
+            public List<ServerSettings> Servers
+            {
+                get
+                {
+                    return this[nameof(Servers)] as List<ServerSettings>;
+                }
+                set
+                {
+                    this[nameof(Servers)] = value;
+                }
+            }
+
+            public ServerSettings GetServer(string host)
+            {
+                if (Servers == null)
+                    Servers = new List<ServerSettings>();
+                var val = Servers.SingleOrDefault(s => s.Host == host);
+                if (val == null)
+                {
+                    this.Servers.Add(val = new ServerSettings { Host = host, Passkey = "" });
+                    Save();
+                }
+                return val;
             }
         }
     }

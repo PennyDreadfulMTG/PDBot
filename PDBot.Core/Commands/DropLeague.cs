@@ -32,7 +32,7 @@ namespace PDBot.Commands
                 return "Error contacting PDM website.";
             }
             if (run == null)
-                return "You do not have an active league deck.";
+                return $"You do not have an active deck in {DecksiteApi.CurrentLeagueName()}.";
             var res = run.Retire();
             if (res)
                 return $"Your deck {run.Name} has been retired from the {run.CompetitionName}";

@@ -1,16 +1,18 @@
-﻿using PDBot.Core.Interfaces;
+using PDBot.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using PDBot.Core.Data;
+using PDBot.Core.Tournaments;
 
 namespace PDBot.Core.GameObservers
 {
     class Tourney : IGameObserver
     {
         private readonly IMatch match;
+        private static ITournamentManager tournamentManager;
 
         public Tourney()
         {
@@ -20,9 +22,19 @@ namespace PDBot.Core.GameObservers
         public Tourney(IMatch match)
         {
             this.match = match;
+            var ae = GetEvent(match);
+            if (ae != null)
+            {
+                var round = ae.GetCurrentPairings().GetAwaiter().GetResult();
+                match.Log($"[Gatherling] Event={ae.Name}");
+                match.Log($"[Gatherling] Round={round.RoundNum}");
+            }
+
         }
 
         public bool PreventReboot => true;
+
+        public static ITournamentManager TournamentManager => tournamentManager ?? (tournamentManager = Resolver.Helpers.GetTournamentManager());
 
         public Task<IGameObserver> GetInstanceForMatchAsync(IMatch match)
         {
@@ -49,13 +61,17 @@ namespace PDBot.Core.GameObservers
                 var loser = match.Players.FirstOrDefault(d => d != winner);
                 if (Features.PublishResults)
                 {
-                    Resolver.Helpers.GetChatDispatcher().SendPM(channel, $"[sD] {winner} {record} {loser}");
+                    Resolver.Helpers.GetChatDispatcher().SendPM(channel, $"[sD] {winner} {record} {loser} (You still need to report)");
                 }
             }
         }
 
         private static string GetChannel(IMatch match)
         {
+            var tournament = GetEvent(match);
+            if (tournament != null)
+                return tournament.Channel;
+
             string channel = null;
             if (match.Format == MagicFormat.Heirloom)
             {
@@ -83,6 +99,22 @@ namespace PDBot.Core.GameObservers
             else if (IsModernTimes(match))
                 channel = "#modern";
             return channel;
+        }
+
+        private static Gatherling.Models.Event GetEvent(IMatch match)
+        {
+            foreach (var tournament in tournamentManager.ActiveEvents)
+            {
+                var pairing = tournament.Value.Matches.FirstOrDefault(p => match.Players.Contains(p.A) && match.Players.Contains(p.B));
+                if (pairing != null)
+                {
+                    if (tournament.Key.Channel != null)
+                    {
+                        return tournament.Key;
+                    }
+                }
+            }
+            return null;
         }
 
         public bool ShouldJoin(IMatch match)

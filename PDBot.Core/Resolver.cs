@@ -1,4 +1,5 @@
-﻿using PDBot.Core.Interfaces;
+using PDBot.Core.Interfaces;
+using PDBot.Core.Tournaments;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -60,7 +61,7 @@ namespace PDBot.Core
 
         public static void SearchAssembly<T>(Assembly assembly)
         {
-            List<Type> found = new List<Type>();
+            var found = new List<Type>();
 
             Type[] types;
             try
@@ -98,13 +99,18 @@ namespace PDBot.Core
         {
             public static async Task<IGameObserver[]> GetObservers(IMatch match)
             {
-                var observers = await Task.WhenAll(Resolver.GetInstances<IGameObserver>().Select(o => o.GetInstanceForMatchAsync(match)));
+                var observers = await Task.WhenAll(GetInstances<IGameObserver>().Select(o => o.GetInstanceForMatchAsync(match))).ConfigureAwait(false);
                 return observers.Where(o => o != null).ToArray();
             }
 
             public static IChatDispatcher GetChatDispatcher()
             {
-                return GetInstances<Core.Interfaces.IChatDispatcher>().Single();
+                return GetInstances<IChatDispatcher>().Single();
+            }
+
+            internal static ITournamentManager GetTournamentManager()
+            {
+                return GetInstances<ITournamentManager>().Single();
             }
         }
     }
