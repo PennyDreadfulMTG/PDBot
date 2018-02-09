@@ -19,6 +19,12 @@ namespace Gatherling.Models
 
         public string Series { get; set; }
 
+        public string Host { get; set; }
+
+        public SubEvent Main { get; set; }
+
+        public SubEvent Finals { get; set; }
+
         public Task<Round> GetCurrentPairings()
         {
             return Gatherling.GetCurrentPairings(Name);

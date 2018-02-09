@@ -22,14 +22,18 @@ namespace PDBot.Core.GameObservers
         public Tourney(IMatch match)
         {
             this.match = match;
-            var ae = GetEvent(match);
-            if (ae != null)
+            Task.Factory.StartNew(async () =>
             {
-                var round = ae.GetCurrentPairings().GetAwaiter().GetResult();
-                match.Log($"[Gatherling] Event={ae.Name}");
-                match.Log($"[Gatherling] Round={round.RoundNum}");
-            }
+                await Task.Delay(TimeSpan.FromSeconds(1));
+                var ae = GetEvent(match);
+                if (ae != null)
+                {
+                    var round = await ae.GetCurrentPairings();
+                    match.Log($"[Gatherling] Event={ae.Name}");
+                    match.Log($"[Gatherling] Round={round.RoundNum}");
+                }
 
+            });
         }
 
         public bool PreventReboot => true;
@@ -103,7 +107,7 @@ namespace PDBot.Core.GameObservers
 
         private static Gatherling.Models.Event GetEvent(IMatch match)
         {
-            foreach (var tournament in tournamentManager.ActiveEvents)
+            foreach (var tournament in TournamentManager.ActiveEvents)
             {
                 var pairing = tournament.Value.Matches.FirstOrDefault(p => match.Players.Contains(p.A) && match.Players.Contains(p.B));
                 if (pairing != null)

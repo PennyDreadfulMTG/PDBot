@@ -145,7 +145,7 @@
     <Compile Include="GameObservers\PennyDreadfulLegality.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resolver.cs" />
-    <Compile Include="Tournaments\ITournamentManager.cs" />
+    <Compile Include="Interfaces\ITournamentManager.cs" />
     <Compile Include="Tournaments\TournamentManager.cs" />
     <Compile Include="UploadOldLogs.cs" />
   </ItemGroup>

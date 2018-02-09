@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using Gatherling.Models;
 
-namespace PDBot.Core.Tournaments
+namespace PDBot.Core.Interfaces
 {
     public interface ITournamentManager
     {
