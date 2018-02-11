@@ -94,6 +94,7 @@ namespace Gatherling
             return VersionedApi.GetActiveEventsAsync();
         }
 
+        [Obsolete]
         public Task<Round> GetCurrentPairings(string eventName)
         {
             return VersionedApi.GetCurrentPairings(eventName);
@@ -107,6 +108,11 @@ namespace Gatherling
         public Task<string> GetVerificationCodeAsync(string playerName)
         {
             return VersionedApi.GetVerificationCodeAsync(playerName);
+        }
+
+        public Task<Round> GetCurrentPairings(Event tournament)
+        {
+            return VersionedApi.GetCurrentPairings(tournament);
         }
 
         private int _apiVersion;

@@ -14,7 +14,7 @@ namespace PDBot.API
 {
     public static partial class DecksiteApi
     {
-        private static string API_TOKEN = null;
+        private static readonly string API_TOKEN;
 
         static DecksiteApi()
         {
@@ -81,7 +81,7 @@ namespace PDBot.API
 
             public override string ToString()
             {
-                string str = $"{Name} by {Person}";
+                var str = $"{Name} by {Person}";
                 if (HasRecord)
                 {
                     str += $" ({Wins}-{Losses})";
@@ -108,12 +108,12 @@ namespace PDBot.API
                     return false;
                 }
 
-                bool error = ((blob as JObject).TryGetValue("error", out var _));
+                var error = ((blob as JObject).TryGetValue("error", out var _));
                 return !error;
             }
         }
 
-        static WebClient Api => new WebClient()
+        static WebClient Api => new WebClient
         {
             BaseAddress = "https://pennydreadfulmagic.com/",
             Encoding = Encoding.UTF8
@@ -131,25 +131,24 @@ namespace PDBot.API
             try
             {
 
-                string v = await Api.DownloadStringTaskAsync($"/api/league/run/{player}");
+                var v = await Api.DownloadStringTaskAsync($"/api/league/run/{player}");
                 var blob = JToken.Parse(v);
                 if (blob.Type == JTokenType.Null)
                 {
                     return null;
                 }
 
-                Deck run = new Deck(blob);
+                var run = new Deck(blob);
                 return run;
             }
             catch (WebException c)
             {
-                //var stream = File.OpenWrite("leagueerror");
                 using (var sw = new StreamWriter("leagueerror.txt"))
                 {
                     using (Stream response = c.Response.GetResponseStream())
                     {
                         var bytes = new byte[response.Length];
-                        response.Read(bytes, 0, (int)response.Length);
+                        await response.ReadAsync(bytes, 0, (int)response.Length);
                         sw.Write(bytes);
                     }
                 }
@@ -165,7 +164,7 @@ namespace PDBot.API
         public static Deck GetDeck(int id)
         {
             var blob = Api.DownloadString($"/api/decks/{id}");
-            JObject jObject = JObject.Parse(blob);
+            var jObject = JObject.Parse(blob);
             if (jObject.Type == JTokenType.Null)
                 return null;
             return new Deck(jObject);
@@ -204,7 +203,7 @@ namespace PDBot.API
                     {
                         { "api_token", API_TOKEN },
                         { "match_id", id.ToString() },
-                        { "lines",  lines },
+                        { nameof(lines),  lines },
                         { "start_time_utc", new DateTimeOffset(File.GetCreationTimeUtc(f)).ToUnixTimeSeconds().ToString() },
                         { "end_time_utc", new DateTimeOffset(File.GetLastWriteTimeUtc(f)).ToUnixTimeSeconds().ToString() },
                     });

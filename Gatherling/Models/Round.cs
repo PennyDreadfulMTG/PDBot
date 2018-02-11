@@ -22,7 +22,7 @@ namespace Gatherling.Models
                 var m = Regex.Match(line, @"(?:/me )?Pairings for Round (?<round>\d+)", RegexOptions.Compiled);
                 if (m.Success)
                 {
-                    round.RoundNum = int.Parse(m.Groups["round"].Value);
+                    round.RoundNum = int.Parse(m.Groups[nameof(round)].Value);
                 }
                 else if ((m = Regex.Match(line, @"^(?:/me )?(?<a>\w+) (?<res>vs.|\d-\d) (?<b>\w+)$", RegexOptions.Compiled)).Success)
                 {
@@ -55,13 +55,14 @@ namespace Gatherling.Models
             return round;
         }
 
-        internal static Round FromJson(JArray matches)
+        internal static Round FromJson(JArray matches, Event tournament = null)
         {
             var round = new Round();
             foreach (var m in matches)
             {
                 if (m.Value<int>(nameof(round)) != round.RoundNum)
                 {
+                    // TODO: Store old rounds on tournament object.
                     round = new Round
                     {
                         RoundNum = m.Value<int>(nameof(round)),

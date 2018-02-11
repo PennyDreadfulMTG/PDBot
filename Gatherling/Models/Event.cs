@@ -27,7 +27,7 @@ namespace Gatherling.Models
 
         public Task<Round> GetCurrentPairings()
         {
-            return Gatherling.GetCurrentPairings(Name);
+            return Gatherling.GetCurrentPairings(this);
         }
 
         public override string ToString()

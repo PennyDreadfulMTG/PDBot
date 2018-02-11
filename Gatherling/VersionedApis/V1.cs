@@ -65,6 +65,11 @@ namespace Gatherling.VersionedApis
             return Round.FromPaste(lines.ToArray());
         }
 
+        public override Task<Round> GetCurrentPairings(Event tournament)
+        {
+            return GetCurrentPairings(tournament.Name);
+        }
+
         private Event LoadEvent(string name)
         {
             return new Event(this)

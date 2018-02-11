@@ -49,9 +49,19 @@ namespace Gatherling.VersionedApis
             }
         }
 
+        public override async Task<Round> GetCurrentPairings(Event tournament)
+        {
+            using (var api = CreateWebClient())
+            {
+                var json = JObject.Parse(await api.DownloadStringTaskAsync("/ajax.php?action=active_events"));
+                json = json[tournament.Name] as JObject;
+                return Round.FromJson(json["matches"] as JArray, tournament);
+            }
+        }
+
         private Event LoadEvent(string key, JObject value)
         {
-            Event @event = new Event(key, value, this);
+            var @event = new Event(key, value, this);
             try
             {
 

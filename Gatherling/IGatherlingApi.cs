@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using Gatherling.Models;
 
@@ -10,7 +11,9 @@ namespace Gatherling
 
         Task AuthenticateAsync();
         Task<Event[]> GetActiveEventsAsync();
+        [Obsolete]
         Task<Round> GetCurrentPairings(string eventName);
+        Task<Round> GetCurrentPairings(Event tournament);
         Task<Deck> GetDeckAsync(int deckID);
         Task<string> GetVerificationCodeAsync(string playerName);
     }

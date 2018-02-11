@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Linq;
 using PDBot.Core.Data;
 using PDBot.Core.Interfaces;
 using PDBot.Data;
@@ -20,13 +20,13 @@ namespace PDBot.Core.GameObservers
 
         protected override string LegalListUrl => "http://pdmtgo.com/legal_cards.txt";
 
-        public override async Task<IGameObserver> GetInstanceForMatchAsync(IMatch match)
+        public override Task<IGameObserver> GetInstanceForMatchAsync(IMatch match)
         {
             if (ShouldJoin(match))
             {
-                return new PennyDreadfulLegality();
+                return Task.FromResult<IGameObserver>(new PennyDreadfulLegality());
             }
-            return null;
+            return Task.FromResult<IGameObserver>(null);
         }
 
         public override bool ShouldJoin(IMatch match)

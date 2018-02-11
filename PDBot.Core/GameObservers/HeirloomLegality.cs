@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Linq;
 using PDBot.Core.Data;
 using PDBot.Core.Interfaces;
 using PDBot.Data;
@@ -25,13 +25,13 @@ namespace PDBot.Core.GameObservers
             return match.Format == MagicFormat.Heirloom;
         }
 
-        public override async Task<IGameObserver> GetInstanceForMatchAsync(IMatch match)
+        public override Task<IGameObserver> GetInstanceForMatchAsync(IMatch match)
         {
             if (ShouldJoin(match))
             {
-                return new HeirloomLegality();
+                return Task.FromResult<IGameObserver>(new HeirloomLegality());
             }
-            return null;
+            return Task.FromResult<IGameObserver>(null);
         }
     }
 }

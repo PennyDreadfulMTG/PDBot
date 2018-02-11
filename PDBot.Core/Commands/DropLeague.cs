@@ -27,7 +27,7 @@ namespace PDBot.Commands
             {
                 run = await DecksiteApi.GetRun(user);
             }
-            catch (WebException c)
+            catch (WebException)
             {
                 return "Error contacting PDM website.";
             }
