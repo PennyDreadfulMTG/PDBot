@@ -124,8 +124,8 @@ namespace PDBot.Core.Tournaments
                     if (!sent)
                     {
                         Chat.Join(room);
-                        await Task.Delay(TimeSpan.FromSeconds(3));
-                        Chat.SendPM(room, builder.ToString());
+                        await Task.Delay(TimeSpan.FromSeconds(10));
+                        await PostPairingsAsync(eventModel, round);
                     }
                 }
                 // If misses >= 3, we have clearly just rebooted.  Don't send anything.

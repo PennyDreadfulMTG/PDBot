@@ -113,6 +113,7 @@ namespace PDBot.Core.GameObservers
                 if (File.Exists(Path.Combine("Updates", "urgent.txt")))
                 {
                     match.SendChat("[sD] PDBot will be going down for scheduled maintenance.  Please @[Report] this league match manually.");
+                    HostRun = null;
                 }
 
                 if (loud)
