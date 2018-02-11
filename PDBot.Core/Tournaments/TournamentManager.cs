@@ -62,12 +62,12 @@ namespace PDBot.Core.Tournaments
                 if (round.RoundNum > ActiveEvents[ae].RoundNum)
                 {
                     ActiveEvents[ae] = round;
-                    PostPairings(ae, round);
+                    await PostPairingsAsync(ae, round);
                 }
             }
         }
 
-        private void PostPairings(Event eventModel, Round round)
+        private async Task PostPairingsAsync(Event eventModel, Round round)
         {
             var room = eventModel.Channel;
             if (room == null)
@@ -112,7 +112,7 @@ namespace PDBot.Core.Tournaments
                     builder.Append(pairing.ToString());
                     builder.Append("\n");
                 }
-                if (misses == 0)
+                if (misses == 0 && !round.IsFinals)
                 {
                     var minutes = (DateTime.UtcNow.Minute + 10) % 60;
                     builder.AppendLine($"[sB] No-Show win time: XX:{minutes.ToString("D2")}");
@@ -124,6 +124,7 @@ namespace PDBot.Core.Tournaments
                     if (!sent)
                     {
                         Chat.Join(room);
+                        await Task.Delay(TimeSpan.FromSeconds(3));
                         Chat.SendPM(room, builder.ToString());
                     }
                 }
