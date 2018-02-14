@@ -22,9 +22,7 @@ namespace PDBot.Discord
 
         // https://discordapp.com/oauth2/authorize?client_id=227647606149480449&scope=bot&permissions=270400
 
-        static DiscordSocketClient client = new DiscordSocketClient(new DiscordSocketConfig
-        {
-        });
+        static DiscordSocketClient client = new DiscordSocketClient();
 
         public static event EventHandler Ready;
 
@@ -41,6 +39,27 @@ namespace PDBot.Discord
             client.MessageReceived += Client_MessageReceived;
             await client.LoginAsync(TokenType.Bot, token);
             await client.StartAsync();
+        }
+
+        internal static async Task SyncRole(ulong serverID, string RoleName, long?[] users, bool remove = true)
+        {
+            var server = client.GetGuild(serverID);
+            var role = server.Roles.FirstOrDefault(r => r.Name == RoleName);
+            if (remove)
+            {
+                var toRemove = role.Members.Where(m => !users.Contains((long?)m.Id));
+                foreach (var rem in toRemove)
+                {
+                    Console.WriteLine($"Removing {rem.Username} from {RoleName}");
+                    await rem.RemoveRoleAsync(role);
+                }
+            }
+            var toAdd = server.Users.Where(u => users.Contains((long?)u.Id) && !u.Roles.Contains(role));
+            foreach (var rem in toAdd)
+            {
+                Console.WriteLine($"Adding {rem.Username} to {RoleName}");
+                await rem.AddRoleAsync(role);
+            }
         }
 
         readonly static string[] modo_commands = new string[] { "!drop", "!retire"};

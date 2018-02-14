@@ -44,6 +44,23 @@ namespace PDBot.Core.API
             public CardName Name { get; private set; }
         }
 
+        internal static async Task<Person> GetPersonAsync(string username)
+        {
+            try
+            {
+
+            using (var api = Api)
+            {
+                var blob = await api.DownloadStringTaskAsync($"/api/person/{username}");
+                return JsonConvert.DeserializeObject<Person>(blob);
+            }
+            }
+            catch (WebException c) when (c.Status == WebExceptionStatus.ProtocolError && (c.Response as HttpWebResponse).StatusCode == HttpStatusCode.NotFound)
+            {
+                return default;
+            }
+        }
+
         internal static object CurrentLeagueName()
         {
             return "this month's league"; // TODO: Provide an API for this on server.

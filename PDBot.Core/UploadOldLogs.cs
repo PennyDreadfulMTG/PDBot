@@ -15,6 +15,12 @@ namespace PDBot.Core
         {
             Directory.CreateDirectory(Path.Combine("Logs", "Archive"));
         }
+
+        public Task EveryHour()
+        {
+            return Task.FromResult(false);
+        }
+
         public async Task EveryMinute()
         {
             foreach (var file in Directory.EnumerateFiles("Logs"))

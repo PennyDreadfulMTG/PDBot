@@ -92,5 +92,12 @@ namespace PDBot.Core.API
             }
         }
 
+        public struct Person
+        {
+            [JsonProperty("name")]
+            public string Name { get; set; }
+            public long? discord_id { get; set; }
+        }
+
     }
 }
