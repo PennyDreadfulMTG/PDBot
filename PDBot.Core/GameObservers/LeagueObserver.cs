@@ -1,4 +1,4 @@
-using PDBot.API;
+using PDBot.Core.API;
 using PDBot.Core.Data;
 using PDBot.Core.Interfaces;
 using PDBot.Discord;

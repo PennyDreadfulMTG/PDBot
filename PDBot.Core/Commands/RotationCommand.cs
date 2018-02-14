@@ -1,4 +1,4 @@
-﻿using PDBot.Interfaces;
+using PDBot.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using PDBot.Core.Interfaces;
 using PDBot.API;
+using PDBot.Core.API;
 
 namespace PDBot.Core.Commands
 {

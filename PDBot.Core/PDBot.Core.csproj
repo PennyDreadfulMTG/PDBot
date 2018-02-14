@@ -121,6 +121,7 @@
     <Compile Include="Commands\VerifyGatherling.cs" />
     <Compile Include="Data\Card.cs" />
     <Compile Include="Data\WinnerDictionary.cs" />
+    <Compile Include="DiscordFunctions.cs" />
     <Compile Include="Features.cs" />
     <Compile Include="GameObservers\AustreamSealedLeague.cs" />
     <Compile Include="GameObservers\BaseLegalityChecker.cs" />

@@ -1,7 +1,7 @@
-﻿using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Linq;
 using System.Net;
 
-namespace PDBot.API
+namespace PDBot.Core.API
 {
     public class MtgoStatus
     {

@@ -1,4 +1,5 @@
 using PDBot.API;
+using PDBot.Core.API;
 using PDBot.Core.GameObservers;
 using PDBot.Core.Interfaces;
 using PDBot.Interfaces;

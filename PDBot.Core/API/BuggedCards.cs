@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 
-namespace PDBot.API
+namespace PDBot.Core.API
 {
     public static class BuggedCards
     {

@@ -10,7 +10,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PDBot.API
+namespace PDBot.Core.API
 {
     public static partial class DecksiteApi
     {

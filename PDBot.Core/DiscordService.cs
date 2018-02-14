@@ -13,6 +13,7 @@ using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.Net.Http;
 using PDBot.Core;
+using PDBot.Core.API;
 
 namespace PDBot.Discord
 {
@@ -112,7 +113,7 @@ namespace PDBot.Discord
                 await channel.TriggerTypingAsync();
                 try
                 {
-                    API.DecksiteApi.UploadLog(int.Parse(id));
+                    DecksiteApi.UploadLog(int.Parse(id));
                     await channel.SendMessageAsync($"https://logs.pennydreadfulmagic.com/match/{id}/");
 
                 }

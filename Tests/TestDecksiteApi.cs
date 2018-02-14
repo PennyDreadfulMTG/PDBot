@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+using NUnit.Framework;
+using PDBot.Core.API;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace Tests
         [Test]
         public void CheckPopularCards()
         {
-            var cards = PDBot.API.DecksiteApi.PopularCards();
+            var cards = DecksiteApi.PopularCards();
             Assert.IsNotEmpty(cards);
             var first = cards.First();
             Assert.IsNotEmpty(first.name);
