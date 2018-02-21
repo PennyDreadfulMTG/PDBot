@@ -55,7 +55,7 @@ namespace PDBot.Core.GameObservers
                 if (!InList)
                 {
                     HostRun = LeagueRunOpp = null;
-                    return $"[sD][sR] {name} was not on a submitted decklist. This is not a league match.";
+                    return $"[sD][sR] {name} was not on a submitted league decklist. This is not a league match.";
                 }
             }
             return null;

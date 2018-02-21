@@ -118,7 +118,7 @@ namespace PDBot.Core.Tournaments
                 }
                 if (misses == 0 && !round.IsFinals)
                 {
-                    var minutes = (DateTime.UtcNow.Minute + 10) % 60;
+                    var minutes = (DateTime.UtcNow.Minute + 11) % 60;
                     builder.AppendLine($"[sB] No-Show win time: XX:{minutes.ToString("D2")}");
                 }
                 builder.Append("[sD] Good luck, everyone!");

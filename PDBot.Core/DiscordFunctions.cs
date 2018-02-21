@@ -25,7 +25,7 @@ namespace PDBot.Core
             var tasks = pdh.LastMonth.Players.Select(DiscordIDAsync).ToArray();
             await Task.WhenAll(tasks);
             var players = tasks.Select(t => t.Result).Where(id => id != null).ToArray();
-            await DiscordService.SyncRole(207281932214599682, "PDH", players, false);
+            await DiscordService.SyncRole(207281932214599682, "PDH", players);
         }
 
         private async Task<long?> DiscordIDAsync(string username)
