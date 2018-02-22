@@ -132,7 +132,7 @@ namespace PDBot.Discord
                 await channel.TriggerTypingAsync();
                 try
                 {
-                    DecksiteApi.UploadLog(int.Parse(id));
+                    await DecksiteApi.UploadLogAsync(int.Parse(id));
                     await channel.SendMessageAsync($"https://logs.pennydreadfulmagic.com/match/{id}/");
 
                 }

@@ -31,12 +31,20 @@ namespace PDBot.Core
                 var id = int.Parse(Path.GetFileNameWithoutExtension(file));
                 if (DecksiteApi.LogUploaded(id))
                 {
+                    string destFileName = Path.Combine("Logs", "Archive", id + ".txt");
+                    if (File.Exists(destFileName))
+                    {
+                        Console.WriteLine($"Reuploading {id} to logsite...");
+                        File.Delete(destFileName);
+                        await DecksiteApi.UploadLogAsync(id);
+                        return;
+                    }
                     Console.WriteLine($"Archiving log for {id}...");
-                    File.Move(file, Path.Combine("Logs", "Archive", id + ".txt"));
+                    File.Move(file, destFileName);
                     return;
                 }
                 Console.WriteLine($"Uploading {id} to logsite...");
-                DecksiteApi.UploadLog(id);
+                await DecksiteApi.UploadLogAsync(id);
                 return;
             }
         }

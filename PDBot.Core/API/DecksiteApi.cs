@@ -209,13 +209,13 @@ namespace PDBot.Core.API
             }
         }
 
-        public static void UploadLog(int id)
+        public static async Task UploadLogAsync(int id)
         {
             var f = $"Logs/{id}.txt";
             var lines = File.ReadAllText(f);
             using (var api = Api)
             {
-                api.UploadValues("https://logs.pennydreadfulmagic.com/api/upload",
+                await api.UploadValuesTaskAsync("https://logs.pennydreadfulmagic.com/api/upload",
                     new NameValueCollection
                     {
                         { "api_token", API_TOKEN },
