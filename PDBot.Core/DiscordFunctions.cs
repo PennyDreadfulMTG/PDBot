@@ -13,9 +13,15 @@ namespace PDBot.Core
     {
         Dictionary<string, long?> MtgoToDiscordMapping = new Dictionary<string, long?>();
 
-        public Task EveryHour()
+        public async Task EveryHourAsync()
         {
-            return DoPDHRole();
+            await DoPDHRole();
+            await WeeklyRecap();
+        }
+
+        private async Task WeeklyRecap()
+        {
+            
         }
 
         private async Task DoPDHRole()

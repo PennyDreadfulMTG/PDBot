@@ -26,7 +26,7 @@ namespace PDBot.Discord
 
         public static event EventHandler Ready;
 
-        private static bool Initialized = false;
+        private static bool Initialized;
 
         public static async Task Init(string token)
         {
@@ -89,7 +89,7 @@ namespace PDBot.Discord
 
             if (words.FirstOrDefault().ToLower() == "!log")
             {
-                string id = words.Skip(1).FirstOrDefault().ToString();
+                var id = words.Skip(1).FirstOrDefault().ToString();
                 await SendLogToChannel(channel, id);
                 return;
             }
@@ -117,6 +117,20 @@ namespace PDBot.Discord
                 }
                 return;
             }
+        }
+
+        public async static Task<bool> CheckForPinnedMessage()
+        {
+            var pinned = await client.Guilds.First(g => g.Name == "Penny Dreadful").DefaultChannel.GetPinnedMessagesAsync();
+            var LastWednesday = DateTime.Now.Date;
+            while (LastWednesday.DayOfWeek != DayOfWeek.Wednesday)
+            {
+                LastWednesday = LastWednesday.Subtract(TimeSpan.FromDays(1));
+            }
+            LastWednesday = LastWednesday.AddHours(23).AddMinutes(59).AddSeconds(59);
+            if (pinned.Any(m => m.CreatedAt > LastWednesday))
+                return true;
+            return false;
         }
 
         public static Task SendLogToChannel(ulong channel, int id)

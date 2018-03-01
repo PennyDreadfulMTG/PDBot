@@ -16,7 +16,7 @@ namespace PDBot.Core
             Directory.CreateDirectory(Path.Combine("Logs", "Archive"));
         }
 
-        public Task EveryHour()
+        public Task EveryHourAsync()
         {
             return Task.FromResult(false);
         }

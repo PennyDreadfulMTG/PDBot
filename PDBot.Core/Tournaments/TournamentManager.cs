@@ -26,7 +26,7 @@ namespace PDBot.Core.Tournaments
         public Dictionary<Event, Round> ActiveEvents { get; } = new Dictionary<Event, Round>();
         public IChatDispatcher Chat { get { if (chatDispatcher == null) chatDispatcher = Resolver.Helpers.GetChatDispatcher(); return chatDispatcher; } }
 
-        public async Task EveryHour()
+        public async Task EveryHourAsync()
         {
         }
 
@@ -82,6 +82,14 @@ namespace PDBot.Core.Tournaments
             else
             {
                 var builder = new StringBuilder();
+                if (round.RoundNum == 1 &&  !round.IsFinals)
+                {
+                    builder.AppendLine("[sF] Due to the spectator switcheroo bug, PDBot cannot trust the results it sees on screen.");
+                    builder.AppendLine("[sF] PDBot will not be reporting match results to the channel until this bug is fixed.");
+                    builder.AppendLine("[sF] If you spectate any other player's matches in the tournament," +
+                                       " please keep in mind that player names could be attached to the wrong players.");
+                }
+
                 if (round.IsFinals && round.Matches.Count == 1)
                     builder.Append($"[sD] Pairings for Finals:\n");
                 else if (round.IsFinals)
