@@ -28,7 +28,7 @@ namespace PDBot.Discord
 
         private static bool Initialized;
 
-        public static async Task Init(string token)
+        public static async Task InitAsync(string token)
         {
             if (Initialized)
                 return;
@@ -36,12 +36,12 @@ namespace PDBot.Discord
             client.Log += Client_LogAsync;
             client.Ready += Client_ReadyAsync;
             client.Disconnected += Client_DisconnectedAsync;
-            client.MessageReceived += Client_MessageReceived;
+            client.MessageReceived += Client_MessageReceivedAsync;
             await client.LoginAsync(TokenType.Bot, token);
             await client.StartAsync();
         }
 
-        internal static async Task SyncRole(ulong serverID, string RoleName, long?[] users, bool remove = true)
+        internal static async Task SyncRoleAsync(ulong serverID, string RoleName, long?[] users, bool remove = true)
         {
             var server = client.GetGuild(serverID);
             var role = server.Roles.FirstOrDefault(r => r.Name == RoleName);
@@ -68,7 +68,7 @@ namespace PDBot.Discord
         public static string CurrentAvatar { get; private set; } = "unknown";
         public static bool Connected => client.ConnectionState == ConnectionState.Connected;
 
-        private static async Task Client_MessageReceived(SocketMessage arg)
+        private static async Task Client_MessageReceivedAsync(SocketMessage arg)
         {
             if (arg.Author.IsBot)
                 return;
@@ -90,7 +90,7 @@ namespace PDBot.Discord
             if (words.FirstOrDefault().ToLower() == "!log")
             {
                 var id = words.Skip(1).FirstOrDefault().ToString();
-                await SendLogToChannel(channel, id);
+                await SendLogToChannelAsync(channel, id);
                 return;
             }
 
@@ -119,7 +119,7 @@ namespace PDBot.Discord
             }
         }
 
-        public async static Task<bool> CheckForPinnedMessage()
+        public async static Task<bool> CheckForPinnedMessageAsync()
         {
             var pinned = await client.Guilds.First(g => g.Name == "Penny Dreadful").DefaultChannel.GetPinnedMessagesAsync();
             var LastWednesday = DateTime.Now.Date;
@@ -133,12 +133,12 @@ namespace PDBot.Discord
             return false;
         }
 
-        public static Task SendLogToChannel(ulong channel, int id)
+        public static Task SendLogToChannelAsync(ulong channel, int id)
         {
-            return SendLogToChannel(FindChannel(channel), id.ToString());
+            return SendLogToChannelAsync(FindChannel(channel), id.ToString());
         }
 
-        private static async Task SendLogToChannel(ISocketMessageChannel channel, string id)
+        private static async Task SendLogToChannelAsync(ISocketMessageChannel channel, string id)
         {
             var file = Path.Combine("Logs", id + ".txt");
             if (File.Exists(file))
@@ -355,7 +355,7 @@ namespace PDBot.Discord
                 Playing = game;
                 return;
             }
-                
+
             if (game == null && !client.CurrentUser.Game.HasValue)
                 return;
             if (client.CurrentUser.Game.HasValue && client.CurrentUser.Game.Value.Name == game)

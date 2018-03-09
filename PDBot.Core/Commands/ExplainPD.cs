@@ -1,4 +1,4 @@
-﻿using PDBot.Core.GameObservers;
+using PDBot.Core.GameObservers;
 using PDBot.Core.Interfaces;
 using PDBot.Interfaces;
 using System;
@@ -18,10 +18,10 @@ namespace PDBot.Commands
 
         public bool AcceptsPM => false;
 
-        public async Task<string> RunAsync(string user, IMatch game, string[] args)
+        public Task<string> RunAsync(string user, IMatch game, string[] args)
         {
-            return $"[sU]Penny Dreadful is a Player-run format for MTGO where only cards that cost 0.01 tix online are legal.\n" +
-                $"For more information about Penny Dreadful, see pdmtgo.com or reddit.com/r/PennyDreadfulMTG";
+            return Task.FromResult($"[sU] Penny Dreadful is a Player-run format for MTGO where only cards that cost 0.01 tix online are legal.\n" +
+                $"For more information about Penny Dreadful, see pdmtgo.com or reddit.com/r/PennyDreadfulMTG");
         }
     }
 }

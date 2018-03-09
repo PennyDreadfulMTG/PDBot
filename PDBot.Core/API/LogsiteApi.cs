@@ -24,6 +24,8 @@ namespace PDBot.Core.API
 
             [JsonProperty("last_week")]
             public TimeframeStats LastWeek { get; set; }
+            [JsonProperty("last_last_week")]
+            public TimeframeStats LastLastWeek { get; set; }
             [JsonProperty("last_month")]
             public TimeframeStats LastMonth { get; set; }
 
