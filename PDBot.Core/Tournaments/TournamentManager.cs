@@ -82,7 +82,7 @@ namespace PDBot.Core.Tournaments
             else
             {
                 var builder = new StringBuilder();
-                if (round.RoundNum == 1 &&  !round.IsFinals)
+                if (round.RoundNum == 1 &&  !round.IsFinals && !Features.PublishResults)
                 {
                     builder.AppendLine("[sF] Due to the spectator switcheroo bug, PDBot cannot trust the results it sees on screen.");
                     builder.AppendLine("[sF] PDBot will not be reporting match results to the channel until this bug is fixed.");
