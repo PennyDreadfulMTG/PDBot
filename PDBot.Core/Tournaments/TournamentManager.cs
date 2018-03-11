@@ -30,7 +30,7 @@ namespace PDBot.Core.Tournaments
         {
         }
 
-        public async Task EveryMinute()
+        public async Task EveryMinuteAsync()
         {
             var events = await GatherlingClient.GatherlingDotCom.GetActiveEventsAsync();
             try

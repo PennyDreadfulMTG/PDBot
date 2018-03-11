@@ -1,4 +1,4 @@
-﻿using PDBot.Commands;
+using PDBot.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,16 +18,16 @@ namespace PDBot.Core.Commands
 
         public bool AcceptsPM => false;
 
-        public async Task<string> RunAsync(string player, IMatch game, string[] args)
+        public Task<string> RunAsync(string player, IMatch game, string[] args)
         {
             if (game?.Observers?.SingleOrDefault(o => o is GameObservers.LeagueObserver) is GameObservers.LeagueObserver LeagueObserver && LeagueObserver.HostRun != null && LeagueObserver.LeagueRunOpp != null)
             {
                 LeagueObserver.HostRun = null;
-                return $"[sD]Ok, I won't treat this as a league match.\nIf you change your mind, please @[Report] manually.";
+                return Task.FromResult($"[sD] Ok, I won't treat this as a league match.\nIf you change your mind, please @[Report] manually.");
             }
             else
             {
-                return $"[sD]This isn't a @[League] match.";
+                return Task.FromResult($"[sD] This isn't a @[League] match.");
             }
         }
     }

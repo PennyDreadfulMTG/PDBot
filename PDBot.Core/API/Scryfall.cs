@@ -65,7 +65,7 @@ namespace PDBot.Core.API
                     return ParseJson(json);
                 }
             }
-            catch (WebException c)
+            catch (WebException)
             {
                 return null;
             }
@@ -113,7 +113,7 @@ namespace PDBot.Core.API
                     blob = wc.DownloadString(address);
                 }
             }
-            catch (WebException c)
+            catch (WebException)
             {
                 yield break;
             }

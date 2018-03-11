@@ -32,16 +32,16 @@ namespace PDBot.Core.GameObservers
             this.match = match;
         }
 
-        public async Task<IGameObserver> GetInstanceForMatchAsync(IMatch match)
+        public Task<IGameObserver> GetInstanceForMatchAsync(IMatch match)
         {
             if (match.Format != MagicFormat.PennyDreadful && match.Format != MagicFormat.PennyDreadfulCommander)
-                return null;
+                return Task.FromResult<IGameObserver>(null);
 
             var obs =  new LeagueObserver(match);
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             obs.CheckForLeague();
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-            return obs;
+            return Task.FromResult<IGameObserver>(obs);
         }
 
         public string HandleLine(GameLogLine gameLogLine)

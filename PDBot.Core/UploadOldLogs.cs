@@ -21,7 +21,7 @@ namespace PDBot.Core
             return Task.FromResult(false);
         }
 
-        public async Task EveryMinute()
+        public async Task EveryMinuteAsync()
         {
             foreach (var file in Directory.EnumerateFiles("Logs"))
             {

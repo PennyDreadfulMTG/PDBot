@@ -8,7 +8,7 @@ namespace PDBot.Interfaces
 {
     public interface ICronObject
     {
-        Task EveryMinute();
+        Task EveryMinuteAsync();
         Task EveryHourAsync();
     }
 }

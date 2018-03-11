@@ -103,12 +103,13 @@ namespace PDBot.Discord
                     {
                         await arg.DeleteAsync(new RequestOptions
                         {
-                            AuditLogReason = "Cleaning up an overly long message before we echo it."
+                            AuditLogReason = "Cleaning up an overly long message after we echoed it."
                         });
                     }
                     catch (Exception)
                     {
                         // Shrug.
+                        // This usually means we don't have permission to Moderate messages on the server.
                     }
                 }
                 else if (!success && arg is SocketUserMessage msg)
@@ -165,15 +166,17 @@ namespace PDBot.Discord
             }
         }
 
-        private static async Task Client_LogAsync(LogMessage arg)
+        private static Task Client_LogAsync(LogMessage arg)
         {
             Console.WriteLine($"[Discord] {arg.ToString()}");
+            return Task.FromResult(true);
         }
 
-        private static async Task Client_DisconnectedAsync(Exception arg)
+        private static Task Client_DisconnectedAsync(Exception arg)
         {
             //await client.StopAsync();
             //await client.StartAsync();
+            return Task.FromResult(true);
         }
 
         private static async Task Client_ReadyAsync()
@@ -193,11 +196,14 @@ namespace PDBot.Discord
                 {
                     await res.PinAsync();
                 }
-                catch (Exception) { }
+                catch (Exception c)
+                {
+                    Console.WriteLine(c);
+                }
             }
         }
 
-        public static async void SendToAllServersAsync(string msg)
+        public static async Task SendToAllServersAsync(string msg)
         {
             string[] SpammyServers =  { "Penny Dreadful", "TestServer" };
             var guilds = client.Guilds.Where(g => SpammyServers.Contains(g.Name, StringComparer.CurrentCultureIgnoreCase));
@@ -207,59 +213,59 @@ namespace PDBot.Discord
             }
         }
 
-        public static Task SendToLFGAsync(string msg)
+        public static async Task<bool> SendToLFGAsync(string msg)
         {
             var channel = FindChannel(209488769567424512);
-            return SendMessageAsync(msg, channel);
+            return (await SendMessageAsync(msg, channel)) != null;
         }
 
-        public static Task SendToPDHAsync(string msg)
+        public static async Task<bool> SendToPDHAsync(string msg)
         {
             var channel = FindChannel(234787370711515136);
-            return SendMessageAsync(msg, channel);
+            return (await SendMessageAsync(msg, channel)) != null;
         }
 
-        public static Task SendToLeagueAsync(string msg)
+        public static async Task<bool> SendToLeagueAsync(string msg)
         {
             var channel = FindChannel(220320082998460416);
-            return SendMessageAsync(msg, channel);
+            return (await SendMessageAsync(msg, channel)) != null;
         }
 
-        public static Task SendToChatRoomsAsync(string msg)
+        public static async Task<bool> SendToChatRoomsAsync(string msg)
         {
             var channel = FindChannel(334220558159970304);
-            return SendMessageAsync(msg, channel);
+            return (await SendMessageAsync(msg, channel)) != null;
         }
 
-        public static Task SendToCommunityLegacyLeague(string msg)
+        public static async Task<bool> SendToCommunityLegacyLeague(string msg)
         {
             var channel = FindChannel(341709019058143242);
-            return SendMessageAsync(msg, channel);
+            return (await SendMessageAsync(msg, channel)) != null;
         }
 
-        public static Task SendToHeirloom(string msg)
+        public static async Task<bool> SendToHeirloom(string msg)
         {
             var channel = FindChannel(246656730535034881);
-            return SendMessageAsync(msg, channel);
+            return (await SendMessageAsync(msg, channel)) != null;
         }
 
-        public static Task SendToTestAsync(string msg)
+        public static async Task<bool> SendToTestAsync(string msg)
         {
             // This one goes to #botspam on Katelyn's test server.
             var channel = FindChannel(226920619302715392);
-            return SendMessageAsync(msg, channel);
+            return (await SendMessageAsync(msg, channel)) != null;
         }
 
-        public static Task SendToPMLog(string msg)
+        public static async Task<bool> SendToPMLog(string msg)
         {
             var channel = FindChannel(331405678218313730);
-            return SendMessageAsync(msg, channel);
+            return (await SendMessageAsync(msg, channel)) != null;
         }
 
-        public static Task SendToArbiraryChannel(string msg, ulong Channel)
+        public static async Task<bool> SendToArbiraryChannel(string msg, ulong Channel)
         {
             var channel = FindChannel(Channel);
-            return SendMessageAsync(msg, channel);
+            return (await SendMessageAsync(msg, channel)) != null;
         }
 
         private static SocketTextChannel FindChannel(ulong chanId)
@@ -408,35 +414,35 @@ namespace PDBot.Discord
             }
         }
 
-        public static Task EchoChannelToDiscord(string chan, string message)
+        public static async Task<bool> EchoChannelToDiscord(string chan, string message)
         {
-            bool success = false;
+            var success = false;
             switch (chan.ToLowerInvariant())
             {
                 case "cll":
-                    success =  SendToCommunityLegacyLeague(message) != null;
+                    success = await SendToCommunityLegacyLeague(message);
                     break;
                 case "heirloom":
-                    success = SendToHeirloom(message) != null;
+                    success = await SendToHeirloom(message);
                     break;
                 case "squire":
-                    success = SendToArbiraryChannel(message, 377307172599496704) != null;
+                    success = await SendToArbiraryChannel(message, 377307172599496704);
                     break;
                 case "pauperpower":
                 case "pct":
-                    success = SendToArbiraryChannel(message, 387127632266788870) != null;
+                    success = await SendToArbiraryChannel(message, 387127632266788870);
                     break;
                 case "modern":
-                    success = SendToArbiraryChannel(message, 294436932371611659) != null;
+                    success = await SendToArbiraryChannel(message, 294436932371611659);
                     break;
             }
             if (success)
-                return Task.FromResult(success);
+                return success;
 
             if (chan.StartsWith("PD", StringComparison.CurrentCultureIgnoreCase))
-                return SendToChatRoomsAsync(message);
+                return await SendToChatRoomsAsync(message);
             else
-                return SendToArbiraryChannel(message, 352107915173167106);
+                return await SendToArbiraryChannel(message, 352107915173167106);
         }
 
         private static readonly Dictionary<string, string> Emotes = new Dictionary<string, string>

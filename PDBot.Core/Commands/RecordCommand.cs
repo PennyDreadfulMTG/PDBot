@@ -1,4 +1,4 @@
-﻿using PDBot.Commands;
+using PDBot.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,14 +18,14 @@ namespace PDBot.Core.Commands
 
         public bool AcceptsPM => false;
 
-        public async Task<string> RunAsync(string player, IMatch game, string[] args)
+        public Task<string> RunAsync(string player, IMatch game, string[] args)
         {
 
             game.Winners.GetRecordData(out var first, out var record);
             var loser = game.Players.FirstOrDefault(d => d != first.Player);
             if (string.IsNullOrEmpty(first.Player))
                 loser = "";
-            return $"[sD]Record:  {first.Player ?? ""} {record} {loser}";
+            return Task.FromResult($"[sD] Record:  {first.Player ?? ""} {record} {loser}");
         }
     }
 }

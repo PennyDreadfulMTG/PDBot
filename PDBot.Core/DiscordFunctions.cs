@@ -1,4 +1,5 @@
 using PDBot.Core.API;
+using PDBot.Core.Interfaces;
 using PDBot.Discord;
 using PDBot.Interfaces;
 using System;
@@ -12,6 +13,9 @@ namespace PDBot.Core
     public class DiscordFunctions : ICronObject
     {
         Dictionary<string, long?> MtgoToDiscordMapping = new Dictionary<string, long?>();
+        private ITournamentManager tournamentManager;
+
+        ITournamentManager TournamentManager => tournamentManager ?? (tournamentManager = Resolver.Helpers.GetTournamentManager());
 
         public async Task EveryHourAsync()
         {
@@ -19,7 +23,12 @@ namespace PDBot.Core
             await WeeklyRecapAsync();
         }
 
-        private async Task WeeklyRecapAsync()
+        public Task EveryMinuteAsync()
+        {
+            return DoTournamentRoleAsync();
+        }
+
+        private async static Task WeeklyRecapAsync()
         {
             if (await DiscordService.CheckForPinnedMessageAsync())
                 return;
@@ -29,7 +38,7 @@ namespace PDBot.Core
             var PdhGames = stats.Formats[MagicFormat.PennyDreadfulCommander.ToString()].LastWeek.NumMatches;
 
             var prevPdGames = stats.Formats[MagicFormat.PennyDreadful.ToString()].LastLastWeek?.NumMatches ?? 0;
-            var prevPdhGames = stats.Formats[MagicFormat.PennyDreadfulCommander.ToString()].LastLastWeek?.NumMatches?? 0;
+            var prevPdhGames = stats.Formats[MagicFormat.PennyDreadfulCommander.ToString()].LastLastWeek?.NumMatches ?? 0;
 
             var players = stats.Formats[MagicFormat.PennyDreadful.ToString()].LastWeek.Players.Union(stats.Formats[MagicFormat.PennyDreadfulCommander.ToString()].LastWeek.Players);
 
@@ -62,16 +71,6 @@ namespace PDBot.Core
             await DiscordService.SendToGeneralAsync(sb.ToString().Replace(" %", "%"), true);
         }
 
-        private async Task DoPDHRole()
-        {
-            var stats = await LogsiteApi.GetStatsAsync();
-            var pdh = stats.Formats[MagicFormat.PennyDreadfulCommander.ToString()];
-            var tasks = pdh.LastMonth.Players.Select(DiscordIDAsync).ToArray();
-            await Task.WhenAll(tasks);
-            var players = tasks.Select(t => t.Result).Where(id => id != null).ToArray();
-            await DiscordService.SyncRoleAsync(207281932214599682, "PDH", players);
-        }
-
         private async Task<long?> DiscordIDAsync(string username)
         {
             if (MtgoToDiscordMapping.ContainsKey(username))
@@ -80,9 +79,39 @@ namespace PDBot.Core
             return MtgoToDiscordMapping[username] = person.discord_id;
         }
 
-        public Task EveryMinute()
+        private async Task DoPDHRole()
         {
-            return Task.FromResult(false);
+            var stats = await LogsiteApi.GetStatsAsync();
+            var pdh = stats.Formats[MagicFormat.PennyDreadfulCommander.ToString()];
+            var players = await GetDiscordIDs(pdh.LastMonth.Players);
+            await DiscordService.SyncRoleAsync(207281932214599682, "PDH", players);
+        }
+
+        private async Task<long?[]> GetDiscordIDs(IEnumerable<string> playerNames)
+        {
+            var tasks = playerNames.Select(DiscordIDAsync).ToArray();
+            await Task.WhenAll(tasks);
+            var players = tasks.Select(t => t.Result).Where(id => id != null).ToArray();
+            return players;
+        }
+
+        private async Task DoTournamentRoleAsync()
+        {
+            var playerNames = new List<string>();
+            foreach (var tournament in tournamentManager.ActiveEvents)
+            {
+                if (tournament.Key.Channel.StartsWith("PD", StringComparison.InvariantCultureIgnoreCase))
+                {
+                    // Only PD Tournaments
+                    foreach (var m in tournament.Value.Matches)
+                    {
+                        playerNames.Add(m.A);
+                        playerNames.Add(m.B);
+                    }
+                }
+            }
+            var playerIDs = await GetDiscordIDs(playerNames);
+            await DiscordService.SyncRoleAsync(207281932214599682, "Tournament Players", playerIDs);
         }
     }
 }
