@@ -25,35 +25,37 @@ namespace PDBot.Core
 
         public static T[] GetInstances<T>()
         {
-            if (!Instances.ContainsKey(typeof(T)))
+            lock (Instances)
             {
-                Instances[typeof(T)] = new object[0];
-            }
-
-            var Implementations = GetImplementations<T>();
-
-            if (!Implementations.Any())
-            {
-                // Try again
-                SearchAssembly<T>(Assembly.GetEntryAssembly());
-                Implementations = SearchResults[typeof(T)];
-            }
-
-            if (Instances[typeof(T)].Length != Implementations.Length)
-            {
-                var list = new List<object>(Instances[typeof(T)]);
-                foreach (var t in Implementations)
+                if (!Instances.ContainsKey(typeof(T)))
                 {
-                    if (!list.Any(i => i.GetType() == t))
-                    {
-                        var existing = Instances.SelectMany(i => i.Value).FirstOrDefault(i => i.GetType() == t);
-                        if (existing != null)
-                            list.Add(existing);
-                        else
-                            list.Add(Activator.CreateInstance(t));
-                    }
+                    Instances[typeof(T)] = new object[0];
                 }
-                Instances[typeof(T)] = list.ToArray();
+                var Implementations = GetImplementations<T>();
+
+                if (!Implementations.Any())
+                {
+                    // Try again
+                    SearchAssembly<T>(Assembly.GetEntryAssembly());
+                    Implementations = SearchResults[typeof(T)];
+                }
+
+                if (Instances[typeof(T)].Length != Implementations.Length)
+                {
+                    var list = new List<object>(Instances[typeof(T)]);
+                    foreach (var t in Implementations)
+                    {
+                        if (!list.Any(i => i.GetType() == t))
+                        {
+                            var existing = Instances.SelectMany(i => i.Value).FirstOrDefault(i => i.GetType() == t);
+                            if (existing != null)
+                                list.Add(existing);
+                            else
+                                list.Add(Activator.CreateInstance(t));
+                        }
+                    }
+                    Instances[typeof(T)] = list.ToArray();
+                }
             }
 
             return Instances[typeof(T)].Cast<T>().ToArray();
@@ -84,14 +86,17 @@ namespace PDBot.Core
                     found.Add(t);
                 }
             }
-            
-            if (SearchResults.ContainsKey(typeof(T)))
+
+            lock (SearchResults)
             {
-                SearchResults[typeof(T)] = found.Union(SearchResults[typeof(T)]).ToArray();
-            }
-            else
-            {
-                SearchResults[typeof(T)] = found.ToArray();
+                if (SearchResults.ContainsKey(typeof(T)))
+                {
+                    SearchResults[typeof(T)] = found.Union(SearchResults[typeof(T)]).ToArray();
+                }
+                else
+                {
+                    SearchResults[typeof(T)] = found.ToArray();
+                }
             }
         }
 

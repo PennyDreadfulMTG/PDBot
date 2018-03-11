@@ -13,9 +13,9 @@ namespace PDBot.Core
     public class DiscordFunctions : ICronObject
     {
         Dictionary<string, long?> MtgoToDiscordMapping = new Dictionary<string, long?>();
-        private ITournamentManager tournamentManager;
+        private ITournamentManager m_tournamentManager;
 
-        ITournamentManager TournamentManager => tournamentManager ?? (tournamentManager = Resolver.Helpers.GetTournamentManager());
+        ITournamentManager TournamentManager => m_tournamentManager ?? (m_tournamentManager = Resolver.Helpers.GetTournamentManager());
 
         public async Task EveryHourAsync()
         {
@@ -98,7 +98,7 @@ namespace PDBot.Core
         private async Task DoTournamentRoleAsync()
         {
             var playerNames = new List<string>();
-            foreach (var tournament in tournamentManager.ActiveEvents)
+            foreach (var tournament in TournamentManager.ActiveEvents)
             {
                 if (tournament.Key.Channel.StartsWith("PD", StringComparison.InvariantCultureIgnoreCase))
                 {
