@@ -34,7 +34,7 @@ namespace PDBot.Core
             var players = stats.Formats[MagicFormat.PennyDreadful.ToString()].LastWeek.Players.Union(stats.Formats[MagicFormat.PennyDreadfulCommander.ToString()].LastWeek.Players);
 
             var sb = new StringBuilder();
-            sb.Append($"In the last week, I saw {players} people from the Penny Dreadful community play {PdGames} Penny Dreadful matches");
+            sb.Append($"In the last week, I saw {players.Count()} people from the Penny Dreadful community play {PdGames} Penny Dreadful matches");
             if (prevPdGames > 0)
             {
                 var percent = ((PdGames - prevPdGames) / (double)prevPdGames);
