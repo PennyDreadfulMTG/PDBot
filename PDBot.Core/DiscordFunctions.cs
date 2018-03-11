@@ -28,7 +28,7 @@ namespace PDBot.Core
             return DoTournamentRoleAsync();
         }
 
-        private async static Task WeeklyRecapAsync()
+        public async static Task WeeklyRecapAsync()
         {
             if (await DiscordService.CheckForPinnedMessageAsync())
                 return;
@@ -79,7 +79,7 @@ namespace PDBot.Core
             return MtgoToDiscordMapping[username] = person.discord_id;
         }
 
-        private async Task DoPDHRole()
+        public async Task DoPDHRole()
         {
             var stats = await LogsiteApi.GetStatsAsync();
             var pdh = stats.Formats[MagicFormat.PennyDreadfulCommander.ToString()];
@@ -95,12 +95,12 @@ namespace PDBot.Core
             return players;
         }
 
-        private async Task DoTournamentRoleAsync()
+        public async Task DoTournamentRoleAsync()
         {
             var playerNames = new List<string>();
             foreach (var tournament in TournamentManager.ActiveEvents)
             {
-                if (tournament.Key.Channel.StartsWith("PD", StringComparison.InvariantCultureIgnoreCase))
+                if (tournament.Key.Channel.StartsWith("#PD", StringComparison.InvariantCultureIgnoreCase))
                 {
                     // Only PD Tournaments
                     foreach (var m in tournament.Value.Matches)

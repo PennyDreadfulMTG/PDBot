@@ -113,7 +113,7 @@ namespace PDBot.Core
                 return GetInstances<IChatDispatcher>().Single();
             }
 
-            internal static ITournamentManager GetTournamentManager()
+            public static ITournamentManager GetTournamentManager()
             {
                 return GetInstances<ITournamentManager>().Single();
             }

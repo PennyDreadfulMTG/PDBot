@@ -73,6 +73,9 @@ namespace PDBot.Core.Tournaments
 
         private async Task PostPairingsAsync(Event eventModel, Round round)
         {
+            if (!Features.AnnouncePairings)
+                return;
+
             var room = eventModel.Channel;
             if (room == null)
             {

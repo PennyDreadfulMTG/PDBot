@@ -13,5 +13,7 @@ namespace PDBot.Core
         /// We don't want to tell people incorrect results when this happens.
         /// </summary>
         public static bool PublishResults { get; set; } = true;
+
+        public static bool AnnouncePairings { get; set; } = true;
     }
 }

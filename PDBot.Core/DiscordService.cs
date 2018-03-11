@@ -45,6 +45,8 @@ namespace PDBot.Discord
         {
             var server = client.GetGuild(serverID);
             var role = server.Roles.FirstOrDefault(r => r.Name == RoleName);
+            if (role == null)
+                throw new NullReferenceException($"Could not find role '{RoleName}'");
             if (remove)
             {
                 var toRemove = role.Members.Where(m => !users.Contains((long?)m.Id));
