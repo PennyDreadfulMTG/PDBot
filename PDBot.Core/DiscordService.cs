@@ -130,7 +130,7 @@ namespace PDBot.Discord
             {
                 LastWednesday = LastWednesday.Subtract(TimeSpan.FromDays(1));
             }
-            LastWednesday = LastWednesday.AddHours(23).AddMinutes(59).AddSeconds(59);
+            //LastWednesday = LastWednesday.AddHours(23).AddMinutes(59).AddSeconds(59);
             if (pinned.Any(m => m.CreatedAt > LastWednesday))
                 return true;
             return false;
