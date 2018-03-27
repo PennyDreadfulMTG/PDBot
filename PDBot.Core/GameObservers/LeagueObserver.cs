@@ -37,10 +37,11 @@ namespace PDBot.Core.GameObservers
             if (match.Format != MagicFormat.PennyDreadful && match.Format != MagicFormat.PennyDreadfulCommander)
                 return Task.FromResult<IGameObserver>(null);
 
+            if (Tourney.GetEvent(match) != null)
+                return Task.FromResult<IGameObserver>(null); // Tournament Matches aren't League Matches.
+
             var obs =  new LeagueObserver(match);
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-            obs.CheckForLeague();
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+            obs.CheckForLeague().GetAwaiter();
             return Task.FromResult<IGameObserver>(obs);
         }
 
@@ -118,8 +119,6 @@ namespace PDBot.Core.GameObservers
 
                 if (loud)
                     match.SendChat($"[sD] Good luck in your @[League] match!");
-                else if (match.GameRoom == Room.GettingSerious)
-                    match.SendChat($"[sD] If this is a league game, don't forget to @[Report]!\nIf you do not want this match to be auto-reported, type !notleague");
                 else
                     match.SendChat($"[sD] If this is a league game, don't forget to @[Report]!");
                 match.Log($"[League] {HostRun} ({HostRun.Id}) vs {LeagueRunOpp} ({LeagueRunOpp.Id})");

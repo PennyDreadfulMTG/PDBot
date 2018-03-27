@@ -105,7 +105,7 @@ namespace PDBot.Core.GameObservers
             return channel;
         }
 
-        private static Gatherling.Models.Event GetEvent(IMatch match)
+        public static Gatherling.Models.Event GetEvent(IMatch match)
         {
             foreach (var tournament in TournamentManager.ActiveEvents)
             {
