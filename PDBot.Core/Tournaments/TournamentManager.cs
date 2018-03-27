@@ -26,8 +26,9 @@ namespace PDBot.Core.Tournaments
         public Dictionary<Event, Round> ActiveEvents { get; } = new Dictionary<Event, Round>();
         public IChatDispatcher Chat { get { if (chatDispatcher == null) chatDispatcher = Resolver.Helpers.GetChatDispatcher(); return chatDispatcher; } }
 
-        public async Task EveryHourAsync()
+        public Task EveryHourAsync()
         {
+            return Task.FromResult(false);
         }
 
         public async Task EveryMinuteAsync()

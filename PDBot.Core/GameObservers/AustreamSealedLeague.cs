@@ -1,4 +1,4 @@
-﻿using PDBot.Core.Interfaces;
+using PDBot.Core.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -94,7 +94,7 @@ namespace PDBot.Core.GameObservers
             if (first.Wins == 2)
             {
                 var loser = match.Players.FirstOrDefault(d => d != winner);
-                DiscordService.SendToArbiraryChannel($":trophy: {winner} {record} {loser}", 291179039291473920);
+                DiscordService.SendToArbiraryChannelAsync($":trophy: {winner} {record} {loser}", 291179039291473920);
             }
         }
 

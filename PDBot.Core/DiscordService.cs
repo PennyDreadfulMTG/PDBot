@@ -184,7 +184,7 @@ namespace PDBot.Discord
         private static async Task Client_ReadyAsync()
         {
             if (!string.IsNullOrEmpty(Playing))
-                await SetGame(Playing);
+                await SetGameAsync(Playing);
             Ready?.Invoke(client, new EventArgs());
         }
 
@@ -239,13 +239,13 @@ namespace PDBot.Discord
             return (await SendMessageAsync(msg, channel)) != null;
         }
 
-        public static async Task<bool> SendToCommunityLegacyLeague(string msg)
+        public static async Task<bool> SendToCommunityLegacyLeagueAsync(string msg)
         {
             var channel = FindChannel(341709019058143242);
             return (await SendMessageAsync(msg, channel)) != null;
         }
 
-        public static async Task<bool> SendToHeirloom(string msg)
+        public static async Task<bool> SendToHeirloomAsync(string msg)
         {
             var channel = FindChannel(246656730535034881);
             return (await SendMessageAsync(msg, channel)) != null;
@@ -258,13 +258,13 @@ namespace PDBot.Discord
             return (await SendMessageAsync(msg, channel)) != null;
         }
 
-        public static async Task<bool> SendToPMLog(string msg)
+        public static async Task<bool> SendToPMLogAsync(string msg)
         {
             var channel = FindChannel(331405678218313730);
             return (await SendMessageAsync(msg, channel)) != null;
         }
 
-        public static async Task<bool> SendToArbiraryChannel(string msg, ulong Channel)
+        public static async Task<bool> SendToArbiraryChannelAsync(string msg, ulong Channel)
         {
             var channel = FindChannel(Channel);
             return (await SendMessageAsync(msg, channel)) != null;
@@ -310,7 +310,7 @@ namespace PDBot.Discord
             {
                 Console.WriteLine(c);
             }
-            catch (RateLimitedException c)
+            catch (RateLimitedException)
             {
                 // Thanks, Brainlesss's cat.
                 Console.WriteLine("Hit Rate Limit.");
@@ -356,7 +356,7 @@ namespace PDBot.Discord
             return v;
         }
 
-        public static async Task SetGame(string game)
+        public static async Task SetGameAsync(string game)
         {
             if (client.ConnectionState < ConnectionState.Connected)
             {
@@ -416,27 +416,27 @@ namespace PDBot.Discord
             }
         }
 
-        public static async Task<bool> EchoChannelToDiscord(string chan, string message)
+        public static async Task<bool> EchoChannelToDiscordAsync(string chan, string message)
         {
             var success = false;
             switch (chan.ToLowerInvariant())
             {
                 case "cll":
-                    success = await SendToCommunityLegacyLeague(message);
+                    success = await SendToCommunityLegacyLeagueAsync(message);
                     break;
                 case "heirloom":
-                    success = await SendToHeirloom(message);
+                    success = await SendToHeirloomAsync(message);
                     break;
                 case "squire":
-                    success = await SendToArbiraryChannel(message, 377307172599496704);
+                    success = await SendToArbiraryChannelAsync(message, 377307172599496704);
                     break;
                 case "pauperpower":
                 case "pct":
-                    success = await SendToArbiraryChannel(message, 387127632266788870);
+                    success = await SendToArbiraryChannelAsync(message, 387127632266788870);
                     break;
-                case "modern":
-                    success = await SendToArbiraryChannel(message, 294436932371611659);
-                    break;
+                //case "modern":
+                //    success = await SendToArbiraryChannelAsync(message, 294436932371611659);
+                //    break;
             }
             if (success)
                 return success;
@@ -444,7 +444,7 @@ namespace PDBot.Discord
             if (chan.StartsWith("PD", StringComparison.CurrentCultureIgnoreCase))
                 return await SendToChatRoomsAsync(message);
             else
-                return await SendToArbiraryChannel(message, 352107915173167106);
+                return await SendToArbiraryChannelAsync(message, 352107915173167106);
         }
 
         private static readonly Dictionary<string, string> Emotes = new Dictionary<string, string>
