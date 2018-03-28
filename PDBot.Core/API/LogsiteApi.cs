@@ -13,6 +13,11 @@ namespace PDBot.Core.API
         {
             [JsonProperty("formats")]
             public Dictionary<string, FormatStats> Formats { get; set; }
+
+            [JsonProperty("last_switcheroo")]
+            public long LastSwitcherooTS { get; set; }
+
+            public DateTimeOffset LastSwitcheroo => DateTimeOffset.FromUnixTimeSeconds(LastSwitcherooTS);
         }
 
         public class FormatStats

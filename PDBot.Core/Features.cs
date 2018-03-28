@@ -1,3 +1,4 @@
+using PDBot.Core.API;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,8 +13,30 @@ namespace PDBot.Core
         /// There is a bug with MTGO that gets the names wrong.
         /// We don't want to tell people incorrect results when this happens.
         /// </summary>
-        public static bool PublishResults { get; set; } = true;
+        public static bool PublishResults { get; set; }
 
-        public static bool AnnouncePairings { get; set; } = true;
+        /// <summary>
+        /// Do we want to announce Gatherling pairings?
+        /// </summary>
+        public static bool AnnouncePairings { get; set; }
+
+        static Features()
+        {
+            PublishResults = true;
+            AnnouncePairings = true;
+            try
+            {
+                var stats = LogsiteApi.GetStatsAsync().GetAwaiter().GetResult();
+                if (DateTimeOffset.UtcNow.Subtract(stats.LastSwitcheroo).TotalHours < 6)
+                {
+                    PublishResults = false;
+                }
+            }
+            catch (Exception c)
+            {
+                Console.WriteLine(c);
+            }
+
+        }
     }
 }
