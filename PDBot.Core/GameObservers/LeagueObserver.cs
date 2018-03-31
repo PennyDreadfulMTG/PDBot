@@ -41,7 +41,7 @@ namespace PDBot.Core.GameObservers
                 return Task.FromResult<IGameObserver>(null); // Tournament Matches aren't League Matches.
 
             var obs =  new LeagueObserver(match);
-            obs.CheckForLeague().GetAwaiter();
+            obs.CheckForLeagueAsync().GetAwaiter();
             return Task.FromResult<IGameObserver>(obs);
         }
 
@@ -56,13 +56,14 @@ namespace PDBot.Core.GameObservers
                 if (!InList)
                 {
                     HostRun = LeagueRunOpp = null;
+                    match.Log("[League] Invalid Match");
                     return $"[sD][sR] {name} was not on a submitted league decklist. This is not a league match.";
                 }
             }
             return null;
         }
 
-        private async Task<bool> CheckForLeague()
+        private async Task<bool> CheckForLeagueAsync()
         {
             if (match.Players.Length != 2)
                 return false;
@@ -71,7 +72,7 @@ namespace PDBot.Core.GameObservers
             var loud = desc.Contains("league");
             try
             {
-                HostRun = await DecksiteApi.GetRun(match.Players[0]);
+                HostRun = await DecksiteApi.GetRunAsync(match.Players[0]);
             }
             catch (Exception)
             {
@@ -97,7 +98,7 @@ namespace PDBot.Core.GameObservers
             var opp = match.Players[1];
             try
             {
-                LeagueRunOpp = await DecksiteApi.GetRun(opp);
+                LeagueRunOpp = await DecksiteApi.GetRunAsync(opp);
             }
             catch (Exception)
             {
@@ -125,7 +126,7 @@ namespace PDBot.Core.GameObservers
                 return true;
 
             }
-            else 
+            else
             {
                 if (loud)
                     match.SendChat($"[sD][sR] This is not a valid @[League] pairing!");
@@ -157,23 +158,21 @@ namespace PDBot.Core.GameObservers
         public void ProcessWinner(string winner, int gameID)
         {
             match.Winners.GetRecordData(out var first, out var record);
-            if (first.Wins == 2)
+            if (first.Wins == 2 && HostRun != null && LeagueRunOpp != null)
             {
-                if (HostRun != null && LeagueRunOpp != null)
+                var WinningRun = HostRun.Person.Equals(winner, StringComparison.InvariantCultureIgnoreCase) ? HostRun : LeagueRunOpp;
+                var LosingRun = (new DecksiteApi.Deck[] { HostRun, LeagueRunOpp }).Single(d => d != WinningRun);
+#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
+                if (Features.PublishResults)
                 {
-                    var WinningRun = HostRun.Person.Equals(winner, StringComparison.InvariantCultureIgnoreCase) ? HostRun : LeagueRunOpp;
-                    var LosingRun = (new DecksiteApi.Deck[] { HostRun, LeagueRunOpp }).Single(d => d != WinningRun);
-                    if (Features.PublishResults)
-                    {
-                        DecksiteApi.UploadResults(WinningRun, LosingRun, record, match.MatchID);
-                        DiscordService.SendToLeagueAsync($":trophy: {WinningRun.Person} {record} {LosingRun.Person}");
-                    }
-                    else
-                    {
-                        DiscordService.SendToLeagueAsync($":trophy: {WinningRun.Person} {record} {LosingRun.Person} (Please verify and report manually)");
-                    }
-
+                    DecksiteApi.UploadResults(WinningRun, LosingRun, record, match.MatchID);
+                    DiscordService.SendToLeagueAsync($":trophy: {WinningRun.Person} {record} {LosingRun.Person}");
                 }
+                else
+                {
+                    DiscordService.SendToLeagueAsync($":trophy: {WinningRun.Person} {record} {LosingRun.Person} (Please verify and report manually)");
+                }
+#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             }
         }
 

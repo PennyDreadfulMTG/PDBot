@@ -176,8 +176,6 @@ namespace PDBot.Discord
 
         private static Task Client_DisconnectedAsync(Exception arg)
         {
-            //await client.StopAsync();
-            //await client.StartAsync();
             return Task.FromResult(true);
         }
 

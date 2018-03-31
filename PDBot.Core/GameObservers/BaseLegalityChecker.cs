@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using PDBot.Core.Data;
 using PDBot.Core.Interfaces;
@@ -49,7 +49,7 @@ namespace PDBot.Core.GameObservers
                 {
                     warnings.Add(name);
                     IllegalCount++;
-                    var nWarnings = 3;
+                    const int nWarnings = 3;
                     if (IllegalCount < nWarnings)
                     {
                         return $"[sR]{name}[sR] is not legal in {FormatName}.";

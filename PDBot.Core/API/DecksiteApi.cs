@@ -138,12 +138,12 @@ namespace PDBot.Core.API
 
         public static Deck GetRunSync(string player)
         {
-            var task = GetRun(player);
+            var task = GetRunAsync(player);
             task.Wait();
             return task.Result;
         }
 
-        public static async Task<Deck> GetRun(string player)
+        public static async Task<Deck> GetRunAsync(string player)
         {
             try
             {

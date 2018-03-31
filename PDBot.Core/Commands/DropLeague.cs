@@ -26,7 +26,7 @@ namespace PDBot.Commands
             DecksiteApi.Deck run;
             try
             {
-                run = await DecksiteApi.GetRun(user);
+                run = await DecksiteApi.GetRunAsync(user);
             }
             catch (WebException)
             {

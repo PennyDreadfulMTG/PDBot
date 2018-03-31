@@ -18,11 +18,12 @@ namespace PDBot.Core.Commands
 
         public bool AcceptsPM => false;
 
-        public Task<string> RunAsync(string player, IMatch game, string[] args)
+        public Task<string> RunAsync(string player, IMatch match, string[] args)
         {
-            if (game?.Observers?.SingleOrDefault(o => o is GameObservers.LeagueObserver) is GameObservers.LeagueObserver LeagueObserver && LeagueObserver.HostRun != null && LeagueObserver.LeagueRunOpp != null)
+            if (match?.Observers?.SingleOrDefault(o => o is GameObservers.LeagueObserver) is GameObservers.LeagueObserver LeagueObserver && LeagueObserver.HostRun != null && LeagueObserver.LeagueRunOpp != null)
             {
                 LeagueObserver.HostRun = null;
+                match.Log("[League] Invalid Match");
                 return Task.FromResult($"[sD] Ok, I won't treat this as a league match.\nIf you change your mind, please @[Report] manually.");
             }
             else
