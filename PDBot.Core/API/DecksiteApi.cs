@@ -189,7 +189,7 @@ namespace PDBot.Core.API
 
         public static void UploadResults(Deck winningRun, Deck losingRun, string record, int MatchID)
         {
-            Api.UploadValues("/report/", new System.Collections.Specialized.NameValueCollection
+            Api.UploadValues("/report/", new NameValueCollection
             {
                 { "api_token", API_TOKEN },
                 { "entry", winningRun.Id.ToString() },

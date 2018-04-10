@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+using NUnit.Framework;
 using PDBot.Core.Data;
 using PDBot.Core.GameObservers;
 using PDBot.Core.Interfaces;
@@ -17,7 +17,7 @@ namespace Tests.Mocks
         {
             Comments = comments;
             if (players == null)
-                Players = new string[] { "silasary", "hexalite" };
+                Players = new string[] { "silasary", "kaet" };
             else
                 Players = players;
 
