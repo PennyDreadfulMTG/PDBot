@@ -1,3 +1,4 @@
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,16 @@ namespace PDBot.Core.API
     {
         public class Bug
         {
+            [JsonProperty("card")]
             public string CardName { get; set; }
+            [JsonProperty("category")]
             public string Classification { get; set; }
+            [JsonProperty("description")]
             public string Description { get; set; }
+            [JsonProperty("last_updated")]
             public string LastConfirmed { get; set; }
+            [JsonProperty("multiplayer_only")]
+            public bool Multiplayer { get; set; }
 
             public override string ToString()
             {
@@ -31,21 +38,13 @@ namespace PDBot.Core.API
 
                 if (DateTime.Now.Subtract(LastUpdate).TotalHours > 1)
                 {
-                    Bugs.Clear();
-                    WebClient wc = new WebClient();
-                    var blob = wc.DownloadString("https://pennydreadfulmtg.github.io/modo-bugs/bugs.tsv").Split('\n');
-                    Bugs.AddRange(from line in blob
-                                  let col = line.Split('\t')
-                                  where col.Length > 1
-                                  select new Bug()
-                                  {
-                                      CardName = col[0],
-                                      Description = col[1],
-                                      Classification = col[2],
-                                      //LastConfirmed = col[3]
-                                  }
-                    );
-                    LastUpdate = DateTime.Now;
+                    using (WebClient wc = new WebClient())
+                    {
+                        var blob = wc.DownloadString("https://pennydreadfulmtg.github.io/modo-bugs/bugs.json");
+                        Bugs.Clear();
+                        Bugs.AddRange(JsonConvert.DeserializeObject<Bug[]>(blob));
+                        LastUpdate = DateTime.Now;
+                    }
                 }
             }
             catch (WebException c)
