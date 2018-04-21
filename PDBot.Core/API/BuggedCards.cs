@@ -20,6 +20,8 @@ namespace PDBot.Core.API
             public string LastConfirmed { get; set; }
             [JsonProperty("multiplayer_only")]
             public bool Multiplayer { get; set; }
+            [JsonProperty("help_wanted")]
+            public bool HelpWanted { get; set; }
 
             public override string ToString()
             {
