@@ -19,8 +19,8 @@ namespace PDBot.Core
 
         public async Task EveryHourAsync()
         {
-            await DoPDHRole();
             await WeeklyRecapAsync();
+            await DoPDHRole();
         }
 
         public Task EveryMinuteAsync()
