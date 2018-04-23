@@ -123,7 +123,7 @@ namespace PDBot.Core.GameObservers
                     match.SendChat("[sD] PDBot will be going down for scheduled maintenance.  Please @[Report] this league match manually.");
                     HostRun = null;
                 }
-                else if (Features.PublishResults)
+                else if (!Features.PublishResults)
                 {
                     match.SendChat("[sD] Due to a Magic Online bug, PDBot is unable to tell which player is which.  Please @[Report] this league match manually.");
                     HostRun = null;
