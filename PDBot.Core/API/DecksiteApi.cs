@@ -7,6 +7,7 @@ using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -51,7 +52,7 @@ namespace PDBot.Core.API
 
             using (var api = Api)
             {
-                var blob = await api.DownloadStringTaskAsync($"/api/person/{username}");
+                var blob = await api.GetStringAsync($"/api/person/{username}");
                 return JsonConvert.DeserializeObject<Person>(blob);
             }
             }
@@ -111,13 +112,13 @@ namespace PDBot.Core.API
                 return MainBoard.Any(c => c.Name.Equals(name)) || SideBoard.Any(c => c.Name.Equals(name));
             }
 
-            public bool Retire()
+            public async Task<bool> Retire()
             {
-                var nameValueCollection = new NameValueCollection
-                {
-                    { "api_token", API_TOKEN }
-                };
-                var v = Encoding.UTF8.GetString(Api.UploadValues($"/api/league/drop/{Person}", nameValueCollection));
+                var nameValueCollection = new FormUrlEncodedContent(new KeyValuePair<string, string>[] {
+                    new KeyValuePair<string,string>("api_token",API_TOKEN)
+                });
+                var response = await Api.PostAsync($"/api/league/drop/{Person}", nameValueCollection).ConfigureAwait(false);
+                var v = Encoding.UTF8.GetString(await response.Content.ReadAsByteArrayAsync());
                 File.WriteAllText("drop.json", v);
                 var blob = JToken.Parse(v);
                 if (blob.Type == JTokenType.Null)
@@ -130,10 +131,10 @@ namespace PDBot.Core.API
             }
         }
 
-        static WebClient Api => new WebClient
+        static HttpClient Api => new HttpClient
         {
-            BaseAddress = "https://pennydreadfulmagic.com/",
-            Encoding = Encoding.UTF8
+            BaseAddress = new Uri("https://pennydreadfulmagic.com/"),
+
         };
 
         public static Deck GetRunSync(string player)
@@ -148,7 +149,7 @@ namespace PDBot.Core.API
             try
             {
 
-                var v = await Api.DownloadStringTaskAsync($"/api/league/run/{player}");
+                var v = await Api.GetStringAsync($"/api/league/run/{player}");
                 var blob = JToken.Parse(v);
                 if (blob.Type == JTokenType.Null)
                 {
@@ -178,9 +179,9 @@ namespace PDBot.Core.API
             }
         }
 
-        public static Deck GetDeck(int id)
+        public static async Task<Deck> GetDeckAsync(int id)
         {
-            var blob = Api.DownloadString($"/api/decks/{id}");
+            var blob = await Api.GetStringAsync($"/api/decks/{id}");
             var jObject = JObject.Parse(blob);
             if (jObject.Type == JTokenType.Null)
                 return null;
@@ -189,23 +190,23 @@ namespace PDBot.Core.API
 
         public static void UploadResults(Deck winningRun, Deck losingRun, string record, int MatchID)
         {
-            Api.UploadValues("/report/", new NameValueCollection
-            {
-                { "api_token", API_TOKEN },
-                { "entry", winningRun.Id.ToString() },
-                { "opponent", losingRun.Id.ToString() },
-                { "result", record },
-                { "draws", "0" },
-                { "matchID", MatchID.ToString() },
+            var nameValueCollection = new FormUrlEncodedContent(new KeyValuePair<string, string>[] {
+                new KeyValuePair<string, string>("api_token", API_TOKEN),
+                new KeyValuePair<string, string>("entry", winningRun.Id.ToString()),
+                new KeyValuePair<string, string>("opponent", losingRun.Id.ToString()),
+                new KeyValuePair<string, string>("result", record),
+                new KeyValuePair<string, string>("draws", "0"),
+                new KeyValuePair<string, string>("matchID", MatchID.ToString()),
             });
+            Api.PostAsync("/report/", nameValueCollection);
         }
 
-        public static bool LogUploaded(int id)
+        public static async Task<bool> LogUploadedAsync(int id)
         {
             using (var api = Api)
             {
                 var url = $"https://logs.pennydreadfulmagic.com/api/matchExists/{id}";
-                return JsonConvert.DeserializeObject<bool>(api.DownloadString(url));
+                return JsonConvert.DeserializeObject<bool>(await api.GetStringAsync(url));
             }
         }
 
@@ -215,33 +216,32 @@ namespace PDBot.Core.API
             var lines = File.ReadAllText(f);
             using (var api = Api)
             {
-                await api.UploadValuesTaskAsync("https://logs.pennydreadfulmagic.com/api/upload",
-                    new NameValueCollection
-                    {
-                        { "api_token", API_TOKEN },
-                        { "match_id", id.ToString() },
-                        { nameof(lines),  lines },
-                        { "start_time_utc", new DateTimeOffset(File.GetCreationTimeUtc(f)).ToUnixTimeSeconds().ToString() },
-                        { "end_time_utc", new DateTimeOffset(File.GetLastWriteTimeUtc(f)).ToUnixTimeSeconds().ToString() },
-                    });
+                var nameValueCollection = new FormUrlEncodedContent(new KeyValuePair<string, string>[] {
+                    new KeyValuePair<string, string>("api_token", API_TOKEN),
+                    new KeyValuePair<string, string>("match_id", id.ToString()),
+                    new KeyValuePair<string, string>(nameof(lines),  lines),
+                    new KeyValuePair<string, string>("start_time_utc", new DateTimeOffset(File.GetCreationTimeUtc(f)).ToUnixTimeSeconds().ToString()),
+                    new KeyValuePair<string, string>("end_time_utc", new DateTimeOffset(File.GetLastWriteTimeUtc(f)).ToUnixTimeSeconds().ToString()),
+                });
+                await api.PostAsync("https://logs.pennydreadfulmagic.com/api/upload", nameValueCollection);
             }
         }
 
-        public static Rotation GetRotation()
+        public static async Task<Rotation> GetRotation()
         {
-            var blob = Api.DownloadString($"/api/rotation");
+            var blob = await Api.GetStringAsync($"/api/rotation");
             return JsonConvert.DeserializeObject<Rotation>(blob);
         }
 
         public static async Task<Rotation> GetRotationAsync()
         {
-            var blob = await Api.DownloadStringTaskAsync($"/api/rotation");
+            var blob = await Api.GetStringAsync($"/api/rotation");
             return JsonConvert.DeserializeObject<Rotation>(blob);
         }
 
-        public static IEnumerable<CardStat> PopularCards()
+        public static async Task<IEnumerable<CardStat>> PopularCards()
         {
-            var blob = Api.DownloadString($"/api/cards");
+            var blob = await Api.GetStringAsync($"/api/cards");
             var jArray = JArray.Parse(blob);
             if (jArray.Type == JTokenType.Null)
                 return null;

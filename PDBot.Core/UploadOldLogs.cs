@@ -29,9 +29,9 @@ namespace PDBot.Core
                 if (age.TotalMinutes < 60)
                     continue;
                 var id = int.Parse(Path.GetFileNameWithoutExtension(file));
-                if (DecksiteApi.LogUploaded(id))
+                if (await DecksiteApi.LogUploadedAsync(id))
                 {
-                    string destFileName = Path.Combine("Logs", "Archive", id + ".txt");
+                    var destFileName = Path.Combine("Logs", "Archive", id + ".txt");
                     if (File.Exists(destFileName))
                     {
                         Console.WriteLine($"Reuploading {id} to logsite...");

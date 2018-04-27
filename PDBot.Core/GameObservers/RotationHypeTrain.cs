@@ -48,7 +48,7 @@ namespace PDBot.Core.GameObservers
         {
             if (match.Format == MagicFormat.PennyDreadful)
             {
-                var rotation = DecksiteApi.GetRotation();
+                var rotation = DecksiteApi.GetRotation().GetAwaiter().GetResult();
                 var diff = TimeSpan.FromSeconds(rotation.Diff);
                 if (diff.TotalHours < 24)
                     return true;

@@ -415,7 +415,7 @@ namespace PDBot.Discord
 
         public static async Task<bool> EchoChannelToDiscordAsync(string chan, string message, string author)
         {
-            if (author.Equals("PDBot", StringComparison.InvariantCultureIgnoreCase))
+            if (author.Equals(nameof(PDBot), StringComparison.InvariantCultureIgnoreCase))
             {
                 // TODO: escape problematic player names?
             }

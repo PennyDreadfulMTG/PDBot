@@ -11,9 +11,9 @@ namespace Tests
     class TestDecksiteApi
     {
         [Test]
-        public void CheckPopularCards()
+        public async Task CheckPopularCards()
         {
-            var cards = DecksiteApi.PopularCards();
+            var cards = await DecksiteApi.PopularCards();
             Assert.IsNotEmpty(cards);
             var first = cards.First();
             Assert.IsNotEmpty(first.name);
