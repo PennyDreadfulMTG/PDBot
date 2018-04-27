@@ -71,7 +71,7 @@ namespace PDBot.Core.API
         public struct Rotation
         {
             [JsonProperty("diff")]
-            public int Diff { get; set; }
+            public double Diff { get; set; }
 
             [JsonProperty("friendly_diff")]
             public string FriendlyDiff { get; set; }
