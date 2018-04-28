@@ -17,6 +17,10 @@ namespace PDBot.Core.API
     {
         private static readonly string API_TOKEN;
 
+        static DateTime CachedRotationLastUpdate;
+        static Rotation CachedRotation;
+
+
         static DecksiteApi()
         {
             if (File.Exists("PDM_API_KEY.txt"))
@@ -229,8 +233,21 @@ namespace PDBot.Core.API
 
         public static async Task<Rotation> GetRotation()
         {
-            var blob = await Api.GetStringAsync($"/api/rotation");
-            return JsonConvert.DeserializeObject<Rotation>(blob);
+            if (DateTime.Now.Subtract(CachedRotationLastUpdate) > TimeSpan.FromMinutes(1))
+            {
+                try
+                {
+                    var request = await Api.GetAsync($"/api/rotation");
+                    var blob = await request.Content.ReadAsStringAsync();
+                    CachedRotation = JsonConvert.DeserializeObject<Rotation>(blob);
+                    CachedRotationLastUpdate = DateTime.Now;
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Failed to update rotation data.");
+                }
+            }
+            return CachedRotation;
         }
 
         public static async Task<Rotation> GetRotationAsync()
