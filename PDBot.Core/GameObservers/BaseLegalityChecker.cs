@@ -118,6 +118,10 @@ namespace PDBot.Core.GameObservers
                     {
                         face = json;
                     }
+                    else if (json.Value<string>("layout") == "flip")
+                    {
+                        face = json["card_faces"].First(f => f.Value<string>("name") == name) as JObject;
+                    }
                     else
                     {
                         return false;
