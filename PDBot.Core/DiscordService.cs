@@ -98,7 +98,11 @@ namespace PDBot.Discord
 
             if (arg.Content.StartsWith("#"))
             {
-                var success = Resolver.Helpers.GetChatDispatcher().SendPM(words[0], $"【Discord】 {arg.Author.Username}: {arg.Content.Substring(arg.Content.IndexOf(' ')).Trim()}");
+                var username = arg.Author.Username;
+                if (arg.Author is IGuildUser gu && !string.IsNullOrWhiteSpace(gu.Nickname))
+                    username = gu.Nickname;
+                var content = arg.Content.Substring(arg.Content.IndexOf(' ')).Trim();
+                var success = Resolver.Helpers.GetChatDispatcher().SendPM(words[0], $"【Discord】 {username}: {content}");
                 if (success && arg.Content.Length > 200)
                 {
                     try
