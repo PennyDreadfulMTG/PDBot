@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Discord;
 using Discord.Net;
 using Discord.WebSocket;
+using Discord.Commands;
 using System.Diagnostics;
 using System.Net;
 using System.IO;
@@ -14,6 +15,8 @@ using System.Collections.Generic;
 using System.Net.Http;
 using PDBot.Core;
 using PDBot.Core.API;
+using Microsoft.Extensions.DependencyInjection;
+using PDBot.Core.Discord;
 
 namespace PDBot.Discord
 {
@@ -22,17 +25,33 @@ namespace PDBot.Discord
 
         // https://discordapp.com/oauth2/authorize?client_id=227647606149480449&scope=bot&permissions=270400
 
-        static DiscordSocketClient client = new DiscordSocketClient();
+        static DiscordSocketClient client;
+        private static CommandService commands;
+        private static IServiceProvider services;
+
 
         public static event EventHandler Ready;
 
         private static bool Initialized;
+
+        private static IServiceProvider ConfigureServices()
+        {
+            return new ServiceCollection()
+                .AddSingleton<DiscordSocketClient>()
+                .AddSingleton<CommandService>()
+                .BuildServiceProvider();
+        }
 
         public static async Task InitAsync(string token)
         {
             if (Initialized)
                 return;
             Initialized = true;
+            services = ConfigureServices();
+            client = services.GetRequiredService<DiscordSocketClient>();
+            commands = services.GetRequiredService<CommandService>();
+            //await commands.AddModulesAsync(typeof(DiscordService).Assembly);
+            await commands.AddModuleAsync<DiscordCommands>();
             client.Log += Client_LogAsync;
             client.Ready += Client_ReadyAsync;
             client.Disconnected += Client_DisconnectedAsync;
@@ -64,8 +83,6 @@ namespace PDBot.Discord
             }
         }
 
-        readonly static string[] modo_commands = new string[] { "!drop", "!retire"};
-
         public static string Playing { get; private set; }
         public static string CurrentAvatar { get; private set; } = "unknown";
         public static bool Connected => client.ConnectionState == ConnectionState.Connected;
@@ -74,27 +91,8 @@ namespace PDBot.Discord
         {
             if (arg.Author.IsBot)
                 return;
-            var channel = arg.Channel;
-            if (modo_commands.Contains(arg.Content.ToLower()))
-            {
-                await channel.SendMessageAsync("I don't respond to messages over discord.  Please send that to me through Magic Online instead.");
-                return;
-            }
 
             var words = arg.Content.Split();
-
-            if (arg.Content.ToLower() == "!avatar")
-            {
-                await channel.SendMessageAsync($"My current Avatar is {CurrentAvatar}.");
-                return;
-            }
-
-            if (words.FirstOrDefault().ToLower() == "!log")
-            {
-                var id = words.Skip(1).FirstOrDefault().ToString();
-                await SendLogToChannelAsync(channel, id);
-                return;
-            }
 
             if (arg.Content.StartsWith("#"))
             {
@@ -122,6 +120,38 @@ namespace PDBot.Discord
                 {
                     await msg.AddReactionAsync(new Emoji("📵"));
                 }
+                return;
+            }
+
+            var channel = arg.Channel;
+            if (arg is SocketUserMessage message)
+            {
+                var argPos = 0;
+                if (message.HasCharPrefix('!', ref argPos) || message.HasMentionPrefix(client.CurrentUser, ref argPos))
+                {
+                    Console.WriteLine("Discord Command Handler invoked.");
+                    var context = new SocketCommandContext(client, message);
+                    var result = await commands.ExecuteAsync(context, argPos, services);
+                    if (result.IsSuccess)
+                        return;
+                    if (result.Error.HasValue && result.Error.Value != CommandError.UnknownCommand)
+                    {
+                        await context.Channel.SendMessageAsync(result.ToString());
+                        return;
+                    }
+                }
+            }
+
+            if (words.FirstOrDefault().ToLower() == "!log")
+            {
+                var id = words.Skip(1).FirstOrDefault().ToString();
+                await SendLogToChannelAsync(channel, id);
+                return;
+            }
+
+            if (arg.Content.ToLower() == "!avatar")
+            {
+                await channel.SendMessageAsync($"My current Avatar is {CurrentAvatar}.");
                 return;
             }
         }
@@ -156,12 +186,13 @@ namespace PDBot.Discord
                     await channel.SendMessageAsync($"https://logs.pennydreadfulmagic.com/match/{id}/");
 
                 }
-                catch (WebException)
+                catch (Exception e)
                 {
+                    var contents = File.ReadAllLines(file);
+                    var caption = $"Format={contents[0]}, Comment=\"{contents[1]}\", Players=[{contents[3]}]";
+                    await channel.SendFileAsync(file, caption);
+                    Console.WriteLine($"Couldn't upload to logsite, {e}");
 
-                var contents = File.ReadAllLines(file);
-                var caption = $"Format={contents[0]}, Comment=\"{contents[1]}\", Players=[{contents[3]}]";
-                await channel.SendFileAsync(file, caption);
                 }
             }
             else

@@ -15,11 +15,6 @@ namespace PDBot.Core.API
         static Dictionary<string, Card> Cache { get; } = new Dictionary<string, Card>();
         static Dictionary<int, Card> IDCache { get; } = new Dictionary<int, Card>();
 
-        public static async Task FillCacheAsync()
-        {
-            HitMultiCardAPI("/cards/").ToArray();
-        }
-
         public static Card GetCard(string name)
         {
             if (Cache.ContainsKey(name))
@@ -54,7 +49,6 @@ namespace PDBot.Core.API
 
             try
             {
-
                 using (var wc = new WebClient
                 {
                     BaseAddress = "https://api.scryfall.com/"

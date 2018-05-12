@@ -1,4 +1,4 @@
-﻿using PDBot.Interfaces;
+using PDBot.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,7 +18,10 @@ namespace PDBot.Core.Commands
 
         public Task<string> RunAsync(string player, IMatch game, string[] args)
         {
-            return Task.FromResult("If you have any questions about PDBot or its operations, please ask in Discord.\nBFind out more at https://pennydreadfulmagic.com/about/");
+            const string HelpText = "If you have any questions about PDBot or its operations, please ask in Discord, or PM silasary if she is online. \n\n"+
+                "You can find out more at https://pennydreadfulmagic.com/about \n" +
+                "or https://pennydreadfulmagic.com/discord";
+            return Task.FromResult(HelpText);
         }
     }
 }

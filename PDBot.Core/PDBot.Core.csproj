@@ -35,6 +35,9 @@
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Discord.Net.Commands, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Discord.Net.Commands.1.0.2\lib\netstandard1.1\Discord.Net.Commands.dll</HintPath>
+    </Reference>
     <Reference Include="Discord.Net.Core, Version=1.0.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Discord.Net.Core.1.0.2\lib\net45\Discord.Net.Core.dll</HintPath>
     </Reference>
@@ -52,6 +55,12 @@
     </Reference>
     <Reference Include="HtmlAgilityPack, Version=1.7.4.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\HtmlAgilityPack.1.7.4\lib\Net45\HtmlAgilityPack.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection, Version=1.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Extensions.DependencyInjection.1.1.1\lib\netstandard1.1\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=1.1.1.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.1.1.1\lib\netstandard1.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -121,7 +130,8 @@
     <Compile Include="Commands\VerifyGatherling.cs" />
     <Compile Include="Data\Card.cs" />
     <Compile Include="Data\WinnerDictionary.cs" />
-    <Compile Include="DiscordFunctions.cs" />
+    <Compile Include="Discord\DiscordCommands.cs" />
+    <Compile Include="Discord\DiscordFunctions.cs" />
     <Compile Include="Features.cs" />
     <Compile Include="GameObservers\AustreamSealedLeague.cs" />
     <Compile Include="GameObservers\BaseLegalityChecker.cs" />
@@ -137,7 +147,7 @@
     <Compile Include="Commands\NotLeagueCommand.cs" />
     <Compile Include="Commands\RecordCommand.cs" />
     <Compile Include="Data\CardName.cs" />
-    <Compile Include="DiscordService.cs" />
+    <Compile Include="Discord\DiscordService.cs" />
     <Compile Include="GameObservers\BuggedCardObserver.cs" />
     <Compile Include="DetermineFormat.cs" />
     <Compile Include="Data\GameLogLine.cs" />
