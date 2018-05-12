@@ -44,6 +44,8 @@ namespace PDBot.Core
                 value = MagicFormat.Frontier;
             else if (value == MagicFormat.Freeform && IsSquire(comment))
                 value = MagicFormat.Squire;
+            else if (value == MagicFormat.FreeformVanguard && IsMoStoJho(comment))
+                value = MagicFormat.MoStoJho;
             // If we want to someday support other weird formats, add checks them here.
             return value;
         }
@@ -82,6 +84,11 @@ namespace PDBot.Core
         private static bool IsSquire(string comment)
         {
             return comment.Contains("squire");
+        }
+
+        private static bool IsMoStoJho(string comment)
+        {
+            return comment.ToLower().Contains("mostojho");
         }
     }
 }
