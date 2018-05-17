@@ -34,13 +34,10 @@ namespace PDBot.Discord
 
         private static bool Initialized;
 
-        private static IServiceProvider ConfigureServices()
-        {
-            return new ServiceCollection()
-                .AddSingleton<DiscordSocketClient>()
-                .AddSingleton<CommandService>()
+        private static IServiceProvider ConfigureServices() => new ServiceCollection()
+                .AddSingleton(new DiscordSocketClient(new DiscordSocketConfig()))
+                .AddSingleton(new CommandService(new CommandServiceConfig { DefaultRunMode = RunMode.Async }))
                 .BuildServiceProvider();
-        }
 
         public static async Task InitAsync(string token)
         {
@@ -129,7 +126,6 @@ namespace PDBot.Discord
                 var argPos = 0;
                 if (message.HasCharPrefix('!', ref argPos) || message.HasMentionPrefix(client.CurrentUser, ref argPos))
                 {
-                    Console.WriteLine("Discord Command Handler invoked.");
                     var context = new SocketCommandContext(client, message);
                     var result = await commands.ExecuteAsync(context, argPos, services);
                     if (result.IsSuccess)
@@ -145,13 +141,13 @@ namespace PDBot.Discord
             if (words.FirstOrDefault().ToLower() == "!log")
             {
                 var id = words.Skip(1).FirstOrDefault().ToString();
-                await SendLogToChannelAsync(channel, id);
+                await SendLogToChannelAsync(channel, id).ConfigureAwait(false);
                 return;
             }
 
             if (arg.Content.ToLower() == "!avatar")
             {
-                await channel.SendMessageAsync($"My current Avatar is {CurrentAvatar}.");
+                await channel.SendMessageAsync($"My current Avatar is {CurrentAvatar}.").ConfigureAwait(false);
                 return;
             }
         }
