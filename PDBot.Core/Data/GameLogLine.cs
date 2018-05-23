@@ -1,4 +1,4 @@
-﻿using PDBot.Core.Interfaces;
+using PDBot.Core.Interfaces;
 using PDBot.Data;
 using System;
 using System.Collections.Generic;
@@ -16,7 +16,10 @@ namespace PDBot.Core.Data
         /// <summary>
         /// A list of tokens that are too good for the word "token"
         /// </summary>
-        public static string[] LegendaryTokens { get; } = new string[] { "Marit Lage", "Kaldra", "Ragavan", "Ashaya, the Awoken World", "Stangg Twin", "Voja", "Urami", "Tuktuk the Returned", "Servo" };
+        public static string[] LegendaryTokens { get; } = new string[] {
+            "Marit Lage", "Kaldra", "Ragavan", "Ashaya, the Awoken World", "Stangg Twin",
+            "Voja", "Urami", "Tuktuk the Returned", "Servo", "Nightmare Horror"
+        };
 
         public string Line { get; private set; }
         public List<string> Cards { get; } = new List<string>();
