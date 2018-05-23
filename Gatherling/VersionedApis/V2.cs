@@ -23,7 +23,7 @@ namespace Gatherling.VersionedApis
         {
             using (var api = CreateWebClient())
             {
-                var json = JContainer.Parse(await api.DownloadStringTaskAsync("/ajax.php?action=active_events"));
+                var json = JToken.Parse(await api.DownloadStringTaskAsync("/ajax.php?action=active_events"));
                 if (json.Type == JTokenType.Object)
                 {
                     var dict = json as JObject;

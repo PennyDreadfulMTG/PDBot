@@ -134,9 +134,28 @@ namespace PDBot.Core.Tournaments
                     builder.AppendLine($"[sB] No-Show win time: XX:{minutes.ToString("D2")}");
                 }
                 builder.Append("[sD] Good luck, everyone!");
+
+                string doorPrize = null;
+                if (eventModel.Series.StartsWith("Penny Dreadful"))
+                {
+                    var prev = eventModel.Rounds[round.RoundNum - 1];
+                    if (round.IsFinals && !prev.IsFinals)
+                    {
+                        var top8players = round.Players.ToArray();
+                        var eligible = prev.Players.Where(p => !top8players.Contains(p)).ToArray();
+                        await PDBot.Discord.DiscordService.SendToTestAsync($"Eligible Door Prize winners:\n{string.Join("\n", eligible)}.").ConfigureAwait(false);
+                        var winner = eligible[new Random().Next(eligible.Count())];
+                        doorPrize = $"[sEventTicket] And the Door Prize goes to...\n [sEventTicket] {winner} [sEventTicket]";
+                    }
+                }
+
                 if (misses < 3)
                 {
                     var sent = Chat.SendPM(room, builder.ToString());
+                    if (!string.IsNullOrEmpty(doorPrize))
+                    {
+                        Chat.SendPM(room, doorPrize);
+                    }
                     if (!sent)
                     {
                         Chat.Join(room);

@@ -30,6 +30,8 @@ namespace Gatherling.Models
             return Gatherling.GetCurrentPairings(this);
         }
 
+        public Dictionary<int, Round> Rounds { get; } = new Dictionary<int, Round>();
+
         public override string ToString()
         {
             return $"<{Name}>";

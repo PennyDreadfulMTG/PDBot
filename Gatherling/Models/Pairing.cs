@@ -13,6 +13,8 @@ namespace Gatherling.Models
         public string Res { get; internal set; }
         public string Verification { get; internal set; }
 
+        public string[] Players => A == B ? new string[] { A } : new string[] { A, B };
+
         public override string ToString()
         {
             if (Res == null)

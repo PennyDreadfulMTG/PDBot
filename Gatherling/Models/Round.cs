@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json.Linq;
@@ -13,6 +14,8 @@ namespace Gatherling.Models
         public bool IsFinals { get; private set; }
 
         public List<Pairing> Matches { get; } = new List<Pairing>();
+
+        public IEnumerable<string> Players => Matches.SelectMany(m => m.Players);
 
         public static Round FromPaste(string[] lines)
         {
@@ -62,12 +65,12 @@ namespace Gatherling.Models
             {
                 if (m.Value<int>(nameof(round)) != round.RoundNum)
                 {
-                    // TODO: Store old rounds on tournament object.
                     round = new Round
                     {
                         RoundNum = m.Value<int>(nameof(round)),
                         IsFinals = m.Value<int>("timing") > 1,
                     };
+                    tournament.Rounds[round.RoundNum] = round;
                 }
                 var p = new Pairing
                 {
