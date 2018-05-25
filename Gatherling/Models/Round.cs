@@ -61,6 +61,8 @@ namespace Gatherling.Models
         internal static Round FromJson(JArray matches, Event tournament = null)
         {
             var round = new Round();
+            if (matches == null)
+                return round;
             foreach (var m in matches)
             {
                 if (m.Value<int>(nameof(round)) != round.RoundNum)

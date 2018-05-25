@@ -62,17 +62,9 @@ namespace Gatherling.VersionedApis
         private Event LoadEvent(string key, JObject value)
         {
             var @event = new Event(key, value, this);
-            try
-            {
-
-            if (@event.Channel == null)
+            if (string.IsNullOrWhiteSpace(@event.Channel))
             {
                 @event.Channel = RoomForSeries(@event.Series);
-            }
-            }
-            catch (Exception c)
-            {
-                Console.WriteLine(c);
             }
             return @event;
         }

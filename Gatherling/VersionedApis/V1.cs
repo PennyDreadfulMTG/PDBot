@@ -87,6 +87,11 @@ namespace Gatherling.VersionedApis
         /// <returns>Name of the room</returns>
         protected static string RoomForSeries(string eventName)
         {
+            if (string.IsNullOrWhiteSpace(eventName))
+            {
+                throw new ArgumentException("message", nameof(eventName));
+            }
+
             var series = eventName.Trim(' ', '.', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9');
             switch (series)
             {

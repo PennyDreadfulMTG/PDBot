@@ -18,6 +18,7 @@ namespace PDBot.Core.GameObservers
             "brainlesss96",
             "FinalVerb",
             "BuryMe246",
+            "truehero17",
         };
 
         public bool PreventReboot => false;

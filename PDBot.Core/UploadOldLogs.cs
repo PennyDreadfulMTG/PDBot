@@ -14,6 +14,7 @@ namespace PDBot.Core
         public UploadOldLogs()
         {
             Directory.CreateDirectory(Path.Combine("Logs", "Archive"));
+            Directory.CreateDirectory(Path.Combine("Logs", "Failed"));
         }
 
         public Task EveryHourAsync()
@@ -43,9 +44,20 @@ namespace PDBot.Core
                     File.Move(file, destFileName);
                     return;
                 }
-                Console.WriteLine($"Uploading {id} to logsite...");
-                await DecksiteApi.UploadLogAsync(id);
-                return;
+                try
+                {
+
+                    Console.WriteLine($"Uploading {id} to logsite...");
+                    await DecksiteApi.UploadLogAsync(id);
+                    return;
+                }
+                catch (UriFormatException)
+                {
+                    // This log is too long.
+                    Console.WriteLine($"Upload failed.");
+                    var destFileName = Path.Combine("Logs", "Failed", id + ".txt");
+                    File.Move(file, destFileName);
+                }
             }
         }
     }

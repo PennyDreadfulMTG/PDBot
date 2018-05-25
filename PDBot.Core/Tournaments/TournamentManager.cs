@@ -78,7 +78,7 @@ namespace PDBot.Core.Tournaments
                 return;
 
             var room = eventModel.Channel;
-            if (room == null)
+            if (string.IsNullOrWhiteSpace(room))
             {
                 Console.WriteLine($"No MTGO room defined for {eventModel}.");
                 return;
