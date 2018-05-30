@@ -45,7 +45,6 @@ namespace Tests
             var pairings = first.GetCurrentPairings().GetAwaiter().GetResult();
             Assume.That(pairings.Matches.Any());
             Assume.That(first.Channel != null);
-
         }
     }
 }

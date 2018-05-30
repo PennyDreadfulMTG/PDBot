@@ -56,6 +56,8 @@ namespace Tests.Mocks
 
         public int MatchID => 1;
 
+        public bool Completed => false;
+
         public string Log(string message)
         {
             Console.WriteLine(message);

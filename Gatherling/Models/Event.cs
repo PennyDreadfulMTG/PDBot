@@ -25,6 +25,8 @@ namespace Gatherling.Models
 
         public SubEvent Finals { get; set; }
 
+        public string[] Unreported { get; set; }
+
         public Task<Round> GetCurrentPairings()
         {
             return Gatherling.GetCurrentPairings(this);
@@ -71,6 +73,7 @@ namespace Gatherling.Models
             if (Channel != null && !Channel.StartsWith("#"))
                 Channel = "#" + Channel;
             Series = data.Value<string>("series");
+            Unreported = data.Value<string[]>("unreported");
         }
 
     }

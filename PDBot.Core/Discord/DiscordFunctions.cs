@@ -91,7 +91,9 @@ namespace PDBot.Core
         {
             var tasks = playerNames.Select(DiscordIDAsync).ToArray();
             await Task.WhenAll(tasks);
+#pragma warning disable AsyncFixer02 // Long running or blocking operations under an async method
             var players = tasks.Select(t => t.Result).Where(id => id != null).ToArray();
+#pragma warning restore AsyncFixer02 // Long running or blocking operations under an async method
             return players;
         }
 

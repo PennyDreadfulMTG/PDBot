@@ -116,6 +116,7 @@ namespace PDBot.Core.GameObservers
                     {
                         return tournament.Key;
                     }
+                    TournamentManager.ActiveMatches.Add(match);
                 }
             }
             return null;

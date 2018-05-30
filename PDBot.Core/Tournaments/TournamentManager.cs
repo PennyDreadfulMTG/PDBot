@@ -26,6 +26,8 @@ namespace PDBot.Core.Tournaments
         public Dictionary<Event, Round> ActiveEvents { get; } = new Dictionary<Event, Round>();
         public IChatDispatcher Chat { get { if (chatDispatcher == null) chatDispatcher = Resolver.Helpers.GetChatDispatcher(); return chatDispatcher; } }
 
+        public List<IMatch> ActiveMatches { get; } = new List<IMatch>();
+
         public Task EveryHourAsync()
         {
             return Task.FromResult(false);
@@ -33,17 +35,13 @@ namespace PDBot.Core.Tournaments
 
         public async Task EveryMinuteAsync()
         {
+            foreach (var m in ActiveMatches.ToArray())
+            {
+                if (m.Completed)
+                    ActiveMatches.Remove(m);
+            }
             var events = await GatherlingClient.GatherlingDotCom.GetActiveEventsAsync();
-            try
-            {
-                //events = events.Union(await GatherlingClient.PennyDreadful.GetActiveEventsAsync()).ToArray();
-            }
-#pragma warning disable CC0004 // Catch block cannot be empty
-            catch (WebException)
-            {
-
-            }
-#pragma warning restore CC0004 // Catch block cannot be empty
+            
             foreach (var ae in events)
             {
                 if (!ActiveEvents.ContainsKey(ae))

@@ -1,4 +1,4 @@
-﻿using PDBot.Core.Data;
+using PDBot.Core.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +12,7 @@ namespace PDBot.Core.Interfaces
         int MatchID { get; }
         string[] Players { get; }
         string Comments { get; }
+        bool Completed { get; }
         WinnerDictionary Winners { get; }
         IGameObserver[] Observers { get; }
         Room GameRoom { get; }
