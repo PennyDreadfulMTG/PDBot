@@ -100,20 +100,25 @@ namespace PDBot.Core
         public async Task DoTournamentRoleAsync()
         {
             var playerNames = new List<string>();
+            var waiting_on = new List<string>();
             foreach (var tournament in TournamentManager.ActiveEvents)
             {
+                // Only PD Tournaments
                 if (tournament.Key.Channel.StartsWith("#PD", StringComparison.InvariantCultureIgnoreCase))
                 {
-                    // Only PD Tournaments
                     foreach (var m in tournament.Value.Matches)
                     {
                         playerNames.Add(m.A);
                         playerNames.Add(m.B);
                     }
+                    if (tournament.Key.Unreported != null)
+                        waiting_on.AddRange(tournament.Key.Unreported.Where(p => !TournamentManager.ActiveMatches.SelectMany(m => m.Players).Contains(p)));
+                    
                 }
             }
             var playerIDs = await GetDiscordIDs(playerNames);
             await DiscordService.SyncRoleAsync(207281932214599682, "Tournament Players", playerIDs);
+            await DiscordService.SyncRoleAsync(207281932214599682, "Waiting On", await GetDiscordIDs(waiting_on));
         }
     }
 }
