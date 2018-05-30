@@ -139,7 +139,7 @@ namespace PDBot.Core.Tournaments
                 if (eventModel.Series.StartsWith("Penny Dreadful"))
                 {
                     var prev = eventModel.Rounds[round.RoundNum - 1];
-                    if (round.IsFinals && !prev.IsFinals)
+                    if (round.IsFinals && !prev.IsFinals && round.Players.Count() == 8)
                     {
                         var top8players = round.Players.ToArray();
                         var eligible = prev.Players.Where(p => !top8players.Contains(p)).ToArray();
