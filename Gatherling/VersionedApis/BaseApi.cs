@@ -57,6 +57,7 @@ namespace Gatherling.VersionedApis
         public abstract Task<Event[]> GetActiveEventsAsync();
         public abstract Task<Round> GetCurrentPairings(string eventName);
         public abstract Task<Round> GetCurrentPairings(Event tournament);
+        public abstract Task<Standing[]> GetCurrentStandingsAsync(Event tournament);
 
         public virtual async Task<Deck> GetDeckAsync(int deckID)
         {
@@ -65,6 +66,5 @@ namespace Gatherling.VersionedApis
                 return JsonConvert.DeserializeObject<Deck>(await wc.DownloadStringTaskAsync($"ajax.php?action=deckinfo&deck={deckID}").ConfigureAwait(false));
             }
         }
-
     }
 }

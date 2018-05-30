@@ -122,5 +122,10 @@ namespace Gatherling.VersionedApis
 
             return null;
         }
+
+        public override Task<Standing[]> GetCurrentStandingsAsync(Event tournament)
+        {
+            return Task.FromResult<Standing[]>(null);
+        }
     }
 }

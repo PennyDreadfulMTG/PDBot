@@ -27,6 +27,8 @@ namespace Gatherling.Models
 
         public string[] Unreported { get; set; }
 
+        protected internal Standing[] Standings;
+
         public Task<Round> GetCurrentPairings()
         {
             return Gatherling.GetCurrentPairings(this);
@@ -74,6 +76,7 @@ namespace Gatherling.Models
                 Channel = "#" + Channel;
             Series = data.Value<string>("series");
             Unreported = data.Value<string[]>("unreported");
+            Standings = data.Value<Standing[]>("standings");
         }
 
     }

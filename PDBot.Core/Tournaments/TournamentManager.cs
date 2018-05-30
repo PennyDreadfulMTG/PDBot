@@ -23,7 +23,22 @@ namespace PDBot.Core.Tournaments
             GatherlingClient.PasskeyProvider = new InfoBotSettings();
         }
 
-        public Dictionary<Event, Round> ActiveEvents { get; } = new Dictionary<Event, Round>();
+        Dictionary<string, Event> activeEvents { get; } = new Dictionary<string, Event>();
+        Dictionary<string, Round> activeRounds { get; } = new Dictionary<string, Round>();
+
+        Dictionary<Event, Round> ITournamentManager.ActiveEvents
+        {
+            get
+            {
+                var ret = new Dictionary<Event, Round>();
+                foreach (var key in activeEvents.Keys)
+                {
+                    ret.Add(activeEvents[key], activeRounds[key]);
+                }
+                return ret;
+            }
+        }
+
         public IChatDispatcher Chat { get { if (chatDispatcher == null) chatDispatcher = Resolver.Helpers.GetChatDispatcher(); return chatDispatcher; } }
 
         public List<IMatch> ActiveMatches { get; } = new List<IMatch>();
@@ -44,9 +59,10 @@ namespace PDBot.Core.Tournaments
             
             foreach (var ae in events)
             {
-                if (!ActiveEvents.ContainsKey(ae))
+                if (!activeEvents.ContainsKey(ae.Name))
                 {
-                    ActiveEvents.Add(ae, new Round());
+                    activeEvents.Add(ae.Name, ae);
+                    activeRounds.Add(ae.Name, new Round());
                 }
                 Round round;
                 try
@@ -62,9 +78,9 @@ namespace PDBot.Core.Tournaments
                     Console.WriteLine($"No active round for {ae}?");
                     continue;
                 }
-                if (round.RoundNum > ActiveEvents[ae].RoundNum)
+                if (round.RoundNum > activeRounds[ae.Name].RoundNum)
                 {
-                    ActiveEvents[ae] = round;
+                    activeRounds[ae.Name] = round;
                     await PostPairingsAsync(ae, round);
                 }
             }
