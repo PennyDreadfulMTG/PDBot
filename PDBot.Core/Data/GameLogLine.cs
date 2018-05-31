@@ -12,7 +12,7 @@ namespace PDBot.Core.Data
     public class GameLogLine
     {
         static Regex NewToken = new Regex(@"creates (a|two) (?<name>[\w\s]+).", RegexOptions.Compiled);
-        static Regex Transreliquat = new Regex(@"targeting \[(?<name>[\w\s]+)\] token (.* becomes a copy of target", RegexOptions.Compiled);
+        static Regex Transreliquat = new Regex(@"targeting \[(?<name>[\w\s]+)\] token \(.* becomes a copy of target", RegexOptions.Compiled);
         /// <summary>
         /// A list of tokens that are too good for the word "token"
         /// </summary>
