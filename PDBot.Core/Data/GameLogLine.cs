@@ -12,13 +12,13 @@ namespace PDBot.Core.Data
     public class GameLogLine
     {
         static Regex NewToken = new Regex(@"creates (a|two) (?<name>[\w\s]+).", RegexOptions.Compiled);
-
+        static Regex Transreliquat = new Regex(@"targeting \[(?<name>[\w\s]+)\] token (.* becomes a copy of target", RegexOptions.Compiled);
         /// <summary>
         /// A list of tokens that are too good for the word "token"
         /// </summary>
         public static string[] LegendaryTokens { get; } = new string[] {
             "Marit Lage", "Kaldra", "Ragavan", "Ashaya, the Awoken World", "Stangg Twin",
-            "Voja", "Urami", "Tuktuk the Returned", "Servo", "Nightmare Horror"
+            "Voja", "Urami", "Tuktuk the Returned", "Servo", "Nightmare Horror",
         };
 
         public string Line { get; private set; }
@@ -36,6 +36,16 @@ namespace PDBot.Core.Data
                     match.NamedTokens.Add(name);
                 }
             }
+            var copiesToken = Transreliquat.Match(line);
+            if (copiesToken.Success)
+            {
+                var name = copiesToken.Groups["name"].Value;
+                if (!LegendaryTokens.Contains(name) && !match.NamedTokens.Contains(name))
+                {
+                    match.NamedTokens.Add(name);
+                }
+            }
+
             this.Line = line;
             var i = -1;
             while ((i = line.IndexOf('[')) != -1)
