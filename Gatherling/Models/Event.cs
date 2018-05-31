@@ -75,9 +75,8 @@ namespace Gatherling.Models
             if (Channel != null && !Channel.StartsWith("#"))
                 Channel = "#" + Channel;
             Series = data.Value<string>("series");
-            Unreported = data.Value<string[]>("unreported");
-            Standings = data.Value<Standing[]>("standings");
+            //Unreported = data.Value<string[]>("unreported");
+            //Standings = data.Value<Standing[]>("standings");
         }
-
     }
 }
