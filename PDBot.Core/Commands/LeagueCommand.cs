@@ -1,4 +1,4 @@
-﻿using PDBot.Commands;
+using PDBot.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,32 +7,44 @@ using System.Threading.Tasks;
 using PDBot.Core.GameObservers;
 using PDBot.Interfaces;
 using PDBot.Core.Interfaces;
+using PDBot.Core.API;
+using System.Net;
 
 namespace PDBot.Core.Commands
 {
     class LeagueCommand : ICommand
     {
-        public string[] Handle { get; } = new string[] { "!league" };
+        public string[] Handle { get; } = new string[] { "!league", "!active", "!run" };
 
         public bool AcceptsGameChat => true;
 
         public bool AcceptsPM => true;
 
-        public Task<string> RunAsync(string player, IMatch game, string[] args)
+        public async Task<string> RunAsync(string player, IMatch game, string[] args)
         {
 
             if (game?.Observers?.SingleOrDefault(o => o is GameObservers.LeagueObserver) is GameObservers.LeagueObserver LeagueObserver && LeagueObserver.HostRun != null && LeagueObserver.LeagueRunOpp != null)
             {
-                return Task.FromResult($"You can @[Report] your results on the website.");
+                return $"This is a valid League match.";
             }
             else if (game != null)
             {
-                return Task.FromResult($"This isn't a @[League] match.");
+                return $"This isn't a @[League] match.";
             }
-            else
+            DecksiteApi.Deck run;
+            try
             {
-                return Task.FromResult("Find out more about the Penny Dreadful @[League].");
+                run = await DecksiteApi.GetRunAsync(player);
             }
+            catch (WebException)
+            {
+                return "Error contacting PDM website.";
+            }
+            if (run == null)
+            {
+                return $"You do not have an active deck in {DecksiteApi.CurrentLeagueName()}.";
+            }
+            return $"Your deck '{run.Name}' is currently {run.Wins}-{run.Losses}";
         }
     }
 }
