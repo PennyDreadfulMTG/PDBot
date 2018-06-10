@@ -136,13 +136,13 @@ namespace PDBot.Core
 
             foreach (var chan in toDelete)
             {
-                await chan.DeleteAsync();
+                //await chan.DeleteAsync();
             }
 
             foreach (var name in toCreate)
             {
-                var chan = await DiscordService.client.GetGuild(207281932214599682).CreateVoiceChannelAsync(name);
-                await chan.ModifyAsync(x => x.CategoryId = ActiveCategory.Id);
+                //var chan = await DiscordService.client.GetGuild(207281932214599682).CreateVoiceChannelAsync(name);
+                //await chan.ModifyAsync(x => x.CategoryId = ActiveCategory.Id);
                 //var players = name.Split(new string[] { " vs " }, StringSplitOptions.RemoveEmptyEntries);
             }
         }

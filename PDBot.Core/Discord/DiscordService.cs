@@ -161,8 +161,11 @@ namespace PDBot.Discord
                 LastWednesday = LastWednesday.Subtract(TimeSpan.FromDays(1));
             }
             if (pinned.Any(m => m.CreatedAt > LastWednesday && m.Author.Id == client.CurrentUser.Id))
-                return true;
-            return false;
+                return true; // Created since last wednesday.
+            if (pinned.Any(m => m.CreatedAt > DateTime.Now.Subtract(TimeSpan.FromDays(1)) && m.Author.Id == client.CurrentUser.Id))
+                return true; // Fallback, created since yesterday.
+
+            return false; // Green light, make that post.
         }
 
         public static Task SendLogToChannelAsync(ulong channel, int id)
