@@ -1,3 +1,5 @@
+using Discord;
+using Discord.WebSocket;
 using PDBot.Core.API;
 using PDBot.Core.Interfaces;
 using PDBot.Discord;
@@ -21,6 +23,7 @@ namespace PDBot.Core
         {
             await WeeklyRecapAsync();
             await DoPDHRole();
+            await MakeVoiceRoomsAsync();
         }
 
         public Task EveryMinuteAsync()
@@ -119,6 +122,28 @@ namespace PDBot.Core
             var playerIDs = await GetDiscordIDs(playerNames);
             await DiscordService.SyncRoleAsync(207281932214599682, "Tournament Players", playerIDs);
             await DiscordService.SyncRoleAsync(207281932214599682, "Waiting On", await GetDiscordIDs(waiting_on));
+        }
+
+        public async Task MakeVoiceRoomsAsync()
+        {
+            var Games = Resolver.Helpers.GetGameList().ActiveMatches.ToArray();
+            var ActiveCategory = DiscordService.client.GetChannel(455321670761054218) as SocketCategoryChannel;
+            var expected = Games.Select(m => string.Join(" vs ", m.Players)).ToArray();
+
+            var toDelete = ActiveCategory.Channels.Where(c => !expected.Contains(c.Name)).ToArray();
+            var toCreate = expected.Where(n => ActiveCategory.Channels.FirstOrDefault(c => c.Name == n) == null).ToArray();
+
+            foreach (var chan in toDelete)
+            {
+                await chan.DeleteAsync();
+            }
+
+            foreach (var name in toCreate)
+            {
+                var chan = await DiscordService.client.GetGuild(207281932214599682).CreateVoiceChannelAsync(name);
+                await chan.ModifyAsync(x => x.CategoryId = ActiveCategory.Id);
+                //var players = name.Split(new string[] { " vs " }, StringSplitOptions.RemoveEmptyEntries);
+            }
         }
     }
 }

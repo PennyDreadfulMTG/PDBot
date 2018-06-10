@@ -117,6 +117,11 @@ namespace PDBot.Core
             {
                 return GetInstances<ITournamentManager>().Single();
             }
+
+            internal static IGameList GetGameList()
+            {
+                return GetInstances<IGameList>().Single();
+            }
         }
     }
 }
