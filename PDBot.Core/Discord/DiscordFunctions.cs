@@ -23,7 +23,7 @@ namespace PDBot.Core
         {
             await WeeklyRecapAsync();
             await DoPDHRole();
-            await MakeVoiceRoomsAsync();
+            //await MakeVoiceRoomsAsync();
         }
 
         public Task EveryMinuteAsync()
@@ -126,7 +126,8 @@ namespace PDBot.Core
 
         public async Task MakeVoiceRoomsAsync()
         {
-            var Games = Resolver.Helpers.GetGameList().ActiveMatches.ToArray();
+            var Games = Resolver.Helpers.GetGameList().ActiveMatches
+                .Where(m => m.Format == MagicFormat.PennyDreadful || m.Format == MagicFormat.PennyDreadfulCommander).ToArray();
             var ActiveCategory = DiscordService.client.GetChannel(455321670761054218) as SocketCategoryChannel;
             var expected = Games.Select(m => string.Join(" vs ", m.Players)).ToArray();
 
