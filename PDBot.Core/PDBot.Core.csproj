@@ -152,6 +152,7 @@
     <Compile Include="DetermineFormat.cs" />
     <Compile Include="Data\GameLogLine.cs" />
     <Compile Include="Interfaces\ICronObject.cs" />
+    <Compile Include="Interfaces\IGameList.cs" />
     <Compile Include="Interfaces\IMatch.cs" />
     <Compile Include="Interfaces\IGameObserver.cs" />
     <Compile Include="GameObservers\LeagueObserver.cs" />

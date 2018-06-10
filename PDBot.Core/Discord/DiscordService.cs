@@ -25,7 +25,7 @@ namespace PDBot.Discord
 
         // https://discordapp.com/oauth2/authorize?client_id=227647606149480449&scope=bot&permissions=270400
 
-        static DiscordSocketClient client;
+        internal static DiscordSocketClient client;
         private static CommandService commands;
         private static IServiceProvider services;
 
@@ -417,7 +417,7 @@ namespace PDBot.Discord
             {
                 Console.WriteLine("HTTP Exception");
             }
-            catch (RateLimitedException r)
+            catch (RateLimitedException)
             {
                 await Task.Delay(TimeSpan.FromMinutes(10));
                 await SetAvatarAsync(image, name);
@@ -469,6 +469,8 @@ namespace PDBot.Discord
                 //case "modern":
                 //    success = await SendToArbiraryChannelAsync(message, 294436932371611659);
                 //    break;
+                default:
+                    break;
             }
             if (success)
                 return success;

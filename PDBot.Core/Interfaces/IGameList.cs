@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace PDBot.Core.Interfaces
 {
-    public interface ICronObject
+    public interface IGameList
     {
-        Task EveryMinuteAsync();
-        Task EveryHourAsync();
+        IEnumerable<IMatch> ActiveMatches { get; }
     }
 }

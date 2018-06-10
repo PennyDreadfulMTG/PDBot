@@ -1,4 +1,5 @@
 using PDBot.Core.API;
+using PDBot.Core.Interfaces;
 using PDBot.Interfaces;
 using System;
 using System.Collections.Generic;
