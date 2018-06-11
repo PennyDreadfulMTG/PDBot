@@ -154,7 +154,7 @@ namespace PDBot.Discord
 
         public async static Task<bool> CheckForPinnedMessageAsync()
         {
-            var pinned = await client.Guilds.First(g => g.Name == "Penny Dreadful").DefaultChannel.GetPinnedMessagesAsync();
+            var pinned = await FindChannel(207281932214599682).GetPinnedMessagesAsync();
             var LastWednesday = DateTime.Now.Date;
             while (LastWednesday.DayOfWeek != DayOfWeek.Wednesday)
             {
