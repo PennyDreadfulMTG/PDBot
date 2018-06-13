@@ -160,24 +160,21 @@ namespace PDBot.Core.GameObservers
             }
         }
 
-        public void ProcessWinner(string winner, int gameID)
+        public async void ProcessWinner(string winner, int gameID)
         {
             match.Winners.GetRecordData(out var first, out var record);
             if (first.Wins == 2 && HostRun != null && LeagueRunOpp != null)
             {
                 var WinningRun = HostRun.Person.Equals(winner, StringComparison.InvariantCultureIgnoreCase) ? HostRun : LeagueRunOpp;
                 var LosingRun = (new DecksiteApi.Deck[] { HostRun, LeagueRunOpp }).Single(d => d != WinningRun);
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-                if (Features.PublishResults)
+                if (Features.PublishResults && await DecksiteApi.UploadResultsAsync(WinningRun, LosingRun, record, match.MatchID))
                 {
-                    DecksiteApi.UploadResults(WinningRun, LosingRun, record, match.MatchID);
-                    DiscordService.SendToLeagueAsync($":trophy: {WinningRun.Person} {record} {LosingRun.Person}");
+                    await DiscordService.SendToLeagueAsync($":trophy: {WinningRun.Person} {record} {LosingRun.Person}");
                 }
                 else
                 {
-                    DiscordService.SendToLeagueAsync($":trophy: {WinningRun.Person} {record} {LosingRun.Person} (Please verify and report manually)");
+                    await DiscordService.SendToLeagueAsync($":trophy: {WinningRun.Person} {record} {LosingRun.Person} (Please verify and report manually)");
                 }
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
             }
         }
 

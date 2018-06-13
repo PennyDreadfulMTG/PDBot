@@ -192,7 +192,7 @@ namespace PDBot.Core.API
             return new Deck(jObject);
         }
 
-        public static void UploadResults(Deck winningRun, Deck losingRun, string record, int MatchID)
+        public static async Task<bool> UploadResultsAsync(Deck winningRun, Deck losingRun, string record, int MatchID)
         {
             var nameValueCollection = new FormUrlEncodedContent(new KeyValuePair<string, string>[] {
                 new KeyValuePair<string, string>("api_token", API_TOKEN),
@@ -202,7 +202,8 @@ namespace PDBot.Core.API
                 new KeyValuePair<string, string>("draws", "0"),
                 new KeyValuePair<string, string>("matchID", MatchID.ToString()),
             });
-            Api.PostAsync("/report/", nameValueCollection);
+            var response = await Api.PostAsync("/report/", nameValueCollection);
+            return response.IsSuccessStatusCode;
         }
 
         public static async Task<bool> LogUploadedAsync(int id)
