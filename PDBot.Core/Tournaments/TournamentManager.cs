@@ -23,17 +23,17 @@ namespace PDBot.Core.Tournaments
             GatherlingClient.PasskeyProvider = new InfoBotSettings();
         }
 
-        Dictionary<string, Event> activeEvents { get; } = new Dictionary<string, Event>();
-        Dictionary<string, Round> activeRounds { get; } = new Dictionary<string, Round>();
+        private Dictionary<string, Event> _activeEvents { get; } = new Dictionary<string, Event>();
+        private Dictionary<string, Round> _activeRounds { get; } = new Dictionary<string, Round>();
 
         Dictionary<Event, Round> ITournamentManager.ActiveEvents
         {
             get
             {
                 var ret = new Dictionary<Event, Round>();
-                foreach (var key in activeEvents.Keys)
+                foreach (var key in _activeEvents.Keys)
                 {
-                    ret.Add(activeEvents[key], activeRounds[key]);
+                    ret.Add(_activeEvents[key], _activeRounds[key]);
                 }
                 return ret;
             }
@@ -56,13 +56,13 @@ namespace PDBot.Core.Tournaments
                     ActiveMatches.Remove(m);
             }
             var events = await GatherlingClient.GatherlingDotCom.GetActiveEventsAsync();
-            
+
             foreach (var ae in events)
             {
-                if (!activeEvents.ContainsKey(ae.Name))
+                if (!_activeEvents.ContainsKey(ae.Name))
                 {
-                    activeEvents.Add(ae.Name, ae);
-                    activeRounds.Add(ae.Name, new Round());
+                    _activeEvents.Add(ae.Name, ae);
+                    _activeRounds.Add(ae.Name, new Round());
                 }
                 Round round;
                 try
@@ -78,9 +78,9 @@ namespace PDBot.Core.Tournaments
                     Console.WriteLine($"No active round for {ae}?");
                     continue;
                 }
-                if (round.RoundNum > activeRounds[ae.Name].RoundNum)
+                if (round.RoundNum > _activeRounds[ae.Name].RoundNum)
                 {
-                    activeRounds[ae.Name] = round;
+                    _activeRounds[ae.Name] = round;
                     await PostPairingsAsync(ae, round);
                 }
             }
