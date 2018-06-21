@@ -39,4 +39,33 @@ namespace PDBot.Commands
             }
         }
     }
+
+    class ResetGatherling : ICommand
+    {
+        public string[] Handle => new string[] { "!reset" };
+
+        public bool AcceptsGameChat => false;
+
+        public bool AcceptsPM => true;
+
+        public async Task<string> RunAsync(string player, IMatch game, string[] args)
+        {
+            var server = args.FirstOrDefault();
+            switch (server?.ToLower())
+            {
+                case null:
+                    return "Please provide the full verify command.";
+                case "pdg":
+                    return await GatherlingClient.PennyDreadful.ResetPasswordAsync(player);
+                case "g":
+                case "gatherling":
+                case "gatherling.com":
+                    return await GatherlingClient.GatherlingDotCom.ResetPasswordAsync(player);
+
+                default:
+                    return "Unknown servercode.";
+            }
+        }
+    }
+
 }

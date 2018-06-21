@@ -115,6 +115,11 @@ namespace Gatherling
             return VersionedApi.GetCurrentPairings(tournament);
         }
 
+        public Task<string> ResetPasswordAsync(string playerName)
+        {
+            return VersionedApi.ResetPasswordAsync(playerName);
+        }
+
         private int _apiVersion;
         public int ApiVersion
         {

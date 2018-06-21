@@ -44,9 +44,18 @@ namespace Gatherling.VersionedApis
             }
         }
 
-        public virtual async Task<string> GetVerificationCodeAsync(string playerName)
+        public virtual Task<string> GetVerificationCodeAsync(string playerName)
         {
-            var path = $"admin/infobot.php?passkey={Settings.Passkey}&username={playerName}";
+            return GetInfobotResponseAsync(playerName, "verify");
+        }
+
+        public virtual Task<string> ResetPasswordAsync(string playerName)
+        {
+            return GetInfobotResponseAsync(playerName, "reset");
+        }
+
+        public virtual async Task<string> GetInfobotResponseAsync(string playerName, string mode) {
+            var path = $"admin/infobot.php?passkey={Settings.Passkey}&username={playerName}&action={mode}";
             using (var webClient = CreateWebClient())
             {
                 var resp = await webClient.DownloadStringTaskAsync(path).ConfigureAwait(false);

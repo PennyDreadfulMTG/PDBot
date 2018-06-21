@@ -16,5 +16,6 @@ namespace Gatherling
         Task<Round> GetCurrentPairings(Event tournament);
         Task<Deck> GetDeckAsync(int deckID);
         Task<string> GetVerificationCodeAsync(string playerName);
+        Task<string> ResetPasswordAsync(string playerName);
     }
 }
