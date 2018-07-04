@@ -14,7 +14,7 @@ namespace PDBot.Core
 {
     public class DiscordFunctions : ICronObject
     {
-        Dictionary<string, long?> MtgoToDiscordMapping = new Dictionary<string, long?>();
+        Dictionary<string, long?> MtgoToDiscordMapping { get; } = new Dictionary<string, long?>();
         private ITournamentManager m_tournamentManager;
 
         ITournamentManager TournamentManager => m_tournamentManager ?? (m_tournamentManager = Resolver.Helpers.GetTournamentManager());

@@ -41,7 +41,12 @@ namespace PDBot.Core.GameObservers
                     if (bug.Multiplayer && match.Players.Length < 3)
                         continue;
                     warnings.Add(name);
-                    var v = new StringBuilder($"[sU]{name}[sU] has a {bug.Classification} bug.\n");
+                    string a_or_an(string word) // Yes, it's bad.
+                    {
+                        return word[0] == 'a' ? "an" : "a";
+                    }
+                    var a = a_or_an(bug.Classification);
+                    var v = new StringBuilder($"[sU]{name}[sU] has {a} {bug.Classification} bug.\n");
                     v.AppendLine(bug.Description.Replace("[", "").Replace("]", ""));
                     if (bug.HelpWanted)
                     {

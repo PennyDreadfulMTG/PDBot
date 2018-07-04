@@ -94,7 +94,9 @@ namespace PDBot.Core.GameObservers
             if (first.Wins == 2)
             {
                 var loser = match.Players.FirstOrDefault(d => d != winner);
+#pragma warning disable CS4014 // We don't actually want to block on the message.
                 DiscordService.SendToArbiraryChannelAsync($":trophy: {winner} {record} {loser}", 291179039291473920);
+#pragma warning restore CS4014
             }
         }
 
