@@ -84,6 +84,14 @@ namespace PDBot.Core.Tournaments
                     await PostPairingsAsync(ae, round);
                 }
             }
+
+            foreach (var cachedEvent in _activeEvents.ToArray())
+            {
+                if (!events.Contains(cachedEvent.Value))
+                {
+                    _activeEvents.Remove(cachedEvent.Key);
+                }
+            }
         }
 
         private async Task PostPairingsAsync(Event eventModel, Round round)

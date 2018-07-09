@@ -11,7 +11,7 @@ namespace PDBot.Core.GameObservers
     class BuggedCardObserver : IGameObserver
     {
         private readonly List<string> warnings = new List<string>();
-        private IMatch match;
+        private readonly IMatch match;
 
         public BuggedCardObserver()
         {

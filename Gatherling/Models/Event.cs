@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Gatherling.Models
 {
-    public class Event
+    public class Event : IEqualityComparer<Event>
     {
         internal IGatherlingApi Gatherling;
 
@@ -50,6 +50,16 @@ namespace Gatherling.Models
         public override int GetHashCode()
         {
             return this.Name.GetHashCode();
+        }
+
+        public bool Equals(Event x, Event y)
+        {
+            return x.Name == y.Name;
+        }
+
+        public int GetHashCode(Event obj)
+        {
+            return obj.Name.GetHashCode();
         }
 
         public Event(IGatherlingApi api)

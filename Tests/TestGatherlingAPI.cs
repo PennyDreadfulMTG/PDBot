@@ -41,7 +41,7 @@ namespace Tests
             if (events.Length == 0)
                 events = GatherlingClient.PennyDreadful.GetActiveEventsAsync().GetAwaiter().GetResult();
             Assume.That(events.Length > 0);
-            Gatherling.Models.Event first = events.First();
+            var first = events.First();
             var pairings = first.GetCurrentPairings().GetAwaiter().GetResult();
             Assume.That(pairings.Matches.Any());
             Assume.That(first.Channel != null);
