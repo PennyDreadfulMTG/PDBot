@@ -19,11 +19,13 @@ namespace PDBot.Core
         /// Do we want to announce Gatherling pairings?
         /// </summary>
         public static bool AnnouncePairings { get; set; }
+        public static bool JoinGames { get; set; }
 
         static Features()
         {
             PublishResults = true;
             AnnouncePairings = true;
+            JoinGames = true;
             try
             {
                 var stats = LogsiteApi.GetStatsAsync().GetAwaiter().GetResult();

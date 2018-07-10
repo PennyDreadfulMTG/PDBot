@@ -472,6 +472,8 @@ namespace PDBot.Discord
                 //case "modern":
                 //    success = await SendToArbiraryChannelAsync(message, 294436932371611659);
                 //    break;
+                case "support":
+                    success = await SendToArbiraryChannelAsync(message, 466099341359054860);
                 default:
                     break;
             }

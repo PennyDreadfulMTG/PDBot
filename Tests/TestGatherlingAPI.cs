@@ -30,7 +30,7 @@ namespace Tests
         [TestCase]
         public void TestVerification()
         {
-            string code = GatherlingClient.PennyDreadful.GetVerificationCodeAsync("PDBot").GetAwaiter().GetResult();
+            var code = GatherlingClient.PennyDreadful.GetVerificationCodeAsync(nameof(PDBot)).GetAwaiter().GetResult();
             Assert.IsNotNull(code);
         }
 
