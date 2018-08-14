@@ -17,6 +17,7 @@ namespace PDBot.Core.Interfaces
         IGameObserver[] Observers { get; }
         Room GameRoom { get; }
         MagicFormat Format { get; }
+        int MinutesPerPlayer { get; }
 
         void SendChat(string message);
         string Log(string message);

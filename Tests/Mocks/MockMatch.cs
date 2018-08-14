@@ -58,6 +58,8 @@ namespace Tests.Mocks
 
         public bool Completed => false;
 
+        public int MinutesPerPlayer => 25;
+
         public string Log(string message)
         {
             Console.WriteLine(message);

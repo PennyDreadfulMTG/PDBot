@@ -116,6 +116,7 @@ namespace PDBot.Core.GameObservers
                     match.SendChat($"[sD] Good luck in your @[League] match!");
                 else
                     match.SendChat($"[sD] If this is a league game, don't forget to @[Report]!");
+
                 match.Log($"[League] {HostRun} ({HostRun.Id}) vs {LeagueRunOpp} ({LeagueRunOpp.Id})");
 
                 if (File.Exists(Path.Combine("Updates", "urgent.txt")))
@@ -127,6 +128,11 @@ namespace PDBot.Core.GameObservers
                 {
                     match.SendChat("[sD] Due to a Magic Online bug, PDBot is unable to tell which player is which.  Please @[Report] this league match manually.");
                     HostRun = null;
+                }
+
+                if (match.MinutesPerPlayer != 25)
+                {
+                    match.SendChat($"[sAdept] This match has a {match.MinutesPerPlayer} timer.  If you are not comfortable with this, say !notleague");
                 }
                 return true;
 

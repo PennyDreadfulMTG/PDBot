@@ -165,7 +165,6 @@ namespace PDBot.Core.Tournaments
                     {
                         var top8players = round.Players.ToArray();
                         var eligible = prev.Players.Where(p => !top8players.Contains(p)).ToArray();
-                        await PDBot.Discord.DiscordService.SendToTestAsync($"Eligible Door Prize winners:\n{string.Join("\n", eligible)}.").ConfigureAwait(false);
                         var winner = eligible[new Random().Next(eligible.Count())];
                         doorPrize = $"[sEventTicket] And the Door Prize goes to...\n [sEventTicket] {winner} [sEventTicket]";
                     }
