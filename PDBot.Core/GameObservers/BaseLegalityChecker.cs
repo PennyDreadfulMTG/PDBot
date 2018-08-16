@@ -130,6 +130,14 @@ namespace PDBot.Core.GameObservers
                     if (!face.TryGetValue("mana_cost", out var cost) || string.IsNullOrEmpty(face.Value<string>("mana_cost")))
                     {
                         Transforms.Add(name);
+                        try
+                        {
+                            File.AppendAllLines("transforms.txt", new string[] { name });
+                        }
+                        catch (IOException)
+                        {
+                            
+                        }
                         return true;
                     }
                     else
