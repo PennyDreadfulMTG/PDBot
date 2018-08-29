@@ -63,6 +63,8 @@ namespace PDBot.Discord
             var role = server.Roles.FirstOrDefault(r => r.Name == RoleName);
             if (role == null)
                 throw new NullReferenceException($"Could not find role '{RoleName}'");
+            var changes = 0;
+            const int MAX_CHANGES = 7;
             if (remove)
             {
                 var toRemove = role.Members.Where(m => !users.Contains((long?)m.Id));
@@ -70,6 +72,8 @@ namespace PDBot.Discord
                 {
                     Console.WriteLine($"Removing {rem.Username} from {RoleName}");
                     await rem.RemoveRoleAsync(role);
+                    if (changes++ > MAX_CHANGES)
+                        return;
                 }
             }
             var toAdd = server.Users.Where(u => users.Contains((long?)u.Id) && !u.Roles.Contains(role));
@@ -77,6 +81,8 @@ namespace PDBot.Discord
             {
                 Console.WriteLine($"Adding {rem.Username} to {RoleName}");
                 await rem.AddRoleAsync(role);
+                if (changes++ > MAX_CHANGES)
+                    return;
             }
         }
 
@@ -308,9 +314,6 @@ namespace PDBot.Discord
             try
             {
                 return client.GetChannel(chanId) as SocketTextChannel;
-                //SocketGuild Server = client.Guilds.Single(s => s.Name == GuildName);
-                //var channel = Server.GetTextChannel(chanId);
-                //return channel;
             }
             catch (InvalidOperationException)
             {
@@ -474,6 +477,9 @@ namespace PDBot.Discord
                 //    break;
                 case "support":
                     success = await SendToArbiraryChannelAsync(message, 466099341359054860);
+                    break;
+                case "tribal":
+                    success = await SendToArbiraryChannelAsync(message, 484265718771351554);
                     break;
                 default:
                     break;
