@@ -23,7 +23,7 @@ namespace PDBot.Core
         {
             await WeeklyRecapAsync();
             await DoPDHRole();
-            //await MakeVoiceRoomsAsync();
+            await MakeVoiceRoomsAsync();
         }
 
         public Task EveryMinuteAsync()
