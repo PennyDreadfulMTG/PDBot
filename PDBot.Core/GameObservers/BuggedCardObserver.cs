@@ -53,7 +53,7 @@ namespace PDBot.Core.GameObservers
                         v.AppendLine("Our data about this bug is out of date.  Please let us know if this card is still bugged (or if it's been fixed).");
                         v.AppendLine("You can do so by either posting on discord, or PM'ing this bot.");
                     }
-                    return v.ToString();
+                    return v.ToString().Trim();
                 }
             }
             return null;

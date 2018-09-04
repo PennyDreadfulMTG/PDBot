@@ -23,12 +23,13 @@ namespace PDBot.Core
         {
             await WeeklyRecapAsync();
             await DoPDHRole();
-            await MakeVoiceRoomsAsync();
         }
 
-        public Task EveryMinuteAsync()
+        public async Task EveryMinuteAsync()
         {
-            return DoTournamentRoleAsync();
+            await DoTournamentRoleAsync();
+            //await MakeVoiceRoomsAsync();
+
         }
 
         public async static Task WeeklyRecapAsync()
@@ -129,14 +130,14 @@ namespace PDBot.Core
             var Games = Resolver.Helpers.GetGameList().ActiveMatches
                 .Where(m => m.Format == MagicFormat.PennyDreadful || m.Format == MagicFormat.PennyDreadfulCommander).ToArray();
             var ActiveCategory = DiscordService.client.GetChannel(483861469037854751) as SocketCategoryChannel;
-            var expected = Games.Select(m => string.Join(" vs ", m.Players)).ToArray();
+            var expected = Games.Select(m => "[In-Game] " + string.Join(" vs ", m.Players)).ToArray();
 
-            var toDelete = ActiveCategory.Channels.Where(c => !expected.Contains(c.Name)).ToArray();
-            var toCreate = expected.Where(n => ActiveCategory.Channels.FirstOrDefault(c => c.Name == n) == null).ToArray();
+            var toDelete = ActiveCategory.Guild.VoiceChannels.Where(c => !expected.Contains(c.Name)).ToArray();
+            var toCreate = expected.Where(n => ActiveCategory.Guild.VoiceChannels.FirstOrDefault(c => c.Name == n) == null).ToArray();
 
             foreach (var chan in toDelete)
             {
-                if (DateTimeOffset.Now.Subtract(chan.CreatedAt).TotalHours < 24 && chan is SocketTextChannel)
+                if (chan is SocketVoiceChannel && chan.Name.StartsWith("[In-Game]", StringComparison.CurrentCultureIgnoreCase))
                 {
                     Console.WriteLine($"Deleting {chan.Name}");
                     await chan.DeleteAsync();
