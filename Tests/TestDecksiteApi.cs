@@ -14,7 +14,7 @@ namespace Tests
         [Ignore("Broken?")]
         public async Task CheckPopularCards()
         {
-            var cards = await DecksiteApi.PopularCards();
+            var cards = await DecksiteApi.PopularCardsAsync();
             Assert.IsNotEmpty(cards);
             var first = cards.First();
             Assert.IsNotEmpty(first.name);

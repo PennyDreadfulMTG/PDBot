@@ -9,11 +9,12 @@ namespace PDBot.Core.API
         {
             try
             {
-
-                WebClient wc = new WebClient();
-                var blob = wc.DownloadString("https://magic.wizards.com/sites/all/modules/custom/wiz_services/mtgo_status.php");
-                var x = JObject.Parse(blob);
-                return x.Value<string>("status") == "UP";
+                using (var wc = new WebClient())
+                {
+                    var blob = wc.DownloadString("https://magic.wizards.com/sites/all/modules/custom/wiz_services/mtgo_status.php");
+                    var x = JObject.Parse(blob);
+                    return x.Value<string>("status") == "UP";
+                }
             }
             catch (WebException)
             {

@@ -96,7 +96,7 @@ namespace PDBot.Core.API
         {
             [JsonProperty("name")]
             public string Name { get; set; }
-            public long? discord_id { get; set; }
+            public ulong? discord_id { get; set; }
         }
 
     }

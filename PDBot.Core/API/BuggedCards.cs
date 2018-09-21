@@ -1,12 +1,14 @@
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 
 namespace PDBot.Core.API
 {
-    public static class BuggedCards
+    public static partial class BuggedCards
     {
         public class Bug
         {
@@ -22,6 +24,10 @@ namespace PDBot.Core.API
             public bool Multiplayer { get; set; }
             [JsonProperty("help_wanted")]
             public bool HelpWanted { get; set; }
+            [JsonProperty("url")]
+            public string Url { get; set; }
+            [JsonProperty("last_verified")]
+            public string LastVerified { get; set; }
 
             public override string ToString()
             {

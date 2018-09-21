@@ -47,7 +47,6 @@ namespace PDBot.Discord
             services = ConfigureServices();
             client = services.GetRequiredService<DiscordSocketClient>();
             commands = services.GetRequiredService<CommandService>();
-            //await commands.AddModulesAsync(typeof(DiscordService).Assembly);
             await commands.AddModuleAsync<DiscordCommands>();
             client.Log += Client_LogAsync;
             client.Ready += Client_ReadyAsync;
@@ -57,7 +56,7 @@ namespace PDBot.Discord
             await client.StartAsync();
         }
 
-        internal static async Task SyncRoleAsync(ulong serverID, string RoleName, long?[] users, bool remove = true)
+        internal static async Task SyncRoleAsync(ulong serverID, string RoleName, ulong?[] users, bool remove = true)
         {
             var server = client.GetGuild(serverID);
             var role = server.Roles.FirstOrDefault(r => r.Name == RoleName);
@@ -67,7 +66,7 @@ namespace PDBot.Discord
             const int MAX_CHANGES = 7;
             if (remove)
             {
-                var toRemove = role.Members.Where(m => !users.Contains((long?)m.Id));
+                var toRemove = role.Members.Where(m => !users.Contains(m.Id));
                 foreach (var rem in toRemove)
                 {
                     Console.WriteLine($"Removing {rem.Username} from {RoleName}");
@@ -76,7 +75,7 @@ namespace PDBot.Discord
                         return;
                 }
             }
-            var toAdd = server.Users.Where(u => users.Contains((long?)u.Id) && !u.Roles.Contains(role));
+            var toAdd = server.Users.Where(u => users.Contains(u.Id) && !u.Roles.Contains(role));
             foreach (var rem in toAdd)
             {
                 Console.WriteLine($"Adding {rem.Username} to {RoleName}");
@@ -432,8 +431,6 @@ namespace PDBot.Discord
             {
                 Console.WriteLine("Caught error while updating Avatar:");
                 Console.WriteLine(c.ToString());
-                //await Task.Delay(TimeSpan.FromMinutes(1));
-                //await SetAvatarAsync(image, name);
             }
         }
 

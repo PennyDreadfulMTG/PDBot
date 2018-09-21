@@ -232,15 +232,13 @@ namespace PDBot.Core.API
             }
         }
 
-        public static async Task<Rotation> GetRotation()
+        public static async Task<Rotation> GetCachedRotationAsync()
         {
             if (DateTime.Now.Subtract(CachedRotationLastUpdate) > TimeSpan.FromMinutes(1))
             {
                 try
                 {
-                    var request = await Api.GetAsync($"/api/rotation");
-                    var blob = await request.Content.ReadAsStringAsync();
-                    CachedRotation = JsonConvert.DeserializeObject<Rotation>(blob);
+                    CachedRotation = await GetRotationAsync();
                     CachedRotationLastUpdate = DateTime.Now;
                 }
                 catch (Exception)
@@ -257,7 +255,7 @@ namespace PDBot.Core.API
             return JsonConvert.DeserializeObject<Rotation>(blob);
         }
 
-        public static async Task<IEnumerable<CardStat>> PopularCards()
+        public static async Task<IEnumerable<CardStat>> PopularCardsAsync()
         {
             var blob = await Api.GetStringAsync($"/api/cards");
             var jArray = JArray.Parse(blob);

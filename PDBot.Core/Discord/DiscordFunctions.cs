@@ -14,7 +14,7 @@ namespace PDBot.Core
 {
     public class DiscordFunctions : ICronObject
     {
-        Dictionary<string, long?> MtgoToDiscordMapping { get; } = new Dictionary<string, long?>();
+        Dictionary<string, ulong?> MtgoToDiscordMapping { get; } = new Dictionary<string, ulong?>();
         private ITournamentManager m_tournamentManager;
 
         ITournamentManager TournamentManager => m_tournamentManager ?? (m_tournamentManager = Resolver.Helpers.GetTournamentManager());
@@ -28,7 +28,7 @@ namespace PDBot.Core
         public async Task EveryMinuteAsync()
         {
             await DoTournamentRoleAsync();
-            //await MakeVoiceRoomsAsync();
+            await MakeVoiceRoomsAsync();
 
         }
 
@@ -75,7 +75,7 @@ namespace PDBot.Core
             await DiscordService.SendToGeneralAsync(sb.ToString().Replace(" %", "%"), true);
         }
 
-        private async Task<long?> DiscordIDAsync(string username)
+        private async Task<ulong?> DiscordIDAsync(string username)
         {
             if (MtgoToDiscordMapping.ContainsKey(username))
                 return MtgoToDiscordMapping[username];
@@ -91,7 +91,7 @@ namespace PDBot.Core
             await DiscordService.SyncRoleAsync(207281932214599682, "PDH", players);
         }
 
-        private async Task<long?[]> GetDiscordIDsAsync(IEnumerable<string> playerNames)
+        private async Task<ulong?[]> GetDiscordIDsAsync(IEnumerable<string> playerNames)
         {
             var tasks = playerNames.Select(DiscordIDAsync).ToArray();
             await Task.WhenAll(tasks);
@@ -127,33 +127,65 @@ namespace PDBot.Core
 
         public async Task MakeVoiceRoomsAsync()
         {
+            string MatchEmoji(IMatch match)
+            {
+                if (match.Observers.OfType<GameObservers.Tourney>().SingleOrDefault() is GameObservers.Tourney)
+                {
+                    return "📅 ";
+                }
+                if (match.Observers.OfType<GameObservers.LeagueObserver>().SingleOrDefault() is GameObservers.LeagueObserver l)
+                {
+                    if (l.IsLeagueGame)
+                        return "🏆 ";
+                }
+                return "🍵 ";
+            }
+            bool IsGenerated(IVoiceChannel chan)
+            {
+                if (chan.Name.StartsWith("📅") || chan.Name.StartsWith("🏆") || chan.Name.StartsWith("🍵"))
+                    return true;
+                return false;
+            }
+
             var Games = Resolver.Helpers.GetGameList().ActiveMatches
+                .Where(m => !m.Completed)
                 .Where(m => m.Format == MagicFormat.PennyDreadful || m.Format == MagicFormat.PennyDreadfulCommander).ToArray();
-            var ActiveCategory = DiscordService.client.GetChannel(483861469037854751) as SocketCategoryChannel;
-            var expected = Games.Select(m => "[In-Game] " + string.Join(" vs ", m.Players)).ToArray();
+            var ActiveCategory = DiscordService.client.GetChannel(492518614272835594) as SocketCategoryChannel;
+            var expected = Games.Select(m => MatchEmoji(m) + string.Join(" vs ", m.Players)).ToArray();
 
             var toDelete = ActiveCategory.Guild.VoiceChannels.Where(c => !expected.Contains(c.Name)).ToArray();
             var toCreate = expected.Where(n => ActiveCategory.Guild.VoiceChannels.FirstOrDefault(c => c.Name == n) == null).ToArray();
 
-            foreach (var chan in toDelete)
-            {
-                if (chan is SocketVoiceChannel && chan.Name.StartsWith("[In-Game]", StringComparison.CurrentCultureIgnoreCase))
-                {
-                    Console.WriteLine($"Deleting {chan.Name}");
-                    await chan.DeleteAsync();
-                }
-                else
-                {
-                    Console.WriteLine($"Not deleting {chan.Name}");
-                }
-            }
+            var dumpChan = ActiveCategory.Guild.VoiceChannels.First();
 
             foreach (var name in toCreate)
             {
                 Console.WriteLine($"Creating VC: {name}");
-                var chan = await DiscordService.client.GetGuild(226920619302715392).CreateVoiceChannelAsync(name);
+                var chan = await ActiveCategory.Guild.CreateVoiceChannelAsync(name);
                 await chan.ModifyAsync(x => x.CategoryId = ActiveCategory.Id);
                 var players = name.Split(new string[] { " vs " }, StringSplitOptions.RemoveEmptyEntries);
+                var users = (await GetDiscordIDsAsync(players)).Where(l => l.HasValue).Select(l => l.Value).ToArray();
+                var AllUsers = ActiveCategory.Guild.VoiceChannels.SelectMany(vc => vc.Users);
+                foreach (var c in AllUsers)
+                {
+                    if (users.Contains(c.Id))
+                    {
+                        await c.ModifyAsync(u => u.Channel = chan);
+                    }
+                }
+            }
+
+            foreach (var chan in toDelete)
+            {
+                if (chan is SocketVoiceChannel vc && IsGenerated(chan))
+                {
+                    foreach (var user in vc.Users)
+                    {
+                        await user.ModifyAsync(u => u.Channel = dumpChan);
+                    }
+                    Console.WriteLine($"Deleting {chan.Name}");
+                    await chan.DeleteAsync();
+                }
             }
         }
     }

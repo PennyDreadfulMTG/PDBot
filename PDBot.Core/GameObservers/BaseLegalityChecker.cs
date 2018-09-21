@@ -73,7 +73,6 @@ namespace PDBot.Core.GameObservers
                 using (var webClient = new WebClient())
                 {
                     LegalCards = webClient.DownloadString(LegalListUrl).Split('\n');
-                    //LegalCards.Select(name => name.Trim('\r', '"'))
                     LegalCards = LegalCards.Select(n => new CardName(n)).SelectMany(cn => cn.Names).ToArray();
                 }
             }
