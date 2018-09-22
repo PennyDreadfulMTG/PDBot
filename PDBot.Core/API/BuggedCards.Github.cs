@@ -69,7 +69,7 @@ namespace PDBot.Core.API
                 var issue = await GithubClient.Issue.Get(repo.Id, num);
 
                 var verification = await GetVerificationForBugAsync(issue.Number);
-                if (verification.Equals(await GetCurrentBuildAsync()))
+                if (verification != null && verification.Equals(await GetCurrentBuildAsync()))
                 {
                     return (true, "Thanks, but our information about this bug is already up to date.");
                 }
