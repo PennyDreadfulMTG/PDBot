@@ -43,7 +43,8 @@ namespace PDBot.Core.Discord
         {
             var person = await API.DecksiteApi.GetPersonAsync(Context.User.Id.ToString());
             var name = person.Name ?? Context.User.Username;
-            await BuggedCards.UpdateBuggedAsync(CardName, name, -1, false);
+            var (success, message) = await BuggedCards.UpdateBuggedAsync(CardName, name, -1, false);
+            await ReplyAsync(message);
         }
     }
 }
