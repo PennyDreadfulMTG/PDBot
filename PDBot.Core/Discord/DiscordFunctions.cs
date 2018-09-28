@@ -138,11 +138,19 @@ namespace PDBot.Core
                     if (l.IsLeagueGame)
                         return "🏆 ";
                 }
+                if (match.Players.Count() > 2)
+                {
+                    return "⚔ ";
+                }
+                if (match.Players.Count() == 1)
+                {
+                    return "🃏 ";
+                }
                 return "🍵 ";
             }
             bool IsGenerated(IVoiceChannel chan)
             {
-                if (chan.Name.StartsWith("📅") || chan.Name.StartsWith("🏆") || chan.Name.StartsWith("🍵"))
+                if (chan.Name.StartsWith("📅") || chan.Name.StartsWith("🏆") || chan.Name.StartsWith("🍵") || chan.Name.StartsWith("⚔") || chan.Name.StartsWith("🃏"))
                     return true;
                 return false;
             }

@@ -74,15 +74,20 @@ namespace PDBot.Core.API
                     return (true, "Thanks, but our information about this bug is already up to date.");
                 }
 
-                var md_link = $"[{MatchID}](https://logs.pennydreadfulmagic.com/match/{MatchID}/)";
+                var md_link = $"in match [{MatchID}](https://logs.pennydreadfulmagic.com/match/{MatchID}/)";
+                if (MatchID == -1)
+                {
+                    md_link = "on discord";
+                }
+
                 string stillBuggedText;
                 if (isFixed)
                 {
-                    stillBuggedText = $"Fixed according to `{Player}` in match {md_link}.";
+                    stillBuggedText = $"Fixed according to `{Player}` {md_link}.";
                 }
                 else
                 {
-                    stillBuggedText = $"Still bugged according to `{Player}` in match {md_link}.";
+                    stillBuggedText = $"Still bugged according to `{Player}` {md_link}.";
                 }
 
                 await GithubClient.Issue.Comment.Create(repo.Id, issue.Number, stillBuggedText);

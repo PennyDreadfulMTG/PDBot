@@ -54,7 +54,7 @@ namespace PDBot.Commands
             switch (server?.ToLower())
             {
                 case null:
-                    return "Please provide the full verify command.";
+                    return "Please provide the full reset command.";
                 case "pdg":
                     return await GatherlingClient.PennyDreadful.ResetPasswordAsync(player);
                 case "g":

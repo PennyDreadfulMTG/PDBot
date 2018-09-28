@@ -36,7 +36,14 @@ namespace PDBot.Core.Discord
                 await ReplyAsync($"Your deck {run.Name} has been retired from the {run.CompetitionName}");
             else
                 await ReplyAsync($"Unable to retire your deck.  Please message Katelyn on discord.");
+        }
 
+        [Command("StillBugged")]
+        public async Task StillBuggedAsync([Remainder] string CardName)
+        {
+            var person = await API.DecksiteApi.GetPersonAsync(Context.User.Id.ToString());
+            var name = person.Name ?? Context.User.Username;
+            await BuggedCards.UpdateBuggedAsync(CardName, name, -1, false);
         }
     }
 }
