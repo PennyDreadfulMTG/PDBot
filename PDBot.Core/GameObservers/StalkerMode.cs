@@ -19,6 +19,8 @@ namespace PDBot.Core.GameObservers
             "FinalVerb",
             "BuryMe246",
             "truehero17",
+            "OoOoOodlezz",
+            "SirCandle",
         };
 
         public bool PreventReboot => false;

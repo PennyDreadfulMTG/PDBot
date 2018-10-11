@@ -61,6 +61,11 @@ namespace PDBot.Core
             return Instances[typeof(T)].Cast<T>().ToArray();
         }
 
+        /// <summary>
+        /// Find all implementations of T in the given assembly, and add them to our table
+        /// </summary>
+        /// <typeparam name="T">An interface</typeparam>
+        /// <param name="assembly">The assembly to be searched</param>
         public static void SearchAssembly<T>(Assembly assembly)
         {
             var found = new List<Type>();

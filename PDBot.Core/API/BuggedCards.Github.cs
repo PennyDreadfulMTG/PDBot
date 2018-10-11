@@ -126,7 +126,7 @@ namespace PDBot.Core.API
             return latest;
         }
 
-        private static Dictionary<int, Version> Verifications = new Dictionary<int, Version>();
+        private static readonly Dictionary<int, Version> Verifications = new Dictionary<int, Version>();
 
         public static async Task<Version> GetCurrentBuildAsync()
         {

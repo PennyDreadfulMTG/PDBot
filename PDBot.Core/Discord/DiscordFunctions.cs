@@ -195,6 +195,16 @@ namespace PDBot.Core
                     await chan.DeleteAsync();
                 }
             }
+
+            foreach (var dup in ActiveCategory.Guild.VoiceChannels.GroupBy(c => c.Name))
+            {
+                if (dup.Count() > 1)
+                {
+                    var c = dup.First();
+                    if (IsGenerated(c))
+                        await c.DeleteAsync();
+                }
+            }
         }
     }
 }

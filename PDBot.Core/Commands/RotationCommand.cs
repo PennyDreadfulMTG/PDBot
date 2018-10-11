@@ -20,7 +20,7 @@ namespace PDBot.Core.Commands
 
         public async Task<string> RunAsync(string player, IMatch game, string[] args)
         {
-            DecksiteApi.Rotation rotation = await DecksiteApi.GetRotationAsync();
+            var rotation = await DecksiteApi.GetRotationAsync();
             return $"[sU]The next rotation is in {rotation.FriendlyDiff}";
         }
     }
