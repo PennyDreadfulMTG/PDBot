@@ -179,7 +179,20 @@ namespace PDBot.Core.GameObservers
                 }
                 else
                 {
-                    await DiscordService.SendToLeagueAsync($":trophy: {WinningRun.Person} {record} {LosingRun.Person} (Please verify and report manually)");
+                    try
+                    {
+                        var winnerID = await DiscordFunctions.DiscordIDAsync(WinningRun.Person);
+                        var losingID = await DiscordFunctions.DiscordIDAsync(LosingRun.Person);
+                        var winnerMention = winnerID == null ? WinningRun.Person : $"<@{winnerID}>";
+                        var losingMention = losingID == null ? LosingRun.Person : $"<@{losingID}>";
+                        await DiscordService.SendToLeagueAsync($":trophy: {winnerMention} {record} {losingMention} (Please verify and report manually)");
+                    }
+                    catch (Exception c)
+                    {
+                        await DiscordService.SendToLeagueAsync($":trophy: {WinningRun.Person} {record} {LosingRun.Person} (Please verify and report manually)");
+                        Console.WriteLine(c);
+                        await DiscordService.SendToTestAsync(c.ToString());
+                    }
                 }
             }
         }

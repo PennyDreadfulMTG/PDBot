@@ -1,3 +1,4 @@
+using Discord;
 using Discord.Commands;
 using PDBot.Core.API;
 using PDBot.Discord;
@@ -41,6 +42,7 @@ namespace PDBot.Core.Discord
         [Command("StillBugged")]
         public async Task StillBuggedAsync([Remainder] string CardName)
         {
+            await Context.Channel.TriggerTypingAsync();
             var person = await API.DecksiteApi.GetPersonAsync(Context.User.Id.ToString());
             var name = person.Name ?? Context.User.Username;
             var (success, message) = await BuggedCards.UpdateBuggedAsync(CardName, name, -1, false);

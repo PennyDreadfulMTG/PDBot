@@ -14,7 +14,7 @@ namespace PDBot.Core
 {
     public class DiscordFunctions : ICronObject
     {
-        Dictionary<string, ulong?> MtgoToDiscordMapping { get; } = new Dictionary<string, ulong?>();
+        static Dictionary<string, ulong?> MtgoToDiscordMapping { get; } = new Dictionary<string, ulong?>();
         private ITournamentManager m_tournamentManager;
 
         ITournamentManager TournamentManager => m_tournamentManager ?? (m_tournamentManager = Resolver.Helpers.GetTournamentManager());
@@ -75,7 +75,7 @@ namespace PDBot.Core
             await DiscordService.SendToGeneralAsync(sb.ToString().Replace(" %", "%"), true);
         }
 
-        private async Task<ulong?> DiscordIDAsync(string username)
+        public static async Task<ulong?> DiscordIDAsync(string username)
         {
             if (MtgoToDiscordMapping.ContainsKey(username))
                 return MtgoToDiscordMapping[username];
@@ -91,7 +91,7 @@ namespace PDBot.Core
             await DiscordService.SyncRoleAsync(207281932214599682, "PDH", players);
         }
 
-        private async Task<ulong?[]> GetDiscordIDsAsync(IEnumerable<string> playerNames)
+        private async static Task<ulong?[]> GetDiscordIDsAsync(IEnumerable<string> playerNames)
         {
             var tasks = playerNames.Select(DiscordIDAsync).ToArray();
             await Task.WhenAll(tasks);
