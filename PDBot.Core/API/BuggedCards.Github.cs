@@ -133,11 +133,10 @@ namespace PDBot.Core.API
             using (var wc = new WebClient())
             {
                 var blob = await wc.DownloadStringTaskAsync(new Uri("https://pennydreadfulmtg.github.io/modo-bugs/mtgo_version.json"));
-                var version = JObject.Parse(blob);
-                return Version.Parse(version.Value<string>("version"));
+                var json = JObject.Parse(blob);
+                return Version.Parse(json.Value<string>("version"));
             }
         }
-
 
         public static async Task<Version> GetVerificationForBugAsync(int IssueNumber)
         {

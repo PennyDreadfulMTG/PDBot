@@ -70,6 +70,7 @@
     <Compile Include="Commands\LeagueRecord.cs" />
     <Compile Include="Commands\RotationCommand.cs" />
     <Compile Include="Commands\StillBuggedCommand.cs" />
+    <Compile Include="Commands\SuppressHype.cs" />
     <Compile Include="Commands\VerifyGatherling.cs" />
     <Compile Include="Data\Card.cs" />
     <Compile Include="Data\WinnerDictionary.cs" />

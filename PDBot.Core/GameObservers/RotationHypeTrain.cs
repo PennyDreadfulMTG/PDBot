@@ -3,6 +3,7 @@ using PDBot.Core.Data;
 using PDBot.Core.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -51,7 +52,22 @@ namespace PDBot.Core.GameObservers
                 var rotation = DecksiteApi.GetCachedRotationAsync().GetAwaiter().GetResult();
                 var diff = TimeSpan.FromSeconds(rotation.Diff);
                 if (diff.TotalHours < 24)
+                {
+                    if (File.Exists("suppress_hype.txt"))
+                        return false;
                     return true;
+                }
+                if (File.Exists("suppress_hype.txt"))
+                {
+                    try
+                    {
+                        File.Delete("suppress_hype.txt");
+                    }
+                    catch (IOException)
+                    {
+                        Console.WriteLine("[Error] Could not delete suppress_hype.txt?");
+                    }
+                }
             }
             return false;
         }
