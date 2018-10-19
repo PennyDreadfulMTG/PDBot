@@ -43,7 +43,7 @@ namespace PDBot.Core.GameObservers
                     warnings.Add(name);
                     string a_or_an(string word) // Yes, it's bad.
                     {
-                        return word[0] == 'a' ? "an" : "a";
+                        return "au".Contains(word[0]) ? "an" : "a";
                     }
                     var a = a_or_an(bug.Classification);
                     var v = new StringBuilder($"[sU]{name}[sU] has {a} {bug.Classification} bug.\n");
