@@ -5,21 +5,27 @@ namespace PDBot.Core.API
 {
     public class MtgoStatus
     {
+        static readonly string[] urls = new string[] { "https://s3-us-west-2.amazonaws.com/s3-mtgo-greendot/status.json", "https://magic.wizards.com/sites/all/modules/custom/wiz_services/mtgo_status.php" };
+
         public static bool IsServerUp()
         {
-            try
+            foreach (var url in urls)
             {
-                using (var wc = new WebClient())
+                try
                 {
-                    var blob = wc.DownloadString("https://magic.wizards.com/sites/all/modules/custom/wiz_services/mtgo_status.php");
-                    var x = JObject.Parse(blob);
-                    return x.Value<string>("status") == "UP";
+                    using (var wc = new WebClient())
+                    {
+                        var blob = wc.DownloadString(url);
+                        var x = JObject.Parse(blob);
+                        return x.Value<string>("status") == "UP";
+                    }
+                }
+                catch (WebException)
+                {
+                    continue;
                 }
             }
-            catch (WebException)
-            {
-                return false;
-            }
+            return false;
         }
     }
 }

@@ -24,6 +24,7 @@
 using NUnit.Framework;
 using NUnitLite;
 using PDBot.Discord;
+using System;
 
 [assembly: Parallelizable(ParallelScope.Fixtures)]
 
@@ -39,6 +40,8 @@ namespace NUnitLite.Tests
         /// <param name="args"></param>
         public static int Main(string[] args)
         {
+            var status = PDBot.Core.API.MtgoStatus.IsServerUp() ? "UP" : "DOWN";
+            Console.WriteLine($"MTGO is {status}");
             return new AutoRun().Execute(args);
         }
     }
