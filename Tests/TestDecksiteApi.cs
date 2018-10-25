@@ -23,5 +23,12 @@ namespace Tests
                 Assert.IsNotNull(item.id);
             }
         }
+
+        [TestCase("-diamonddust-")]
+        public async Task TestPersonApi(string name)
+        {
+            var person = await DecksiteApi.GetPersonAsync(name);
+            Assert.AreEqual(person.Name, name);
+        }
     }
 }

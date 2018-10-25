@@ -49,7 +49,7 @@ namespace PDBot.Core.API
             public CardName Name { get; private set; }
         }
 
-        internal static async Task<Person> GetPersonAsync(string username)
+        public static async Task<Person> GetPersonAsync(string username)
         {
             try
             {
