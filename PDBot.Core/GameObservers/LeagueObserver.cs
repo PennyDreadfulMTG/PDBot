@@ -115,7 +115,7 @@ namespace PDBot.Core.GameObservers
                 if (loud)
                     match.SendChat($"[sD] Good luck in your @[League] match!");
                 else
-                    match.SendChat($"[sD] If this is a league game, don't forget to @[Report]!");
+                    match.SendChat($"[sD] If this is a league match, don't forget to @[Report]!");
 
                 match.Log($"[League] {HostRun} ({HostRun.Id}) vs {LeagueRunOpp} ({LeagueRunOpp.Id})");
 
