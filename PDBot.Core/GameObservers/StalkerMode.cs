@@ -21,6 +21,10 @@ namespace PDBot.Core.GameObservers
             "truehero17",
             "OoOoOodlezz",
             "SirCandle",
+            "lpssuperman",
+            "Ramy99",
+            "Nikodemos",
+            "thesovietrussian",
         };
 
         public bool PreventReboot => false;
