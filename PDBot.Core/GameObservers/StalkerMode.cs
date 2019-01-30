@@ -22,7 +22,7 @@ namespace PDBot.Core.GameObservers
             "OoOoOodlezz",
             "SirCandle",
             "lpssuperman",
-            "Ramy99",
+            //"Ramy99",
             "Nikodemos",
             "thesovietrussian",
         };

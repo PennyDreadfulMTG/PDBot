@@ -60,6 +60,10 @@ namespace PDBot.Core.GameObservers
                     return $"[sD][sR] {name} was not on a submitted league decklist. This is not a league match.";
                 }
             }
+            if (gameLogLine.Line.EndsWith("has lost the game due to inaction."))
+            {
+                //DiscordService.SendLogToChannelAsync()
+            }
             return null;
         }
 

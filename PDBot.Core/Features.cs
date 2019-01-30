@@ -21,6 +21,7 @@ namespace PDBot.Core
         public static bool AnnouncePairings { get; set; }
         public static bool JoinGames { get; set; }
 
+        public static bool CreateVoiceChannels { get; set; }
         static Features()
         {
             PublishResults = true;

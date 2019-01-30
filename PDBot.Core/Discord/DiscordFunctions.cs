@@ -166,19 +166,28 @@ namespace PDBot.Core
 
             var dumpChan = ActiveCategory.Guild.VoiceChannels.First();
 
-            foreach (var name in toCreate)
+            if (Features.CreateVoiceChannels)
             {
-                Console.WriteLine($"Creating VC: {name}");
-                var chan = await ActiveCategory.Guild.CreateVoiceChannelAsync(name);
-                await chan.ModifyAsync(x => x.CategoryId = ActiveCategory.Id);
-                var players = name.Split(new string[] { " vs " }, StringSplitOptions.RemoveEmptyEntries);
-                var users = (await GetDiscordIDsAsync(players)).Where(l => l.HasValue).Select(l => l.Value).ToArray();
-                var AllUsers = ActiveCategory.Guild.VoiceChannels.SelectMany(vc => vc.Users);
-                foreach (var c in AllUsers)
+                foreach (var name in toCreate)
                 {
-                    if (users.Contains(c.Id))
+                    Console.WriteLine($"Creating VC: {name}");
+                    var chan = await ActiveCategory.Guild.CreateVoiceChannelAsync(name);
+                    await chan.ModifyAsync(x => x.CategoryId = ActiveCategory.Id);
+                    if (!chan.CategoryId.HasValue)
                     {
-                        await c.ModifyAsync(u => u.Channel = chan);
+                        await DiscordService.SendToTestAsync("Voice Channels overflowed, disabling.");
+                        Features.CreateVoiceChannels = false;
+                    }
+
+                    var players = name.Split(new string[] { " vs " }, StringSplitOptions.RemoveEmptyEntries);
+                    var users = (await GetDiscordIDsAsync(players)).Where(l => l.HasValue).Select(l => l.Value).ToArray();
+                    var AllUsers = ActiveCategory.Guild.VoiceChannels.SelectMany(vc => vc.Users);
+                    foreach (var c in AllUsers)
+                    {
+                        if (users.Contains(c.Id))
+                        {
+                            await c.ModifyAsync(u => u.Channel = chan);
+                        }
                     }
                 }
             }

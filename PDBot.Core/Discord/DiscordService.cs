@@ -63,7 +63,7 @@ namespace PDBot.Discord
             if (role == null)
                 throw new NullReferenceException($"Could not find role '{RoleName}'");
             var changes = 0;
-            const int MAX_CHANGES = 7;
+            const int MAX_CHANGES = 4;
             if (remove)
             {
                 var toRemove = role.Members.Where(m => !users.Contains(m.Id));
@@ -92,7 +92,9 @@ namespace PDBot.Discord
         private static async Task Client_MessageReceivedAsync(SocketMessage arg)
         {
             if (arg.Author.IsBot)
+            {
                 return;
+            }
 
             var words = arg.Content.Split();
 
@@ -181,6 +183,11 @@ namespace PDBot.Discord
         private static async Task SendLogToChannelAsync(ISocketMessageChannel channel, string id)
         {
             var file = Path.Combine("Logs", id + ".txt");
+            if (!File.Exists(file))
+                file = Path.Combine("Logs", "Archive", id + ".txt");
+            if (!File.Exists(file))
+                file = Path.Combine("Logs", "Failed", id + ".txt");
+
             if (File.Exists(file))
             {
                 await channel.TriggerTypingAsync();
@@ -253,24 +260,28 @@ namespace PDBot.Discord
 
         public static async Task<bool> SendToLFGAsync(string msg)
         {
+            // Penny Dreadful server: #looking-for-games
             var channel = FindChannel(209488769567424512);
             return (await SendMessageAsync(msg, channel)) != null;
         }
 
         public static async Task<bool> SendToPDHAsync(string msg)
         {
+            // Penny Dreadful server: #pdh
             var channel = FindChannel(234787370711515136);
             return (await SendMessageAsync(msg, channel)) != null;
         }
 
         public static async Task<bool> SendToLeagueAsync(string msg)
         {
+            // Penny Dreadful server: #league
             var channel = FindChannel(220320082998460416);
             return (await SendMessageAsync(msg, channel)) != null;
         }
 
-        public static async Task<bool> SendToChatRoomsAsync(string msg)
+        public static async Task<bool> SendToTournamentRoomAsync(string msg)
         {
+            // Penny Dreadful server: #tournament-room
             var channel = FindChannel(334220558159970304);
             return (await SendMessageAsync(msg, channel)) != null;
         }
@@ -485,7 +496,7 @@ namespace PDBot.Discord
                 return success;
 
             if (chan.StartsWith("PD", StringComparison.CurrentCultureIgnoreCase))
-                return await SendToChatRoomsAsync(message);
+                return await SendToTournamentRoomAsync(message);
             else
                 return await SendToArbiraryChannelAsync(message, 352107915173167106);
         }
