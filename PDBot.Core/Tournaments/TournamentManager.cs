@@ -174,7 +174,7 @@ namespace PDBot.Core.Tournaments
                 builder.Append("[sD] Good luck, everyone!");
 
                 string doorPrize = null;
-                if (eventModel.Series.StartsWith("Penny Dreadful"))
+                if (eventModel.Series.Contains("Penny Dreadful"))
                 {
                     if (eventModel.Rounds.ContainsKey(round.RoundNum - 1))
                     {
