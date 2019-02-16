@@ -136,7 +136,7 @@ namespace PDBot.Core
             await DiscordService.SyncRoleAsync(207281932214599682, "Waiting On", await GetDiscordIDsAsync(waiting_on));
         }
 
-        public async Task MakeVoiceRoomsAsync()
+        public async static Task MakeVoiceRoomsAsync()
         {
             string MatchEmoji(IMatch match)
             {

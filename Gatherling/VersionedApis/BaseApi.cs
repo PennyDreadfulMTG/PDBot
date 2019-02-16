@@ -38,7 +38,7 @@ namespace Gatherling.VersionedApis
             {
                 var response = await wc.UploadValuesTaskAsync("login.php", new System.Collections.Specialized.NameValueCollection
                 {
-                    { "username", "PDBot" },
+                    { "username", nameof(PDBot) },
                     { "password", Settings.Passkey },
                 });
             }

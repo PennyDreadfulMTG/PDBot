@@ -111,7 +111,7 @@ namespace PDBot.Core.GameObservers
                     JObject face;
                     if (json.Value<string>("layout") == "transform")
                     {
-                        face = json["card_faces"].First(f => f.Value<string>("name") == name) as JObject;
+                        face = json["card_faces"].First(f => f.Value<string>(nameof(name)) == name) as JObject;
                     }
                     else if (json.Value<string>("layout") == "meld")
                     {
@@ -119,7 +119,7 @@ namespace PDBot.Core.GameObservers
                     }
                     else if (json.Value<string>("layout") == "flip")
                     {
-                        face = json["card_faces"].First(f => f.Value<string>("name") == name) as JObject;
+                        face = json["card_faces"].First(f => f.Value<string>(nameof(name)) == name) as JObject;
                     }
                     else
                     {
