@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+using NUnit.Framework;
 using PDBot.Core;
 using System;
 using System.Collections.Generic;
@@ -43,14 +43,14 @@ namespace Tests
                 Assert.Contains(observer.Trim(), foundObservers);
             }
 
-            Regex GameHeader = new Regex(@"== Game (?<n>[0-9]) \((?<gameId>[0-9]+)\) ==");
+            var GameHeader = new Regex(@"== Game (?<n>[0-9]) \((?<gameId>[0-9]+)\) ==");
 
-            int gameID = 0;
-            int gameNum = 0;
+            var gameID = 0;
+            var gameNum = 0;
 
             for (int i = 0; i < lines.Length; i++)
             {
-                string input = lines[i];
+                var input = lines[i];
                 Match rxmatch;
                 if (input.StartsWith("[CHAT]"))
                     continue;
@@ -75,7 +75,7 @@ namespace Tests
                 }
                 else
                 {
-                    PDBot.Core.Data.GameLogLine gameLogLine = new PDBot.Core.Data.GameLogLine(input, match);
+                    var gameLogLine = new PDBot.Core.Data.GameLogLine(input, match);
                     foreach (var item in match.Observers)
                     {
                         var output = item.HandleLine(gameLogLine);

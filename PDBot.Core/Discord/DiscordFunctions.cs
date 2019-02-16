@@ -83,6 +83,12 @@ namespace PDBot.Core
             return MtgoToDiscordMapping[username] = person.discord_id;
         }
 
+        public static async Task<string> MentionOrElseNameAsync(string username)
+        {
+            var ID = await DiscordIDAsync(username);
+            return ID == null ? username : $"<@{ID}>";
+        }
+
         public async Task DoPDHRole()
         {
             var stats = await LogsiteApi.GetStatsAsync();
@@ -172,8 +178,11 @@ namespace PDBot.Core
                 {
                     Console.WriteLine($"Creating VC: {name}");
                     var chan = await ActiveCategory.Guild.CreateVoiceChannelAsync(name);
-                    await chan.ModifyAsync(x => x.CategoryId = ActiveCategory.Id);
-                    if (!chan.CategoryId.HasValue)
+                    try
+                    {
+                        await chan.ModifyAsync(x => x.CategoryId = ActiveCategory.Id);
+                    }
+                    catch (AggregateException)
                     {
                         await DiscordService.SendToTestAsync("Voice Channels overflowed, disabling.");
                         Features.CreateVoiceChannels = false;

@@ -52,10 +52,10 @@ namespace Gatherling.VersionedApis
         public virtual async Task<string> ResetPasswordAsync(string playerName)
         {
             var reset = await GetInfobotResponseAsync(playerName, "reset");
-            if (reset.Contains("password"))
-                return reset;
-            else
+            if (reset.Contains("verification code"))
                 return "This feature is unavailable right now.  Please contact a site admin";
+            else
+                return reset;
         }
 
         public virtual async Task<string> GetInfobotResponseAsync(string playerName, string mode) {

@@ -2,6 +2,7 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -85,7 +86,9 @@ namespace Gatherling.Models
             if (Channel != null && !Channel.StartsWith("#"))
                 Channel = "#" + Channel;
             Series = data.Value<string>("series");
-            //Unreported = data.Value<string[]>("unreported");
+
+            if (data.ContainsKey("unreported"))
+                Unreported = ((JArray)data["unreported"]).Values<string>().ToArray();
             //Standings = data.Value<Standing[]>("standings");
         }
     }

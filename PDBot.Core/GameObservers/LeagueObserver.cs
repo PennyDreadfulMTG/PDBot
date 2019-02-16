@@ -185,10 +185,8 @@ namespace PDBot.Core.GameObservers
                 {
                     try
                     {
-                        var winnerID = await DiscordFunctions.DiscordIDAsync(WinningRun.Person);
-                        var losingID = await DiscordFunctions.DiscordIDAsync(LosingRun.Person);
-                        var winnerMention = winnerID == null ? WinningRun.Person : $"<@{winnerID}>";
-                        var losingMention = losingID == null ? LosingRun.Person : $"<@{losingID}>";
+                        var winnerMention = await DiscordFunctions.MentionOrElseNameAsync(WinningRun.Person);
+                        var losingMention = await DiscordFunctions.MentionOrElseNameAsync(LosingRun.Person);
                         await DiscordService.SendToLeagueAsync($":trophy: {winnerMention} {record} {losingMention} (Please verify and report manually)");
                     }
                     catch (Exception c)

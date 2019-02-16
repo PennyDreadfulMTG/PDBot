@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+using NUnit.Framework;
 using PDBot.Core;
 using PDBot.Core.Data;
 using PDBot.Core.GameObservers;
@@ -49,6 +49,7 @@ namespace Tests
         }
 
         [Theory]
+        [Ignore("I don't care about Heirloom anymore")]
         public void TestHeirloomLegality()
         {
             var match = new MockMatch("Heirloom", null, MagicFormat.Heirloom);

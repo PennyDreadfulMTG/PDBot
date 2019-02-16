@@ -23,14 +23,14 @@ namespace Gatherling
                 passkeyProvider = value;
                 GatherlingDotCom.Settings.Update(passkeyProvider);
                 PennyDreadful.Settings.Update(passkeyProvider);
-                Pauper.Settings.Update(passkeyProvider);
+                One.Settings.Update(passkeyProvider);
                 Localhost.Settings.Update(passkeyProvider);
             }
         }
 
         public static GatherlingClient GatherlingDotCom { get; } = new GatherlingClient("https://gatherling.com/");
         public static GatherlingClient PennyDreadful { get; } = new GatherlingClient("https://gatherling.pennydreadfulmagic.com/");
-        public static GatherlingClient Pauper { get; } = new GatherlingClient("https://pdcmagic.com/gatherling/");
+        public static GatherlingClient One { get; } = new GatherlingClient("https://gatherling.one/");
         public static GatherlingClient Localhost { get; } = new GatherlingClient("http://127.0.0.1/gatherling/", "xxxx");
 
         private IGatherlingApi api;

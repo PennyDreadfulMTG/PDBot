@@ -17,6 +17,14 @@ namespace Gatherling.Models
 
         public override string ToString()
         {
+            CalculateRes();
+            if (Res == "BYE")
+                return $"{A} has the BYE!";
+            return $"{A} {Res} {B}";
+        }
+
+        public void CalculateRes()
+        {
             if (Res == null)
             {
                 if (A == B)
@@ -39,9 +47,6 @@ namespace Gatherling.Models
                     Res = "vs.";
                 }
             }
-            if (Res == "BYE")
-                return $"{A} has the BYE!";
-            return $"{A} {Res} {B}";
         }
     }
 

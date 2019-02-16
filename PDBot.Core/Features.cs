@@ -27,6 +27,7 @@ namespace PDBot.Core
             PublishResults = true;
             AnnouncePairings = true;
             JoinGames = true;
+            CreateVoiceChannels = true;
             try
             {
                 var stats = LogsiteApi.GetStatsAsync().GetAwaiter().GetResult();

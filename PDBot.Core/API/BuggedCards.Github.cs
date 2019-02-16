@@ -1,5 +1,6 @@
 using Newtonsoft.Json.Linq;
 using Octokit;
+using PDBot.Discord;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -60,54 +61,61 @@ namespace PDBot.Core.API
 
         public static async Task<(bool success, string message)> UpdateBuggedAsync(string CardName, string Player, int MatchID, bool isFixed)
         {
-            CheckForNewList();
-            var bug = Bugs.SingleOrDefault(n => n.CardName == CardName);
-            if (bug != null)
+            try
             {
-                var repo = await GetRepositoryAsync();
-                var num = int.Parse(bug.Url.Split('/').Last());
-                var issue = await GithubClient.Issue.Get(repo.Id, num);
-
-                var verification = await GetVerificationForBugAsync(issue.Number);
-                if (verification != null && verification.Equals(await GetCurrentBuildAsync()))
+                CheckForNewList();
+                var bug = Bugs.SingleOrDefault(n => n.CardName == CardName);
+                if (bug != null)
                 {
-                    return (true, "Thanks, but our information about this bug is already up to date.");
-                }
+                    var repo = await GetRepositoryAsync();
+                    var num = int.Parse(bug.Url.Split('/').Last());
+                    var issue = await GithubClient.Issue.Get(repo.Id, num);
 
-                var md_link = $"in match [{MatchID}](https://logs.pennydreadfulmagic.com/match/{MatchID}/)";
-                if (MatchID == -1)
-                {
-                    md_link = "on discord";
-                }
-
-                string stillBuggedText;
-                if (isFixed)
-                {
-                    stillBuggedText = $"Fixed according to `{Player}` {md_link}.";
-                }
-                else
-                {
-                    stillBuggedText = $"Still bugged according to `{Player}` {md_link}.";
-                }
-
-                await GithubClient.Issue.Comment.Create(repo.Id, issue.Number, stillBuggedText);
-
-                if (!isFixed)
-                {
-                    var currentCol = await GetLatestColumnAsync();
-                    if (verification == null)
+                    var verification = await GetVerificationForBugAsync(issue.Number);
+                    if (verification != null && verification.Equals(await GetCurrentBuildAsync()))
                     {
-                        await GithubClient.Repository.Project.Card.Create(currentCol.Id, new NewProjectCard(issue.Id, ProjectCardContentType.Issue));
+                        return (true, "Thanks, but our information about this bug is already up to date.");
+                    }
+
+                    var md_link = $"in match [{MatchID}](https://logs.pennydreadfulmagic.com/match/{MatchID}/)";
+                    if (MatchID == -1)
+                    {
+                        md_link = "on discord";
+                    }
+
+                    string stillBuggedText;
+                    if (isFixed)
+                    {
+                        stillBuggedText = $"Fixed according to `{Player}` {md_link}.";
                     }
                     else
                     {
-                        var card = await GetCardForBugAsync(issue.Number);
-                        await GithubClient.Repository.Project.Card.Move(card.Id, new ProjectCardMove(ProjectCardPosition.Top, currentCol.Id, null));
+                        stillBuggedText = $"Still bugged according to `{Player}` {md_link}.";
                     }
-                    Verifications[issue.Number] = await GetCurrentBuildAsync();
-                }
 
-                return (true, "Thanks, I've updated my records!");
+                    await GithubClient.Issue.Comment.Create(repo.Id, issue.Number, stillBuggedText);
+
+                    if (!isFixed)
+                    {
+                        var currentCol = await GetLatestColumnAsync();
+                        if (verification == null)
+                        {
+                            await GithubClient.Repository.Project.Card.Create(currentCol.Id, new NewProjectCard(issue.Id, ProjectCardContentType.Issue));
+                        }
+                        else
+                        {
+                            var card = await GetCardForBugAsync(issue.Number);
+                            await GithubClient.Repository.Project.Card.Move(card.Id, new ProjectCardMove(ProjectCardPosition.Top, currentCol.Id, null));
+                        }
+                        Verifications[issue.Number] = await GetCurrentBuildAsync();
+                    }
+
+                    return (true, "Thanks, I've updated my records!");
+                }
+            }
+            catch (Exception c)
+            {
+                await DiscordService.SendToTestAsync($"Error updating Modo-bugs:\nCardName={CardName}\n{c}");
             }
             return (false, "Sorry, I encountered an error.  Please PM me the details.");
         }

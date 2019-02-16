@@ -56,6 +56,7 @@ namespace PDBot.Core.Tournaments
                     ActiveMatches.Remove(m);
             }
             var events = await GatherlingClient.GatherlingDotCom.GetActiveEventsAsync();
+            events = events.Union(await GatherlingClient.One.GetActiveEventsAsync()).ToArray();
 
             foreach (var ae in events)
             {
@@ -147,7 +148,22 @@ namespace PDBot.Core.Tournaments
                         misses += 1;
                         builder.Append("[sT] ");
                     }
-                    builder.Append(pairing.ToString());
+                    if (eventModel.Series.StartsWith("Penny Dreadful"))
+                    {
+                        pairing.CalculateRes();
+                        var A = await DiscordFunctions.MentionOrElseNameAsync(pairing.A);
+                        var B = await DiscordFunctions.MentionOrElseNameAsync(pairing.B);
+                        if (pairing.Res == "BYE")
+                            builder.Append($"{A} has the BYE!");
+                        else
+                        {
+                            builder.Append($"{A} {pairing.Res} {B}");
+                        }
+                    }
+                    else
+                    {
+                        builder.Append(pairing.ToString());
+                    }
                     builder.Append("\n");
                 }
                 if (misses == 0 && !round.IsFinals)
