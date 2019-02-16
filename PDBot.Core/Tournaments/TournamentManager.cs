@@ -187,7 +187,6 @@ namespace PDBot.Core.Tournaments
                             doorPrize = $"[sEventTicket] And the Door Prize goes to...\n [sEventTicket] {winner} [sEventTicket]";
                         }
                     }
-                    
                 }
 
                 if (misses < 3)

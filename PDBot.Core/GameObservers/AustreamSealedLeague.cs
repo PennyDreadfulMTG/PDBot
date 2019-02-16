@@ -117,11 +117,6 @@ namespace PDBot.Core.GameObservers
                 var r = match.Players.All(p => AustreamMembers.Contains(p, StringComparer.CurrentCultureIgnoreCase));
                 if (r)
                     return true;
-                //var not = match.Players.Where(p => !AustreamMembers.Contains(p, StringComparer.CurrentCultureIgnoreCase));
-                //foreach (var person in not)
-                //{
-                //    Console.WriteLine($"{person} is not in Austream.");
-                //}
                 return false;
             }
         }

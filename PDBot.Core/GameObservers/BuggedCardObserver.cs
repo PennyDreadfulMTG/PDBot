@@ -17,7 +17,7 @@ namespace PDBot.Core.GameObservers
         {
 
         }
-    
+
         public BuggedCardObserver(IMatch match)
         {
             this.match = match;

@@ -135,7 +135,7 @@ namespace PDBot.Core.GameObservers
                         }
                         catch (IOException)
                         {
-                            
+
                         }
                         return true;
                     }

@@ -11,8 +11,8 @@ namespace PDBot.Core
 {
     public static class Resolver
     {
-        private static Dictionary<Type, Type[]> SearchResults = new Dictionary<Type, Type[]>();
-        private static Dictionary<Type, object[]> Instances = new Dictionary<Type, object[]>();
+        private static readonly Dictionary<Type, Type[]> SearchResults = new Dictionary<Type, Type[]>();
+        private static readonly Dictionary<Type, object[]> Instances = new Dictionary<Type, object[]>();
 
         public static Type[] GetImplementations<T>()
         {
@@ -107,7 +107,7 @@ namespace PDBot.Core
 
         public class Helpers
         {
-            public static async Task<IGameObserver[]> GetObservers(IMatch match)
+            public static async Task<IGameObserver[]> GetObserversAsync(IMatch match)
             {
                 var observers = await Task.WhenAll(GetInstances<IGameObserver>().Select(o => o.GetInstanceForMatchAsync(match))).ConfigureAwait(false);
                 return observers.Where(o => o != null).ToArray();

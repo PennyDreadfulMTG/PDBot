@@ -29,7 +29,7 @@ namespace Tests.Mocks
             }
             else
             {
-                var task = Resolver.Helpers.GetObservers(this);
+                var task = Resolver.Helpers.GetObserversAsync(this);
                 task.Wait();
                 Observers = task.Result;
             }
