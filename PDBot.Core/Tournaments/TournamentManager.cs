@@ -62,8 +62,8 @@ namespace PDBot.Core.Tournaments
             {
                 if (!_activeEvents.ContainsKey(ae.Name))
                 {
-                    _activeEvents.Add(ae.Name, ae);
-                    _activeRounds.Add(ae.Name, new Round());
+                    _activeEvents[ae.Name] = ae;
+                    _activeRounds[ae.Name] = new Round();
                 }
                 Round round;
                 try
@@ -101,7 +101,7 @@ namespace PDBot.Core.Tournaments
                 return;
 
             var room = eventModel.Channel;
-            if (string.IsNullOrWhiteSpace(room))
+            if (string.IsNullOrWhiteSpace(room) || string.IsNullOrWhiteSpace(room.Trim('#')))
             {
                 Console.WriteLine($"No MTGO room defined for {eventModel}.");
                 return;
@@ -176,14 +176,18 @@ namespace PDBot.Core.Tournaments
                 string doorPrize = null;
                 if (eventModel.Series.StartsWith("Penny Dreadful"))
                 {
-                    var prev = eventModel.Rounds[round.RoundNum - 1];
-                    if (round.IsFinals && !prev.IsFinals && round.Players.Count() == 8)
+                    if (eventModel.Rounds.ContainsKey(round.RoundNum - 1))
                     {
-                        var top8players = round.Players.ToArray();
-                        var eligible = prev.Players.Where(p => !top8players.Contains(p)).ToArray();
-                        var winner = eligible[new Random().Next(eligible.Count())];
-                        doorPrize = $"[sEventTicket] And the Door Prize goes to...\n [sEventTicket] {winner} [sEventTicket]";
+                        var prev = eventModel.Rounds[round.RoundNum - 1];
+                        if (round.IsFinals && !prev.IsFinals && round.Players.Count() == 8)
+                        {
+                            var top8players = round.Players.ToArray();
+                            var eligible = prev.Players.Where(p => !top8players.Contains(p)).ToArray();
+                            var winner = eligible[new Random().Next(eligible.Count())];
+                            doorPrize = $"[sEventTicket] And the Door Prize goes to...\n [sEventTicket] {winner} [sEventTicket]";
+                        }
                     }
+                    
                 }
 
                 if (misses < 3)

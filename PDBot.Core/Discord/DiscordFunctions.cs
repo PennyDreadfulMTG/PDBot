@@ -72,7 +72,7 @@ namespace PDBot.Core
 
             }
             sb.Append(".");
-            await DiscordService.SendToGeneralAsync(sb.ToString().Replace(" %", "%"), true);
+            await DiscordService.SendToAnnouncementsAsync(sb.ToString().Replace(" %", "%"));
         }
 
         public static async Task<ulong?> DiscordIDAsync(string username)
@@ -86,7 +86,13 @@ namespace PDBot.Core
         public static async Task<string> MentionOrElseNameAsync(string username)
         {
             var ID = await DiscordIDAsync(username);
-            return ID == null ? username : $"<@{ID}>";
+            if (ID == null)
+                return username;
+
+            var member = DiscordService.client.GetGuild(207281932214599682).GetUser(ID.Value);
+            if (member != null && (member.Nickname ?? member.Username).ToLower().Contains(username.ToLower()))
+                return $"<@{ID}>";
+            return $"<@{ID}> ({username})";
         }
 
         public async Task DoPDHRole()
@@ -123,7 +129,6 @@ namespace PDBot.Core
                     }
                     if (tournament.Key.Unreported != null)
                         waiting_on.AddRange(tournament.Key.Unreported.Where(p => !TournamentManager.ActiveMatches.SelectMany(m => m.Players).Contains(p)));
-
                 }
             }
             var playerIDs = await GetDiscordIDsAsync(playerNames);

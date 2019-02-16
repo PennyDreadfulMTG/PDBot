@@ -25,6 +25,7 @@ using NUnit.Framework;
 using NUnitLite;
 using PDBot.Discord;
 using System;
+using System.Threading.Tasks;
 
 [assembly: Parallelizable(ParallelScope.Fixtures)]
 

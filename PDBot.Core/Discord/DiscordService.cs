@@ -248,13 +248,20 @@ namespace PDBot.Discord
             }
         }
 
+        public static async Task<bool> SendToAnnouncementsAsync(string msg)
+        {
+            // Penny Dreadful server: #announcements
+            var channel = FindChannel(546188111634497548);
+            return (await SendMessageAsync(msg, channel)) != null;
+
+        }
+
         public static async Task SendToAllServersAsync(string msg)
         {
-            string[] SpammyServers =  { "Penny Dreadful", "TestServer" };
-            var guilds = client.Guilds.Where(g => SpammyServers.Contains(g.Name, StringComparer.CurrentCultureIgnoreCase));
-            foreach (SocketGuild Server in guilds)
+            ulong[] Spammy =  { 207281932214599682, 226920619302715392 };
+            foreach (var channel in Spammy)
             {
-                await SendMessageAsync(msg, Server.DefaultChannel);
+                await SendToArbiraryChannelAsync(msg, channel);
             }
         }
 
