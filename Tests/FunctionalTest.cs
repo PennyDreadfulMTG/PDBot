@@ -14,10 +14,12 @@ namespace Tests
     [Parallelizable(ParallelScope.Children)]
     class FunctionalTest
     {
+        private const string LogDirectory = "Logs";
+
         public static IEnumerable<TestCaseData> Logs()
         {
             var folder = new FileInfo(typeof(FunctionalTest).Assembly.Location).Directory;
-            folder = folder.Parent.Parent.EnumerateDirectories("Logs").FirstOrDefault();
+            folder = folder.Parent.Parent.EnumerateDirectories(LogDirectory).FirstOrDefault();
             foreach (var logfile in folder.EnumerateFiles("*.txt"))
             {
                 var lines = File.ReadAllLines(logfile.FullName);
@@ -34,7 +36,7 @@ namespace Tests
             }
         }
 
-        [Test, TestCaseSource("Logs")]
+        [Test, TestCaseSource(nameof(Logs))]
         public void TestLog(MockMatch match, string[] expectedObservers, string[] lines)
         {
             var foundObservers = match.Observers.Select(o => o.GetType().Name).ToArray();
