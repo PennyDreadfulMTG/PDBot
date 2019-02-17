@@ -72,7 +72,8 @@ namespace Gatherling.Models
                         RoundNum = m.Value<int>(nameof(round)),
                         IsFinals = m.Value<int>("timing") > 1,
                     };
-                    tournament.Rounds[round.RoundNum] = round;
+                    if (tournament != null)
+                        tournament.Rounds[round.RoundNum] = round;
                 }
                 var p = new Pairing
                 {

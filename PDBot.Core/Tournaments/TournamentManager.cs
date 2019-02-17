@@ -60,9 +60,9 @@ namespace PDBot.Core.Tournaments
 
             foreach (var ae in events)
             {
-                if (!_activeEvents.ContainsKey(ae.Name))
+                _activeEvents[ae.Name] = ae;
+                if (!_activeRounds.ContainsKey(ae.Name))
                 {
-                    _activeEvents[ae.Name] = ae;
                     _activeRounds[ae.Name] = new Round();
                 }
                 Round round;
@@ -81,9 +81,9 @@ namespace PDBot.Core.Tournaments
                 }
                 if (round.RoundNum > _activeRounds[ae.Name].RoundNum)
                 {
-                    _activeRounds[ae.Name] = round;
                     await PostPairingsAsync(ae, round);
                 }
+                _activeRounds[ae.Name] = round;
             }
 
             foreach (var cachedEvent in _activeEvents.ToArray())
