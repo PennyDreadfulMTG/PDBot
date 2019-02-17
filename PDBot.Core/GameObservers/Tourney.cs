@@ -112,11 +112,11 @@ namespace PDBot.Core.GameObservers
                 var pairing = tournament.Value.Matches.FirstOrDefault(p => match.Players.Contains(p.A) && match.Players.Contains(p.B));
                 if (pairing != null)
                 {
+                    TournamentManager.ActiveMatches.Add(match);
                     if (tournament.Key.Channel != null)
                     {
                         return tournament.Key;
                     }
-                    TournamentManager.ActiveMatches.Add(match);
                 }
             }
             return null;

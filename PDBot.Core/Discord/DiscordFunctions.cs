@@ -128,7 +128,7 @@ namespace PDBot.Core
                         playerNames.Add(m.B);
                     }
                     if (tournament.Key.Unreported != null)
-                        waiting_on.AddRange(tournament.Key.Unreported.Where(p => !TournamentManager.ActiveMatches.SelectMany(m => m.Players).Contains(p)));
+                        waiting_on.AddRange(tournament.Key.Unreported.Where(p => !TournamentManager.ActiveMatches.SelectMany(m => m.Players).Contains(p, StringComparer.CurrentCultureIgnoreCase)));
                 }
             }
             var playerIDs = await GetDiscordIDsAsync(playerNames);
