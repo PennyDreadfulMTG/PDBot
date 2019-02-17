@@ -61,6 +61,10 @@ namespace PDBot.Core.API
 
         public static async Task<(bool success, string message)> UpdateBuggedAsync(string CardName, string Player, int MatchID, bool isFixed)
         {
+            if (string.IsNullOrEmpty(CardName))
+            {
+                return (false, "You need to specify the card name.");
+            }
             try
             {
                 CheckForNewList();
@@ -112,10 +116,13 @@ namespace PDBot.Core.API
 
                     return (true, "Thanks, I've updated my records!");
                 }
+                return (false, "I couldn't find a bug for that card.");
             }
             catch (Exception c)
             {
-                await DiscordService.SendToTestAsync($"Error updating Modo-bugs:\nCardName={CardName}\n{c}");
+                var msg = $"Error updating Modo-bugs:\nCardName={CardName}\n{c}";
+                await DiscordService.SendToTestAsync(msg);
+                Console.WriteLine(msg);
             }
             return (false, "Sorry, I encountered an error.  Please PM me the details.");
         }
