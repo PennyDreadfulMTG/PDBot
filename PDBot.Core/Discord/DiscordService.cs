@@ -63,7 +63,7 @@ namespace PDBot.Discord
             if (role == null)
                 throw new NullReferenceException($"Could not find role '{RoleName}'");
             var changes = 0;
-            const int MAX_CHANGES = 4;
+            const int MAX_CHANGES = 12;
             if (remove)
             {
                 var toRemove = role.Members.Where(m => !users.Contains(m.Id));

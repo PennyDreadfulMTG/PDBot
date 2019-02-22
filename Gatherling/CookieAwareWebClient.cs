@@ -17,8 +17,8 @@ namespace Gatherling
 
         protected override WebRequest GetWebRequest(Uri address)
         {
-            WebRequest request = base.GetWebRequest(address);
-            HttpWebRequest webRequest = request as HttpWebRequest;
+            var request = base.GetWebRequest(address);
+            var webRequest = request as HttpWebRequest;
             if (webRequest != null)
             {
                 webRequest.CookieContainer = m_container;

@@ -1,4 +1,5 @@
 using PDBot.Core.API;
+using Sentry;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,6 +40,7 @@ namespace PDBot.Core
             catch (Exception c)
             {
                 Console.WriteLine(c);
+                SentrySdk.CaptureException(c);
             }
 
         }

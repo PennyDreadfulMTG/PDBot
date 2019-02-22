@@ -20,7 +20,8 @@ namespace PDBot.Core.Tournaments
 
         public TournamentManager()
         {
-            GatherlingClient.PasskeyProvider = new InfoBotSettings();
+            if (GatherlingClient.PasskeyProvider == null)
+                GatherlingClient.PasskeyProvider = new InfoBotSettings();
         }
 
         private Dictionary<string, Event> _activeEvents { get; } = new Dictionary<string, Event>();
@@ -148,7 +149,7 @@ namespace PDBot.Core.Tournaments
                         misses += 1;
                         builder.Append("[sT] ");
                     }
-                    if (eventModel.Series.StartsWith("Penny Dreadful"))
+                    if (eventModel.Series.Contains("Penny Dreadful"))
                     {
                         pairing.CalculateRes();
                         var A = await DiscordFunctions.MentionOrElseNameAsync(pairing.A);

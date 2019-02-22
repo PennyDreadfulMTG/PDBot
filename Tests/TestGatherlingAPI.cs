@@ -35,10 +35,10 @@ namespace Tests
         }
 
         //[TestCase]
-        public async Task ResetPassword()
-        {
-            var code = await GatherlingClient.PennyDreadful.ResetPasswordAsync("testplayer0");
-        }
+        //public async Task ResetPassword()
+        //{
+        //    var code = await GatherlingClient.PennyDreadful.ResetPasswordAsync("testplayer0");
+        //}
 
         [Theory]
         public void GetActiveEvents()

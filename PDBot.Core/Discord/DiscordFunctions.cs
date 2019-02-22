@@ -22,7 +22,7 @@ namespace PDBot.Core
         public async Task EveryHourAsync()
         {
             await WeeklyRecapAsync();
-            await DoPDHRole();
+            await DoPDHRoleAsync();
         }
 
         public async Task EveryMinuteAsync()
@@ -95,7 +95,7 @@ namespace PDBot.Core
             return $"<@{ID}> ({username})";
         }
 
-        public async Task DoPDHRole()
+        public async static Task DoPDHRoleAsync()
         {
             var stats = await LogsiteApi.GetStatsAsync();
             var pdh = stats.Formats[MagicFormat.PennyDreadfulCommander.ToString()];
