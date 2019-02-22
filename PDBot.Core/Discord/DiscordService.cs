@@ -47,7 +47,7 @@ namespace PDBot.Discord
             services = ConfigureServices();
             client = services.GetRequiredService<DiscordSocketClient>();
             commands = services.GetRequiredService<CommandService>();
-            await commands.AddModuleAsync<DiscordCommands>();
+            await commands.AddModuleAsync<DiscordCommands>(services);
             client.Log += Client_LogAsync;
             client.Ready += Client_ReadyAsync;
             client.Disconnected += Client_DisconnectedAsync;
