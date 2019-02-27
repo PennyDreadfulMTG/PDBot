@@ -65,7 +65,7 @@ namespace Tests
             // This test checks that creatures that are created by the Sparkspitter/Llanowar Mentor cycle are cards until proven to be tokens.
             var match = new MockMatch();
             CountCards("TheFancyMusterd is being attacked by [Spark Elemental] and [Fusion Elemental].", 2, 0, match);
-            CountCards("WookieeGT activates an ability of[Sparkspitter](Create a 3 / 1 red Elemental creature token named Spark Elemental.It has trample, haste, and 'At t...).", 
+            CountCards("WookieeGT activates an ability of[Sparkspitter](Create a 3 / 1 red Elemental creature token named Spark Elemental.It has trample, haste, and 'At t...).",
                 1, 0, match);
             CountCards("WookieeGT's [Sparkspitter] creates a Spark Elemental.", 1, 0, match);
             CountCards("TheFancyMusterd is being attacked by [Spark Elemental] and [Fusion Elemental].", 1, 1, match);

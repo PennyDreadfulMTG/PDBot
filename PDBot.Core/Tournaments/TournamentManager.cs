@@ -61,11 +61,15 @@ namespace PDBot.Core.Tournaments
 
             foreach (var ae in events)
             {
-                _activeEvents[ae.Name] = ae;
-                if (!_activeRounds.ContainsKey(ae.Name))
+                lock (_activeRounds)
                 {
-                    _activeRounds[ae.Name] = new Round();
+                    _activeEvents[ae.Name] = ae;
+                    if (!_activeRounds.ContainsKey(ae.Name))
+                    {
+                        _activeRounds[ae.Name] = new Round();
+                    }
                 }
+
                 Round round;
                 try
                 {
@@ -80,11 +84,25 @@ namespace PDBot.Core.Tournaments
                     Console.WriteLine($"No active round for {ae}?");
                     continue;
                 }
-                if (round.RoundNum > _activeRounds[ae.Name].RoundNum)
+
+                var post = false;
+                lock (_activeRounds)
                 {
-                    await PostPairingsAsync(ae, round);
+                    if (round.RoundNum > _activeRounds[ae.Name].RoundNum)
+                    {
+                        _activeRounds[ae.Name] = round;
+                        post = true;
+                    }
                 }
-                _activeRounds[ae.Name] = round;
+                if (post)
+                    await PostPairingsAsync(ae, round);
+                lock (_activeRounds)
+                {
+                    if (round.RoundNum == _activeRounds[ae.Name].RoundNum)
+                    {
+                        _activeRounds[ae.Name] = round;
+                    }
+                }
             }
 
             foreach (var cachedEvent in _activeEvents.ToArray())

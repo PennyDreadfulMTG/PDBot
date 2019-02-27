@@ -39,7 +39,7 @@ namespace PDBot.Core
             var stats = await LogsiteApi.GetStatsAsync();
 
             var PdGames = stats.Formats[MagicFormat.PennyDreadful.ToString()].LastWeek.NumMatches;
-            var PdhGames = stats.Formats[MagicFormat.PennyDreadfulCommander.ToString()].LastWeek.NumMatches;
+            var PdhGames = stats.Formats[MagicFormat.PennyDreadfulCommander.ToString()]?.LastWeek?.NumMatches ?? 0;
 
             var prevPdGames = stats.Formats[MagicFormat.PennyDreadful.ToString()].LastLastWeek?.NumMatches ?? 0;
             var prevPdhGames = stats.Formats[MagicFormat.PennyDreadfulCommander.ToString()].LastLastWeek?.NumMatches ?? 0;
@@ -72,7 +72,7 @@ namespace PDBot.Core
 
             }
             sb.Append(".");
-            await DiscordService.SendToAnnouncementsAsync(sb.ToString().Replace(" %", "%"));
+            await DiscordService.SendToGeneralAsync(sb.ToString().Replace(" %", "%"), true);
         }
 
         public static async Task<ulong?> DiscordIDAsync(string username)
