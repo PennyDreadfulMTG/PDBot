@@ -502,10 +502,9 @@ namespace PDBot.Discord
             if (success)
                 return success;
 
-            if (chan.StartsWith("PD", StringComparison.CurrentCultureIgnoreCase))
-                return await SendToTournamentRoomAsync(message);
-            else
-                return await SendToArbiraryChannelAsync(message, 352107915173167106);
+            return chan.StartsWith("PD", StringComparison.CurrentCultureIgnoreCase)
+                ? await SendToTournamentRoomAsync(message)
+                : await SendToArbiraryChannelAsync(message, 352107915173167106);
         }
 
         private static readonly Dictionary<string, string> Emotes = new Dictionary<string, string>

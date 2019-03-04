@@ -25,7 +25,7 @@ namespace Gatherling.VersionedApis
         {
             var uri = new Uri(new Uri(Settings.Host), "player.php");
             var playerCP = new HtmlDocument();
-            await Scrape(uri, playerCP);
+            await ScrapeAsync(uri, playerCP);
             var tables = playerCP.DocumentNode.Descendants("table");
             var activeEvents = tables.First(t => t.Descendants("b").FirstOrDefault(b => b.InnerText.Trim() == "ACTIVE EVENTS") != null);
             var rows = activeEvents.Descendants("tr");
@@ -33,7 +33,7 @@ namespace Gatherling.VersionedApis
             return paths.Where(n => n != null).Select(n => n.Replace("eventreport.php?event=", string.Empty)).Select(n => LoadEvent(n)).ToArray();
         }
 
-        private async Task Scrape(Uri uri, HtmlDocument document)
+        private async Task ScrapeAsync(Uri uri, HtmlDocument document)
         {
             using (var wc = CreateWebClient())
             {
@@ -53,7 +53,7 @@ namespace Gatherling.VersionedApis
         {
             var uri = new Uri(new Uri(Settings.Host), "event.php?view=match&name=" + eventName);
             var eventCP = new HtmlDocument();
-            await Scrape(uri, eventCP);
+            await ScrapeAsync(uri, eventCP);
             var paste = eventCP.DocumentNode.Descendants("code").FirstOrDefault();
             if (paste == null)
             {

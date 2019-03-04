@@ -53,7 +53,7 @@ namespace PDBot.Core.API
             return GithubClient.Repository.Get("PennyDreadfulMTG", "modo-bugs");
         }
 
-        private static async Task<Project> GetVerificationProjct()
+        private static async Task<Project> GetVerificationProjectAsync()
         {
             var repo = await GetRepositoryAsync();
             return (await GithubClient.Repository.Project.GetAllForRepository(repo.Id)).Single();
@@ -134,7 +134,7 @@ namespace PDBot.Core.API
         private static async Task<ProjectColumn> GetLatestColumnAsync()
         {
             var build = await GetCurrentBuildAsync();
-            var proj = await GetVerificationProjct();
+            var proj = await GetVerificationProjectAsync();
             var columns = await GithubClient.Repository.Project.Column.GetAll(proj.Id);
             var latest = columns.FirstOrDefault(c => c.Name == build.ToString());
             if (latest == null)
@@ -161,7 +161,7 @@ namespace PDBot.Core.API
         {
             if (Verifications.ContainsKey(IssueNumber))
                 return Verifications[IssueNumber];
-            var proj = await GetVerificationProjct();
+            var proj = await GetVerificationProjectAsync();
             var columns = await GithubClient.Repository.Project.Column.GetAll(proj.Id);
             foreach (var col in columns)
             {
@@ -183,7 +183,7 @@ namespace PDBot.Core.API
 
         public static async Task<ProjectCard> GetCardForBugAsync(int IssueNumber)
         {
-            var proj = await GetVerificationProjct();
+            var proj = await GetVerificationProjectAsync();
             var columns = await GithubClient.Repository.Project.Column.GetAll(proj.Id);
             foreach (var col in columns)
             {

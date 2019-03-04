@@ -39,6 +39,9 @@ namespace Tests
         {
             var events = GatherlingClient.GatherlingDotCom.GetActiveEventsAsync().GetAwaiter().GetResult();
             if (events.Length == 0)
+                events = GatherlingClient.One.GetActiveEventsAsync().GetAwaiter().GetResult();
+
+            if (events.Length == 0)
                 events = GatherlingClient.PennyDreadful.GetActiveEventsAsync().GetAwaiter().GetResult();
             Assume.That(events.Length > 0);
             var first = events.First();

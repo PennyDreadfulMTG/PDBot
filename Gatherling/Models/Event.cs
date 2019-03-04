@@ -89,7 +89,8 @@ namespace Gatherling.Models
 
             if (data.ContainsKey("unreported"))
                 Unreported = ((JArray)data["unreported"]).Values<string>().ToArray();
-            //Standings = data.Value<Standing[]>("standings");
+            if (data.ContainsKey("standings"))
+                Standings = data.Value<Standing[]>("standings");
         }
     }
 }
