@@ -116,7 +116,7 @@ namespace PDBot.Core.API
                 return MainBoard.Any(c => c.Name.Equals(name)) || SideBoard.Any(c => c.Name.Equals(name));
             }
 
-            public async Task<bool> Retire()
+            public async Task<bool> RetireAsync()
             {
                 var nameValueCollection = new FormUrlEncodedContent(new KeyValuePair<string, string>[] {
                     new KeyValuePair<string,string>("api_token",API_TOKEN)

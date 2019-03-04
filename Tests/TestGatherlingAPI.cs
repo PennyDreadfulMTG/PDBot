@@ -34,12 +34,6 @@ namespace Tests
             Assert.IsNotNull(code);
         }
 
-        //[TestCase]
-        //public async Task ResetPassword()
-        //{
-        //    var code = await GatherlingClient.PennyDreadful.ResetPasswordAsync("testplayer0");
-        //}
-
         [Theory]
         public void GetActiveEvents()
         {
@@ -48,7 +42,7 @@ namespace Tests
                 events = GatherlingClient.PennyDreadful.GetActiveEventsAsync().GetAwaiter().GetResult();
             Assume.That(events.Length > 0);
             var first = events.First();
-            var pairings = first.GetCurrentPairings().GetAwaiter().GetResult();
+            var pairings = first.GetCurrentPairingsAsync().GetAwaiter().GetResult();
             Assume.That(pairings.Matches.Any());
             Assume.That(first.Channel != null);
         }

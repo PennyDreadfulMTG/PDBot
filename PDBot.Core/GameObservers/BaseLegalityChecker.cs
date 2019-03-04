@@ -3,6 +3,7 @@ using Newtonsoft.Json.Linq;
 using PDBot.Core.Data;
 using PDBot.Core.Interfaces;
 using PDBot.Data;
+using Sentry;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -149,7 +150,7 @@ namespace PDBot.Core.GameObservers
                 {
                     NotTransforms.Add(name);
                     Console.WriteLine(name);
-                    //Console.WriteLine(c);
+                    SentrySdk.CaptureException(c);
                 }
 
                 return false;

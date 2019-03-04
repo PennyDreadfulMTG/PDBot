@@ -487,9 +487,9 @@ namespace PDBot.Discord
                 case "pct":
                     success = await SendToArbiraryChannelAsync(message, 387127632266788870);
                     break;
-                //case "modern":
-                //    success = await SendToArbiraryChannelAsync(message, 294436932371611659);
-                //    break;
+                case "modern":
+                    success = await SendToArbiraryChannelAsync(message, 294436932371611659);
+                    break;
                 case "support":
                     success = await SendToArbiraryChannelAsync(message, 466099341359054860);
                     break;

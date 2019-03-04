@@ -73,7 +73,7 @@ namespace PDBot.Core.Tournaments
                 Round round;
                 try
                 {
-                    round = await ae.GetCurrentPairings().ConfigureAwait(false);
+                    round = await ae.GetCurrentPairingsAsync().ConfigureAwait(false);
                 }
                 catch (Exception c)
                 {

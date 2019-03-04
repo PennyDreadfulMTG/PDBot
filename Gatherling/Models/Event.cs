@@ -30,7 +30,7 @@ namespace Gatherling.Models
 
         protected internal Standing[] Standings;
 
-        public Task<Round> GetCurrentPairings()
+        public Task<Round> GetCurrentPairingsAsync()
         {
             return Gatherling.GetCurrentPairings(this);
         }

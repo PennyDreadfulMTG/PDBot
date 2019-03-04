@@ -32,7 +32,7 @@ namespace PDBot.Core.Discord
                 return;
             }
 
-            var res = await run.Retire();
+            var res = await run.RetireAsync();
             if (res)
                 await ReplyAsync($"Your deck {run.Name} has been retired from the {run.CompetitionName}");
             else

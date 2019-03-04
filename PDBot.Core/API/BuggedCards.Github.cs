@@ -112,9 +112,13 @@ namespace PDBot.Core.API
                             await GithubClient.Repository.Project.Card.Move(card.Id, new ProjectCardMove(ProjectCardPosition.Top, currentCol.Id, null));
                         }
                         Verifications[issue.Number] = await GetCurrentBuildAsync();
+                        return (true, "Thanks, I've updated my records!");
+                    }
+                    else
+                    {
+                        return (true, "Thanks, Our team will review this match shortly");
                     }
 
-                    return (true, "Thanks, I've updated my records!");
                 }
                 return (false, "I couldn't find a bug for that card.");
             }

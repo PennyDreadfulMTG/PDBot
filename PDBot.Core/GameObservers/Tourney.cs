@@ -28,7 +28,7 @@ namespace PDBot.Core.GameObservers
                 var ae = GetEvent(match);
                 if (ae != null)
                 {
-                    var round = await ae.GetCurrentPairings();
+                    var round = await ae.GetCurrentPairingsAsync();
                     match.Log($"[Gatherling] Event={ae.Name}");
                     match.Log($"[Gatherling] Round={round.RoundNum}");
                 }

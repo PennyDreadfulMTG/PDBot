@@ -44,18 +44,15 @@ namespace PDBot.Core
             var prevPdGames = stats.Formats[MagicFormat.PennyDreadful.ToString()].LastLastWeek?.NumMatches ?? 0;
             var prevPdhGames = stats.Formats[MagicFormat.PennyDreadfulCommander.ToString()].LastLastWeek?.NumMatches ?? 0;
 
-            var players = stats.Formats[MagicFormat.PennyDreadful.ToString()].LastWeek.Players.Union(stats.Formats[MagicFormat.PennyDreadfulCommander.ToString()].LastWeek.Players);
+            var players = stats.Formats[MagicFormat.PennyDreadful.ToString()].LastWeek.Players.Union(stats.Formats[MagicFormat.PennyDreadfulCommander.ToString()]?.LastWeek?.Players ?? new string[0]);
 
             var sb = new StringBuilder();
             sb.Append($"In the last week, I saw {players.Count()} people from the Penny Dreadful community play {PdGames} Penny Dreadful matches");
             if (prevPdGames > 0)
             {
                 var percent = ((PdGames - prevPdGames) / (double)prevPdGames);
-                string pstr;
-                if (percent >= 0)
-                    pstr = $"up {percent.ToString("p0")}";
-                else
-                    pstr = $"down {Math.Abs(percent).ToString("p0")}";
+                var pstr = Math.Abs(percent).ToString("p0");
+                pstr = percent >= 0 ? $"up {pstr}" : $"down {pstr}";
                 sb.Append($" ({pstr} from last week)");
             }
 

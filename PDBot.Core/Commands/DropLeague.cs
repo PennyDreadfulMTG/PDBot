@@ -34,7 +34,7 @@ namespace PDBot.Commands
             }
             if (run == null)
                 return $"You do not have an active deck in {DecksiteApi.CurrentLeagueName()}.";
-            var res = await run.Retire();
+            var res = await run.RetireAsync();
             if (res)
                 return $"Your deck {run.Name} has been retired from the {run.CompetitionName}";
             else

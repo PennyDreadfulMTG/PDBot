@@ -22,14 +22,9 @@ namespace PDBot.Core.Commands
 
         public Task<string> RunAsync(string player, IMatch game, string[] args)
         {
-            if (game?.Observers?.SingleOrDefault(o => o is GameObservers.LeagueObserver) is GameObservers.LeagueObserver LeagueObserver && LeagueObserver.HostRun != null && LeagueObserver.LeagueRunOpp != null)
-            {
-                return Task.FromResult($"This is a valid League match.");
-            }
-            else
-            {
-                return Task.FromResult($"This isn't a @[League] match.");
-            }
+            return game?.Observers?.SingleOrDefault(o => o is GameObservers.LeagueObserver) is GameObservers.LeagueObserver LeagueObserver && LeagueObserver.HostRun != null && LeagueObserver.LeagueRunOpp != null
+                ? Task.FromResult($"This is a valid League match.")
+                : Task.FromResult($"This isn't a @[League] match.");
         }
     }
 }
