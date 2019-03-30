@@ -93,6 +93,10 @@ namespace PDBot.Discord
         {
             if (arg.Author.IsBot)
             {
+                if (arg.Author.Id == 268547439714238465)
+                {
+                    await RespondToScryfallWithBuggedCardsAsync(arg);
+                }
                 return;
             }
 
@@ -100,6 +104,8 @@ namespace PDBot.Discord
 
             if (arg.Content.StartsWith("#"))
             {
+                if (int.TryParse(words[0].Trim('#'), out int _))
+                    return;
                 var username = arg.Author.Username;
                 if (arg.Author is IGuildUser gu && !string.IsNullOrWhiteSpace(gu.Nickname))
                     username = gu.Nickname;
@@ -156,6 +162,20 @@ namespace PDBot.Discord
             {
                 await channel.SendMessageAsync($"My current Avatar is {CurrentAvatar}.").ConfigureAwait(false);
                 return;
+            }
+        }
+
+        private static async Task RespondToScryfallWithBuggedCardsAsync(SocketMessage arg)
+        {
+            var match = Regex.Match(arg.Content, @"^https://scryfall.com/card/(\w+)/(\w+)/(?<name>[\w-%]+)");
+            if (match.Success)
+            {
+                var card = Scryfall.GetCard(match.Groups["name"].Value);
+                var bug = BuggedCards.IsCardBugged(card.FullName) ?? BuggedCards.IsCardBugged(card.Names[0]);
+                if (bug != null)
+                {
+                    await arg.Channel.SendMessageAsync($":beetle: {card.FullName} is bugged in MTGO: {bug.Description}");
+                }
             }
         }
 
@@ -340,7 +360,7 @@ namespace PDBot.Discord
 
         private static async Task<RestUserMessage> SendMessageAsync(string msg, SocketTextChannel channel)
         {
-            msg = SubstitueEmotes(msg, channel.Guild);
+            msg = SubstituteEmotes(msg, channel.Guild);
             if (channel == null)
             {
                 return null;
@@ -369,7 +389,7 @@ namespace PDBot.Discord
             return null;
         }
 
-        private static string SubstitueEmotes(string msg, SocketGuild guild)
+        private static string SubstituteEmotes(string msg, SocketGuild guild)
         {
             var emote = new Regex(@"\[(\w+)\]", RegexOptions.Compiled);
             return emote.Replace(msg, (match) =>
