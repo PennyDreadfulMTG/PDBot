@@ -15,6 +15,8 @@ namespace PDBot.Core
     public class DiscordFunctions : ICronObject
     {
         static Dictionary<string, ulong?> MtgoToDiscordMapping { get; } = new Dictionary<string, ulong?>();
+
+        private const long PENNY_DREADFUL_GUILD_ID = 207281932214599682;
         private ITournamentManager m_tournamentManager;
 
         ITournamentManager TournamentManager => m_tournamentManager ?? (m_tournamentManager = Resolver.Helpers.GetTournamentManager());
@@ -86,7 +88,7 @@ namespace PDBot.Core
             if (ID == null)
                 return username;
 
-            var member = DiscordService.client.GetGuild(207281932214599682).GetUser(ID.Value);
+            var member = DiscordService.client.GetGuild(PENNY_DREADFUL_GUILD_ID).GetUser(ID.Value);
             if (member != null && (member.Nickname ?? member.Username).ToLower().Contains(username.ToLower()))
                 return $"<@{ID}>";
             return $"<@{ID}> ({username})";
@@ -97,7 +99,7 @@ namespace PDBot.Core
             var stats = await LogsiteApi.GetStatsAsync();
             var pdh = stats.Formats[MagicFormat.PennyDreadfulCommander.ToString()];
             var players = await GetDiscordIDsAsync(pdh.LastMonth.Players);
-            await DiscordService.SyncRoleAsync(207281932214599682, "PDH", players);
+            await DiscordService.SyncRoleAsync(PENNY_DREADFUL_GUILD_ID, "PDH", players);
         }
 
         private async static Task<ulong?[]> GetDiscordIDsAsync(IEnumerable<string> playerNames)
@@ -129,8 +131,8 @@ namespace PDBot.Core
                 }
             }
             var playerIDs = await GetDiscordIDsAsync(playerNames);
-            await DiscordService.SyncRoleAsync(207281932214599682, "Tournament Players", playerIDs);
-            await DiscordService.SyncRoleAsync(207281932214599682, "Waiting On", await GetDiscordIDsAsync(waiting_on));
+            await DiscordService.SyncRoleAsync(PENNY_DREADFUL_GUILD_ID, "Tournament Players", playerIDs);
+            await DiscordService.SyncRoleAsync(PENNY_DREADFUL_GUILD_ID, "Waiting On", await GetDiscordIDsAsync(waiting_on));
         }
 
         public async static Task MakeVoiceRoomsAsync()

@@ -37,7 +37,9 @@ namespace Tests
         [Theory]
         public void GetActiveEvents()
         {
-            var events = GatherlingClient.GatherlingDotCom.GetActiveEventsAsync().GetAwaiter().GetResult();
+            var events = new Gatherling.Models.Event[0];
+            if (GatherlingClient.GatherlingDotCom.ApiVersion > 0)
+                events = GatherlingClient.GatherlingDotCom.GetActiveEventsAsync().GetAwaiter().GetResult();
             if (events.Length == 0)
                 events = GatherlingClient.One.GetActiveEventsAsync().GetAwaiter().GetResult();
 

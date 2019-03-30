@@ -6,6 +6,7 @@ using PDBot.API.GatherlingExtensions;
 using System;
 using System.Linq;
 using System.Net;
+using System.Net.Sockets;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
@@ -42,6 +43,8 @@ namespace Gatherling
                 {
                     switch (ApiVersion)
                     {
+                        case -1:
+                            throw new InvalidOperationException("Gatherling is not contactable");
                         case 1:
                             api = new VersionedApis.V1(Settings, cookies);
                             break;
@@ -138,6 +141,18 @@ namespace Gatherling
                         {
                             _apiVersion = 1;
                         }
+                        else if (c.Status == WebExceptionStatus.ConnectFailure)
+                        {
+                            _apiVersion = -1;
+                        }
+                        else
+                        {
+                            throw;
+                        }
+                    }
+                    catch (SocketException)
+                    {
+                        _apiVersion = -1;
                     }
                 }
                 return _apiVersion;
