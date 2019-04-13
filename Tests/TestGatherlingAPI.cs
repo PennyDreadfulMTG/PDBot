@@ -24,7 +24,7 @@ namespace Tests
             var deck = GatherlingClient.PennyDreadful.GetDeckAsync(10564).GetAwaiter().GetResult();
             Assert.AreEqual(true, deck.Found);
             Assert.AreEqual(10564, deck.Id);
-            Assert.AreEqual("Dragons!", deck.Name);
+            Assert.AreEqual(" Unclassified", deck.Name);
         }
 
         [TestCase]

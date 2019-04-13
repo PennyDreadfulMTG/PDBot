@@ -128,7 +128,7 @@ namespace PDBot.Discord
                 }
                 else if (!success && arg is SocketUserMessage msg)
                 {
-                    await msg.AddReactionAsync(new Emoji("📵"));
+                    //await msg.AddReactionAsync(new Emoji("📵"));
                 }
                 return;
             }
