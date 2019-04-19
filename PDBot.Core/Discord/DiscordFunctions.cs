@@ -84,14 +84,15 @@ namespace PDBot.Core
 
         public static async Task<string> MentionOrElseNameAsync(string username)
         {
+            var escaped = username.Replace("_", @"\_");
             var ID = await DiscordIDAsync(username);
             if (ID == null)
-                return username;
+                return escaped;
 
             var member = DiscordService.client.GetGuild(PENNY_DREADFUL_GUILD_ID).GetUser(ID.Value);
             if (member != null && (member.Nickname ?? member.Username).ToLower().Contains(username.ToLower()))
                 return $"<@{ID}>";
-            return $"<@{ID}> ({username})";
+            return $"<@{ID}> ({escaped})";
         }
 
         public async static Task DoPDHRoleAsync()
