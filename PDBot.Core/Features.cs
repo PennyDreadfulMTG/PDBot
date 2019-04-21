@@ -21,6 +21,7 @@ namespace PDBot.Core
         /// </summary>
         public static bool AnnouncePairings { get; set; }
         public static bool JoinGames { get; set; }
+        public static bool ConnectToDiscord { get; set; }
 
         public static bool CreateVoiceChannels { get; set; }
         static Features()
@@ -29,6 +30,7 @@ namespace PDBot.Core
             AnnouncePairings = true;
             JoinGames = true;
             CreateVoiceChannels = true;
+            ConnectToDiscord = true;
             try
             {
                 var stats = LogsiteApi.GetStatsAsync().GetAwaiter().GetResult();

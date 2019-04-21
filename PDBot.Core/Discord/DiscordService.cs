@@ -41,6 +41,8 @@ namespace PDBot.Discord
 
         public static async Task InitAsync(string token)
         {
+            if (!Features.ConnectToDiscord)
+                return;
             if (Initialized)
                 return;
             Initialized = true;
@@ -58,6 +60,8 @@ namespace PDBot.Discord
 
         internal static async Task SyncRoleAsync(ulong serverID, string RoleName, ulong?[] users, bool remove = true)
         {
+            if (!Features.ConnectToDiscord)
+                return;
             var server = client.GetGuild(serverID);
             var role = server.Roles.FirstOrDefault(r => r.Name == RoleName);
             if (role == null)
@@ -429,6 +433,8 @@ namespace PDBot.Discord
 
         public static async Task SetGameAsync(string game)
         {
+            if (!Features.ConnectToDiscord)
+                return;
             if (client.ConnectionState < ConnectionState.Connected)
             {
                 Playing = game;

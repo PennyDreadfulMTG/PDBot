@@ -23,12 +23,18 @@ namespace PDBot.Core
 
         public async Task EveryHourAsync()
         {
+            if (!Features.ConnectToDiscord)
+                return;
+
             await WeeklyRecapAsync();
             await DoPDHRoleAsync();
         }
 
         public async Task EveryMinuteAsync()
         {
+            if (!Features.ConnectToDiscord)
+                return;
+
             await DoTournamentRoleAsync();
             await MakeVoiceRoomsAsync();
 
