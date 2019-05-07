@@ -221,14 +221,17 @@ namespace PDBot.Core.API
             var lines = File.ReadAllText(f);
             using (var api = Api)
             {
-                var nameValueCollection = new FormUrlEncodedContent(new KeyValuePair<string, string>[] {
+                var keys = new List<KeyValuePair<string, string>> {
                     new KeyValuePair<string, string>("api_token", API_TOKEN),
                     new KeyValuePair<string, string>("match_id", id.ToString()),
-                    new KeyValuePair<string, string>(nameof(lines),  lines),
                     new KeyValuePair<string, string>("start_time_utc", new DateTimeOffset(File.GetCreationTimeUtc(f)).ToUnixTimeSeconds().ToString()),
                     new KeyValuePair<string, string>("end_time_utc", new DateTimeOffset(File.GetLastWriteTimeUtc(f)).ToUnixTimeSeconds().ToString()),
-                });
-                await api.PostAsync("https://logs.pennydreadfulmagic.com/api/upload", nameValueCollection);
+                };
+                if (lines.Length < 200)
+                    keys.Add(new KeyValuePair<string, string>(nameof(lines), lines));
+
+                var formdata = new FormUrlEncodedContent(keys);
+                await api.PostAsync("https://logs.pennydreadfulmagic.com/api/upload", formdata);
             }
         }
 
