@@ -1,5 +1,6 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Sentry;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -89,8 +90,15 @@ namespace Gatherling.Models
 
             if (data.ContainsKey("unreported"))
                 Unreported = ((JArray)data["unreported"]).Values<string>().ToArray();
-            //if (data.ContainsKey("standings"))
-            //    Standings = data.Value<Standing[]>("standings");
+            try
+            {
+                if (data.ContainsKey("standings"))
+                    Standings = ((JArray)data["standings"]).Values<Standing>().ToArray();
+            }
+            catch (Exception c)
+            {
+                SentrySdk.CaptureException(c);
+            }
         }
     }
 }
