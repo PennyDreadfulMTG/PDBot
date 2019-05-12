@@ -93,11 +93,18 @@ namespace Gatherling.Models
             try
             {
                 if (data.ContainsKey("standings"))
-                    Standings = ((JArray)data["standings"]).Values<Standing>().ToArray();
+                {
+                    var jArray = ((JArray)data["standings"]);
+                    Standings = jArray.Select(t => ((JObject)t).ToObject<Standing>()).ToArray();
+                }
             }
             catch (Exception c)
             {
-                SentrySdk.CaptureException(c);
+                SentrySdk.WithScope(scope =>
+                {
+                    scope.SetExtra("event", data);
+                    SentrySdk.CaptureException(c);
+                });
             }
         }
     }

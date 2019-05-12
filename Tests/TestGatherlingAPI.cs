@@ -51,5 +51,11 @@ namespace Tests
             Assume.That(pairings.Matches.Any());
             Assume.That(first.Channel != null);
         }
+
+        [Test]
+        public void ParseStandings()
+        {
+            var @event = GatherlingClient.GatherlingDotCom.GetEvent("Penny Dreadful Thursdays 12.01");
+        }
     }
 }

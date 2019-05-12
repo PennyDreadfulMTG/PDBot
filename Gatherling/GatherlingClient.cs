@@ -97,6 +97,11 @@ namespace Gatherling
             return VersionedApi.GetActiveEventsAsync();
         }
 
+        public Task<Event> GetEvent(string name)
+        {
+            return VersionedApi.GetEvent(name);
+        }
+
         [Obsolete]
         public Task<Round> GetCurrentPairings(string eventName)
         {

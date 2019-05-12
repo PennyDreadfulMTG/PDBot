@@ -7,7 +7,7 @@ namespace Gatherling.Models
         [JsonProperty("player")]
         public string Player { get; set; }
 
-        [JsonProperty("active")] // TODO: Use ItemConverterType to convert int to bool.
+        [JsonProperty("active")]
         public bool Active { get; set; } 
         [JsonProperty("score")]
         public int Score { get; set; }

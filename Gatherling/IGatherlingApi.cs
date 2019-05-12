@@ -17,5 +17,6 @@ namespace Gatherling
         Task<Deck> GetDeckAsync(int deckID);
         Task<string> GetVerificationCodeAsync(string playerName);
         Task<string> ResetPasswordAsync(string playerName);
+        Task<Event> GetEvent(string name);
     }
 }

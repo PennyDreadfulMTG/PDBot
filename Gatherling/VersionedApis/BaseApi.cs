@@ -68,6 +68,7 @@ namespace Gatherling.VersionedApis
         public abstract Task<Round> GetCurrentPairings(string eventName);
         public abstract Task<Round> GetCurrentPairings(Event tournament);
         public abstract Task<Standing[]> GetCurrentStandingsAsync(Event tournament);
+        public abstract Task<Event> GetEvent(string name);
 
         public virtual async Task<Deck> GetDeckAsync(int deckID)
         {

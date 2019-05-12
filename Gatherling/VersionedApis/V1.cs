@@ -127,5 +127,10 @@ namespace Gatherling.VersionedApis
         {
             return Task.FromResult<Standing[]>(null);
         }
+
+        public override Task<Event> GetEvent(string name)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

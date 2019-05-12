@@ -75,5 +75,15 @@ namespace Gatherling.VersionedApis
                 return Task.FromResult(tournament.Standings);
             return base.GetCurrentStandingsAsync(tournament);
         }
+
+        public async override Task<Event> GetEvent(string name)
+        {
+            using (var api = CreateWebClient())
+            {
+                string blob = await api.DownloadStringTaskAsync("https://gatherling.com/ajax.php?action=eventinfo&event=" + Uri.EscapeUriString(name));
+                var json = JObject.Parse(blob);
+                return LoadEvent(name, json);
+            }
+        }
     }
 }
