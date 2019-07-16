@@ -208,9 +208,10 @@ namespace PDBot.Core.Tournaments
                             doorPrize = $"[sEventTicket] And the Door Prize goes to...\n [sEventTicket] {winner} [sEventTicket]";
                         }
                     }
-                }
 
-                if (misses < 3)
+                    await DiscordFunctions.PostTournamentPairingsAsync(builder.ToString(), doorPrize);
+                }
+                else if (misses < 3)
                 {
                     var sent = Chat.SendPM(room, builder.ToString());
                     if (!string.IsNullOrEmpty(doorPrize))

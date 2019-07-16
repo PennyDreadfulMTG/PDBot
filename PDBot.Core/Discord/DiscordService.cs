@@ -348,7 +348,7 @@ namespace PDBot.Discord
             return (await SendMessageAsync(msg, channel)) != null;
         }
 
-        private static SocketTextChannel FindChannel(ulong chanId)
+        internal static SocketTextChannel FindChannel(ulong chanId)
         {
             while (!client.Guilds.Any() || !client.Guilds.All(c => c.IsSynced))
                 Thread.Sleep(100);
@@ -393,7 +393,7 @@ namespace PDBot.Discord
             return null;
         }
 
-        private static string SubstituteEmotes(string msg, SocketGuild guild)
+        internal static string SubstituteEmotes(string msg, SocketGuild guild)
         {
             var emote = new Regex(@"\[(\w+)\]", RegexOptions.Compiled);
             return emote.Replace(msg, (match) =>
