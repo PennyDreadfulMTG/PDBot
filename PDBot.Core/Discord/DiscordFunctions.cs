@@ -1,4 +1,6 @@
 using Discord;
+using Discord.Net;
+using Discord.Rest;
 using Discord.WebSocket;
 using PDBot.Core.API;
 using PDBot.Core.Interfaces;
@@ -195,8 +197,14 @@ namespace PDBot.Core
                     }
                     catch (AggregateException)
                     {
-                        await DiscordService.SendToTestAsync("Voice Channels overflowed, disabling.");
+                        await DiscordService.SendToArbiraryChannelAsync("Voice Channels overflowed, disabling.", 230056266938974218);
                         Features.CreateVoiceChannels = false;
+                    }
+                    catch (HttpException c)
+                    {
+                        await DiscordService.SendToArbiraryChannelAsync("Voice Channels overflowed, disabling.", 230056266938974218);
+                        Features.CreateVoiceChannels = false;
+
                     }
 
                     var players = name.Split(new string[] { " vs " }, StringSplitOptions.RemoveEmptyEntries);
@@ -234,6 +242,32 @@ namespace PDBot.Core
                         await c.DeleteAsync();
                 }
             }
+        }
+
+        internal static async Task PostTournamentPairingsAsync(string pairingsText, string doorPrize)
+        {
+            var TournamentRoom = DiscordService.FindChannel(334220558159970304);
+            pairingsText = DiscordService.SubstituteEmotes(pairingsText, TournamentRoom.Guild);
+            var expected_round = pairingsText.Split('\n')[0];
+            var pinned = await TournamentRoom.GetPinnedMessagesAsync();
+            foreach (var pin in pinned)
+            {
+                var post = pin as RestUserMessage;
+                if (post.Author.Id != DiscordService.client.CurrentUser.Id)
+                    continue;
+                var round = post.Content.Split('\n')[0];
+                if (round == expected_round)
+                {
+                    if (post.Content != pairingsText)
+                        await post.ModifyAsync(m => m.Content = pairingsText);
+                    return;
+                }
+                await post.UnpinAsync();
+            }
+            var msg = await TournamentRoom.SendMessageAsync(pairingsText);
+            await msg.PinAsync();
+            if (!string.IsNullOrEmpty(doorPrize))
+                await TournamentRoom.SendMessageAsync(doorPrize);
         }
     }
 }

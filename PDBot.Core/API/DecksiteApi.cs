@@ -1,6 +1,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using PDBot.Data;
+using Sentry;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -62,6 +63,11 @@ namespace PDBot.Core.API
             }
             catch (WebException c) when (c.Status == WebExceptionStatus.ProtocolError && (c.Response as HttpWebResponse).StatusCode == HttpStatusCode.NotFound)
             {
+                return default;
+            }
+            catch (Exception c)
+            {
+                SentrySdk.CaptureException(c);
                 return default;
             }
         }
@@ -227,7 +233,7 @@ namespace PDBot.Core.API
                     new KeyValuePair<string, string>("start_time_utc", new DateTimeOffset(File.GetCreationTimeUtc(f)).ToUnixTimeSeconds().ToString()),
                     new KeyValuePair<string, string>("end_time_utc", new DateTimeOffset(File.GetLastWriteTimeUtc(f)).ToUnixTimeSeconds().ToString()),
                 };
-                if (lines.Length < 200)
+                //if (lines.Length < 200)
                     keys.Add(new KeyValuePair<string, string>(nameof(lines), lines));
 
                 var formdata = new FormUrlEncodedContent(keys);

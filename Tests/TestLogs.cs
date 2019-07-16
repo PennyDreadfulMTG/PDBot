@@ -37,7 +37,7 @@ namespace Tests
             Assert.IsNull(checker.HandleLine(new GameLogLine("[Black Lotus] is never going to be 0.01 TIX.", match)));
         }
 
-        [Test]
+        //[Test]
         public void TestAccents()
         {
             var match = new MockMatch();
