@@ -95,6 +95,10 @@ namespace PDBot.Core.Tournaments
                         _activeRounds[ae.Name] = round;
                         post = true;
                     }
+                    else if (ae.Series.Contains("Penny Dreadful"))
+                    {
+                        post = true;
+                    }
                 }
                 if (post)
                     await PostPairingsAsync(ae, round);
@@ -145,6 +149,7 @@ namespace PDBot.Core.Tournaments
                 else
                     builder.Append($"[sD] Pairings for Round {round.RoundNum}:\n");
                 var misses = 0;
+                bool isPD = eventModel.Series.Contains("Penny Dreadful");
                 foreach (var pairing in round.Matches)
                 {
                     if (pairing.A == pairing.B)
@@ -169,7 +174,7 @@ namespace PDBot.Core.Tournaments
                         misses += 1;
                         builder.Append("[sT] ");
                     }
-                    if (eventModel.Series.Contains("Penny Dreadful"))
+                    if (isPD)
                     {
                         pairing.CalculateRes();
                         var A = await DiscordFunctions.MentionOrElseNameAsync(pairing.A);
@@ -187,15 +192,15 @@ namespace PDBot.Core.Tournaments
                     }
                     builder.Append("\n");
                 }
-                if (misses == 0 && !round.IsFinals)
+                if (!round.IsFinals && (isPD || misses == 0))
                 {
-                    var minutes = (DateTime.UtcNow.Minute + 11) % 60;
+                    var minutes = FreeWinTime(eventModel.Name, round.RoundNum);
                     builder.AppendLine($"[sB] No-Show win time: XX:{minutes.ToString("D2")}");
                 }
                 builder.Append("[sD] Good luck, everyone!");
 
                 string doorPrize = null;
-                if (eventModel.Series.Contains("Penny Dreadful"))
+                if (isPD)
                 {
                     if (eventModel.Rounds.ContainsKey(round.RoundNum - 1))
                     {
@@ -204,7 +209,7 @@ namespace PDBot.Core.Tournaments
                         {
                             var top8players = round.Players.ToArray();
                             var eligible = prev.Players.Where(p => !top8players.Contains(p)).ToArray();
-                            var winner = eligible[new Random().Next(eligible.Count())];
+                            var winner = await DiscordFunctions.MentionOrElseNameAsync(eligible[new Random().Next(eligible.Count())]);
                             doorPrize = $"[sEventTicket] And the Door Prize goes to...\n [sEventTicket] {winner} [sEventTicket]";
                         }
                     }
@@ -228,6 +233,19 @@ namespace PDBot.Core.Tournaments
                 // If misses >= 3, we have clearly just rebooted.  Don't send anything.
             }
         }
+
+        static Dictionary<string, int> freeWinTime = new Dictionary<string, int>();
+        private static int FreeWinTime(string name, int roundNum)
+        {
+            var key = $"{name}:{roundNum}";
+            if (freeWinTime.ContainsKey(key))
+                return freeWinTime[key];
+
+            var time = (DateTime.UtcNow.Minute + 11) % 60;
+            freeWinTime[key] = time;
+            return time;
+        }
+
         public class InfoBotSettings : ApplicationSettingsBase, IPasskeyProvider
         {
             public InfoBotSettings()

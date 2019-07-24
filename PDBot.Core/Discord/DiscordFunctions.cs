@@ -252,22 +252,29 @@ namespace PDBot.Core
             var pinned = await TournamentRoom.GetPinnedMessagesAsync();
             foreach (var pin in pinned)
             {
+                Console.WriteLine($"pinned post: {pin}");
                 var post = pin as RestUserMessage;
                 if (post.Author.Id != DiscordService.client.CurrentUser.Id)
                     continue;
                 var round = post.Content.Split('\n')[0];
+                var eq = round == expected_round ? "=" : "!=";
+                Console.WriteLine($"\"{round}\"{eq}\"{expected_round}\"");
                 if (round == expected_round)
                 {
                     if (post.Content != pairingsText)
+                    {
                         await post.ModifyAsync(m => m.Content = pairingsText);
+                        Console.WriteLine("Updating");
+                    }
                     return;
                 }
                 await post.UnpinAsync();
+                Console.WriteLine("unpinning");
             }
             var msg = await TournamentRoom.SendMessageAsync(pairingsText);
             await msg.PinAsync();
             if (!string.IsNullOrEmpty(doorPrize))
-                await TournamentRoom.SendMessageAsync(doorPrize);
+                await DiscordService.SendToTournamentRoomAsync(doorPrize);
         }
     }
 }
