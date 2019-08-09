@@ -125,12 +125,6 @@ namespace PDBot.Core.GameObservers
         public bool ShouldJoin(IMatch match)
         {
             return GetEvent(match) != null;
-            //if (match.GameRoom != Room.GettingSerious)
-            //    return false; 
-            //if (GetChannel(match) != null)
-            //    return true;
-            //Console.WriteLine($"Missed Tourney game:\n\t{match.Format.ToString()}\n\t{match.Comments}");
-            return false;
         }
 
         private static bool IsCLL(IMatch match)
