@@ -3,6 +3,7 @@ using Sentry;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -42,6 +43,11 @@ namespace PDBot.Core
             catch (Exception c)
             {
                 Console.WriteLine(c);
+                if (c is WebException we)
+                {
+                    if (we.Status == WebExceptionStatus.ProtocolError)
+                        return;
+                }
                 SentrySdk.CaptureException(c);
             }
 

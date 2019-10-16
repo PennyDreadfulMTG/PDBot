@@ -1,3 +1,4 @@
+
 using PDBot.Core.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -22,7 +23,6 @@ namespace PDBot.Core.GameObservers
             "OoOoOodlezz",
             "SirCandle",
             "lpssuperman",
-            //"Ramy99",
             "Nikodemos",
             "thesovietrussian",
         };

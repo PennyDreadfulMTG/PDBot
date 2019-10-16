@@ -22,7 +22,7 @@ namespace PDBot.Core.Discord
             var person = await API.DecksiteApi.GetPersonAsync(Context.User.Id.ToString());
             if (string.IsNullOrEmpty(person.Name))
             {
-                await ReplyAsync("I don't know who you are.  Please message me on MTGO, or (link)[https://pennydreadfulmagic.com/link] your account first.");
+                await ReplyAsync("I don't know who you are.  Please message me on MTGO, or https://pennydreadfulmagic.com/link your account first.");
                 return;
             }
             var run = await DecksiteApi.GetRunAsync(person.Name);
