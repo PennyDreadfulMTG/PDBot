@@ -18,7 +18,7 @@ namespace PDBot.Core
         Heirloom = 14, Frontier,
         JhioraBasic = 16, MoStoJho,
         Squire = 19, // SilverBlack, but with a points system.
-        MTGBrawl = 20,
+        MTGBrawl = 20, Pioneer
     };
 
     public static class DetermineFormat
