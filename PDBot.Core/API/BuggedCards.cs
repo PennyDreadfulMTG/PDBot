@@ -49,8 +49,11 @@ namespace PDBot.Core.API
                     using (WebClient wc = new WebClient())
                     {
                         var blob = wc.DownloadString("https://pennydreadfulmtg.github.io/modo-bugs/bugs.json");
-                        Bugs.Clear();
-                        Bugs.AddRange(JsonConvert.DeserializeObject<Bug[]>(blob));
+                        lock (Bugs)
+                        {
+                            Bugs.Clear();
+                            Bugs.AddRange(JsonConvert.DeserializeObject<Bug[]>(blob));
+                        }
                         LastUpdate = DateTime.Now;
                     }
                 }
@@ -64,7 +67,10 @@ namespace PDBot.Core.API
         public static Bug IsCardBugged(string CardName)
         {
             CheckForNewList();
-            return Bugs.FirstOrDefault(n => n.CardName == CardName);
+            lock (Bugs)
+            {
+                return Bugs.FirstOrDefault(n => n.CardName == CardName);
+            }
         }
     }
 }

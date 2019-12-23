@@ -48,17 +48,6 @@ namespace Tests
             Assert.IsFalse(legality.IsCardLegal(CardName.FixAccents("Lim-dl")));
         }
 
-        [Theory]
-        [Ignore("I don't care about Heirloom anymore")]
-        public void TestHeirloomLegality()
-        {
-            var match = new MockMatch("Heirloom", null, MagicFormat.Heirloom);
-            var checker = match.Observers.OfType<HeirloomLegality>().Single();
-            Assert.IsNotNull(checker.HandleLine(new GameLogLine("[Dark Ritual] is banned.", match)));
-            Assert.IsNull(checker.HandleLine(new GameLogLine("[Akroan Horse] is good.", match)));
-            Assume.That(checker.HandleLine(new GameLogLine("[Ajani Goldmane], [Ajani Unyielding] and [Ajani, Caller of the Pride] are cats.", match)) == null);
-        }
-
         [Test]
         public void TestSparkSpitter()
         {
