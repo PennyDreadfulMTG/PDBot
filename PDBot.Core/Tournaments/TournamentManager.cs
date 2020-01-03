@@ -126,112 +126,118 @@ namespace PDBot.Core.Tournaments
                 return;
 
             var room = eventModel.Channel;
-            if (string.IsNullOrWhiteSpace(room) || string.IsNullOrWhiteSpace(room.Trim('#')))
+
+            ulong? ChanId = null;
+
+            if (eventModel.Series.Contains("Penny Dreadful"))
+                ChanId = 334220558159970304;
+            else if (eventModel.Series.Contains("7 Point"))
+                ChanId = 600281000739733514;
+
+            if (!ChanId.HasValue && (string.IsNullOrWhiteSpace(room) || string.IsNullOrWhiteSpace(room.Trim('#'))))
             {
                 Console.WriteLine($"No MTGO room defined for {eventModel}.");
                 return;
             }
-            else
+            
+            var builder = new StringBuilder();
+            if (round.RoundNum == 1 &&  !round.IsFinals && !Features.PublishResults)
             {
-                var builder = new StringBuilder();
-                if (round.RoundNum == 1 &&  !round.IsFinals && !Features.PublishResults)
-                {
-                    builder.AppendLine("[sF] Due to the spectator switcheroo bug, PDBot cannot trust the results it sees on screen.");
-                    builder.AppendLine("[sF] PDBot will not be reporting match results to the channel until this bug is fixed.");
-                    builder.AppendLine("[sF] If you spectate any other player's matches in the tournament," +
-                                       " please keep in mind that player names could be attached to the wrong players.");
-                }
-
-                if (round.IsFinals && round.Matches.Count == 1)
-                    builder.Append($"[sD] Pairings for Finals:\n");
-                else if (round.IsFinals)
-                    builder.Append($"[sD] Pairings for Top {round.Matches.Count * 2}:\n");
-                else
-                    builder.Append($"[sD] Pairings for Round {round.RoundNum}:\n");
-                var misses = 0;
-                bool isPD = eventModel.Series.Contains("Penny Dreadful");
-                foreach (var pairing in round.Matches)
-                {
-                    if (pairing.A == pairing.B)
-                    {
-                        builder.Append("[sG] ");
-                    }
-                    else if (pairing.Verification == "verified")
-                    {
-                        misses += 1;
-                        builder.Append("[sT] ");
-                    }
-                    else if (pairing.Verification == "unverified")
-                    {
-                        builder.Append("[sR] ");
-                    }
-                    else if (pairing.Res == "vs.")
-                    {
-                        builder.Append("[sR] ");
-                    }
-                    else
-                    {
-                        misses += 1;
-                        builder.Append("[sT] ");
-                    }
-                    if (isPD)
-                    {
-                        pairing.CalculateRes();
-                        var A = await DiscordFunctions.MentionOrElseNameAsync(pairing.A);
-                        var B = await DiscordFunctions.MentionOrElseNameAsync(pairing.B);
-                        if (pairing.Res == "BYE")
-                            builder.Append($"{A} has the BYE!");
-                        else
-                        {
-                            builder.Append($"{A} {pairing.Res} {B}");
-                        }
-                    }
-                    else
-                    {
-                        builder.Append(pairing.ToString());
-                    }
-                    builder.Append("\n");
-                }
-                if (!round.IsFinals && (isPD || misses == 0))
-                {
-                    var minutes = FreeWinTime(eventModel.Name, round.RoundNum);
-                    builder.AppendLine($"[sB] No-Show win time: XX:{minutes.ToString("D2")}");
-                }
-                builder.Append("[sD] Good luck, everyone!");
-
-                string doorPrize = null;
-                if (isPD)
-                {
-                    if (eventModel.Rounds.ContainsKey(round.RoundNum - 1))
-                    {
-                        var prev = eventModel.Rounds[round.RoundNum - 1];
-                        if (round.IsFinals && !prev.IsFinals && round.Players.Count() == 8)
-                        {
-                            var top8players = round.Players.ToArray();
-                            var eligible = prev.Players.Where(p => !top8players.Contains(p)).ToArray();
-                            var winner = await DiscordFunctions.MentionOrElseNameAsync(eligible[new Random().Next(eligible.Count())]);
-                            doorPrize = $"[sEventTicket] And the Door Prize goes to...\n [sEventTicket] {winner} [sEventTicket]";
-                        }
-                    }
-
-                    await DiscordFunctions.PostTournamentPairingsAsync(builder.ToString(), doorPrize);
-                }
-                else if (misses < 3)
-                {
-                    var sent = Chat.SendPM(room, builder.ToString());
-                    if (!string.IsNullOrEmpty(doorPrize))
-                    {
-                        Chat.SendPM(room, doorPrize);
-                    }
-                    if (!sent)
-                    {
-                        Chat.Join(room);
-                        await Task.Delay(TimeSpan.FromSeconds(10));
-                        await PostPairingsAsync(eventModel, round);
-                    }
-                }
-                // If misses >= 3, we have clearly just rebooted.  Don't send anything.
+                builder.AppendLine("[sF] Due to the spectator switcheroo bug, PDBot cannot trust the results it sees on screen.");
+                builder.AppendLine("[sF] PDBot will not be reporting match results to the channel until this bug is fixed.");
+                builder.AppendLine("[sF] If you spectate any other player's matches in the tournament," +
+                                    " please keep in mind that player names could be attached to the wrong players.");
             }
+
+            if (round.IsFinals && round.Matches.Count == 1)
+                builder.Append($"[sD] Pairings for Finals:\n");
+            else if (round.IsFinals)
+                builder.Append($"[sD] Pairings for Top {round.Matches.Count * 2}:\n");
+            else
+                builder.Append($"[sD] Pairings for Round {round.RoundNum}:\n");
+            var misses = 0;
+            bool isPD = eventModel.Series.Contains("Penny Dreadful") && Features.ConnectToDiscord;
+            foreach (var pairing in round.Matches)
+            {
+                if (pairing.A == pairing.B)
+                {
+                    builder.Append("[sG] ");
+                }
+                else if (pairing.Verification == "verified")
+                {
+                    misses += 1;
+                    builder.Append("[sT] ");
+                }
+                else if (pairing.Verification == "unverified")
+                {
+                    builder.Append("[sR] ");
+                }
+                else if (pairing.Res == "vs.")
+                {
+                    builder.Append("[sR] ");
+                }
+                else
+                {
+                    misses += 1;
+                    builder.Append("[sT] ");
+                }
+                if (ChanId.HasValue)
+                {
+                    pairing.CalculateRes();
+                    var A = await DiscordFunctions.MentionOrElseNameAsync(pairing.A);
+                    var B = await DiscordFunctions.MentionOrElseNameAsync(pairing.B);
+                    if (pairing.Res == "BYE")
+                        builder.Append($"{A} has the BYE!");
+                    else
+                    {
+                        builder.Append($"{A} {pairing.Res} {B}");
+                    }
+                }
+                else
+                {
+                    builder.Append(pairing.ToString());
+                }
+                builder.Append("\n");
+            }
+            if (!round.IsFinals && (isPD || misses == 0))
+            {
+                var minutes = FreeWinTime(eventModel.Name, round.RoundNum);
+                builder.AppendLine($"[sB] No-Show win time: XX:{minutes.ToString("D2")}");
+            }
+            builder.Append("[sD] Good luck, everyone!");
+
+            string doorPrize = null;
+            if (ChanId.HasValue)
+            {
+                if (isPD && eventModel.Rounds.ContainsKey(round.RoundNum - 1))
+                {
+                    var prev = eventModel.Rounds[round.RoundNum - 1];
+                    if (round.IsFinals && !prev.IsFinals && round.Players.Count() == 8)
+                    {
+                        var top8players = round.Players.ToArray();
+                        var eligible = prev.Players.Where(p => !top8players.Contains(p)).ToArray();
+                        var winner = await DiscordFunctions.MentionOrElseNameAsync(eligible[new Random().Next(eligible.Count())]);
+                        doorPrize = $"[sEventTicket] And the Door Prize goes to...\n [sEventTicket] {winner} [sEventTicket]";
+                    }
+                }
+
+                await DiscordFunctions.PostTournamentPairingsAsync(ChanId.Value, builder.ToString(), doorPrize);
+            }
+            else if (misses < 3)
+            {
+                var sent = Chat.SendPM(room, builder.ToString());
+                if (!string.IsNullOrEmpty(doorPrize))
+                {
+                    Chat.SendPM(room, doorPrize);
+                }
+                if (!sent)
+                {
+                    Chat.Join(room);
+                    await Task.Delay(TimeSpan.FromSeconds(10));
+                    await PostPairingsAsync(eventModel, round);
+                }
+            }
+            // If misses >= 3, we have clearly just rebooted.  Don't send anything.
         }
 
         static Dictionary<string, int> freeWinTime = new Dictionary<string, int>();

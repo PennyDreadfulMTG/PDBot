@@ -244,9 +244,9 @@ namespace PDBot.Core
             }
         }
 
-        internal static async Task PostTournamentPairingsAsync(string pairingsText, string doorPrize)
+        internal static async Task PostTournamentPairingsAsync(ulong ChanId, string pairingsText, string doorPrize)
         {
-            var TournamentRoom = DiscordService.FindChannel(334220558159970304);
+            var TournamentRoom = DiscordService.FindChannel(ChanId);
             pairingsText = DiscordService.SubstituteEmotes(pairingsText, TournamentRoom.Guild);
             var expected_round = pairingsText.Split('\n')[0];
             var pinned = await TournamentRoom.GetPinnedMessagesAsync();
