@@ -18,7 +18,7 @@ namespace PDBot.Core.GameObservers
 
         public override string MoreInfo => "pdmtgo.com or reddit.com/r/PennyDreadfulMTG";
 
-        protected override string LegalListUrl => "http://pdmtgo.com/legal_cards.txt";
+        protected override string LegalListUrl => "https://pennydreadfulmtg.github.io/legal_cards.txt";
 
         public override Task<IGameObserver> GetInstanceForMatchAsync(IMatch match)
         {
