@@ -1,4 +1,4 @@
-﻿using NUnit.Framework;
+using NUnit.Framework;
 using PDBot.Core.GameObservers;
 
 namespace Tests
@@ -17,6 +17,13 @@ namespace Tests
         {
             Assert.IsFalse(BaseLegalityChecker.IsRearFace("Graf Rats"));
             Assert.IsTrue(BaseLegalityChecker.IsRearFace("Chittering Host"));
+        }
+
+        [Test]
+        public void TestAdventure()
+        {
+            Assert.IsFalse(BaseLegalityChecker.IsRearFace("Smitten Swordmaster"));
+            Assert.IsTrue(BaseLegalityChecker.IsRearFace("Curry Favor"));
         }
     }
 }
