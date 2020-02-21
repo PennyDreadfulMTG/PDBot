@@ -59,7 +59,6 @@ namespace PDBot.Core.Tournaments
             var events = new Event[0];
             if (GatherlingClient.GatherlingDotCom.ApiVersion > 0)
                 events = await GatherlingClient.GatherlingDotCom.GetActiveEventsAsync();
-            events = events.Union(await GatherlingClient.One.GetActiveEventsAsync()).ToArray();
 
             foreach (var ae in events)
             {

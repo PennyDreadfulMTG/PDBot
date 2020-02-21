@@ -56,7 +56,7 @@ namespace Gatherling.VersionedApis
         }
 
         public virtual async Task<string> GetInfobotResponseAsync(string playerName, string mode) {
-            var path = $"admin/infobot.php?passkey={Settings.Passkey}&username={playerName}&action={mode}";
+            var path = $"admin/infobot.php?passkey={Settings.Passkey}&username={playerName}&mode={mode}";
             using (var webClient = CreateWebClient())
             {
                 var resp = await webClient.DownloadStringTaskAsync(path).ConfigureAwait(false);

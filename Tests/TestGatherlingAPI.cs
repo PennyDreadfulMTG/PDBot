@@ -40,8 +40,6 @@ namespace Tests
             var events = new Gatherling.Models.Event[0];
             if (GatherlingClient.GatherlingDotCom.ApiVersion > 0)
                 events = GatherlingClient.GatherlingDotCom.GetActiveEventsAsync().GetAwaiter().GetResult();
-            if (events.Length == 0)
-                events = GatherlingClient.One.GetActiveEventsAsync().GetAwaiter().GetResult();
 
             if (events.Length == 0)
                 events = GatherlingClient.PennyDreadful.GetActiveEventsAsync().GetAwaiter().GetResult();
