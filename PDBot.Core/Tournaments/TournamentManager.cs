@@ -56,9 +56,7 @@ namespace PDBot.Core.Tournaments
                 if (m.Completed)
                     ActiveMatches.Remove(m);
             }
-            var events = new Event[0];
-            if (GatherlingClient.GatherlingDotCom.ApiVersion > 0)
-                events = await GatherlingClient.GatherlingDotCom.GetActiveEventsAsync();
+            var events = await GatherlingClient.GatherlingDotCom.GetActiveEventsAsync();
 
             foreach (var ae in events)
             {

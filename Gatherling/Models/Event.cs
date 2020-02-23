@@ -29,7 +29,7 @@ namespace Gatherling.Models
 
         public string[] Unreported { get; set; }
 
-        protected internal Standing[] Standings;
+        public Standing[] Standings;
 
         public Task<Round> GetCurrentPairingsAsync()
         {

@@ -19,9 +19,9 @@ namespace Tests
         }
 
         [TestCase]
-        public void TestGatherlingDecks()
+        public async Task TestGatherlingDecks()
         {
-            var deck = GatherlingClient.PennyDreadful.GetDeckAsync(10564).GetAwaiter().GetResult();
+            var deck = await GatherlingClient.PennyDreadful.GetDeckAsync(10564);
             Assert.AreEqual(true, deck.Found);
             Assert.AreEqual(10564, deck.Id);
             Assert.AreEqual(" Unclassified", deck.Name);
@@ -35,25 +35,26 @@ namespace Tests
         }
 
         [Theory]
-        public void GetActiveEvents()
+        public async Task GetActiveEvents()
         {
             var events = new Gatherling.Models.Event[0];
             if (GatherlingClient.GatherlingDotCom.ApiVersion > 0)
-                events = GatherlingClient.GatherlingDotCom.GetActiveEventsAsync().GetAwaiter().GetResult();
+                events = await GatherlingClient.GatherlingDotCom.GetActiveEventsAsync();
 
             if (events.Length == 0)
-                events = GatherlingClient.PennyDreadful.GetActiveEventsAsync().GetAwaiter().GetResult();
+                events = await GatherlingClient.PennyDreadful.GetActiveEventsAsync();
             Assume.That(events.Length > 0);
             var first = events.First();
-            var pairings = first.GetCurrentPairingsAsync().GetAwaiter().GetResult();
-            Assume.That(pairings.Matches.Any());
-            Assume.That(first.Channel != null);
+            var pairings = await first.GetCurrentPairingsAsync();
+            Assert.That(pairings.Matches.Any());
+            Assert.That(first.Channel != null);
         }
 
         [Test]
-        public void ParseStandings()
+        public async Task ParseStandings()
         {
-            var @event = GatherlingClient.GatherlingDotCom.GetEvent("Penny Dreadful Thursdays 12.01");
+            var @event = await GatherlingClient.GatherlingDotCom.GetEvent("Penny Dreadful Thursdays 12.01");
+            Assert.NotNull(@event.Standings);
         }
     }
 }
