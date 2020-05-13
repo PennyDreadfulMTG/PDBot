@@ -129,7 +129,7 @@
       <Version>3.1.4</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.Platforms">
-      <Version>2.2.2</Version>
+      <Version>3.1.1</Version>
     </PackageReference>
     <PackageReference Include="NETStandard.Library">
       <Version>2.0.3</Version>
