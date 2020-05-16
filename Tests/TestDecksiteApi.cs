@@ -30,5 +30,12 @@ namespace Tests
             var person = await DecksiteApi.GetPersonAsync(name);
             Assert.AreEqual(person.Name, name);
         }
+
+        [Test]
+        public async Task TestGetTournaments()
+        {
+            var info = await DecksiteApi.GetTournaments();
+            Assert.NotNull(info);
+        }
     }
 }

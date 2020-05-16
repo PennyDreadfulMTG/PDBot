@@ -1,9 +1,7 @@
+// https://app.quicktype.io/ is your friend
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PDBot.Core.API
 {
@@ -70,33 +68,82 @@ namespace PDBot.Core.API
 
         public struct Rotation
         {
+            [JsonProperty("last")]
+            public Set Last { get; set; }
+
+            [JsonProperty("next")]
+            public Set Next { get; set; }
+
             [JsonProperty("diff")]
             public double Diff { get; set; }
 
             [JsonProperty("friendly_diff")]
             public string FriendlyDiff { get; set; }
-
-            public Set last { get; set; }
-
-            public Set next { get; set; }
-
-            public class Set
-            {
-                [JsonProperty("name")]
-                public string Name { get; set; }
-                public string rough_exit_date { get; set; }
-                public string block { get; set; }
-                public string enter_date { get; set; }
-                public object exit_date { get; set; }
-                public string code { get; set; }
-            }
         }
+
+        public partial class Set
+        {
+            [JsonProperty("name")]
+            public string Name { get; set; }
+
+            [JsonProperty("code")]
+            public string Code { get; set; }
+
+            [JsonProperty("codename")]
+            public string Codename { get; set; }
+
+            [JsonProperty("mtgo_code")]
+            public string MtgoCode { get; set; }
+
+            [JsonProperty("enter_date")]
+            public Date EnterDate { get; set; }
+
+            [JsonProperty("exit_date")]
+            public Date ExitDate { get; set; }
+
+            [JsonProperty("enter_date_dt")]
+            public long EnterDateDt { get; set; }
+        }
+
+        public partial class Date
+        {
+            [JsonProperty("exact")]
+            public DateTimeOffset? Exact { get; set; }
+
+            [JsonProperty("rough")]
+            public string Rough { get; set; }
+        }
+    
 
         public struct Person
         {
             [JsonProperty("name")]
             public string Name { get; set; }
             public ulong? discord_id { get; set; }
+        }
+
+        public partial class TournamentInfo
+        {
+            [JsonProperty("tournaments")]
+            public Tournament[] Tournaments { get; set; }
+        }
+
+        public partial class Tournament
+        {
+            [JsonProperty("name")]
+            public string Name { get; set; }
+
+            [JsonProperty("hosts")]
+            public string[] Hosts { get; set; }
+
+            [JsonProperty("display_time")]
+            public string DisplayTime { get; set; }
+
+            [JsonProperty("time")]
+            public long Time { get; set; }
+
+            [JsonProperty("sponsor_name", NullValueHandling = NullValueHandling.Ignore)]
+            public string SponsorName { get; set; }
         }
 
     }

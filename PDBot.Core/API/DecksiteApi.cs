@@ -4,7 +4,6 @@ using PDBot.Data;
 using Sentry;
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -271,6 +270,13 @@ namespace PDBot.Core.API
             if (jArray.Type == JTokenType.Null)
                 return null;
             return from c in jArray.Children() select JsonConvert.DeserializeObject<CardStat>(c.ToString());
+        }
+
+        public static async Task<Tournament[]> GetTournaments()
+        {
+            var blob = await Api.GetStringAsync($"/api/cards");
+            var data = JsonConvert.DeserializeObject<TournamentInfo>(blob);
+            return data.Tournaments;
         }
     }
 }
