@@ -87,7 +87,8 @@ namespace Gatherling.Models
             if (Channel != null && !Channel.StartsWith("#"))
                 Channel = "#" + Channel;
             Series = data.Value<string>("series");
-
+            Main = new SubEvent(data.Value<string>("mainstruct"), data.Value<int>("mainrounds"));
+            Finals = new SubEvent(data.Value<string>("finalstruct"), data.Value<int>("finalrounds"));
             if (data.ContainsKey("unreported"))
                 Unreported = ((JArray)data["unreported"]).Values<string>().ToArray();
             try
