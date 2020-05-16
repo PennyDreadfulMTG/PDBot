@@ -274,7 +274,7 @@ namespace PDBot.Core.API
 
         public static async Task<Tournament[]> GetTournaments()
         {
-            var blob = await Api.GetStringAsync($"/api/cards");
+            var blob = await Api.GetStringAsync($"/api/tournaments");
             var data = JsonConvert.DeserializeObject<TournamentInfo>(blob);
             return data.Tournaments;
         }
