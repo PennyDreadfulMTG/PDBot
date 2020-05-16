@@ -127,7 +127,7 @@ namespace PDBot.Core.GameObservers
                             return false;
                     }
 
-                    if (!face.TryGetValue("mana_cost", out var cost) || string.IsNullOrEmpty(face.Value<string>("mana_cost")) || face["type_line"].Contains("Adventure"))
+                    if (!face.TryGetValue("mana_cost", out var cost) || string.IsNullOrEmpty(face.Value<string>("mana_cost")) || face.Value<string>("type_line").Contains("Adventure"))
                     {
                         Transforms.Add(name);
                         try

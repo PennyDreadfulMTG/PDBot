@@ -34,7 +34,7 @@ namespace PDBot.Commands
                 case "gatherling.com":
                     return await GatherlingClient.GatherlingDotCom.GetVerificationCodeAsync(player);
                 case "one":
-                    return await GatherlingClient.One.GetVerificationCodeAsync(player);
+                    //return await GatherlingClient.One.GetVerificationCodeAsync(player);
                 default:
                     return "Unknown servercode.";
             }
@@ -64,7 +64,7 @@ namespace PDBot.Commands
                     return await GatherlingClient.GatherlingDotCom.ResetPasswordAsync(player);
 
                 case "one":
-                    return await GatherlingClient.One.ResetPasswordAsync(player);
+                    //return await GatherlingClient.One.ResetPasswordAsync(player);
                 default:
                     return "Unknown servercode.";
             }
