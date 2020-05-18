@@ -158,19 +158,19 @@ namespace PDBot.Core.Tournaments
                 {
                     builder.Append($"Welcome to {eventModel.Name}. We have {round.Players.Count()} players. We will play {eventModel.Main.Rounds} rounds of {eventModel.Main.ModeRaw}");
                     if (eventModel.Finals.Rounds == 0)
-                        builder.Append(".");
+                        builder.Append(".  ");
                     else if (eventModel.Finals.Mode == EventStructure.SingleElimination)
-                        builder.Append($" followed by cut to top {Math.Pow(2, eventModel.Finals.Rounds)}.");
+                        builder.Append($" followed by cut to top {Math.Pow(2, eventModel.Finals.Rounds)}.  ");
                     else
-                        builder.Append($" followed by {eventModel.Finals.Rounds} rounds of {eventModel.Finals.ModeRaw}");
+                        builder.Append($" followed by {eventModel.Finals.Rounds} rounds of {eventModel.Finals.ModeRaw}.  ");
 
                     var tournamentInfo = (await API.DecksiteApi.GetTournaments()).FirstOrDefault(t => t.Name == eventModel.Series);
                     if (tournamentInfo?.SponsorName != null)
-                        builder.Append($"There are prizes from {tournamentInfo?.SponsorName} for the Top 8 finishes and a door prize for one other randomly-selected player completing the Swiss rounds.");
-                    builder.AppendLine().Append(" Prizes will be credited to your Cardhoarder account automatically some time at the end of this week."
-                        + " Please make your games in Constructed, Specialty, Freeform Tournament Practice with 'Penny Dreadful' and your opponent's name in the comments with watchers allowed."
-                        + $" If your opponent doesn't show up please message them directly on Magic Online and Discord and if they are not there at :{FreeWinTime(eventModel.Name, round.RoundNum).ToString("D2")} contact the host for your free 2-0 win."
-                        + "\nGood luck everyone!");
+                        builder.Append($"There are prizes from {tournamentInfo?.SponsorName} for the Top 8 finishes and a door prize for one other randomly-selected player completing the Swiss rounds. ")
+                            .Append("Prizes will be credited to your Cardhoarder account automatically some time at the end of this week.");
+                    builder.AppendLine().Append("Please make your games in Constructed, Specialty, Freeform Tournament Practice with 'Penny Dreadful' and your opponent's name in the comments with watchers allowed."
+                        + $" If your opponent doesn't show up please message them directly on Magic Online and Discord and if they are not there at :{FreeWinTime(eventModel.Name, round.RoundNum):D2} contact the host for your free 2-0 win."
+                        + "\nGood luck everyone!\n");
                 }
             }
 
