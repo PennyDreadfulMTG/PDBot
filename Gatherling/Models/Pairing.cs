@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Gatherling.Models
 {
-    public class Pairing
+    public class Pairing : IComparable<Pairing>
     {
         public string A { get; internal set; }
         public int A_wins { get; internal set; }
@@ -47,6 +47,11 @@ namespace Gatherling.Models
                     Res = "vs.";
                 }
             }
+        }
+
+        int IComparable<Pairing>.CompareTo(Pairing other)
+        {
+            return this.A.CompareTo(other.A);
         }
     }
 

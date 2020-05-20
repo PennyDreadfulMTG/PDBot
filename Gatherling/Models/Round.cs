@@ -98,6 +98,7 @@ namespace Gatherling.Models
                 }
                 round.Matches.Add(p);
             }
+            round.Matches.Sort();
 
             return round;
         }
