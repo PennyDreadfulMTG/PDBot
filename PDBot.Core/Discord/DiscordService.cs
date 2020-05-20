@@ -493,9 +493,10 @@ namespace PDBot.Discord
 
         public static async Task<bool> EchoChannelToDiscordAsync(string chan, string message, string author)
         {
+            message = message.Replace("_", "\\_"); // Underscores are not meant to italicise.
             if (author.Equals(nameof(PDBot), StringComparison.InvariantCultureIgnoreCase))
             {
-                // TODO: escape problematic player names?
+                
             }
             var success = false;
             switch (chan.ToLowerInvariant())
