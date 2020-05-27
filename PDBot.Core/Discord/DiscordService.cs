@@ -512,6 +512,7 @@ namespace PDBot.Discord
                     break;
                 case "pauperpower":
                 case "pct":
+                case "tps":
                     success = await SendToArbiraryChannelAsync(message, 387127632266788870);
                     break;
                 case "modern":

@@ -48,5 +48,11 @@ namespace PDBot.Core.Discord
             var (success, message) = await BuggedCards.UpdateBuggedAsync(CardName, name, -1, false);
             await ReplyAsync(message);
         }
+
+        [Command("verify")]
+        public async Task VerifyOnDiscordAsync([Remainder] string _) => await ReplyAsync("Send that to me on MTGO instead");
+
+        [Command("reset")]
+        public async Task ResetOnDiscordAsync([Remainder] string _) => await ReplyAsync("Send that to me on MTGO instead");
     }
 }
