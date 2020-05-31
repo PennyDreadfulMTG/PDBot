@@ -7,7 +7,7 @@ pull_request_rules:
       merge:
         method: merge
 pull_request_rules:
-  - name: Automatic merge on approval
+  - name: Automatic merge for Silasary
     conditions:
       - author=silasary
       - status-success="build"
@@ -15,7 +15,7 @@ pull_request_rules:
       merge:
         method: merge
 pull_request_rules:
-  - name: Automatic merge on approval
+  - name: Automatic merge for Dependabot
     conditions:
       - author~=^dependabot(|-preview)\[bot\]$
       - status-success="build"
