@@ -1,0 +1,24 @@
+pull_request_rules:
+  - name: Automatic merge on approval
+    conditions:
+      - "#approved-reviews-by>=1"
+      - status-success="build"
+    actions:
+      merge:
+        method: merge
+pull_request_rules:
+  - name: Automatic merge on approval
+    conditions:
+      - author=silasary
+      - status-success="build"
+    actions:
+      merge:
+        method: merge
+pull_request_rules:
+  - name: Automatic merge on approval
+    conditions:
+      - author~=^dependabot(|-preview)\[bot\]$
+      - status-success="build"
+    actions:
+      merge:
+        method: merge
