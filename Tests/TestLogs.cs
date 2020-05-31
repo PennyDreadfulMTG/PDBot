@@ -43,7 +43,8 @@ namespace Tests
             var match = new MockMatch();
             var legality = new PennyDreadfulLegality();
             Assert.IsTrue(legality.IsCardLegal(CardName.FixAccents("Dandan")));
-            //Assert.IsTrue(legality.IsCardLegal(CardName.FixAccents("Junún Efreet")));
+            Assert.IsTrue(legality.IsCardLegal(CardName.FixAccents("Junún Efreet")));
+            Assert.IsTrue(legality.IsCardLegal(CardName.FixAccents("Márton Stromgald")));
             Assert.IsTrue(legality.IsCardLegal(CardName.FixAccents("DandAþn")));
             Assert.IsFalse(legality.IsCardLegal(CardName.FixAccents("Lim-dl")));
         }
