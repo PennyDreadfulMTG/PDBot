@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -17,6 +17,7 @@ namespace PDBot.Data
         static readonly Regex Ghazban = new Regex("Ghazb.{1,2}n Ogre", RegexOptions.Compiled);
         static readonly Regex Khabal = new Regex("Khab.{1,2}l Ghoul", RegexOptions.Compiled);
         static readonly Regex Junun = new Regex("Jun.{1,2}n Efreet", RegexOptions.Compiled);
+        static readonly Regex Marton = new Regex("M.{1,2}rton Stromgald", RegexOptions.Compiled);
         /// <summary>
         /// Takes a name, and fixes up any messy encoding issues that might have occured.
         /// </summary>
@@ -31,6 +32,7 @@ namespace PDBot.Data
             name = Ghazban.Replace(name, "Ghazbán Ogre");
             name = Khabal.Replace(name, "Khabál Ghoul");
             name = Junun.Replace(name, "Junún Efreet");
+            name = Marton.Replace(name, "Márton Stromgald");
             return name;
         }
 

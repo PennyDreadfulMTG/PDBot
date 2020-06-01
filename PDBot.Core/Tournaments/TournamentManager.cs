@@ -131,6 +131,8 @@ namespace PDBot.Core.Tournaments
                 ChanId = 334220558159970304;
             else if (eventModel.Series.Contains("7 Point"))
                 ChanId = 600281000739733514;
+            else if (eventModel.Series.Contains("Community Legacy League"))
+                ChanId = 711257873908498701;
             else if (eventModel.Series == "Pauper Classic Tuesdays")
             {
                 ChanId = 387127632266788870;
