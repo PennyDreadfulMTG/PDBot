@@ -63,10 +63,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Gatherling\Gatherling.csproj">
-      <Project>{CACFD6CA-A0A2-447E-BE71-B4ADCC3835BB}</Project>
-      <Name>Gatherling</Name>
-    </ProjectReference>
     <ProjectReference Include="..\PDBot.Core\PDBot.Core.csproj">
       <Project>{8e7081e9-5b66-4254-bd00-f2abb633027f}</Project>
       <Name>PDBot.Core</Name>

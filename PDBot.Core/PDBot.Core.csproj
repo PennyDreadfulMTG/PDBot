@@ -104,12 +104,6 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Gatherling\Gatherling.csproj">
-      <Project>{CACFD6CA-A0A2-447E-BE71-B4ADCC3835BB}</Project>
-      <Name>Gatherling</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="Discord.Net.Commands">
       <Version>2.1.1</Version>
     </PackageReference>
@@ -121,6 +115,9 @@
     </PackageReference>
     <PackageReference Include="Discord.Net.WebSocket">
       <Version>2.1.1</Version>
+    </PackageReference>
+    <PackageReference Include="Gatherling">
+      <Version>1.0.4</Version>
     </PackageReference>
     <PackageReference Include="HtmlAgilityPack">
       <Version>1.11.23</Version>
