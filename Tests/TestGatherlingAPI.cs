@@ -21,10 +21,10 @@ namespace Tests
         [TestCase]
         public async Task TestGatherlingDecks()
         {
-            var deck = await GatherlingClient.PennyDreadful.GetDeckAsync(10564);
+            var deck = await GatherlingClient.GatherlingDotCom.GetDeckAsync(87052);
             Assert.AreEqual(true, deck.Found);
-            Assert.AreEqual(10564, deck.Id);
-            Assert.AreEqual(" Unclassified", deck.Name);
+            Assert.AreEqual(87052, deck.Id);
+            Assert.AreEqual("PD Drake", deck.Name);
         }
 
         [TestCase]
