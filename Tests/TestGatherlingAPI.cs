@@ -12,12 +12,6 @@ namespace Tests
 {
     class TestGatherlingAPI
     {
-        [OneTimeSetUp]
-        public void Setup()
-        {
-            GatherlingClient.PasskeyProvider = new TournamentManager.InfoBotSettings();
-        }
-
         [TestCase]
         public async Task TestGatherlingDecks()
         {
@@ -27,12 +21,12 @@ namespace Tests
             Assert.AreEqual("PD Drake", deck.Name);
         }
 
-        [TestCase]
-        public void TestVerification()
-        {
-            var code = GatherlingClient.PennyDreadful.GetVerificationCodeAsync(nameof(PDBot)).GetAwaiter().GetResult();
-            Assert.IsNotNull(code);
-        }
+        //[TestCase]
+        //public void TestVerification()
+        //{
+        //    var code = GatherlingClient.PennyDreadful.GetVerificationCodeAsync(nameof(PDBot)).GetAwaiter().GetResult();
+        //    Assert.IsNotNull(code);
+        //}
 
         [Theory]
         public async Task GetActiveEvents()

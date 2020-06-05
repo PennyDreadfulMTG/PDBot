@@ -18,12 +18,6 @@ namespace PDBot.Core.Tournaments
 
         private IChatDispatcher chatDispatcher;
 
-        public TournamentManager()
-        {
-            if (GatherlingClient.PasskeyProvider == null)
-                GatherlingClient.PasskeyProvider = new InfoBotSettings();
-        }
-
         private Dictionary<string, Event> _activeEvents { get; } = new Dictionary<string, Event>();
         private Dictionary<string, Round> _activeRounds { get; } = new Dictionary<string, Round>();
 
@@ -277,41 +271,6 @@ namespace PDBot.Core.Tournaments
             var time = (DateTime.UtcNow.Minute + 11) % 60;
             freeWinTime[key] = time;
             return time;
-        }
-
-        public class InfoBotSettings : ApplicationSettingsBase, IPasskeyProvider
-        {
-            public InfoBotSettings()
-            {
-                var path = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.PerUserRoamingAndLocal).FilePath;
-                Console.WriteLine($"Config path: {path}");
-            }
-
-            [ApplicationScopedSetting]
-            public List<ServerSettings> Servers
-            {
-                get
-                {
-                    return this[nameof(Servers)] as List<ServerSettings>;
-                }
-                set
-                {
-                    this[nameof(Servers)] = value;
-                }
-            }
-
-            public ServerSettings GetServer(string host)
-            {
-                if (Servers == null)
-                    Servers = new List<ServerSettings>();
-                var val = Servers.SingleOrDefault(s => s.Host == host);
-                if (val == null)
-                {
-                    this.Servers.Add(val = new ServerSettings { Host = host, Passkey = "" });
-                    Save();
-                }
-                return val;
-            }
         }
     }
 }
