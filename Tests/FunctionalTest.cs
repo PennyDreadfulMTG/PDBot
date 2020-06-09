@@ -19,7 +19,7 @@ namespace Tests
         public static IEnumerable<TestCaseData> Logs()
         {
             var folder = new FileInfo(typeof(FunctionalTest).Assembly.Location).Directory;
-            folder = folder.Parent.Parent.EnumerateDirectories(LogDirectory).FirstOrDefault();
+            folder = folder.Parent.Parent.Parent.EnumerateDirectories(LogDirectory).FirstOrDefault();
             foreach (var logfile in folder.EnumerateFiles("*.txt"))
             {
                 var lines = File.ReadAllLines(logfile.FullName);
