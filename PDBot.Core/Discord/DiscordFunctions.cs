@@ -103,6 +103,11 @@ namespace PDBot.Core
             return $"<@{ID}> ({escaped})";
         }
 
+        internal static async Task<bool> Mentionable(string username)
+        {
+            return await DiscordIDAsync(username) != null;
+        }
+
         public async static Task DoPDHRoleAsync()
         {
             var stats = await LogsiteApi.GetStatsAsync();
