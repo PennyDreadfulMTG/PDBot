@@ -39,6 +39,25 @@ namespace PDBot.Core.Discord
                 await ReplyAsync($"Unable to retire your deck.  Please message Katelyn on discord.");
         }
 
+        [Command("record")]
+        public async Task RecordAsync()
+        {
+            var person = await API.DecksiteApi.GetPersonAsync(Context.User.Id.ToString());
+            if (string.IsNullOrEmpty(person.Name))
+            {
+                await ReplyAsync("I don't know who you are.  Please message me on MTGO, or https://pennydreadfulmagic.com/link your account first.");
+                return;
+            }
+            var run = await DecksiteApi.GetRunAsync(person.Name);
+            if (run == null)
+            {
+                await ReplyAsync($"You do not have an active deck in {DecksiteApi.CurrentLeagueName()}.");
+                return;
+            }
+
+            await ReplyAsync($"Your deck is currently {run.Wins}-{run.Losses}");
+        }
+
         [Command("StillBugged")]
         public async Task StillBuggedAsync([Remainder] string CardName)
         {
