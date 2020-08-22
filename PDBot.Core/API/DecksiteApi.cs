@@ -20,6 +20,8 @@ namespace PDBot.Core.API
         static DateTime CachedRotationLastUpdate;
         static Rotation CachedRotation;
 
+        static Tournament[] tournaments = null;
+
 
         static DecksiteApi()
         {
@@ -274,9 +276,22 @@ namespace PDBot.Core.API
 
         public static async Task<Tournament[]> GetTournaments()
         {
-            var blob = await Api.GetStringAsync($"/api/tournaments");
-            var data = JsonConvert.DeserializeObject<TournamentInfo>(blob);
-            return data.Tournaments;
+            if (tournaments == null)
+            {
+                try
+                {
+                    var blob = await Api.GetStringAsync($"/api/tournaments");
+                    var data = JsonConvert.DeserializeObject<TournamentInfo>(blob);
+                    tournaments = data.Tournaments;
+                }
+                catch (TaskCanceledException c)
+                {
+                    SentrySdk.CaptureException(c);
+                    return new Tournament[0];
+                }
+
+            }
+            return tournaments;
         }
     }
 }
