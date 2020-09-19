@@ -91,8 +91,7 @@ namespace PDBot.Core.Tournaments
                         post = true;
                     }
                 }
-                if (post)
-                    await PostPairingsAsync(ae, round);
+                await PostPairingsAsync(ae, round, post);
                 lock (_activeRounds)
                 {
                     if (round.RoundNum == _activeRounds[ae.Name].RoundNum)
@@ -111,7 +110,7 @@ namespace PDBot.Core.Tournaments
             }
         }
 
-        private async Task PostPairingsAsync(Event eventModel, Round round)
+        private async Task PostPairingsAsync(Event eventModel, Round round, bool toMTGO)
         {
             if (!Features.AnnouncePairings)
                 return;
@@ -142,11 +141,13 @@ namespace PDBot.Core.Tournaments
             }
             bool isPD = eventModel.Series.Contains("Penny Dreadful") && Features.ConnectToDiscord;
             
-            var builder = new StringBuilder();
+            var prebuilder = new StringBuilder();
             if (round.RoundNum == 1 &&  !round.IsFinals)
             {
-                await RoundOneAnnouncements(eventModel, round, isPD, builder, ChanId);
+                await RoundOneAnnouncements(eventModel, round, isPD, prebuilder, ChanId);
             }
+            var builder = new StringBuilder();
+
 
             if (round.IsFinals && round.Matches.Count == 1)
                 builder.Append($"[sD] Pairings for Finals:\n");
@@ -200,7 +201,7 @@ namespace PDBot.Core.Tournaments
             if (!round.IsFinals && (isPD || misses == 0))
             {
                 var minutes = FreeWinTime(eventModel.Name, round.RoundNum);
-                builder.AppendLine($"[sB] No-Show win time: XX:{minutes.ToString("D2")}");
+                builder.AppendLine($"[sB] No-Show win time: XX:{minutes:D2}");
             }
             builder.Append("[sD] Good luck, everyone!");
 
@@ -210,7 +211,7 @@ namespace PDBot.Core.Tournaments
                 if (isPD && eventModel.Rounds.ContainsKey(round.RoundNum - 1))
                 {
                     var prev = eventModel.Rounds[round.RoundNum - 1];
-                    if (round.IsFinals && !prev.IsFinals && round.Players.Count() == 8)
+                    if (round.IsFinals && !prev.IsFinals && round.Players.Count() == 8 && !eventModel.Name.Contains("500"))
                     {
                         var top8players = round.Players.ToArray();
                         var eligible = prev.Players.Where(p => !top8players.Contains(p)).ToArray();
@@ -219,10 +220,13 @@ namespace PDBot.Core.Tournaments
                     }
                 }
 
-                await DiscordFunctions.PostTournamentPairingsAsync(ChanId.Value, builder.ToString(), doorPrize);
+                await DiscordFunctions.PostTournamentPairingsAsync(ChanId.Value, builder.ToString(), doorPrize, prebuilder.ToString());
             }
-            else if (misses < 3)
+            else if (misses < 3 && toMTGO)
             {
+
+                if (prebuilder.Length > 0)
+                    Chat.SendPM(room, prebuilder.ToString());
                 var sent = Chat.SendPM(room, builder.ToString());
                 if (!string.IsNullOrEmpty(doorPrize))
                 {
@@ -232,7 +236,7 @@ namespace PDBot.Core.Tournaments
                 {
                     Chat.Join(room);
                     await Task.Delay(TimeSpan.FromSeconds(10));
-                    await PostPairingsAsync(eventModel, round);
+                    await PostPairingsAsync(eventModel, round, toMTGO);
                 }
             }
             // If misses >= 3, we have clearly just rebooted.  Don't send anything.

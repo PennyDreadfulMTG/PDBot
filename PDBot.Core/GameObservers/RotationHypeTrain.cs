@@ -47,6 +47,7 @@ namespace PDBot.Core.GameObservers
 
         public bool ShouldJoin(IMatch match)
         {
+            return false;
             if (match.Format == MagicFormat.PennyDreadful)
             {
                 var rotation = DecksiteApi.GetCachedRotationAsync().GetAwaiter().GetResult();

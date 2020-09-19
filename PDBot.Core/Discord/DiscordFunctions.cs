@@ -249,12 +249,17 @@ namespace PDBot.Core
             }
         }
 
-        internal static async Task PostTournamentPairingsAsync(ulong ChanId, string pairingsText, string doorPrize)
+        internal static async Task PostTournamentPairingsAsync(ulong ChanId, string pairingsText, string doorPrize, string preamble)
         {
             var TournamentRoom = DiscordService.FindChannel(ChanId);
             pairingsText = DiscordService.SubstituteEmotes(pairingsText, TournamentRoom.Guild);
             var expected_round = pairingsText.Split('\n')[0];
             var pinned = await TournamentRoom.GetPinnedMessagesAsync();
+            if (!string.IsNullOrEmpty(preamble) && (preamble.Length + pairingsText.Length < 2000))
+            {
+                pairingsText = preamble + '\n' + pairingsText;
+                preamble = null;
+            }
             foreach (var pin in pinned)
             {
                 Console.WriteLine($"pinned post: {pin}");
@@ -276,6 +281,8 @@ namespace PDBot.Core
                 await post.UnpinAsync();
                 Console.WriteLine("unpinning");
             }
+            if (!string.IsNullOrEmpty(preamble))
+                await TournamentRoom.SendMessageAsync(preamble);
             var msg = await TournamentRoom.SendMessageAsync(pairingsText);
             await msg.PinAsync();
             if (!string.IsNullOrEmpty(doorPrize))
