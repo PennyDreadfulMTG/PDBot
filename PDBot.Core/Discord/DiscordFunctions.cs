@@ -262,7 +262,7 @@ namespace PDBot.Core
             }
             if (pairingsText.Length >= 2000)
             {
-                pairingsText = pairingsText.Split('\n')[0] + "\nCheck Gatherling for your pairings!";
+                pairingsText = pairingsText.Split('\n')[0] + "\n@Tournament Players Check Gatherling for your pairings!";
             }
             foreach (var pin in pinned)
             {
