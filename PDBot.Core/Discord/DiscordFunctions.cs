@@ -260,6 +260,10 @@ namespace PDBot.Core
                 pairingsText = preamble + '\n' + pairingsText;
                 preamble = null;
             }
+            if (pairingsText.Length >= 2000)
+            {
+                pairingsText = pairingsText.Split('\n')[0] + '\nCheck Gatherling for your pairings!';
+            }
             foreach (var pin in pinned)
             {
                 Console.WriteLine($"pinned post: {pin}");
