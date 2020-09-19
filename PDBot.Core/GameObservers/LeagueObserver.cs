@@ -3,6 +3,7 @@ using PDBot.Core.Data;
 using PDBot.Core.Interfaces;
 using PDBot.Discord;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -74,6 +75,8 @@ namespace PDBot.Core.GameObservers
             await Task.Delay(TimeSpan.FromSeconds(2)); // Sometimes PDBot gets into a game before one of the players.  If this happens, they miss the message.
             var desc = match.Comments.ToLower();
             var loud = desc.Contains("league");
+            if (desc.ToLower().Contains("test"))
+                return false;
             try
             {
                 HostRun = await DecksiteApi.GetRunAsync(match.Players[0]);
