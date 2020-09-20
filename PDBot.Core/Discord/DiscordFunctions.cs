@@ -253,8 +253,6 @@ namespace PDBot.Core
         {
             var TournamentRoom = DiscordService.FindChannel(ChanId);
             pairingsText = DiscordService.SubstituteEmotes(pairingsText, TournamentRoom.Guild);
-            var expected_round = pairingsText.Split('\n')[0];
-            var pinned = await TournamentRoom.GetPinnedMessagesAsync();
             if (!string.IsNullOrEmpty(preamble) && (preamble.Length + pairingsText.Length < 2000))
             {
                 pairingsText = preamble + '\n' + pairingsText;
@@ -264,6 +262,8 @@ namespace PDBot.Core
             {
                 pairingsText = pairingsText.Split('\n')[0] + "\n@Tournament Players Check Gatherling for your pairings!";
             }
+            var expected_round = pairingsText.Split('\n')[0];
+            var pinned = await TournamentRoom.GetPinnedMessagesAsync();
             foreach (var pin in pinned)
             {
                 Console.WriteLine($"pinned post: {pin}");
