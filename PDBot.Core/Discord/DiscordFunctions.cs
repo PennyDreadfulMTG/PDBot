@@ -86,8 +86,16 @@ namespace PDBot.Core
         {
             if (MtgoToDiscordMapping.ContainsKey(username))
                 return MtgoToDiscordMapping[username];
-            var person = await DecksiteApi.GetPersonAsync(username);
-            return MtgoToDiscordMapping[username] = person.discord_id;
+            try
+            {
+                var person = await DecksiteApi.GetPersonAsync(username);
+                return MtgoToDiscordMapping[username] = person.discord_id;
+            }
+            catch (Exception c)
+            {
+                Sentry.SentrySdk.CaptureException(c);
+                return null;
+            }
         }
 
         public static async Task<string> MentionOrElseNameAsync(string username)
