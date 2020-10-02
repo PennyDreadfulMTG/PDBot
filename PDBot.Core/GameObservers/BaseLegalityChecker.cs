@@ -115,6 +115,7 @@ namespace PDBot.Core.GameObservers
                     {
                         case "transform":
                         case "flip":
+                        case "modal_dfc":
                         face = json["card_faces"].First(f => f.Value<string>(nameof(name)) == name) as JObject;
                             break;
                         case "meld":
