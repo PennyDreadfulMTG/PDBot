@@ -25,5 +25,10 @@ namespace Tests
             Assert.IsFalse(BaseLegalityChecker.IsRearFace("Smitten Swordmaster"));
             Assert.IsTrue(BaseLegalityChecker.IsRearFace("Curry Favor"));
         }
+        [Test]
+        public void TestMDFC()
+        {
+            Assert.IsTrue(BaseLegalityChecker.IsRearFace("Akoum Teeth"));
+        }
     }
 }
