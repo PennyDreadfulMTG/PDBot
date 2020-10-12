@@ -30,5 +30,11 @@ namespace Tests
         {
             Assert.IsTrue(BaseLegalityChecker.IsRearFace("Akoum Teeth"));
         }
+
+        [Test]
+        public void TestFlip()
+        {
+            Assert.IsTrue(BaseLegalityChecker.IsRearFace("Erayo's Essence"));
+        }
     }
 }
