@@ -268,7 +268,7 @@ namespace PDBot.Core
             }
             if (pairingsText.Length >= 2000)
             {
-                pairingsText = pairingsText.Split('\n')[0] + "\n@Tournament Players Check Gatherling for your pairings!";
+                pairingsText = pairingsText.Split('\n')[0] + $"\n{AtTournamentPlayers(TournamentRoom.Guild)} Check Gatherling for your pairings!";
             }
             var expected_round = pairingsText.Split('\n')[0];
             var pinned = await TournamentRoom.GetPinnedMessagesAsync();
@@ -299,6 +299,16 @@ namespace PDBot.Core
             await msg.PinAsync();
             if (!string.IsNullOrEmpty(doorPrize))
                 await DiscordService.SendToTournamentRoomAsync(doorPrize);
+        }
+
+        private static object AtTournamentPlayers(SocketGuild guild)
+        {
+            foreach (var role in guild.Roles)
+            {
+                if (role.Name == "Tournament Players")
+                    return $"<@&{role.Id}>";
+            }
+            return "@Tournament Players";
         }
     }
 }
