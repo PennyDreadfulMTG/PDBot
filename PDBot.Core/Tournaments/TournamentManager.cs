@@ -124,10 +124,12 @@ namespace PDBot.Core.Tournaments
                 ChanId = 334220558159970304;
             else if (eventModel.Series.Contains("7 Point"))
                 ChanId = 600281000739733514;
-            else if (eventModel.Series.Contains("Community Legacy League"))
-                ChanId = 711257873908498701;
+            else if (eventModel.Series.Contains("Community Legacy League") || eventModel.Series.Contains("Community Modern League"))
+                ChanId = 750017068392513612;
             else if (eventModel.Series.StartsWith("Pennylander"))
                 ChanId = 733261347894329345;
+            else if (eventModel.Series == "Magic Online Society Monthly Series")
+                ChanId = 746007224148688966;
             else if (eventModel.Series == "Pauper Classic Tuesdays")
             {
                 ChanId = 387127632266788870;
@@ -153,6 +155,10 @@ namespace PDBot.Core.Tournaments
                 builder.Append($"[sD] Pairings for Finals:\n");
             else if (round.IsFinals)
                 builder.Append($"[sD] Pairings for Top {round.Matches.Count * 2}:\n");
+            else if (eventModel.Main.Mode == EventStructure.League && eventModel.Main.Rounds == 1)
+                builder.Append($"[sD] {eventModel.Name} matches:\n");
+            else if (eventModel.Main.Mode == EventStructure.League)
+                builder.Append($"[sD] League Round {round.RoundNum} is active.\n");
             else
                 builder.Append($"[sD] Pairings for Round {round.RoundNum}:\n");
             var misses = 0;
@@ -198,7 +204,7 @@ namespace PDBot.Core.Tournaments
                 }
                 builder.Append("\n");
             }
-            if (!round.IsFinals && (isPD || misses == 0))
+            if (!round.IsFinals && (isPD || misses == 0) && eventModel.Main.Mode != EventStructure.League)
             {
                 var minutes = FreeWinTime(eventModel.Name, round.RoundNum);
                 builder.AppendLine($"[sB] No-Show win time: XX:{minutes:D2}");
