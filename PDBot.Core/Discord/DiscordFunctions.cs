@@ -260,6 +260,8 @@ namespace PDBot.Core
         internal static async Task PostTournamentPairingsAsync(ulong ChanId, string pairingsText, string doorPrize, string preamble)
         {
             var TournamentRoom = DiscordService.FindChannel(ChanId);
+            if (TournamentRoom == null)
+                return;
             pairingsText = DiscordService.SubstituteEmotes(pairingsText, TournamentRoom.Guild);
             if (!string.IsNullOrEmpty(preamble) && (preamble.Length + pairingsText.Length < 2000))
             {
