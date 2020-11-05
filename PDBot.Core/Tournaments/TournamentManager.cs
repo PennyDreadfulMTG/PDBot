@@ -116,25 +116,7 @@ namespace PDBot.Core.Tournaments
                 return;
 
             var room = eventModel.Channel;
-
-            ulong? ChanId = null;
-            bool migration = false;
-
-            if (eventModel.Series.Contains("Penny Dreadful"))
-                ChanId = 334220558159970304;
-            else if (eventModel.Series.Contains("7 Point"))
-                ChanId = 600281000739733514;
-            else if (eventModel.Series.Contains("Community Legacy League") || eventModel.Series.Contains("Community Modern League"))
-                ChanId = 750017068392513612;
-            else if (eventModel.Series.StartsWith("Pennylander"))
-                ChanId = 733261347894329345;
-            else if (eventModel.Series == "Magic Online Society Monthly Series")
-                ChanId = 746007224148688966;
-            else if (eventModel.Series == "Pauper Classic Tuesdays")
-            {
-                ChanId = 387127632266788870;
-                migration = true;
-            }
+            ulong? ChanId = DiscordFunctions.GetDiscordChannel(eventModel);
 
             if (!ChanId.HasValue && (string.IsNullOrWhiteSpace(room) || string.IsNullOrWhiteSpace(room.Trim('#'))))
             {
@@ -142,9 +124,9 @@ namespace PDBot.Core.Tournaments
                 return;
             }
             bool isPD = eventModel.Series.Contains("Penny Dreadful") && Features.ConnectToDiscord;
-            
+
             var prebuilder = new StringBuilder();
-            if (round.RoundNum == 1 &&  !round.IsFinals)
+            if (round.RoundNum == 1 && !round.IsFinals)
             {
                 await RoundOneAnnouncements(eventModel, round, isPD, prebuilder, ChanId);
             }

@@ -58,14 +58,16 @@ namespace PDBot.Discord
             await client.StartAsync();
         }
 
-        internal static async Task SyncRoleAsync(ulong serverID, string RoleName, ulong?[] users, bool remove = true)
+        internal static async Task<bool> SyncRoleAsync(ulong channelID, string RoleName, ulong?[] users, bool remove = true)
         {
             if (!Features.ConnectToDiscord)
-                return;
-            var server = client.GetGuild(serverID);
-            var role = server.Roles.FirstOrDefault(r => r.Name == RoleName);
+                return false;
+            var server = (client.GetChannel(channelID) as SocketTextChannel)?.Guild;
+            var role = server?.Roles?.FirstOrDefault(r => r.Name == RoleName);
             if (role == null)
-                throw new NullReferenceException($"Could not find role '{RoleName}'");
+                return false; // Couldn't find it.
+            if (!server.GetUser(client.CurrentUser.Id).GuildPermissions.ManageRoles)
+                return false;
             var changes = 0;
             const int MAX_CHANGES = 12;
             if (remove)
@@ -76,7 +78,7 @@ namespace PDBot.Discord
                     Console.WriteLine($"Removing {rem.Username} from {RoleName}");
                     await rem.RemoveRoleAsync(role);
                     if (changes++ > MAX_CHANGES)
-                        return;
+                        return true;
                 }
             }
             var toAdd = server.Users.Where(u => users.Contains(u.Id) && !u.Roles.Contains(role));
@@ -85,8 +87,9 @@ namespace PDBot.Discord
                 Console.WriteLine($"Adding {rem.Username} to {RoleName}");
                 await rem.AddRoleAsync(role);
                 if (changes++ > MAX_CHANGES)
-                    return;
+                    return true;
             }
+            return true;
         }
 
         public static string Playing { get; private set; }

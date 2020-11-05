@@ -2,6 +2,7 @@ using Discord;
 using Discord.Net;
 using Discord.Rest;
 using Discord.WebSocket;
+using Gatherling.Models;
 using PDBot.Core.API;
 using PDBot.Core.Interfaces;
 using PDBot.Discord;
@@ -134,27 +135,78 @@ namespace PDBot.Core
             return players;
         }
 
+        public static ulong? GetDiscordChannel(Event eventModel)
+        {
+            ulong? ChanId = null;
+
+            if (eventModel.Series.Contains("Penny Dreadful"))
+                ChanId = 334220558159970304;
+            else if (eventModel.Series.Contains("7 Point"))
+                ChanId = 600281000739733514;
+            else if (eventModel.Series.Contains("Community Legacy League") || eventModel.Series.Contains("Community Modern League"))
+                ChanId = 750017068392513612;
+            else if (eventModel.Series.StartsWith("Pennylander"))
+                ChanId = 733261347894329345;
+            else if (eventModel.Series == "Magic Online Society Monthly Series")
+                ChanId = 746007224148688966;
+            else if (eventModel.Series == "Pauper Classic Tuesdays")
+                ChanId = 387127632266788870;
+            return ChanId;
+        }
+
+        List<ulong> RememberedTournamentChannels { get; } = new List<ulong>();
+
         public async Task DoTournamentRoleAsync()
         {
-            var playerNames = new List<string>();
-            var waiting_on = new List<string>();
+            var tournament_players = new Dictionary<ulong, List<string>>();
+            var waiting_on = new Dictionary<ulong, List<string>>();
+
+            void setup(ulong channel)
+            {
+                tournament_players[channel] = new List<string>();
+                waiting_on[channel] = new List<string>();
+            }
+
+            foreach (var channel in RememberedTournamentChannels)
+            {
+                setup(channel);
+            }
+
             foreach (var tournament in TournamentManager.ActiveEvents)
             {
-                // Only PD Tournaments
-                if (tournament.Key.Channel.StartsWith("#PD", StringComparison.InvariantCultureIgnoreCase))
+                var channelID = GetDiscordChannel(tournament.Key);
+                if (!channelID.HasValue)
+                    continue;
+
+                if (!tournament.Value.IsFinals && tournament.Key.Main.Mode == EventStructure.League)
                 {
-                    foreach (var m in tournament.Value.Matches)
-                    {
-                        playerNames.Add(m.A);
-                        playerNames.Add(m.B);
-                    }
-                    if (tournament.Key.Unreported != null)
-                        waiting_on.AddRange(tournament.Key.Unreported.Where(p => !TournamentManager.ActiveMatches.SelectMany(m => m.Players).Contains(p, StringComparer.CurrentCultureIgnoreCase)));
+                    // Do League things.
+                    continue;
                 }
+
+                if (!tournament_players.ContainsKey(channelID.Value))
+                {
+                    setup(channelID.Value);
+                }
+
+                foreach (var m in tournament.Value.Matches)
+                {
+                    tournament_players[channelID.Value].Add(m.A);
+                    tournament_players[channelID.Value].Add(m.B);
+                }
+
+                if (tournament.Key.Unreported != null)
+                    waiting_on[channelID.Value].AddRange(tournament.Key.Unreported.Where(p => !TournamentManager.ActiveMatches.SelectMany(m => m.Players).Contains(p, StringComparer.CurrentCultureIgnoreCase)));
             }
-            var playerIDs = await GetDiscordIDsAsync(playerNames);
-            await DiscordService.SyncRoleAsync(PENNY_DREADFUL_GUILD_ID, "Tournament Players", playerIDs);
-            await DiscordService.SyncRoleAsync(PENNY_DREADFUL_GUILD_ID, "Waiting On", await GetDiscordIDsAsync(waiting_on));
+
+            foreach (var channel in tournament_players)
+            {
+                var playerIDs = await GetDiscordIDsAsync(channel.Value);
+                var remember = await DiscordService.SyncRoleAsync(channel.Key, "Tournament Players", playerIDs);
+                remember = await DiscordService.SyncRoleAsync(channel.Key, "Waiting On", await GetDiscordIDsAsync(waiting_on[channel.Key])) || remember;
+                if (remember && !RememberedTournamentChannels.Contains(channel.Key))
+                    RememberedTournamentChannels.Add(channel.Key);
+            }
         }
 
         public async static Task MakeVoiceRoomsAsync()
