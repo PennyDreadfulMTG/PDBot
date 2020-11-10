@@ -131,7 +131,7 @@ namespace PDBot.Core.Tournaments
                 await RoundOneAnnouncements(eventModel, round, isPD, prebuilder, ChanId);
             }
             var builder = new StringBuilder();
-
+            var leagueMode = false;
 
             if (round.IsFinals && round.Matches.Count == 1)
                 builder.Append($"[sD] Pairings for Finals:\n");
@@ -140,9 +140,66 @@ namespace PDBot.Core.Tournaments
             else if (eventModel.Main.Mode == EventStructure.League && eventModel.Main.Rounds == 1)
                 builder.Append($"[sD] {eventModel.Name} matches:\n");
             else if (eventModel.Main.Mode == EventStructure.League)
-                builder.Append($"[sD] League Round {round.RoundNum} is active.\n");
+                leagueMode = true;
             else
                 builder.Append($"[sD] Pairings for Round {round.RoundNum}:\n");
+            var misses = 0;
+            if (leagueMode)
+            {
+                builder.Append($"[sD] League Round {round.RoundNum} is active.\n");
+
+            }
+            else
+            {
+                misses = await PrintPairings(round, ChanId, builder);
+            }
+
+            if (!round.IsFinals && (isPD || misses == 0) && eventModel.Main.Mode != EventStructure.League)
+            {
+                var minutes = FreeWinTime(eventModel.Name, round.RoundNum);
+                builder.AppendLine($"[sB] No-Show win time: XX:{minutes:D2}");
+            }
+            builder.Append("[sD] Good luck, everyone!");
+
+            string doorPrize = null;
+            if (ChanId.HasValue)
+            {
+                if (isPD && eventModel.Rounds.ContainsKey(round.RoundNum - 1))
+                {
+                    var prev = eventModel.Rounds[round.RoundNum - 1];
+                    if (round.IsFinals && !prev.IsFinals && round.Players.Count() == 8 && !eventModel.Name.Contains("500"))
+                    {
+                        var top8players = round.Players.ToArray();
+                        var eligible = prev.Players.Where(p => !top8players.Contains(p)).ToArray();
+                        var winner = await DiscordFunctions.MentionOrElseNameAsync(eligible[new Random().Next(eligible.Count())]);
+                        doorPrize = $"[sEventTicket] And the Door Prize goes to...\n [sEventTicket] {winner} [sEventTicket]";
+                    }
+                }
+
+                await DiscordFunctions.PostTournamentPairingsAsync(ChanId.Value, builder.ToString(), doorPrize, prebuilder.ToString());
+            }
+            else if (misses < 3 && toMTGO)
+            {
+
+                if (prebuilder.Length > 0)
+                    Chat.SendPM(room, prebuilder.ToString());
+                var sent = Chat.SendPM(room, builder.ToString());
+                if (!string.IsNullOrEmpty(doorPrize))
+                {
+                    Chat.SendPM(room, doorPrize);
+                }
+                if (!sent)
+                {
+                    Chat.Join(room);
+                    await Task.Delay(TimeSpan.FromSeconds(10));
+                    await PostPairingsAsync(eventModel, round, toMTGO);
+                }
+            }
+            // If misses >= 3, we have clearly just rebooted.  Don't send anything.
+        }
+
+        private static async Task<int> PrintPairings(Round round, ulong? ChanId, StringBuilder builder)
+        {
             var misses = 0;
             foreach (var pairing in round.Matches)
             {
@@ -186,48 +243,8 @@ namespace PDBot.Core.Tournaments
                 }
                 builder.Append("\n");
             }
-            if (!round.IsFinals && (isPD || misses == 0) && eventModel.Main.Mode != EventStructure.League)
-            {
-                var minutes = FreeWinTime(eventModel.Name, round.RoundNum);
-                builder.AppendLine($"[sB] No-Show win time: XX:{minutes:D2}");
-            }
-            builder.Append("[sD] Good luck, everyone!");
 
-            string doorPrize = null;
-            if (ChanId.HasValue)
-            {
-                if (isPD && eventModel.Rounds.ContainsKey(round.RoundNum - 1))
-                {
-                    var prev = eventModel.Rounds[round.RoundNum - 1];
-                    if (round.IsFinals && !prev.IsFinals && round.Players.Count() == 8 && !eventModel.Name.Contains("500"))
-                    {
-                        var top8players = round.Players.ToArray();
-                        var eligible = prev.Players.Where(p => !top8players.Contains(p)).ToArray();
-                        var winner = await DiscordFunctions.MentionOrElseNameAsync(eligible[new Random().Next(eligible.Count())]);
-                        doorPrize = $"[sEventTicket] And the Door Prize goes to...\n [sEventTicket] {winner} [sEventTicket]";
-                    }
-                }
-
-                await DiscordFunctions.PostTournamentPairingsAsync(ChanId.Value, builder.ToString(), doorPrize, prebuilder.ToString());
-            }
-            else if (misses < 3 && toMTGO)
-            {
-
-                if (prebuilder.Length > 0)
-                    Chat.SendPM(room, prebuilder.ToString());
-                var sent = Chat.SendPM(room, builder.ToString());
-                if (!string.IsNullOrEmpty(doorPrize))
-                {
-                    Chat.SendPM(room, doorPrize);
-                }
-                if (!sent)
-                {
-                    Chat.Join(room);
-                    await Task.Delay(TimeSpan.FromSeconds(10));
-                    await PostPairingsAsync(eventModel, round, toMTGO);
-                }
-            }
-            // If misses >= 3, we have clearly just rebooted.  Don't send anything.
+            return misses;
         }
 
         private static async Task RoundOneAnnouncements(Event eventModel, Round round, bool isPD, StringBuilder builder, ulong? chanId)
