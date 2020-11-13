@@ -222,7 +222,6 @@ namespace PDBot.Discord
                 {
                     await DecksiteApi.UploadLogAsync(int.Parse(id));
                     await channel.SendMessageAsync($"https://logs.pennydreadfulmagic.com/match/{id}/");
-
                 }
                 catch (Exception e)
                 {
@@ -230,7 +229,6 @@ namespace PDBot.Discord
                     var caption = $"Format={contents[0]}, Comment=\"{contents[1]}\", Players=[{contents[3]}]";
                     await channel.SendFileAsync(file, caption);
                     Console.WriteLine($"Couldn't upload to logsite, {e}");
-
                 }
             }
             else

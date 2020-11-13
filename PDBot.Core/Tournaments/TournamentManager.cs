@@ -137,8 +137,6 @@ namespace PDBot.Core.Tournaments
                 builder.Append($"[sD] Pairings for Finals:\n");
             else if (round.IsFinals)
                 builder.Append($"[sD] Pairings for Top {round.Matches.Count * 2}:\n");
-            else if (eventModel.Main.Mode == EventStructure.League && eventModel.Main.Rounds == 1)
-                builder.Append($"[sD] {eventModel.Name} matches:\n");
             else if (eventModel.Main.Mode == EventStructure.League)
                 leagueMode = true;
             else
@@ -146,8 +144,10 @@ namespace PDBot.Core.Tournaments
             var misses = 0;
             if (leagueMode)
             {
-                builder.Append($"[sD] League Round {round.RoundNum} is active.\n");
-
+                if (eventModel.Main.Rounds == 1)
+                    builder.Append($"[sD] {eventModel.Name} is active.\n");
+                else
+                    builder.Append($"[sD] League Round {round.RoundNum} is active.\n");
             }
             else
             {
