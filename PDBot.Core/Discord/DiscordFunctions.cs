@@ -334,15 +334,18 @@ namespace PDBot.Core
                     continue;
                 var round = post.Content.Split('\n')[0];
 
+                var eq = round == expected_round ? "=" : "!=";
+
                 if (round.StartsWith("<:sEventTicket:") && expected_round.StartsWith("<:sEventTicket:")) // Overlap
                 {
+                    Console.WriteLine($"\"{round}\"{eq}\"{expected_round}\"");
                     if (round != expected_round)
                         continue;
                     expected_round = pairingsText.Split('\n')[1];
                     round = post.Content.Split('\n')[1];
+                    eq = round == expected_round ? "=" : "!=";
                 }
 
-                var eq = round == expected_round ? "=" : "!=";
                 Console.WriteLine($"\"{round}\"{eq}\"{expected_round}\"");
                 if (round == expected_round)
                 {
