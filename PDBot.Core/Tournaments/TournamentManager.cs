@@ -91,7 +91,10 @@ namespace PDBot.Core.Tournaments
                         post = true;
                     }
                 }
-                await PostPairingsAsync(ae, round, post);
+                ulong? ChanId = DiscordFunctions.GetDiscordChannel(ae);
+                bool overlap = events.Select(e => DiscordFunctions.GetDiscordChannel(ae)).Count() > 1;
+
+                await PostPairingsAsync(ae, round, post, ChanId, overlap);
                 lock (_activeRounds)
                 {
                     if (round.RoundNum == _activeRounds[ae.Name].RoundNum)
@@ -110,15 +113,14 @@ namespace PDBot.Core.Tournaments
             }
         }
 
-        private async Task PostPairingsAsync(Event eventModel, Round round, bool toMTGO)
+        private async Task PostPairingsAsync(Event eventModel, Round round, bool toMTGO, ulong? chanId, bool overlap)
         {
             if (!Features.AnnouncePairings)
                 return;
 
             var room = eventModel.Channel;
-            ulong? ChanId = DiscordFunctions.GetDiscordChannel(eventModel);
 
-            if (!ChanId.HasValue && (string.IsNullOrWhiteSpace(room) || string.IsNullOrWhiteSpace(room.Trim('#'))))
+            if (!chanId.HasValue && (string.IsNullOrWhiteSpace(room) || string.IsNullOrWhiteSpace(room.Trim('#'))))
             {
                 Console.WriteLine($"No MTGO room defined for {eventModel}.");
                 return;
@@ -128,10 +130,13 @@ namespace PDBot.Core.Tournaments
             var prebuilder = new StringBuilder();
             if (round.RoundNum == 1 && !round.IsFinals)
             {
-                await RoundOneAnnouncements(eventModel, round, isPD, prebuilder, ChanId);
+                await RoundOneAnnouncements(eventModel, round, isPD, prebuilder, chanId);
             }
             var builder = new StringBuilder();
             var leagueMode = false;
+
+            if (overlap)
+                builder.AppendLine($"[sEventTicket] {eventModel.Name}");
 
             if (round.IsFinals && round.Matches.Count == 1)
                 builder.Append($"[sD] Pairings for Finals:\n");
@@ -151,7 +156,7 @@ namespace PDBot.Core.Tournaments
             }
             else
             {
-                misses = await PrintPairings(round, ChanId, builder);
+                misses = await PrintPairings(round, chanId, builder);
             }
 
             if (!round.IsFinals && (isPD || misses == 0) && eventModel.Main.Mode != EventStructure.League)
@@ -162,7 +167,7 @@ namespace PDBot.Core.Tournaments
             builder.Append("[sD] Good luck, everyone!");
 
             string doorPrize = null;
-            if (ChanId.HasValue)
+            if (chanId.HasValue)
             {
                 if (isPD && eventModel.Rounds.ContainsKey(round.RoundNum - 1))
                 {
@@ -176,7 +181,7 @@ namespace PDBot.Core.Tournaments
                     }
                 }
 
-                await DiscordFunctions.PostTournamentPairingsAsync(ChanId.Value, builder.ToString(), doorPrize, prebuilder.ToString());
+                await DiscordFunctions.PostTournamentPairingsAsync(chanId.Value, builder.ToString(), doorPrize, prebuilder.ToString());
             }
             else if (misses < 3 && toMTGO)
             {
@@ -192,7 +197,7 @@ namespace PDBot.Core.Tournaments
                 {
                     Chat.Join(room);
                     await Task.Delay(TimeSpan.FromSeconds(10));
-                    await PostPairingsAsync(eventModel, round, toMTGO);
+                    await PostPairingsAsync(eventModel, round, toMTGO, chanId, overlap);
                 }
             }
             // If misses >= 3, we have clearly just rebooted.  Don't send anything.

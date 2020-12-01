@@ -333,6 +333,15 @@ namespace PDBot.Core
                 if (post.Author.Id != DiscordService.client.CurrentUser.Id)
                     continue;
                 var round = post.Content.Split('\n')[0];
+
+                if (round.StartsWith("<:sEventTicket:") && expected_round.StartsWith("<:sEventTicket:")) // Overlap
+                {
+                    if (round != expected_round)
+                        continue;
+                    expected_round = pairingsText.Split('\n')[1];
+                    round = post.Content.Split('\n')[1];
+                }
+
                 var eq = round == expected_round ? "=" : "!=";
                 Console.WriteLine($"\"{round}\"{eq}\"{expected_round}\"");
                 if (round == expected_round)
