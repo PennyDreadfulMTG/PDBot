@@ -178,6 +178,7 @@ namespace PDBot.Discord
             if (match.Success)
             {
                 var card = Scryfall.GetCard(match.Groups["name"].Value);
+                if (card == null) return;
                 var bug = BuggedCards.IsCardBugged(card.FullName) ?? BuggedCards.IsCardBugged(card.Names[0]);
                 if (bug != null)
                 {

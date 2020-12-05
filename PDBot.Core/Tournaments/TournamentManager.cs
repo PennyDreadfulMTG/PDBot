@@ -280,16 +280,16 @@ namespace PDBot.Core.Tournaments
                     + $" If your opponent doesn't show up please message them directly on Magic Online and Discord and if they are not there at :{FreeWinTime(eventModel.Name, round.RoundNum):D2} contact the host for your free 2-0 win."
                     + "\nGood luck everyone!\n");
             }
-            if (chanId.HasValue)
-            {
-                var tasks = round.Players.Select(async p => await DiscordFunctions.Mentionable(p)).ToArray();
-                await Task.WhenAll(tasks);
-                if (tasks.Count(p => p.Result) > 2)
-                {
-                    builder.AppendLine("If you want to be pinged when a new round goes up, go to <https://pennydreadfulmagic.com/link/> and add your MTGO username.");
-                }
+            //if (chanId.HasValue)
+            //{
+            //    var tasks = round.Players.Select(async p => await DiscordFunctions.Mentionable(p)).ToArray();
+            //    await Task.WhenAll(tasks);
+            //    if (tasks.Count(p => p.Result) > 2)
+            //    {
+            //        builder.AppendLine("If you want to be pinged when a new round goes up, go to <https://pennydreadfulmagic.com/link/> and add your MTGO username.");
+            //    }
 
-            }
+            //}
         }
 
         static Dictionary<string, int> freeWinTime = new Dictionary<string, int>();
