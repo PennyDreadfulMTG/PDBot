@@ -92,7 +92,7 @@ namespace PDBot.Core.Tournaments
                     }
                 }
                 ulong? ChanId = DiscordFunctions.GetDiscordChannel(ae);
-                bool overlap = events.Select(e => DiscordFunctions.GetDiscordChannel(ae)).Count() > 1;
+                bool overlap = events.Count(e => DiscordFunctions.GetDiscordChannel(ae) == ChanId) > 1;
 
                 await PostPairingsAsync(ae, round, post, ChanId, overlap);
                 lock (_activeRounds)
