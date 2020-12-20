@@ -180,11 +180,24 @@ namespace PDBot.Core.GameObservers
             {
                 var WinningRun = HostRun.Person.Equals(winner, StringComparison.InvariantCultureIgnoreCase) ? HostRun : LeagueRunOpp;
                 var LosingRun = (new DecksiteApi.Deck[] { HostRun, LeagueRunOpp }).Single(d => d != WinningRun);
-                if (Features.PublishResults && await DecksiteApi.UploadResultsAsync(WinningRun, LosingRun, record, match.MatchID))
+                bool failed = false;
+                try
                 {
-                    await DiscordService.SendToLeagueAsync($":trophy: {WinningRun.Person} {record} {LosingRun.Person}");
+                    if (Features.PublishResults && await DecksiteApi.UploadResultsAsync(WinningRun, LosingRun, record, match.MatchID))
+                    {
+                        await DiscordService.SendToLeagueAsync($":trophy: {WinningRun.Person} {record} {LosingRun.Person}");
+                    }
+                    else
+                    {
+                        failed = true;
+                    }
                 }
-                else
+                catch (Exception c)
+                {
+                    Sentry.SentrySdk.CaptureException(c);
+                    failed = true;
+                }
+                if (failed)
                 {
                     try
                     {
