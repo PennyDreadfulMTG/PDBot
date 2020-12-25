@@ -154,7 +154,11 @@ namespace PDBot.Core
             return ChanId;
         }
 
-        List<ulong> RememberedTournamentChannels { get; } = new List<ulong>();
+        List<ulong> RememberedTournamentChannels { get; } = new List<ulong>()
+        {
+            334220558159970304,
+            750017068392513612,
+        };
 
         public async Task DoTournamentRoleAsync()
         {

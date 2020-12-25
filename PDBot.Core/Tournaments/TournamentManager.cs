@@ -135,8 +135,7 @@ namespace PDBot.Core.Tournaments
             var builder = new StringBuilder();
             var leagueMode = false;
 
-            if (overlap)
-                builder.AppendLine($"[sEventTicket] {eventModel.Name}");
+            builder.AppendLine($"[sEventTicket] {eventModel.Name}");
 
             if (round.IsFinals && round.Matches.Count == 1)
                 builder.Append($"[sD] Pairings for Finals:\n");
