@@ -142,11 +142,19 @@ namespace PDBot.Core.API
             }
         }
 
-        static HttpClient Api => new HttpClient
+        static HttpClient Api
         {
-            BaseAddress = new Uri("https://pennydreadfulmagic.com/"),
+            get
+            {
+                HttpClient httpClient = new HttpClient
+                {
+                    BaseAddress = new Uri("https://pennydreadfulmagic.com/"),
 
-        };
+                };
+                httpClient.DefaultRequestHeaders.Add("User-Agent", "PennyDeadfulBot");
+                return httpClient;
+            }
+        }
 
         public static Deck GetRunSync(string player)
         {
@@ -172,6 +180,7 @@ namespace PDBot.Core.API
             }
             catch (WebException c)
             {
+                SentrySdk.CaptureException(c);
                 using (var sw = new StreamWriter("leagueerror.txt"))
                 {
                     using (Stream response = c.Response.GetResponseStream())
@@ -185,6 +194,7 @@ namespace PDBot.Core.API
             }
             catch (Exception c)
             {
+                SentrySdk.CaptureException(c);
                 Console.WriteLine(c);
                 return null;
             }

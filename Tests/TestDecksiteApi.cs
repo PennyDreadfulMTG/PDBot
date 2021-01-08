@@ -37,5 +37,12 @@ namespace Tests
             var info = await DecksiteApi.GetTournaments();
             Assert.NotNull(info);
         }
+
+        //[Test]
+        //public async Task DropSilasary()
+        //{
+        //    var me = await DecksiteApi.GetRunAsync("Silasary");
+        //    await me.RetireAsync();
+        //}
     }
 }
