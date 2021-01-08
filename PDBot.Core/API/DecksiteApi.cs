@@ -55,12 +55,11 @@ namespace PDBot.Core.API
         {
             try
             {
-
-            using (var api = Api)
-            {
-                var blob = await api.GetStringAsync($"/api/person/{username}");
-                return JsonConvert.DeserializeObject<Person>(blob);
-            }
+                using (var api = Api)
+                {
+                    var blob = await api.GetStringAsync($"/api/person/{username}");
+                    return JsonConvert.DeserializeObject<Person>(blob);
+                }
             }
             catch (WebException c) when (c.Status == WebExceptionStatus.ProtocolError && (c.Response as HttpWebResponse).StatusCode == HttpStatusCode.NotFound)
             {
