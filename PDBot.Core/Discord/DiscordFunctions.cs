@@ -298,7 +298,14 @@ namespace PDBot.Core
                         await user.ModifyAsync(u => u.Channel = dumpChan);
                     }
                     Console.WriteLine($"Deleting {chan.Name}");
-                    await chan.DeleteAsync();
+                    try
+                    {
+                        await chan.DeleteAsync();
+                    }
+                    catch (HttpException)
+                    {
+
+                    }
                 }
             }
 
