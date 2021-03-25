@@ -48,9 +48,16 @@ namespace PDBot.Core
                     if (we.Status == WebExceptionStatus.ProtocolError)
                         return;
                 }
-                SentrySdk.CaptureException(c);
-            }
+                try
+                {
+                    SentrySdk.CaptureException(c);
+                }
+                catch (Exception)
+                {
 
+                }
+
+            }
         }
     }
 }

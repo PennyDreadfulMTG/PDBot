@@ -352,7 +352,7 @@ namespace PDBot.Discord
 
         internal static SocketTextChannel FindChannel(ulong chanId)
         {
-            while (!client.Guilds.Any() || !client.Guilds.All(c => c.IsSynced))
+            while (client?.Guilds == null || !client.Guilds.Any() || !client.Guilds.All(c => c.IsSynced))
                 Thread.Sleep(100);
             try
             {
