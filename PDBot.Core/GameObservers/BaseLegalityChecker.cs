@@ -103,59 +103,57 @@ namespace PDBot.Core.GameObservers
                 return false;
 
             var url = $"https://api.scryfall.com/cards/named?exact={name}";
-            using (var wc = new WebClient())
+            using var wc = new WebClient();
+            try
             {
-                try
+                var blob = wc.DownloadString(url);
+                var json = JsonConvert.DeserializeObject(blob) as JObject;
+                JObject face;
+
+                switch (json.Value<string>("layout"))
                 {
-                    var blob = wc.DownloadString(url);
-                    var json = JsonConvert.DeserializeObject(blob) as JObject;
-                    JObject face;
-
-                    switch (json.Value<string>("layout"))
-                    {
-                        case "transform":
-                        case "flip":
-                        case "modal_dfc":
+                    case "transform":
+                    case "flip":
+                    case "modal_dfc":
                         face = json["card_faces"].First(f => f.Value<string>(nameof(name)) == name) as JObject;
-                            break;
-                        case "meld":
-                            face = json;
-                            break;
-                        case "adventure":
-                            face = json["card_faces"].First(f => f.Value<string>(nameof(name)) == name) as JObject;
-                            break;
-                        default:
-                            return false;
-                    }
-
-                    if (!face.TryGetValue("mana_cost", out var cost) || string.IsNullOrEmpty(face.Value<string>("mana_cost")) || face.Value<string>("type_line").Contains("Adventure"))
-                    {
-                        Transforms.Add(name);
-                        try
-                        {
-                            File.AppendAllLines("transforms.txt", new string[] { name });
-                        }
-                        catch (IOException)
-                        {
-
-                        }
-                        return true;
-                    }
-                    else
-                    {
-                        NotTransforms.Add(name);
+                        break;
+                    case "meld":
+                        face = json;
+                        break;
+                    case "adventure":
+                        face = json["card_faces"].First(f => f.Value<string>(nameof(name)) == name) as JObject;
+                        break;
+                    default:
                         return false;
-                    }
                 }
-                catch (WebException c)
+
+                if (!face.TryGetValue("mana_cost", out var cost) || string.IsNullOrEmpty(face.Value<string>("mana_cost")) || face.Value<string>("type_line").Contains("Adventure"))
+                {
+                    Transforms.Add(name);
+                    try
+                    {
+                        File.AppendAllLines("transforms.txt", new string[] { name });
+                    }
+                    catch (IOException)
+                    {
+
+                    }
+                    return true;
+                }
+                else
                 {
                     NotTransforms.Add(name);
-                    Console.WriteLine(name);
-                    SentrySdk.CaptureException(c);
+                    return false;
                 }
-
-                return false;
             }
+            catch (WebException c)
+            {
+                NotTransforms.Add(name);
+                Console.WriteLine(name);
+                SentrySdk.CaptureException(c);
+            }
+
+            return false;
 
         }
 
