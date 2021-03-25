@@ -25,6 +25,8 @@ namespace PDBot.Core
         public static bool ConnectToDiscord { get; set; }
 
         public static bool CreateVoiceChannels { get; set; }
+        public static string PdmApiKey { get; set; }
+
         static Features()
         {
             PublishResults = true;

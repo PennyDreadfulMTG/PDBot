@@ -25,10 +25,7 @@ namespace PDBot.Core.API
 
         static DecksiteApi()
         {
-            if (File.Exists("PDM_API_KEY.txt"))
-                API_TOKEN = File.ReadAllText("PDM_API_KEY.txt");
-            else
-                API_TOKEN = "null";
+            API_TOKEN = Features.PdmApiKey;
         }
 
         public class Card
