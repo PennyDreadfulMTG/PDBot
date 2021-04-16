@@ -22,19 +22,25 @@ namespace PDBot.Core.API
                 if (_githubClient == null)
                 {
                     _githubClient = new GitHubClient(new ProductHeaderValue("PennyDreadfulMtg-PDBot"));
-                    var path = "github_token.txt";
-                    if (!File.Exists(path)) {
-                        path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "github_token.txt");
-                    }
-
-                    if (!File.Exists(path))
+                    string token = Features.GithubToken;
+                    if (string.IsNullOrWhiteSpace(token))
                     {
-                        System.Diagnostics.Process.Start("notepad.exe", path).WaitForExit(10000);
+                        var path = "github_token.txt";
+                        if (!File.Exists(path)) {
+                            path = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "github_token.txt");
+                        }
+                        if (!File.Exists(path))
+                        {
+                            System.Diagnostics.Process.Start("notepad.exe", path).WaitForExit(10000);
+                        }
+                        if (File.Exists(path))
+                        {
+                            token = File.ReadAllText(path);
+                        }
                     }
-
-                    if (File.Exists(path))
-                    {
-                        var tokenAuth = new Credentials(File.ReadAllText(path));
+                    if (!string.IsNullOrWhiteSpace(token))
+                    { 
+                        var tokenAuth = new Credentials(token);
                         _githubClient.Credentials = tokenAuth;
                         Console.WriteLine($"Authorized to Github with `{tokenAuth}`");
                     }
@@ -42,7 +48,6 @@ namespace PDBot.Core.API
                     {
                         Console.WriteLine("Not Authorized to Github!!!");
                     }
-
                 }
                 return _githubClient;
             }

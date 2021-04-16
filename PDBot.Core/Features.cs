@@ -26,6 +26,7 @@ namespace PDBot.Core
 
         public static bool CreateVoiceChannels { get; set; }
         public static string PdmApiKey { get; set; }
+        public static string GithubToken { get; set; }
 
         static Features()
         {
