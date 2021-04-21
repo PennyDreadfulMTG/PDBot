@@ -23,7 +23,7 @@
       <Version>2.3.1</Version>
     </PackageReference>
     <PackageReference Include="Gatherling">
-      <Version>1.0.18</Version>
+      <Version>1.0.41</Version>
     </PackageReference>
     <PackageReference Include="HtmlAgilityPack">
       <Version>1.11.32</Version>

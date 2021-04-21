@@ -99,6 +99,24 @@ namespace PDBot.Core
             }
         }
 
+        public static async Task<string> MentionOrElseNameAsync(Person person, SocketGuild guild)
+        {
+            if (person.DiscordId.HasValue)
+            {
+                ulong id = (ulong)person.DiscordId.Value;
+                if (guild?.GetUser(id) == null)
+                {
+                    var escaped = person.Name.Replace("_", @"\_");
+                    return $"<@{id}> ({escaped})";
+                }
+                return $"<@{id}>";
+            }
+            else if (!string.IsNullOrEmpty(person.MtgoUsername))
+                return await MentionOrElseNameAsync(person.MtgoUsername);
+            else
+                return await MentionOrElseNameAsync(person.Name);
+        }
+
         public static async Task<string> MentionOrElseNameAsync(string username)
         {
             var escaped = username.Replace("_", @"\_");

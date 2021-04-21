@@ -2,6 +2,7 @@ using Gatherling;
 using Gatherling.Models;
 using PDBot.API;
 using PDBot.Core.Interfaces;
+using PDBot.Discord;
 using PDBot.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -148,10 +149,7 @@ namespace PDBot.Core.Tournaments
             var misses = 0;
             if (leagueMode)
             {
-                if (eventModel.Main.Rounds == 1)
-                    builder.Append($"[sD] {eventModel.Name} is active.\n");
-                else
-                    builder.Append($"[sD] League Round {round.RoundNum} is active.\n");
+                PostLeagueInfo(eventModel, round, builder, chanId);
             }
             else
             {
@@ -202,6 +200,21 @@ namespace PDBot.Core.Tournaments
             // If misses >= 3, we have clearly just rebooted.  Don't send anything.
         }
 
+        private static void PostLeagueInfo(Event eventModel, Round round, StringBuilder builder, ulong? chanId)
+        {
+            var guild = DiscordService.FindChannel(chanId.Value)?.Guild;
+            if (eventModel.Main.Rounds == 1)
+                builder.Append($"[sD] {eventModel.Name} is active.\n");
+            else
+                builder.Append($"[sD] League Round {round.RoundNum} is active.\n");
+            builder.AppendLine("Matches played:");
+            foreach (var player in eventModel.Players.Values)
+            {
+                string line = $"{DiscordFunctions.MentionOrElseNameAsync(player, guild)} - {round.Matches.Count(m => m.PlayerA == player || m.PlayerB == player)}";
+                builder.AppendLine();
+            }
+        }
+
         private static async Task<int> PrintPairings(Round round, ulong? ChanId, StringBuilder builder)
         {
             var misses = 0;
@@ -232,8 +245,10 @@ namespace PDBot.Core.Tournaments
                 if (ChanId.HasValue)
                 {
                     pairing.CalculateRes();
-                    var A = await DiscordFunctions.MentionOrElseNameAsync(pairing.A);
-                    var B = await DiscordFunctions.MentionOrElseNameAsync(pairing.B);
+                    var guild = DiscordService.FindChannel(ChanId.Value)?.Guild;
+
+                    var A = await DiscordFunctions.MentionOrElseNameAsync(pairing.PlayerA, guild);
+                    var B = await DiscordFunctions.MentionOrElseNameAsync(pairing.PlayerB, guild);
                     if (pairing.Res == "BYE")
                         builder.Append($"{A} has the BYE!");
                     else
@@ -260,15 +275,15 @@ namespace PDBot.Core.Tournaments
                 builder.AppendLine("[sF] If you spectate any other player's matches in the tournament," +
                                     " please keep in mind that player names could be attached to the wrong players.");
             }
+            builder.Append($"Welcome to {eventModel.Name}. We have {round.Players.Count()} players. We will play {eventModel.Main.Rounds} rounds of {eventModel.Main.ModeRaw}");
+            if (eventModel.Finals.Rounds == 0)
+                builder.Append(".  ");
+            else if (eventModel.Finals.Mode == EventStructure.SingleElimination)
+                builder.Append($" followed by cut to top {Math.Pow(2, eventModel.Finals.Rounds)}.  ");
+            else
+                builder.Append($" followed by {eventModel.Finals.Rounds} rounds of {eventModel.Finals.ModeRaw}.  ");
             if (isPD)
             {
-                builder.Append($"Welcome to {eventModel.Name}. We have {round.Players.Count()} players. We will play {eventModel.Main.Rounds} rounds of {eventModel.Main.ModeRaw}");
-                if (eventModel.Finals.Rounds == 0)
-                    builder.Append(".  ");
-                else if (eventModel.Finals.Mode == EventStructure.SingleElimination)
-                    builder.Append($" followed by cut to top {Math.Pow(2, eventModel.Finals.Rounds)}.  ");
-                else
-                    builder.Append($" followed by {eventModel.Finals.Rounds} rounds of {eventModel.Finals.ModeRaw}.  ");
 
                 var tournamentInfo = (await API.DecksiteApi.GetTournaments()).FirstOrDefault(t => t.Name == eventModel.Series);
                 if (tournamentInfo?.SponsorName != null)
@@ -279,16 +294,6 @@ namespace PDBot.Core.Tournaments
                     + $" If your opponent doesn't show up please message them directly on Magic Online and Discord and if they are not there at :{FreeWinTime(eventModel.Name, round.RoundNum):D2} contact the host for your free 2-0 win."
                     + "\nGood luck everyone!\n");
             }
-            //if (chanId.HasValue)
-            //{
-            //    var tasks = round.Players.Select(async p => await DiscordFunctions.Mentionable(p)).ToArray();
-            //    await Task.WhenAll(tasks);
-            //    if (tasks.Count(p => p.Result) > 2)
-            //    {
-            //        builder.AppendLine("If you want to be pinged when a new round goes up, go to <https://pennydreadfulmagic.com/link/> and add your MTGO username.");
-            //    }
-
-            //}
         }
 
         static Dictionary<string, int> freeWinTime = new Dictionary<string, int>();
