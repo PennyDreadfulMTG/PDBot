@@ -353,7 +353,13 @@ namespace PDBot.Core
             {
                 pairingsText = pairingsText.Split('\n')[0] + $"\n{AtTournamentPlayers(TournamentRoom.Guild)} Check Gatherling for your pairings!";
             }
-            var expected_round = pairingsText.Split('\n')[0];
+
+            string[] lines = pairingsText.Split('\n');
+            var expected_round = lines[0];
+            if (expected_round.StartsWith("Welcome to"))
+                expected_round = lines[1];
+
+
             var pinned = await TournamentRoom.GetPinnedMessagesAsync();
             foreach (var pin in pinned)
             {
@@ -361,7 +367,10 @@ namespace PDBot.Core
                 var post = pin as RestUserMessage;
                 if (post.Author.Id != DiscordService.client.CurrentUser.Id)
                     continue;
-                var round = post.Content.Split('\n')[0];
+                lines = post.Content.Split('\n');
+                var round = lines[0];
+                if (round.StartsWith("Welcome to"))
+                    round = lines[1];
 
                 var eq = round == expected_round ? "=" : "!=";
 
