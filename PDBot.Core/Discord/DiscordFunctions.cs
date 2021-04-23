@@ -169,6 +169,8 @@ namespace PDBot.Core
                 ChanId = 746007224148688966;
             else if (eventModel.Series == "Pauper Classic Tuesdays")
                 ChanId = 387127632266788870;
+            else if (eventModel.Series == "Limitless")
+                ChanId = 834577563870691338;
             return ChanId;
         }
 
