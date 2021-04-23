@@ -363,7 +363,6 @@ namespace PDBot.Core
             var pinned = await TournamentRoom.GetPinnedMessagesAsync();
             foreach (var pin in pinned)
             {
-                Console.WriteLine($"pinned post: {pin}");
                 var post = pin as RestUserMessage;
                 if (post.Author.Id != DiscordService.client.CurrentUser.Id)
                     continue;
@@ -376,7 +375,6 @@ namespace PDBot.Core
 
                 if (round.StartsWith("<:sEventTicket:") && expected_round.StartsWith("<:sEventTicket:")) // Overlap
                 {
-                    Console.WriteLine($"\"{round}\"{eq}\"{expected_round}\"");
                     if (round != expected_round)
                         continue;
                     expected_round = pairingsText.Split('\n')[1];
@@ -384,18 +382,15 @@ namespace PDBot.Core
                     eq = round == expected_round ? "=" : "!=";
                 }
 
-                Console.WriteLine($"\"{round}\"{eq}\"{expected_round}\"");
                 if (round == expected_round)
                 {
                     if (post.Content != pairingsText)
                     {
                         await post.ModifyAsync(m => m.Content = pairingsText);
-                        Console.WriteLine("Updating");
                     }
                     return;
                 }
                 await post.UnpinAsync();
-                Console.WriteLine("unpinning");
             }
             if (!string.IsNullOrEmpty(preamble))
                 await TournamentRoom.SendMessageAsync(preamble);
