@@ -149,7 +149,7 @@ namespace PDBot.Core.Tournaments
             var misses = 0;
             if (leagueMode)
             {
-                PostLeagueInfo(eventModel, round, builder, chanId);
+                await PostLeagueInfoAsync(eventModel, round, builder, chanId);
             }
             else
             {
@@ -200,18 +200,23 @@ namespace PDBot.Core.Tournaments
             // If misses >= 3, we have clearly just rebooted.  Don't send anything.
         }
 
-        private static void PostLeagueInfo(Event eventModel, Round round, StringBuilder builder, ulong? chanId)
+        private static async Task PostLeagueInfoAsync(Event eventModel, Round round, StringBuilder builder, ulong? chanId)
         {
             var guild = DiscordService.FindChannel(chanId.Value)?.Guild;
             if (eventModel.Main.Rounds == 1)
                 builder.Append($"[sD] {eventModel.Name} is active.\n");
             else
                 builder.Append($"[sD] League Round {round.RoundNum} is active.\n");
-            builder.AppendLine("Matches played:");
+            builder.AppendLine("The following players still have matches remaining:");
             foreach (var player in eventModel.Players.Values)
             {
-                string line = $"{DiscordFunctions.MentionOrElseNameAsync(player, guild)} - {round.Matches.Count(m => m.PlayerA == player || m.PlayerB == player)}";
-                builder.AppendLine();
+                int count = round.Matches.Count(m => m.PlayerA == player || m.PlayerB == player);
+                if (count != 5)
+                {
+                    var name = await DiscordFunctions.MentionOrElseNameAsync(player, guild);
+                    string line = $"{name}: {5 - count}";
+                    builder.AppendLine(line);
+                }
             }
         }
 
@@ -275,7 +280,7 @@ namespace PDBot.Core.Tournaments
                 builder.AppendLine("[sF] If you spectate any other player's matches in the tournament," +
                                     " please keep in mind that player names could be attached to the wrong players.");
             }
-            builder.Append($"Welcome to {eventModel.Name}. We have {round.Players.Count()} players. We will play {eventModel.Main.Rounds} rounds of {eventModel.Main.ModeRaw}");
+            builder.Append($"Welcome to {eventModel.Name}. We have {eventModel.Players.Count()} players. We will play {eventModel.Main.Rounds} rounds of {eventModel.Main.ModeRaw}");
             if (eventModel.Finals.Rounds == 0)
                 builder.Append(".  ");
             else if (eventModel.Finals.Mode == EventStructure.SingleElimination)
