@@ -202,6 +202,8 @@ namespace PDBot.Core.Tournaments
 
         private static async Task PostLeagueInfoAsync(Event eventModel, Round round, StringBuilder builder, ulong? chanId)
         {
+            if (!chanId.HasValue)
+                return;
             var guild = DiscordService.FindChannel(chanId.Value)?.Guild;
             if (eventModel.Main.Rounds == 1)
                 builder.Append($"[sD] {eventModel.Name} is active.\n");
