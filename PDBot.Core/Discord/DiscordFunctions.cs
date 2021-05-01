@@ -104,14 +104,12 @@ namespace PDBot.Core
             if (person.DiscordId.HasValue)
             {
                 ulong id = (ulong)person.DiscordId.Value;
-                if (guild?.GetUser(id) == null)
-                {
-                    var escaped = person.Name.Replace("_", @"\_");
-                    return $"<@{id}> ({escaped})";
-                }
-                return $"<@{id}>";
+                SocketGuildUser user = guild?.GetUser(id);
+                if (user != null)
+                    return user.Mention;
             }
-            else if (!string.IsNullOrEmpty(person.MtgoUsername))
+
+            if (!string.IsNullOrEmpty(person.MtgoUsername))
                 return await MentionOrElseNameAsync(person.MtgoUsername);
             else
                 return await MentionOrElseNameAsync(person.Name);

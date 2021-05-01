@@ -321,7 +321,8 @@ namespace PDBot.Discord
 
         public static async Task<bool> SendToCommunityLegacyLeagueAsync(string msg)
         {
-            var channel = FindChannel(341709019058143242);
+            // MOS: #tournament-chat
+            var channel = FindChannel(750017068392513612);
             return (await SendMessageAsync(msg, channel)) != null;
         }
 
@@ -504,6 +505,7 @@ namespace PDBot.Discord
             switch (chan.ToLowerInvariant())
             {
                 case "cll":
+                case "cml":
                     success = await SendToCommunityLegacyLeagueAsync(message);
                     break;
                 case "heirloom":
