@@ -29,6 +29,7 @@ namespace Tests
         public void TestMDFC()
         {
             Assert.IsTrue(BaseLegalityChecker.IsRearFace("Akoum Teeth"));
+            Assert.IsTrue(BaseLegalityChecker.IsRearFace("Flamethrower Sonata"));
         }
 
         [Test]

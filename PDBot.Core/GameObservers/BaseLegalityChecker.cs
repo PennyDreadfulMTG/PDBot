@@ -109,25 +109,31 @@ namespace PDBot.Core.GameObservers
                 var blob = wc.DownloadString(url);
                 var json = JsonConvert.DeserializeObject(blob) as JObject;
                 JObject face;
+                bool IsTransform = false;
 
                 switch (json.Value<string>("layout"))
                 {
                     case "transform":
                     case "flip":
-                    case "modal_dfc":
                         face = json["card_faces"].First(f => f.Value<string>(nameof(name)) == name) as JObject;
+                        IsTransform = !face.TryGetValue("mana_cost", out var cost) || string.IsNullOrEmpty(face.Value<string>("mana_cost"));
+                        break;
+                    case "modal_dfc":
+                        IsTransform = json["card_faces"].First().Value<string>(nameof(name)) != name;
                         break;
                     case "meld":
                         face = json;
+                        IsTransform = !face.TryGetValue("mana_cost", out cost) || string.IsNullOrEmpty(face.Value<string>("mana_cost"));
                         break;
                     case "adventure":
                         face = json["card_faces"].First(f => f.Value<string>(nameof(name)) == name) as JObject;
+                        IsTransform = face.Value<string>("type_line").Contains("Adventure");
                         break;
                     default:
                         return false;
                 }
 
-                if (!face.TryGetValue("mana_cost", out var cost) || string.IsNullOrEmpty(face.Value<string>("mana_cost")) || face.Value<string>("type_line").Contains("Adventure"))
+                if (IsTransform)
                 {
                     Transforms.Add(name);
                     try
