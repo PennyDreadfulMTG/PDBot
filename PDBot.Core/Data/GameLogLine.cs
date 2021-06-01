@@ -19,7 +19,7 @@ namespace PDBot.Core.Data
         public static string[] LegendaryTokens { get; } = new string[] {
             "Marit Lage", "Kaldra", "Ragavan", "Ashaya, the Awoken World", "Stangg Twin",
             "Voja", "Urami", "Tuktuk the Returned", "Servo", "Nightmare Horror",
-            "Voja, Friend to Elves", "Vitu-Ghazi",
+            "Voja, Friend to Elves", "Vitu-Ghazi", "Etherium Cell", "Wizard",
         };
 
         public string Line { get; private set; }
