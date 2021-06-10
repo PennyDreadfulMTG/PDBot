@@ -528,6 +528,9 @@ namespace PDBot.Discord
                 case "tribal":
                     success = await SendToArbiraryChannelAsync(message, 484265718771351554);
                     break;
+                case "pleaseusediscord":
+                    success = await SendToArbiraryChannelAsync(message, 852370076673376266);
+                    break;
                 default:
                     break;
             }
