@@ -33,7 +33,7 @@ namespace PDBot.Core
             PublishResults = true;
             AnnouncePairings = true;
             JoinGames = true;
-            CreateVoiceChannels = true;
+            CreateVoiceChannels = false;
             ConnectToDiscord = true;
             try
             {
