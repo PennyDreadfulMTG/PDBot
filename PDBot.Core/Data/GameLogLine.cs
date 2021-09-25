@@ -61,7 +61,7 @@ namespace PDBot.Core.Data
                 var name = line.Substring(1, end - 1);
                 name = CardName.FixAccents(name);
                 line = line.Substring(end + 1);
-                var IsToken = line.TrimStart().StartsWith("token");
+                var IsToken = line.TrimStart().StartsWith("token", StringComparison.InvariantCultureIgnoreCase);
                 if (LegendaryTokens.Contains(name) || match.NamedTokens.Contains(name))
                     IsToken = true;
 
