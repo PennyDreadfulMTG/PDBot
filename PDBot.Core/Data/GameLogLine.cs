@@ -32,7 +32,7 @@ namespace PDBot.Core.Data
             if (createsMatch.Success)
             {
                 var name = createsMatch.Groups["name"].Value;
-                if (!name.EndsWith("token") && !LegendaryTokens.Contains(name) && !match.NamedTokens.Contains(name))
+                if (!name.EndsWith("token", StringComparison.InvariantCultureIgnoreCase) && !LegendaryTokens.Contains(name) && !match.NamedTokens.Contains(name))
                 {
                     match.NamedTokens.Add(name);
                 }
