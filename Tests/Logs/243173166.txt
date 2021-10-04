@@ -1,0 +1,230 @@
+PennyDreadful
+PD League
+BuggedCardObserver, LeagueObserver, PennyDreadfulLegality
+jmblinn13,Frygid
+
+== Game 1 (775963560) ==
+[Time] 1633249505
+[11:25:06] PDBot has started watching.
+[League] Mono Black Vampires by jmblinn13 (154269) vs Orzhov Prison by frygid (154286)
+[11:25:08] [CHAT] PDBot: [sD] Good luck in your League match!
+[11:25:13] Frygid chooses to play first.
+[11:25:21] Frygid begins the game with seven cards in hand.
+[11:25:23] jmblinn13 begins the game with seven cards in hand.
+[11:25:23] Turn 1: Frygid
+[11:25:23] Frygid skips their draw step.
+[11:25:25] Frygid plays [Plains].
+[11:25:27] Frygid casts [Dryad Militant].
+[11:25:29] Turn 1: jmblinn13
+[11:25:30] jmblinn13 plays [Swamp].
+[11:25:31] jmblinn13 casts [Vicious Conquistador].
+[11:25:32] Turn 2: Frygid
+[11:25:37] Frygid plays [Caves of Koilos].
+[11:25:40] Frygid casts [Tidehollow Sculler].
+[11:25:42] Frygid puts triggered ability from [Tidehollow Sculler] onto the stack targeting jmblinn13 (When Tidehollow Sculler enters the battlefield, target opponent reveals their hand and you choose ...).
+[11:26:11] jmblinn13 reveals their hand to [Tidehollow Sculler]'s ability, containing [Vampire Nighthawk], [Voldaren Pariah], [Swamp], [Asylum Visitor], and [Indulgent Aristocrat].
+[11:26:15] jmblinn13 is being attacked by [Dryad Militant].
+[11:26:16] [Vicious Conquistador] blocks [Dryad Militant].
+[11:26:20] Turn 2: jmblinn13
+[11:26:21] jmblinn13 plays [Swamp].
+[11:26:23] jmblinn13 casts [Asylum Visitor].
+[11:26:31] Turn 3: Frygid
+[11:26:38] Frygid plays [Plains].
+[11:26:56] Frygid casts [Tidehollow Sculler].
+[11:26:58] Frygid puts triggered ability from [Tidehollow Sculler] onto the stack targeting jmblinn13 (When Tidehollow Sculler enters the battlefield, target opponent reveals their hand and you choose ...).
+[11:27:04] jmblinn13 reveals their hand to [Tidehollow Sculler]'s ability, containing [Asylum Visitor], [Voldaren Pariah], and [Indulgent Aristocrat].
+[11:27:08] Frygid casts [Dryad Militant].
+[11:27:12] Turn 3: jmblinn13
+[11:27:17] jmblinn13 casts [Bloodchief's Thirst] targeting [Tidehollow Sculler].
+[11:27:23] Frygid puts triggered ability from [Tidehollow Sculler] onto the stack (When Tidehollow Sculler leaves the battlefield, return the exiled card to its owner's hand.).
+[11:27:27] jmblinn13 casts [Indulgent Aristocrat].
+[11:27:35] Turn 4: Frygid
+[11:27:40] Frygid casts [Tomik, Distinguished Advokist].
+[11:27:45] jmblinn13 is being attacked by [Dryad Militant].
+[11:27:48] [Indulgent Aristocrat] blocks [Dryad Militant].
+[11:27:52] Frygid casts [Dryad Militant].
+[11:27:54] Turn 4: jmblinn13
+[11:27:55] jmblinn13 plays [Swamp].
+[11:27:57] jmblinn13 casts [Stromkirk Condemned].
+[11:28:04] Turn 5: Frygid
+[11:28:18] jmblinn13 is being attacked by [Dryad Militant].
+[11:28:28] Frygid casts [Kunoros, Hound of Athreos].
+[11:28:28] [CHAT] PDBot: [sU]Kunoros, Hound of Athreos[sU] has a disadvantageous bug.
+Kunoros's static ability prevents cards below it in the graveyard from entering the battlefield when reanimated together.
+Our data about this bug is out of date.  Please let us know if this card is still bugged (or if it's been fixed).
+You can do so by PM'ing this bot, or by typing `!stillbugged Kunoros, Hound of Athreos` or `!notbugged Kunoros, Hound of Athreos`
+[11:28:34] Turn 5: jmblinn13
+[11:28:40] Frygid is being attacked by [Stromkirk Condemned] and [Asylum Visitor].
+[11:29:16] [Tomik, Distinguished Advokist] blocks [Asylum Visitor].
+[11:29:25] jmblinn13 discards [Voldaren Pariah].
+[11:29:25] jmblinn13 activates an ability of [Stromkirk Condemned] ( Vampires you control get +1/+1 until end of turn.).
+[11:29:25] jmblinn13 puts triggered ability from [Voldaren Pariah] onto the stack (Madness {BBB}).
+[11:29:31] jmblinn13 casts [Voldaren Pariah].
+[11:29:39] Turn 6: Frygid
+[11:29:50] jmblinn13 is being attacked by [Kunoros, Hound of Athreos].
+[11:29:56] Turn 6: jmblinn13
+[11:30:00] jmblinn13 casts [Call the Bloodline].
+[11:30:11] Turn 7: Frygid
+[11:30:36] Frygid casts [Runed Halo].
+[11:30:36] [CHAT] PDBot: [sU]Runed Halo[sU] has a disadvantageous bug.
+Gideon's Intervention and Runed Halo do not prevent damage from tokens with the same name as card named with it
+[11:30:50] Frygid names Voldaren Pariah for [Runed Halo].
+[11:30:59] jmblinn13 discards [Champion of Dusk].
+[11:30:59] jmblinn13 activates an ability of [Call the Bloodline] ( Create a 1/1 black Vampire Knight creature token with lifelink.).
+[11:31:00] jmblinn13's [Call the Bloodline] creates a Vampire Knight Token.
+[11:31:02] Turn 7: jmblinn13
+[11:31:04] jmblinn13 casts [Vicious Conquistador].
+[11:31:11] jmblinn13 discards [Asylum Visitor].
+[11:31:11] jmblinn13 activates an ability of [Stromkirk Condemned] ( Vampires you control get +1/+1 until end of turn.).
+[11:31:11] jmblinn13 puts triggered ability from [Asylum Visitor] onto the stack (Madness {1B}).
+[11:31:15] jmblinn13 casts [Asylum Visitor].
+[11:31:23] jmblinn13 activates an ability of [Voldaren Pariah] ( Transform Voldaren Pariah.).
+[11:31:24] [Abolisher of Bloodlines] transformed
+[11:31:24] jmblinn13 puts triggered ability from [Abolisher of Bloodlines] onto the stack targeting Frygid (When this creature transforms into Abolisher of Bloodlines, target opponent sacrifices three creat...).
+[11:31:29] Frygid sacrifices [Tidehollow Sculler].
+[11:31:29] Frygid sacrifices [Dryad Militant].
+[11:31:30] Frygid sacrifices [Kunoros, Hound of Athreos].
+[11:31:30] Frygid puts triggered ability from [Tidehollow Sculler] onto the stack (When Tidehollow Sculler leaves the battlefield, return the exiled card to its owner's hand.).
+[11:31:36] Frygid is being attacked by [Abolisher of Bloodlines].
+[11:31:41] Turn 8: Frygid
+[11:31:45] Frygid has conceded from the game.
+Winner: jmblinn13
+Game 1 Completed.
+== Game 2 (775963866) ==
+[Time] 1633250017
+[11:33:37] PDBot has started watching.
+[11:33:44] Frygid chooses to play first.
+[11:33:53] Frygid begins the game with seven cards in hand.
+[11:33:55] jmblinn13 begins the game with seven cards in hand.
+[11:33:55] Turn 1: Frygid
+[11:33:55] Frygid skips their draw step.
+[11:33:57] Frygid plays [Shambling Vent].
+[11:33:58] Turn 1: jmblinn13
+[11:33:59] jmblinn13 plays [Swamp].
+[11:34:00] jmblinn13 casts [Indulgent Aristocrat].
+[11:34:05] Turn 2: Frygid
+[11:34:07] Frygid plays [Plains].
+[11:34:09] Frygid casts [Tithe Taker].
+[11:34:11] Turn 2: jmblinn13
+[11:34:13] jmblinn13 plays [Swamp].
+[11:34:16] jmblinn13 casts [Infernal Grasp] targeting [Tithe Taker].
+[11:34:19] Frygid puts triggered ability from [Tithe Taker] onto the stack (Afterlife 1 (When this creature dies, create a 1/1 white and black Spirit creature token with fl...).
+[11:34:20] Frygid's [Tithe Taker] creates a Spirit Token.
+[11:34:25] Turn 3: Frygid
+[11:34:27] Frygid plays [Plains].
+[11:34:32] Frygid casts [Kunoros, Hound of Athreos].
+[11:34:34] jmblinn13 is being attacked by [Spirit Token].
+[League] Invalid Match
+[11:34:35] [CHAT] PDBot: [sD][sR] Spirit Token was not on a submitted league decklist. This is not a league match.
+[11:34:35] [CHAT] PDBot: [sR]Spirit Token[sR] is not legal in Penny Dreadful.
+[11:34:41] Turn 3: jmblinn13
+[11:34:42] jmblinn13 plays [Swamp].
+[11:34:46] jmblinn13 casts [Vampire Nighthawk].
+[11:34:53] Turn 4: Frygid
+[11:34:55] Frygid plays [Plains].
+[11:34:59] Frygid casts [Vindicate] targeting [Vampire Nighthawk].
+[11:35:02] jmblinn13 is being attacked by [Kunoros, Hound of Athreos] and [Spirit Token].
+[11:35:07] Turn 4: jmblinn13
+[11:35:09] jmblinn13 plays [Swamp].
+[11:35:10] jmblinn13 casts [Indulgent Aristocrat].
+[11:35:14] jmblinn13 casts [Infernal Grasp] targeting [Kunoros, Hound of Athreos].
+[11:35:20] Frygid is being attacked by [Indulgent Aristocrat].
+[11:35:28] Turn 5: Frygid
+[11:35:49] Frygid plays [Caves of Koilos].
+[11:36:22] Frygid casts [Tomik, Distinguished Advokist].
+[11:36:28] Frygid casts [Suppression Field].
+[11:36:31] jmblinn13 is being attacked by [Spirit Token].
+[11:36:37] Turn 5: jmblinn13
+[11:36:39] jmblinn13 plays [Swamp].
+[11:36:43] jmblinn13 casts [Voldaren Pariah].
+[11:36:49] Turn 6: Frygid
+[11:36:51] Frygid plays [Isolated Chapel].
+[11:37:02] Turn 6: jmblinn13
+[11:37:05] jmblinn13 casts [Indulgent Aristocrat].
+[11:37:08] jmblinn13 casts [Asylum Visitor].
+[11:37:13] Frygid is being attacked by [Voldaren Pariah], [Indulgent Aristocrat], and [Indulgent Aristocrat].
+[11:37:18] [Spirit Token] blocks [Voldaren Pariah].
+[11:37:20] [Tomik, Distinguished Advokist] blocks [Indulgent Aristocrat].
+[11:37:26] jmblinn13 activates an ability of [Voldaren Pariah] ( Transform Voldaren Pariah.).
+[11:37:29] [Abolisher of Bloodlines] transformed
+[11:37:29] jmblinn13 puts triggered ability from [Abolisher of Bloodlines] onto the stack targeting Frygid (When this creature transforms into Abolisher of Bloodlines, target opponent sacrifices three creat...).
+[11:37:32] Frygid sacrifices [Spirit Token].
+[11:37:33] Frygid sacrifices [Tomik, Distinguished Advokist].
+[11:37:41] Turn 7: Frygid
+[11:37:47] Frygid plays [Plains].
+[11:37:51] Frygid casts [Dryad Militant].
+[11:37:56] Frygid activates an ability of [Shambling Vent] ( Shambling Vent becomes a 2/3 white and black Elemental creature with lifelink until end of turn. ...).
+[11:37:58] jmblinn13 is being attacked by [Shambling Vent].
+[11:38:03] Turn 7: jmblinn13
+[11:38:03] jmblinn13 puts triggered ability from [Asylum Visitor] onto the stack (At the beginning of each player's upkeep, if that player has no cards in hand, you draw a card and...).
+[11:38:08] jmblinn13 draws a card with [Asylum Visitor]'s ability.
+[11:38:10] jmblinn13 plays [Swamp].
+[11:38:11] jmblinn13 casts [Vampire Lacerator].
+[11:38:16] Frygid is being attacked by [Abolisher of Bloodlines].
+[11:38:22] Turn 8: Frygid
+[11:38:22] jmblinn13 puts triggered ability from [Asylum Visitor] onto the stack (At the beginning of each player's upkeep, if that player has no cards in hand, you draw a card and...).
+[11:38:26] jmblinn13 draws a card with [Asylum Visitor]'s ability.
+[11:38:53] jmblinn13 is being attacked by [Dryad Militant].
+[11:38:57] [Vampire Lacerator] blocks [Dryad Militant].
+[11:39:03] Frygid casts [Tomik, Distinguished Advokist].
+[11:39:07] Turn 8: jmblinn13
+[11:39:08] jmblinn13 plays [Swamp].
+[11:39:10] jmblinn13 casts [Stromkirk Condemned].
+[11:39:19] Frygid is being attacked by [Abolisher of Bloodlines].
+[11:39:27] Turn 9: Frygid
+[11:39:27] jmblinn13 puts triggered ability from [Asylum Visitor] onto the stack (At the beginning of each player's upkeep, if that player has no cards in hand, you draw a card and...).
+[11:39:30] jmblinn13 draws a card with [Asylum Visitor]'s ability.
+[11:39:58] Frygid casts [Tidehollow Sculler].
+[11:40:02] jmblinn13 discards [Vicious Conquistador].
+[11:40:02] jmblinn13 activates an ability of [Stromkirk Condemned] ( Vampires you control get +1/+1 until end of turn.).
+[11:40:10] Frygid puts triggered ability from [Tidehollow Sculler] onto the stack targeting jmblinn13 (When Tidehollow Sculler enters the battlefield, target opponent reveals their hand and you choose ...).
+[11:40:14] jmblinn13 reveals their hand to [Tidehollow Sculler]'s ability, containing no cards.
+[11:40:20] Turn 9: jmblinn13
+[11:40:20] jmblinn13 puts triggered ability from [Asylum Visitor] onto the stack (At the beginning of each player's upkeep, if that player has no cards in hand, you draw a card and...).
+[11:40:23] jmblinn13 draws a card with [Asylum Visitor]'s ability.
+[11:40:24] jmblinn13 plays [Swamp].
+[11:40:27] jmblinn13 casts [Vampire Nighthawk].
+[11:40:34] Frygid is being attacked by [Abolisher of Bloodlines].
+[11:40:40] Turn 10: Frygid
+[11:40:40] jmblinn13 puts triggered ability from [Asylum Visitor] onto the stack (At the beginning of each player's upkeep, if that player has no cards in hand, you draw a card and...).
+[11:40:43] jmblinn13 draws a card with [Asylum Visitor]'s ability.
+[11:41:26] Frygid casts [Citadel Siege].
+[11:41:31] Frygid chooses Dragons for [Citadel Siege].
+[11:41:43] Turn 10: jmblinn13
+[11:41:44] jmblinn13 plays [Swamp].
+[11:41:48] jmblinn13 casts [Bloodchief's Thirst] targeting [Tomik, Distinguished Advokist].
+[11:41:57] Frygid puts triggered ability from [Citadel Siege] onto the stack targeting [Abolisher of Bloodlines] (At the beginning of combat on each opponent's turn, tap target creature that player controls.).
+[11:42:03] Frygid is being attacked by [Vampire Nighthawk].
+[11:42:09] Turn 11: Frygid
+[11:42:09] jmblinn13 puts triggered ability from [Asylum Visitor] onto the stack (At the beginning of each player's upkeep, if that player has no cards in hand, you draw a card and...).
+[11:42:12] jmblinn13 draws a card with [Asylum Visitor]'s ability.
+[11:42:30] Frygid casts [Tidehollow Sculler].
+[11:42:34] jmblinn13 discards [Swamp].
+[11:42:34] jmblinn13 activates an ability of [Stromkirk Condemned] ( Vampires you control get +1/+1 until end of turn.).
+[11:42:38] Frygid puts triggered ability from [Tidehollow Sculler] onto the stack targeting jmblinn13 (When Tidehollow Sculler enters the battlefield, target opponent reveals their hand and you choose ...).
+[11:42:42] jmblinn13 reveals their hand to [Tidehollow Sculler]'s ability, containing no cards.
+[11:42:49] Turn 11: jmblinn13
+[11:42:49] jmblinn13 puts triggered ability from [Asylum Visitor] onto the stack (At the beginning of each player's upkeep, if that player has no cards in hand, you draw a card and...).
+[11:42:51] jmblinn13 draws a card with [Asylum Visitor]'s ability.
+[11:42:53] jmblinn13 plays [Swamp].
+[11:42:54] jmblinn13 casts [Indulgent Aristocrat].
+[11:43:01] Frygid puts triggered ability from [Citadel Siege] onto the stack targeting [Abolisher of Bloodlines] (At the beginning of combat on each opponent's turn, tap target creature that player controls.).
+[11:43:09] Frygid is being attacked by [Vampire Nighthawk].
+[11:43:15] jmblinn13 activates an ability of [Indulgent Aristocrat] ( Put a +1/+1 counter on each Vampire you control.).
+[11:43:21] [CHAT] Frygid: gg
+[11:43:22] jmblinn13 activates an ability of [Indulgent Aristocrat] ( Put a +1/+1 counter on each Vampire you control.).
+[11:43:24] [CHAT] jmblinn13: gg
+Winner: jmblinn13
+Game 2 Completed.
+Match Winner: jmblinn13: 2–0
+[11:43:29] Frygid draws their next card.
+[11:43:36] Frygid draws their next card.
+[11:43:36] jmblinn13 has left the game.
+[11:43:36] Frygid draws their next card.
+[11:43:37] Frygid draws their next card.
+[11:43:38] Frygid draws their next card.
+[11:43:39] Frygid draws their next card.
+[11:43:40] Frygid draws their next card.
+[11:43:42] Frygid draws their next card.
+[11:43:43] Frygid draws their next card.
+[11:43:45] Frygid draws their next card.
