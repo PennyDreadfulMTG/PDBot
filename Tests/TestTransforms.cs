@@ -37,5 +37,11 @@ namespace Tests
         {
             Assert.IsTrue(BaseLegalityChecker.IsRearFace("Erayo's Essence"));
         }
+
+        [Test]
+        public void TestDungeon()
+        {
+            Assert.IsTrue(BaseLegalityChecker.IsRearFace("Tomb of Annihilation"));
+        }
     }
 }

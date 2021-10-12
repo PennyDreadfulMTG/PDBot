@@ -111,6 +111,9 @@ namespace PDBot.Core.GameObservers
                 JObject face;
                 bool IsTransform = false;
 
+                if (json.Value<string>("type_line") == "Dungeon")
+                    IsTransform = true;
+
                 switch (json.Value<string>("layout"))
                 {
                     case "transform":
@@ -130,7 +133,9 @@ namespace PDBot.Core.GameObservers
                         IsTransform = face.Value<string>("type_line").Contains("Adventure");
                         break;
                     default:
-                        return false;
+                        if (!IsTransform)
+                            return false;
+                        break;
                 }
 
                 if (IsTransform)
