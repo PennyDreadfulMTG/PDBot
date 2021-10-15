@@ -30,6 +30,7 @@ namespace Tests
         {
             Assert.IsTrue(BaseLegalityChecker.IsRearFace("Akoum Teeth"));
             Assert.IsTrue(BaseLegalityChecker.IsRearFace("Flamethrower Sonata"));
+            Assert.IsTrue(BaseLegalityChecker.IsRearFace("The Ringhart Crest"));
         }
 
         [Test]
