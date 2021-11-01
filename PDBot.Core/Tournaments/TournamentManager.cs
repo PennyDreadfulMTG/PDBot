@@ -4,6 +4,7 @@ using PDBot.API;
 using PDBot.Core.Interfaces;
 using PDBot.Discord;
 using PDBot.Interfaces;
+using Sentry;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -55,53 +56,64 @@ namespace PDBot.Core.Tournaments
 
             foreach (var ae in events)
             {
-                lock (_activeRounds)
-                {
-                    _activeEvents[ae.Name] = ae;
-                    if (!_activeRounds.ContainsKey(ae.Name))
-                    {
-                        _activeRounds[ae.Name] = new Round();
-                    }
-                }
-
-                Round round;
                 try
                 {
-                    round = await ae.GetCurrentPairingsAsync().ConfigureAwait(false);
+                    lock (_activeRounds)
+                    {
+                        _activeEvents[ae.Name] = ae;
+                        if (!_activeRounds.ContainsKey(ae.Name))
+                        {
+                            _activeRounds[ae.Name] = new Round();
+                        }
+                    }
+
+                    Round round;
+                    try
+                    {
+                        round = await ae.GetCurrentPairingsAsync().ConfigureAwait(false);
+                    }
+                    catch (Exception c)
+                    {
+                        throw new WebException($"Error retrieving {ae} round.", c);
+                    }
+                    if (round == null)
+                    {
+                        Console.WriteLine($"No active round for {ae}?");
+                        continue;
+                    }
+
+                    var post = false;
+                    lock (_activeRounds)
+                    {
+                        if (round.RoundNum > _activeRounds[ae.Name].RoundNum)
+                        {
+                            _activeRounds[ae.Name] = round;
+                            post = true;
+                        }
+                        else if (ae.Series.Contains("Penny Dreadful"))
+                        {
+                            post = true;
+                        }
+                    }
+                    ulong? ChanId = DiscordFunctions.GetDiscordChannel(ae);
+                    bool overlap = events.Count(e => DiscordFunctions.GetDiscordChannel(ae) == ChanId) > 1;
+
+                    await PostPairingsAsync(ae, round, post, ChanId, overlap);
+                    lock (_activeRounds)
+                    {
+                        if (round.RoundNum == _activeRounds[ae.Name].RoundNum)
+                        {
+                            _activeRounds[ae.Name] = round;
+                        }
+                    }
                 }
                 catch (Exception c)
                 {
-                    throw new WebException($"Error retrieving {ae} round.", c);
-                }
-                if (round == null)
-                {
-                    Console.WriteLine($"No active round for {ae}?");
-                    continue;
-                }
-
-                var post = false;
-                lock (_activeRounds)
-                {
-                    if (round.RoundNum > _activeRounds[ae.Name].RoundNum)
+                    SentrySdk.ConfigureScope(scope =>
                     {
-                        _activeRounds[ae.Name] = round;
-                        post = true;
-                    }
-                    else if (ae.Series.Contains("Penny Dreadful"))
-                    {
-                        post = true;
-                    }
-                }
-                ulong? ChanId = DiscordFunctions.GetDiscordChannel(ae);
-                bool overlap = events.Count(e => DiscordFunctions.GetDiscordChannel(ae) == ChanId) > 1;
-
-                await PostPairingsAsync(ae, round, post, ChanId, overlap);
-                lock (_activeRounds)
-                {
-                    if (round.RoundNum == _activeRounds[ae.Name].RoundNum)
-                    {
-                        _activeRounds[ae.Name] = round;
-                    }
+                        scope.SetTag("Tournament", ae.Name);
+                        SentrySdk.CaptureException(c);
+                    });
                 }
             }
 
