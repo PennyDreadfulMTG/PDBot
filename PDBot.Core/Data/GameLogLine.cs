@@ -75,6 +75,10 @@ namespace PDBot.Core.Data
                 {
                     this.Cards.Add(name);
                 }
+                if (name == "Garth One-Eye" && !match.NamedTokens.Contains("Disenchant"))
+                {
+                    match.NamedTokens.AddRange(new string[] { "Disenchant", "Braingeyser", "Terror", "Shivan Dragon", "Regrowth", "Black Lotus" });
+                }
             }
         }
 
