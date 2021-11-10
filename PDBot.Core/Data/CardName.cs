@@ -18,6 +18,7 @@ namespace PDBot.Data
         static readonly Regex Khabal = new Regex("Khab.{1,2}l Ghoul", RegexOptions.Compiled);
         static readonly Regex Junun = new Regex("Jun.{1,2}n Efreet", RegexOptions.Compiled);
         static readonly Regex Marton = new Regex("M.{1,2}rton Stromgald", RegexOptions.Compiled);
+        static readonly Regex IfhBiff = new Regex("Ifh-B.{1,2}ff Efreet", RegexOptions.Compiled);
         /// <summary>
         /// Takes a name, and fixes up any messy encoding issues that might have occured.
         /// </summary>
@@ -33,6 +34,7 @@ namespace PDBot.Data
             name = Khabal.Replace(name, "Khabál Ghoul");
             name = Junun.Replace(name, "Junún Efreet");
             name = Marton.Replace(name, "Márton Stromgald");
+            name = IfhBiff.Replace(name, "Ifh-Bíff Efreet");
             return name;
         }
 
