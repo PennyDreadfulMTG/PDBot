@@ -3,6 +3,7 @@ using PDBot.Core;
 using PDBot.Core.API;
 using PDBot.Discord;
 using System;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace Tests
@@ -12,7 +13,16 @@ namespace Tests
         [Test]
         public async Task TestStats()
         {
-            var stats = await LogsiteApi.GetStatsAsync();
+            LogsiteApi.StatsJson stats;
+            try
+            {
+                stats = await LogsiteApi.GetStatsAsync();
+            }
+            catch (WebException ex)
+            {
+                Assert.Inconclusive(ex.Message);
+                return;
+            }
             Assert.That(stats, Is.Not.Null);
             foreach (var f in stats.Formats)
             {

@@ -1,3 +1,4 @@
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -51,11 +52,9 @@ namespace PDBot.Core.API
 
         public static async System.Threading.Tasks.Task<StatsJson> GetStatsAsync()
         {
-            using (var api = Api)
-            {
-                var v = await api.DownloadStringTaskAsync("/stats.json");
-                return JsonConvert.DeserializeObject<StatsJson>(v);
-            }
+            using var api = Api;
+            var v = await api.DownloadStringTaskAsync("/stats.json");
+            return JsonConvert.DeserializeObject<StatsJson>(v);
         }
     }
 }
