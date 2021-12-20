@@ -444,9 +444,9 @@ namespace PDBot.Discord
                 return;
             }
 
-            if (game == null && client.CurrentUser.Activity == null)
+            if (game == null && client.CurrentUser.Activities.FirstOrDefault() == null)
                 return;
-            if (client.CurrentUser.Activity != null && client.CurrentUser.Activity.Name == game)
+            if (client.CurrentUser.Activities.FirstOrDefault() != null && client.CurrentUser.Activities.FirstOrDefault().Name == game)
                 return;
             Console.WriteLine($"Setting Discord Game to {game}");
             await client.SetGameAsync(game);
