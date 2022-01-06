@@ -25,6 +25,7 @@ namespace PDBot.Core.GameObservers
             "lpssuperman",
             "Nikodemos",
             "thesovietrussian",
+            "Magical_Hacker",
         };
 
         public bool PreventReboot => false;
