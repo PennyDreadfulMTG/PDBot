@@ -23,6 +23,8 @@ namespace PDBot.Core.Tournaments
         private Dictionary<string, Event> _activeEvents { get; } = new Dictionary<string, Event>();
         private Dictionary<string, Round> _activeRounds { get; } = new Dictionary<string, Round>();
 
+        private List<ulong> bannedDiscordChannels = new();
+
         Dictionary<Event, Round> ITournamentManager.ActiveEvents
         {
             get
@@ -56,6 +58,7 @@ namespace PDBot.Core.Tournaments
 
             foreach (var ae in events)
             {
+                ulong? ChanId = null;
                 try
                 {
                     lock (_activeRounds)
@@ -95,7 +98,9 @@ namespace PDBot.Core.Tournaments
                             post = true;
                         }
                     }
-                    ulong? ChanId = DiscordFunctions.GetDiscordChannel(ae);
+                    ChanId = DiscordFunctions.GetDiscordChannel(ae);
+                    if (ChanId.HasValue && bannedDiscordChannels.Contains(ChanId.Value))
+                        ChanId = null;
                     bool overlap = events.Count(e => DiscordFunctions.GetDiscordChannel(ae) == ChanId) > 1;
 
                     await PostPairingsAsync(ae, round, post, ChanId, overlap);
@@ -109,11 +114,14 @@ namespace PDBot.Core.Tournaments
                 }
                 catch (Exception c)
                 {
-                    SentrySdk.ConfigureScope(scope =>
-                    {
-                        scope.SetTag("Tournament", ae.Name);
-                        SentrySdk.CaptureException(c);
-                    });
+                    if (ChanId.HasValue && c.Message.Contains("50001: Missing Access"))
+                        bannedDiscordChannels.Add(ChanId.Value);
+                    else
+                        SentrySdk.ConfigureScope(scope =>
+                        {
+                            scope.SetTag("Tournament", ae.Name);
+                            SentrySdk.CaptureException(c);
+                        });
                 }
             }
 
