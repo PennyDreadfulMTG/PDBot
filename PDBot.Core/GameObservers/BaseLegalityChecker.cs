@@ -96,6 +96,9 @@ namespace PDBot.Core.GameObservers
                 }
             }
 
+            if (name == "Erayo, Soratami Ascendant's Essence")
+                name = "Erayo's Essence";
+
             if (Transforms.Contains(name))
                 return true;
 

@@ -37,6 +37,7 @@ namespace Tests
         public void TestFlip()
         {
             Assert.IsTrue(BaseLegalityChecker.IsRearFace("Erayo's Essence"));
+            Assert.IsTrue(BaseLegalityChecker.IsRearFace("Erayo, Soratami Ascendant's Essence"));
         }
 
         [Test]
