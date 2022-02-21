@@ -531,6 +531,9 @@ namespace PDBot.Discord
                 case "pleaseusediscord":
                     success = await SendToArbiraryChannelAsync(message, 852370076673376266);
                     break;
+                case "mos-weekly":
+                    success = await SendToArbiraryChannelAsync(message, 945017098688684032);
+                    break;
                 default:
                     break;
             }

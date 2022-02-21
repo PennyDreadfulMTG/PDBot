@@ -171,6 +171,8 @@ namespace PDBot.Core
                 ChanId = 387127632266788870;
             else if (eventModel.Series == "Limitless")
                 ChanId = 834577563870691338;
+            else if ("MOS-Weekly".Equals(eventModel.Channel, StringComparison.CurrentCultureIgnoreCase))
+                ChanId = 945017098688684032;
             return ChanId;
         }
 
