@@ -16,6 +16,7 @@ namespace Tests
         [TestCase("[Elvish Visionary] blocks [Tuktuk the Returned].", 1, 1)]
         [TestCase("Blockers for [Vampire Nighthawk] are ordered as follows: [Glint-Nest Crane], [Faerie Mechanist]", 3, 0)]
         [TestCase("jmblinn13 is being attacked by [Spirit Token].", 0, 1)]
+        [TestCase("Tygrak is being attacked by [Legitimate Businessperson].", 0, 1)]
         public void TestLogHandler(string line, int cards, int tokens)
         {
             var match = new MockMatch();
@@ -49,7 +50,7 @@ namespace Tests
             Assert.IsTrue(legality.IsCardLegal(CardName.FixAccents("DandAþn")));
             Assert.IsFalse(legality.IsCardLegal(CardName.FixAccents("Lim-dl")));
         }
-
+        
         [Test]
         public void TestSparkSpitter()
         {

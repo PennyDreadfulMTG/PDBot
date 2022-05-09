@@ -20,6 +20,7 @@ namespace PDBot.Core.Data
             "Marit Lage", "Kaldra", "Ragavan", "Ashaya, the Awoken World", "Stangg Twin",
             "Voja", "Urami", "Tuktuk the Returned", "Servo", "Nightmare Horror",
             "Voja, Friend to Elves", "Vitu-Ghazi", "Etherium Cell", "Wizard",
+			"Legitimate Businessperson",
         };
 
         public string Line { get; private set; }
