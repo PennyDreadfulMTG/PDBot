@@ -20,7 +20,7 @@
       <Version>3.7.2</Version>
     </PackageReference>
     <PackageReference Include="Discord.Net.WebSocket">
-      <Version>3.7.1</Version>
+      <Version>3.7.2</Version>
     </PackageReference>
     <PackageReference Include="Gatherling">
       <Version>1.0.41</Version>
