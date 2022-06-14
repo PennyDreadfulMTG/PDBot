@@ -1,18 +1,18 @@
 version: 2
 updates:
-- package-ecosystem: nuget
-  directory: "/"
-  schedule:
-    interval: daily
-    timezone: Australia/Sydney
-  open-pull-requests-limit: 10
-  ignore:
-  - dependency-name: Sentry
-    versions:
-    - 3.3.1
-  - dependency-name: NUnitLite
-    versions:
-    - 3.13.1
+# - package-ecosystem: nuget
+#   directory: "/"
+#   schedule:
+#     interval: daily
+#     timezone: Australia/Sydney
+#   open-pull-requests-limit: 10
+#   ignore:
+#   - dependency-name: Sentry
+#     versions:
+#     - 3.3.1
+#   - dependency-name: NUnitLite
+#     versions:
+#     - 3.13.1
 - package-ecosystem: github-actions
   directory: "/"
   schedule:
