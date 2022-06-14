@@ -19,7 +19,7 @@
       <Version>4.2.1</Version>
     </PackageReference>
     <PackageReference Include="NUnitLite">
-      <Version>3.13.2</Version>
+      <Version>3.13.3</Version>
     </PackageReference>
     <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
   </ItemGroup>
