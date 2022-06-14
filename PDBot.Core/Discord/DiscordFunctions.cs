@@ -291,7 +291,7 @@ namespace PDBot.Core
                         await DiscordService.SendToArbiraryChannelAsync("Voice Channels overflowed, disabling.", 230056266938974218);
                         Features.CreateVoiceChannels = false;
                     }
-                    catch (HttpException c)
+                    catch (HttpException)
                     {
                         await DiscordService.SendToArbiraryChannelAsync("Voice Channels overflowed, disabling.", 230056266938974218);
                         Features.CreateVoiceChannels = false;
