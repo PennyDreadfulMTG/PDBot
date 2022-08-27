@@ -39,7 +39,7 @@ namespace PDBot.Core
                 return;
 
             await DoTournamentRoleAsync();
-            await MakeVoiceRoomsAsync();
+            //await MakeVoiceRoomsAsync();
 
         }
 
@@ -269,6 +269,9 @@ namespace PDBot.Core
                 .Where(m => !m.Completed)
                 .Where(m => m.Format == MagicFormat.PennyDreadful || m.Format == MagicFormat.PennyDreadfulCommander).ToArray();
             var ActiveCategory = DiscordService.client.GetChannel(492518614272835594) as SocketCategoryChannel;
+            if (ActiveCategory == null)
+                return;
+
             var expected = Games.Select(m => MatchEmoji(m) + string.Join(" vs ", m.Players)).ToArray();
 
             var toDelete = ActiveCategory.Guild.VoiceChannels.Where(c => !expected.Contains(c.Name)).ToArray();
