@@ -9,6 +9,8 @@ namespace PDBot.Core.API
 
         public static bool IsServerUp()
         {
+            return true; // Temporary
+
             foreach (var url in urls)
             {
                 try
