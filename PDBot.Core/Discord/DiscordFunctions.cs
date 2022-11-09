@@ -137,7 +137,10 @@ namespace PDBot.Core
         {
             var stats = await LogsiteApi.GetStatsAsync();
             var pdh = stats.Formats[MagicFormat.PennyDreadfulCommander.ToString()];
-            var players = await GetDiscordIDsAsync(pdh.LastMonth.Players);
+
+            ulong?[] players = new ulong?[0];
+            if (pdh.LastMonth != null)
+                players = await GetDiscordIDsAsync(pdh.LastMonth.Players);
             await DiscordService.SyncRoleAsync(PENNY_DREADFUL_GUILD_ID, "Recent PDH", players);
         }
 
