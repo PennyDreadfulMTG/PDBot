@@ -48,6 +48,8 @@ namespace PDBot.Core.GameObservers
                     var a = a_or_an(bug.Classification);
                     var v = new StringBuilder($"[sU]{name}[sU] has {a} {bug.Classification.ToLower()} bug.\n");
                     v.AppendLine(bug.Description.Replace("[", "").Replace("]", ""));
+                    if (!Features.MultiplayerBugCTA && match.Players.Count() > 2)
+                        bug.HelpWanted = false;
                     if (bug.HelpWanted)
                     {
                         v.AppendLine("Our data about this bug is out of date.  Please let us know if this card is still bugged (or if it's been fixed).");

@@ -23,10 +23,16 @@ namespace PDBot.Core
         public static bool AnnouncePairings { get; set; }
         public static bool JoinGames { get; set; }
         public static bool ConnectToDiscord { get; set; }
+        /// <summary>
+        /// Bug in multiplayer games where !commands crash the game?
+        /// </summary>
+        public static bool MultiplayerBugCTA { get; set; }
 
         public static bool CreateVoiceChannels { get; set; }
         public static string PdmApiKey { get; set; }
         public static string GithubToken { get; set; }
+
+        
 
         static Features()
         {
@@ -35,6 +41,7 @@ namespace PDBot.Core
             JoinGames = true;
             CreateVoiceChannels = false;
             ConnectToDiscord = true;
+            MultiplayerBugCTA = false;
             try
             {
                 var stats = LogsiteApi.GetStatsAsync().GetAwaiter().GetResult();
