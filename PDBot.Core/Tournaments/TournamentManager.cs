@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -191,8 +192,15 @@ namespace PDBot.Core.Tournaments
                         var top8players = eventModel.Standings.Take(8).Select(p => p.Player).ToArray();
                         var standings = eventModel.Standings.ToDictionary(p => p.Player);
                         var eligible = prev.Players.Where(p => !top8players.Contains(p) && (standings[p].MatchesPlayed + standings[p].Byes >= 2)).ToArray();
-                        var winner = await DiscordFunctions.MentionOrElseNameAsync(eligible[new Random().Next(eligible.Count())]);
-                        doorPrize = $"[sEventTicket] And the Door Prize goes to...\n [sEventTicket] {winner} [sEventTicket]";
+                        if (eligible.Any()) {
+                            var winner = await DiscordFunctions.MentionOrElseNameAsync(eligible[new Random().Next(eligible.Count())]);
+                            doorPrize = $"[sEventTicket] And the Door Prize goes to...\n [sEventTicket] {winner} [sEventTicket]";
+                        }
+                        else
+                        {
+                            doorPrize = $"[sF] Nobody was eligable for door prize today";
+
+                        }
                     }
                 }
 
