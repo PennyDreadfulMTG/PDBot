@@ -1,13 +1,10 @@
 using Gatherling;
 using Gatherling.Models;
-using PDBot.API;
 using PDBot.Core.Interfaces;
 using PDBot.Discord;
-using PDBot.Interfaces;
 using Sentry;
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -189,10 +186,11 @@ namespace PDBot.Core.Tournaments
                 if (isPD && eventModel.Rounds.ContainsKey(round.RoundNum - 1))
                 {
                     var prev = eventModel.Rounds[round.RoundNum - 1];
-                    if (round.IsFinals && !prev.IsFinals && round.Players.Count() == 8 && !eventModel.Name.Contains("500"))
+                    if (round.IsFinals && !prev.IsFinals && !eventModel.Name.Contains("500") && !eventModel.Name.Contains("Kickoff"))
                     {
-                        var top8players = round.Players.ToArray();
-                        var eligible = prev.Players.Where(p => !top8players.Contains(p)).ToArray();
+                        var top8players = eventModel.Standings.Take(8).Select(p => p.Player).ToArray();
+                        var standings = eventModel.Standings.ToDictionary(p => p.Player);
+                        var eligible = prev.Players.Where(p => !top8players.Contains(p) && (standings[p].MatchesPlayed + standings[p].Byes >= 2)).ToArray();
                         var winner = await DiscordFunctions.MentionOrElseNameAsync(eligible[new Random().Next(eligible.Count())]);
                         doorPrize = $"[sEventTicket] And the Door Prize goes to...\n [sEventTicket] {winner} [sEventTicket]";
                     }

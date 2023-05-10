@@ -9,6 +9,9 @@ using PDBot.Core.Data;
 
 namespace PDBot.Core.GameObservers
 {
+    /// <summary>
+    /// Some players have asked for Bug alerts in non-PD games.  This module will automatically join every game with one of those players
+    /// </summary>
     class StalkerMode : IGameObserver
     {
         static readonly string[] FavoritePlayers = new string[]
