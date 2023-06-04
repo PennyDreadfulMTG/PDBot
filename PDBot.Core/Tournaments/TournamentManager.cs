@@ -198,7 +198,7 @@ namespace PDBot.Core.Tournaments
                         }
                         else
                         {
-                            doorPrize = $"[sF] Nobody was eligable for door prize today";
+                            doorPrize = $"[sF] Nobody was eligible for door prize today";
 
                         }
                     }
