@@ -107,6 +107,14 @@ namespace PDBot.Core
                 SocketGuildUser user = guild?.GetUser(id);
                 if (user != null)
                     return user.Mention;
+                if (guild != null)
+                {
+                    await guild.DownloadUsersAsync();
+                    user = guild?.GetUser(id);
+                    if (user != null)
+                        return user.Mention;
+                }
+
             }
 
             if (!string.IsNullOrEmpty(person.MtgoUsername))
@@ -168,8 +176,6 @@ namespace PDBot.Core
                 ChanId = 733261347894329345;
             else if (eventModel.Series == "Magic Online Society Monthly Series")
                 ChanId = 746007224148688966;
-            else if (eventModel.Series == "Pre-Modern Monthly League")
-                ChanId = 827012505187647518;
             else if (eventModel.Series == "Pauper Classic Tuesdays")
                 ChanId = 387127632266788870;
             else if (eventModel.Series == "Limitless")

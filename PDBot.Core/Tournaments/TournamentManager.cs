@@ -97,11 +97,18 @@ namespace PDBot.Core.Tournaments
                         }
                     }
                     ChanId = DiscordFunctions.GetDiscordChannel(ae);
+                    if (!ChanId.HasValue)
+                    {
+                        var series = await ae.GetSeriesAsync();
+                        if (series.DiscordChannelId.HasValue)
+                            ChanId = (ulong)series.DiscordChannelId;
+                    }
                     if (ChanId.HasValue && bannedDiscordChannels.Contains(ChanId.Value))
                         ChanId = null;
+
                     bool overlap = events.Count(e => DiscordFunctions.GetDiscordChannel(ae) == ChanId) > 1;
 
-                    await PostPairingsAsync(ae, round, post, ChanId, overlap);
+                    await PostPairingsAsync(ae, round, post, ChanId, overlap, false);
                     lock (_activeRounds)
                     {
                         if (round.RoundNum == _activeRounds[ae.Name].RoundNum)
@@ -132,7 +139,7 @@ namespace PDBot.Core.Tournaments
             }
         }
 
-        private async Task PostPairingsAsync(Event eventModel, Round round, bool toMTGO, ulong? chanId, bool overlap)
+        private async Task PostPairingsAsync(Event eventModel, Round round, bool toMTGO, ulong? chanId, bool overlap, bool isRetry)
         {
             if (!Features.AnnouncePairings)
                 return;
@@ -174,7 +181,7 @@ namespace PDBot.Core.Tournaments
                 misses = await PrintPairings(round, chanId, builder);
             }
 
-            if (!round.IsFinals && (isPD || misses == 0) && eventModel.Main.Mode != EventStructure.League)
+            if (!round.IsFinals && (isPD || misses == 0) && eventModel.Main.Mode != EventStructure.League && eventModel.ElapsedTime.TotalDays < 1)
             {
                 var minutes = FreeWinTime(eventModel.Name, round.RoundNum);
                 builder.AppendLine($"[sB] No-Show win time: XX:{minutes:D2}");
@@ -216,11 +223,11 @@ namespace PDBot.Core.Tournaments
                 {
                     Chat.SendPM(room, doorPrize);
                 }
-                if (!sent)
+                if (!sent && !isRetry)
                 {
                     Chat.Join(room);
                     await Task.Delay(TimeSpan.FromSeconds(10));
-                    await PostPairingsAsync(eventModel, round, toMTGO, chanId, overlap);
+                    await PostPairingsAsync(eventModel, round, toMTGO, chanId, overlap, true);
                 }
             }
             // If misses >= 3, we have clearly just rebooted.  Don't send anything.
@@ -278,7 +285,8 @@ namespace PDBot.Core.Tournaments
                 if (ChanId.HasValue)
                 {
                     pairing.CalculateRes();
-                    var guild = DiscordService.FindChannel(ChanId.Value)?.Guild;
+                    global::Discord.WebSocket.SocketTextChannel chan = DiscordService.FindChannel(ChanId.Value);
+                    var guild = chan?.Guild;
 
                     var A = await DiscordFunctions.MentionOrElseNameAsync(pairing.PlayerA, guild);
                     var B = await DiscordFunctions.MentionOrElseNameAsync(pairing.PlayerB, guild);

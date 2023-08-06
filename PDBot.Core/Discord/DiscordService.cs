@@ -35,7 +35,10 @@ namespace PDBot.Discord
         private static bool Initialized;
 
         private static IServiceProvider ConfigureServices() => new ServiceCollection()
-                .AddSingleton(new DiscordSocketClient(new DiscordSocketConfig()))
+                .AddSingleton(new DiscordSocketClient(new DiscordSocketConfig()
+                {
+                    GatewayIntents = GatewayIntents.AllUnprivileged | GatewayIntents.GuildMembers
+                }))
                 .AddSingleton(new CommandService(new CommandServiceConfig { DefaultRunMode = RunMode.Async }))
                 .BuildServiceProvider();
 
