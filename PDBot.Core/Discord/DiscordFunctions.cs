@@ -21,8 +21,9 @@ namespace PDBot.Core
 
         private const long PENNY_DREADFUL_GUILD_ID = 207281932214599682;
         private ITournamentManager m_tournamentManager;
+        private static List<ulong> checkedGuilds = new List<ulong>();
 
-        ITournamentManager TournamentManager => m_tournamentManager ?? (m_tournamentManager = Resolver.Helpers.GetTournamentManager());
+        ITournamentManager TournamentManager => m_tournamentManager ??= Resolver.Helpers.GetTournamentManager();
 
         public async Task EveryHourAsync()
         {
@@ -107,12 +108,13 @@ namespace PDBot.Core
                 SocketGuildUser user = guild?.GetUser(id);
                 if (user != null)
                     return user.Mention;
-                if (guild != null)
+                if (guild != null && !checkedGuilds.Contains(guild.Id))
                 {
                     await guild.DownloadUsersAsync();
                     user = guild?.GetUser(id);
                     if (user != null)
                         return user.Mention;
+                    checkedGuilds.Add(guild.Id);
                 }
 
             }
