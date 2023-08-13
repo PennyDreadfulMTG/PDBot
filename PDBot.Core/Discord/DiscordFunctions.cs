@@ -168,8 +168,6 @@ namespace PDBot.Core
 
             if (eventModel.Series.Contains("Penny Dreadful"))
                 ChanId = 334220558159970304;
-            else if (eventModel.Series.Contains("7 Point"))
-                ChanId = 600281000739733514;
             else if (eventModel.Series.Contains("Community Legacy League") || eventModel.Series.Contains("Community Modern League"))
                 ChanId = 750017068392513612;
             else if (eventModel.Series.StartsWith("Pennylander"))
@@ -180,8 +178,6 @@ namespace PDBot.Core
                 ChanId = 387127632266788870;
             else if (eventModel.Series == "Limitless")
                 ChanId = 834577563870691338;
-            else if ("MOS-Weekly".Equals(eventModel.Channel, StringComparison.CurrentCultureIgnoreCase))
-                ChanId = 945017098688684032;
             return ChanId;
         }
 
