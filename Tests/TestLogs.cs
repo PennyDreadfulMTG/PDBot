@@ -39,16 +39,28 @@ namespace Tests
             Assert.IsNull(checker.HandleLine(new GameLogLine("[Black Lotus] is never going to be 0.01 TIX.", match)));
         }
 
-        //[Test]
+        [Test]
         public void TestAccents()
         {
-            var match = new MockMatch();
+            Assert.AreEqual("Dandân", new CardName("Dandân").FullName);
+            Assert.AreEqual("Junún Efreet", new CardName("Junún Efreet"));
+            Assert.AreEqual("Márton Stromgald", new CardName("Márton Stromgald").FullName);
+            Assert.AreEqual("Dandân", new CardName("DandÃ¢n").FullName);
+            Assert.AreEqual("Lim-Dûl the Necromancer", new CardName("Lim-DÃ»l the Necromancer").FullName);
+            Assert.AreEqual("Barad-dûr", new CardName("Barad-dÃ»r").FullName);
+            Assert.AreEqual("Ifh-Bíff Efreet", new CardName("Ifh-BÃ­ff Efreet").FullName);
+        }
+
+        [Test]
+        public void TestLegalCardsForAccents()
+        {
             var legality = new PennyDreadfulLegality();
-            Assert.IsTrue(legality.IsCardLegal(CardName.FixAccents("Dandan")));
-            Assert.IsTrue(legality.IsCardLegal(CardName.FixAccents("Junún Efreet")));
-            Assert.IsTrue(legality.IsCardLegal(CardName.FixAccents("Márton Stromgald")));
-            Assert.IsTrue(legality.IsCardLegal(CardName.FixAccents("DandAþn")));
-            Assert.IsFalse(legality.IsCardLegal(CardName.FixAccents("Lim-dl")));
+            Assume.That(legality.IsCardLegal("Island"));
+            foreach (var name in legality.LegalCards)
+            {
+                var n = CardName.FixAccents(name);
+                Assert.That(!n.Contains("Ã"), $"{name} contains an Ã.");
+            }
         }
         
         [Test]

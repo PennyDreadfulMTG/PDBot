@@ -10,15 +10,18 @@ namespace PDBot.Data
 {
     public class CardName : IEquatable<CardName>, IEquatable<string>
     {
-        static readonly Regex LimDul = new Regex("Lim-D.{1,2}l", RegexOptions.Compiled);
-        static readonly Regex Seance = new Regex("S.{1,2}ance", RegexOptions.Compiled);
-        static readonly Regex Jotun = new Regex("J.{1,2}tun", RegexOptions.Compiled);
-        static readonly Regex DanDan = new Regex("Dand.{1,2}n", RegexOptions.Compiled);
-        static readonly Regex Ghazban = new Regex("Ghazb.{1,2}n Ogre", RegexOptions.Compiled);
-        static readonly Regex Khabal = new Regex("Khab.{1,2}l Ghoul", RegexOptions.Compiled);
-        static readonly Regex Junun = new Regex("Jun.{1,2}n Efreet", RegexOptions.Compiled);
-        static readonly Regex Marton = new Regex("M.{1,2}rton Stromgald", RegexOptions.Compiled);
-        static readonly Regex IfhBiff = new Regex("Ifh-B.{1,2}ff Efreet", RegexOptions.Compiled);
+        static readonly Regex C9 = new("Ã‰", RegexOptions.Compiled);
+        static readonly Regex E1 = new("Ã¡", RegexOptions.Compiled);
+        static readonly Regex E2 = new("Ã¢", RegexOptions.Compiled);
+        static readonly Regex E9 = new("Ã©", RegexOptions.Compiled);
+        static readonly Regex ED = new("Ã­", RegexOptions.Compiled);
+        static readonly Regex F3 = new("Ã³", RegexOptions.Compiled);
+        static readonly Regex F6 = new("Ã¶", RegexOptions.Compiled);
+        static readonly Regex FA = new("Ãº", RegexOptions.Compiled);
+        static readonly Regex FB = new("Ã»", RegexOptions.Compiled);
+        static readonly Regex FC = new("Ã¼", RegexOptions.Compiled);
+
+
         /// <summary>
         /// Takes a name, and fixes up any messy encoding issues that might have occured.
         /// </summary>
@@ -26,15 +29,16 @@ namespace PDBot.Data
         /// <returns></returns>
         public static string FixAccents(string name)
         {
-            name = LimDul.Replace(name, "Lim-Dûl");
-            name = Seance.Replace(name, "Séance");
-            name = Jotun.Replace(name, "Jötun");
-            name = DanDan.Replace(name, "Dandân");
-            name = Ghazban.Replace(name, "Ghazbán Ogre");
-            name = Khabal.Replace(name, "Khabál Ghoul");
-            name = Junun.Replace(name, "Junún Efreet");
-            name = Marton.Replace(name, "Márton Stromgald");
-            name = IfhBiff.Replace(name, "Ifh-Bíff Efreet");
+            name = C9.Replace(name, "É");
+            name = E1.Replace(name, "á");
+            name = E2.Replace(name, "â");
+            name = E9.Replace(name, "é");
+            name = ED.Replace(name, "í");
+            name = F3.Replace(name, "ó");
+            name = F6.Replace(name, "ö");
+            name = FA.Replace(name, "ú");
+            name = FB.Replace(name, "û");
+            name = FC.Replace(name, "ü");
             return name;
         }
 
