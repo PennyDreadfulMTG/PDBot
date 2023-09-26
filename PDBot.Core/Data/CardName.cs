@@ -21,6 +21,14 @@ namespace PDBot.Data
         static readonly Regex IfhBiff = new("Ifh-B.{1,2}ff Efreet", RegexOptions.Compiled);
         static readonly Regex BaradDur = new("Barad-d.{1,2}r", RegexOptions.Compiled);
         static readonly Regex Theoden = new("Th.{1,2}den", RegexOptions.Compiled);
+        static readonly Regex Andúril = new("And.{1,2}ril", RegexOptions.Compiled);
+        static readonly Regex Dúnedain = new("D.{1,2}nedain", RegexOptions.Compiled);
+        static readonly Regex Lothlórien = new("Lothl.{1,2}rien", RegexOptions.Compiled);
+        static readonly Regex Glóin = new("Gl.{1,2}in", RegexOptions.Compiled);
+        static readonly Regex Grishnákh = new("Grishn.{1,2}kh", RegexOptions.Compiled);
+        static readonly Regex Gríma = new("Gr.{1,2}ma", RegexOptions.Compiled);
+        static readonly Regex Marûf = new("Ma'r.{1,2}f", RegexOptions.Compiled);
+        static readonly Regex Sméagol = new("Sm.{1,2}agol", RegexOptions.Compiled);
 
 
         /// <summary>
@@ -41,6 +49,14 @@ namespace PDBot.Data
             name = IfhBiff.Replace(name, "Ifh-Bíff Efreet");
             name = BaradDur.Replace(name, "Barad-dûr");
             name = Theoden.Replace(name, "Théoden");
+            name = Andúril.Replace(name, "Andúril");
+            name = Dúnedain.Replace(name, "Dúnedain");
+            name = Lothlórien.Replace(name, "Lothlórien");
+            name = Glóin.Replace(name, "Glóin");
+            name = Grishnákh.Replace(name, "Grishnákh");
+            name = Gríma.Replace(name, "Gríma");
+            name = Marûf.Replace(name, "Ma'rûf");
+            name = Sméagol.Replace(name, "Sméagol");
             return name;
         }
 
