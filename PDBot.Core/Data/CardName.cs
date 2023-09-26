@@ -20,6 +20,7 @@ namespace PDBot.Data
         static readonly Regex Marton = new("M.{1,2}rton Stromgald", RegexOptions.Compiled);
         static readonly Regex IfhBiff = new("Ifh-B.{1,2}ff Efreet", RegexOptions.Compiled);
         static readonly Regex BaradDur = new("Barad-d.{1,2}r", RegexOptions.Compiled);
+        static readonly Regex Theoden = new("Th.{1,2}den", RegexOptions.Compiled);
 
 
         /// <summary>
@@ -39,6 +40,7 @@ namespace PDBot.Data
             name = Marton.Replace(name, "Márton Stromgald");
             name = IfhBiff.Replace(name, "Ifh-Bíff Efreet");
             name = BaradDur.Replace(name, "Barad-dûr");
+            name = Theoden.Replace(name, "Théoden");
             return name;
         }
 
