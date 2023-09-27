@@ -29,7 +29,11 @@ namespace PDBot.Data
         static readonly Regex Gríma = new("Gr.{1,2}ma", RegexOptions.Compiled);
         static readonly Regex Marûf = new("Ma'r.{1,2}f", RegexOptions.Compiled);
         static readonly Regex Sméagol = new("Sm.{1,2}agol", RegexOptions.Compiled);
-
+        static readonly Regex Tinúviel = new("Tin.{1,2}viel", RegexOptions.Compiled);
+        static readonly Regex Théoden = new("Th.{1,2}oden", RegexOptions.Compiled);
+        static readonly Regex Kennerüd = new("Kenner.{1,2}d", RegexOptions.Compiled);
+        static readonly Regex Éomer = new(".{1,2}omer", RegexOptions.Compiled);
+        static readonly Regex Éowyn = new(".{1,2}owyn", RegexOptions.Compiled);
 
         /// <summary>
         /// Takes a name, and fixes up any messy encoding issues that might have occured.
@@ -47,6 +51,7 @@ namespace PDBot.Data
             name = Junun.Replace(name, "Junún Efreet");
             name = Marton.Replace(name, "Márton Stromgald");
             name = IfhBiff.Replace(name, "Ifh-Bíff Efreet");
+            name = Kennerüd.Replace(name, "Kennerüd");
             name = BaradDur.Replace(name, "Barad-dûr");
             name = Theoden.Replace(name, "Théoden");
             name = Andúril.Replace(name, "Andúril");
@@ -57,6 +62,10 @@ namespace PDBot.Data
             name = Gríma.Replace(name, "Gríma");
             name = Marûf.Replace(name, "Ma'rûf");
             name = Sméagol.Replace(name, "Sméagol");
+            name = Tinúviel.Replace(name, "Tinúviel");
+            name = Théoden.Replace(name, "Théoden");
+            name = Éomer.Replace(name, "Éomer");
+            name = Éowyn.Replace(name, "Éowyn");
             return name;
         }
 
