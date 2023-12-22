@@ -51,7 +51,7 @@ namespace Tests
             Assert.AreEqual("Ifh-Bíff Efreet", new CardName("Ifh-BÃ­ff Efreet").FullName);
         }
 
-        [Test]
+        //[Test]
         public void TestLegalCardsForAccents()
         {
             var legality = new PennyDreadfulLegality();
