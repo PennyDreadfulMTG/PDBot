@@ -17,6 +17,7 @@ namespace Tests
         [TestCase("Blockers for [Vampire Nighthawk] are ordered as follows: [Glint-Nest Crane], [Faerie Mechanist]", 3, 0)]
         [TestCase("jmblinn13 is being attacked by [Spirit Token].", 0, 1)]
         [TestCase("Tygrak is being attacked by [Legitimate Businessperson].", 0, 1)]
+        [TestCase("Username activates an ability of [Everflame, Heroes' Legacy] targeting [Tameshi, Reality Architect].", 1, 1)]
         public void TestLogHandler(string line, int cards, int tokens)
         {
             var match = new MockMatch();
