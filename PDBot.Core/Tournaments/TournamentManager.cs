@@ -18,10 +18,10 @@ namespace PDBot.Core.Tournaments
 
         private IChatDispatcher chatDispatcher;
 
-        private Dictionary<string, Event> _activeEvents { get; } = new Dictionary<string, Event>();
-        private Dictionary<string, Round> _activeRounds { get; } = new Dictionary<string, Round>();
+        private Dictionary<string, Event> _activeEvents { get; } = [];
+        private Dictionary<string, Round> _activeRounds { get; } = [];
 
-        private List<ulong> bannedDiscordChannels = new();
+        private readonly List<ulong> bannedDiscordChannels = [];
 
         Dictionary<Event, Round> ITournamentManager.ActiveEvents
         {
@@ -36,9 +36,9 @@ namespace PDBot.Core.Tournaments
             }
         }
 
-        public IChatDispatcher Chat { get { if (chatDispatcher == null) chatDispatcher = Resolver.Helpers.GetChatDispatcher(); return chatDispatcher; } }
+        public IChatDispatcher Chat { get { chatDispatcher ??= Resolver.Helpers.GetChatDispatcher(); return chatDispatcher; } }
 
-        public List<IMatch> ActiveMatches { get; } = new List<IMatch>();
+        public List<IMatch> ActiveMatches { get; } = [];
 
         public Task EveryHourAsync()
         {
@@ -337,7 +337,7 @@ namespace PDBot.Core.Tournaments
             }
         }
 
-        static Dictionary<string, int> freeWinTime = new Dictionary<string, int>();
+        static readonly Dictionary<string, int> freeWinTime = [];
         private static int FreeWinTime(string name, int roundNum)
         {
             var key = $"{name}:{roundNum}";
