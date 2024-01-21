@@ -50,13 +50,13 @@ namespace PDBot.Core
                 return;
             var stats = await LogsiteApi.GetStatsAsync();
 
-            var PdGames = stats.Formats[MagicFormat.PennyDreadful.ToString()].LastWeek.NumMatches;
+            var PdGames = stats.Formats[MagicFormat.PennyDreadful.ToString()]?.LastWeek?.NumMatches ?? 0;
             var PdhGames = stats.Formats[MagicFormat.PennyDreadfulCommander.ToString()]?.LastWeek?.NumMatches ?? 0;
 
             var prevPdGames = stats.Formats[MagicFormat.PennyDreadful.ToString()].LastLastWeek?.NumMatches ?? 0;
             var prevPdhGames = stats.Formats[MagicFormat.PennyDreadfulCommander.ToString()].LastLastWeek?.NumMatches ?? 0;
 
-            var players = stats.Formats[MagicFormat.PennyDreadful.ToString()].LastWeek.Players.Union(stats.Formats[MagicFormat.PennyDreadfulCommander.ToString()]?.LastWeek?.Players ?? new string[0]);
+            var players = (stats.Formats[MagicFormat.PennyDreadful.ToString()]?.LastWeek?.Players ?? []).Union(stats.Formats[MagicFormat.PennyDreadfulCommander.ToString()]?.LastWeek?.Players ?? new string[0]);
 
             var sb = new StringBuilder();
             sb.Append($"In the last week, I saw {players.Count()} people from the Penny Dreadful community play {PdGames} Penny Dreadful matches");
