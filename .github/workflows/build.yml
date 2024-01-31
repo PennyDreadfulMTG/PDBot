@@ -9,6 +9,6 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
     - name: Add msbuild to PATH
-      uses: microsoft/setup-msbuild@v1.3.2
+      uses: microsoft/setup-msbuild@v2.0.0
     - run: MSBUILD /t:restore
     - run: MSBUILD 
