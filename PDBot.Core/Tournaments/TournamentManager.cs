@@ -309,7 +309,7 @@ namespace PDBot.Core.Tournaments
 
         private static async Task RoundOneAnnouncements(Event eventModel, Round round, bool isPD, StringBuilder builder, ulong? chanId)
         {
-            if (!Features.PublishResults)
+            if (!Features.PublishResults && eventModel.Client == "mtgo")
             {
                 builder.AppendLine("[sF] Due to the spectator switcheroo bug, PDBot cannot trust the results it sees on screen.");
                 builder.AppendLine("[sF] PDBot will not be reporting match results to the channel until this bug is fixed.");
