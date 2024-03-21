@@ -230,6 +230,8 @@ namespace PDBot.Core.API
 
         public static async Task UploadLogAsync(int id)
         {
+            if (!Features.UploadToLogsite)
+                return;
             var f = $"Logs/{id}.txt";
             var lines = File.ReadAllText(f);
             using (var api = Api)

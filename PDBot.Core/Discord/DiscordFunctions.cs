@@ -366,6 +366,7 @@ namespace PDBot.Core
             }
 
             string[] lines = pairingsText.Split('\n');
+            lines = lines.SkipWhile(l => l.StartsWith("[sF]") || l.StartsWith("😦")).ToArray();
             var expected_round = lines[0];
             if (expected_round.StartsWith("Welcome to"))
                 expected_round = lines[1];
@@ -378,6 +379,7 @@ namespace PDBot.Core
                 if (post.Author.Id != DiscordService.client.CurrentUser.Id)
                     continue;
                 lines = post.Content.Split('\n');
+                lines = lines.SkipWhile(l => l.StartsWith("[sF]") || l.StartsWith("😦")).ToArray();
                 var round = lines[0];
                 if (round.StartsWith("Welcome to"))
                     round = lines[1];
