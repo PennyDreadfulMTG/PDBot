@@ -45,6 +45,7 @@ namespace PDBot.Core
             CreateVoiceChannels = false;
             ConnectToDiscord = true;
             MultiplayerBugCTA = false;
+            UploadToLogsite = true;
             try
             {
                 var stats = LogsiteApi.GetStatsAsync().GetAwaiter().GetResult();
