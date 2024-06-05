@@ -21,7 +21,7 @@ namespace PDBot.Data
         static readonly Regex IfhBiff = new("Ifh-B.{1,2}ff Efreet", RegexOptions.Compiled);
         static readonly Regex BaradDur = new("Barad-d.{1,3}r", RegexOptions.Compiled);
         static readonly Regex Theoden = new("Th.{1,2}den", RegexOptions.Compiled);
-        static readonly Regex Andúril = new("And.{1,3}ril", RegexOptions.Compiled);
+        static readonly Regex Andúril = new("And.{1,4}ril", RegexOptions.Compiled);
         static readonly Regex Dúnedain = new("D.{1,2}nedain", RegexOptions.Compiled);
         static readonly Regex Lothlórien = new("Lothl.{1,2}rien", RegexOptions.Compiled);
         static readonly Regex Glóin = new("Gl.{1,2}in", RegexOptions.Compiled);
