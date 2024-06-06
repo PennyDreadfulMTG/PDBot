@@ -21,7 +21,7 @@ namespace PDBot.Data
         static readonly Regex IfhBiff = new("Ifh-B.{1,2}ff Efreet", RegexOptions.Compiled);
         static readonly Regex BaradDur = new("Barad-d.{1,3}r", RegexOptions.Compiled);
         static readonly Regex Theoden = new("Th.{1,2}den", RegexOptions.Compiled);
-        static readonly Regex Andúril = new("And.{1,3}ril", RegexOptions.Compiled);
+        static readonly Regex Andúril = new("And.{1,4}ril", RegexOptions.Compiled);
         static readonly Regex Dúnedain = new("D.{1,2}nedain", RegexOptions.Compiled);
         static readonly Regex Lothlórien = new("Lothl.{1,2}rien", RegexOptions.Compiled);
         static readonly Regex Glóin = new("Gl.{1,2}in", RegexOptions.Compiled);
@@ -36,7 +36,6 @@ namespace PDBot.Data
         static readonly Regex ÉomerMarshalOfRohan = new(".{1,3}omer, Marshal of Rohan", RegexOptions.Compiled);
         static readonly Regex Éowyn = new(".{1,3}owyn", RegexOptions.Compiled);
         static readonly Regex Bartolomé = new("Bartolom.{1,3}", RegexOptions.Compiled);
-        static readonly Regex Grishnákh = new ("Grishn.{1,2}kh", RegexOptions.Compiled);
 
         /// <summary>
         /// Takes a name, and fixes up any messy encoding issues that might have occured.
@@ -71,7 +70,6 @@ namespace PDBot.Data
             name = ÉomerMarshalOfRohan.Replace(name, "Éomer, Marshal of Rohan");
             name = Éowyn.Replace(name, "Éowyn");
             name = Bartolomé.Replace(name, "Bartolomé");
-            name = Grishnákh.Replace(name, "Grishnákh");
             return name;
         }
 
