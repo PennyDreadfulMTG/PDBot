@@ -19,7 +19,7 @@ namespace PDBot.Data
         static readonly Regex Junun = new("Jun.{1,2}n Efreet", RegexOptions.Compiled);
         static readonly Regex Marton = new("M.{1,2}rton Stromgald", RegexOptions.Compiled);
         static readonly Regex IfhBiff = new("Ifh-B.{1,2}ff Efreet", RegexOptions.Compiled);
-        static readonly Regex BaradDur = new("Barad-d.{1,3}r", RegexOptions.Compiled);
+        static readonly Regex BaradDur = new("Barad-d.{1,4}r", RegexOptions.Compiled);
         static readonly Regex Theoden = new("Th.{1,2}den", RegexOptions.Compiled);
         static readonly Regex Andúril = new("And.{1,4}ril", RegexOptions.Compiled);
         static readonly Regex Dúnedain = new("D.{1,2}nedain", RegexOptions.Compiled);
