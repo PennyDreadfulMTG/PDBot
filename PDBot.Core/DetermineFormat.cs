@@ -19,7 +19,7 @@ namespace PDBot.Core
         JhioraBasic = 16, MoStoJho,
         Squire = 19, // SilverBlack, but with a points system.
         MTGBrawl = 20, Pioneer,
-        FreeformCommander = 22,
+        FreeformCommander = 22, DuelCommander
     };
 
     public static class DetermineFormat
