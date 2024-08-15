@@ -16,11 +16,12 @@ namespace Tests
         public void TestBuggedCards()
         {
             BuggedCards.CheckForNewList();
-            Assert.Positive(BuggedCards.Bugs.Count);
-            Assert.NotNull(BuggedCards.Bugs.First().CardName);
-            Assert.NotNull(BuggedCards.Bugs.First().Classification);
-            Assert.NotNull(BuggedCards.Bugs.First().Description);
-            Assert.NotNull(BuggedCards.Bugs.First().LastConfirmed);
+            var bug = BuggedCards.Bugs.FirstOrDefault();
+            Assert.NotNull(bug);
+            Assert.NotNull(bug.CardName);
+            Assert.NotNull(bug.Classification);
+            Assert.NotNull(bug.Description);
+            Assert.NotNull(bug.LastConfirmed);
         }
     }
 }
