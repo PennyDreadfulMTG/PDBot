@@ -39,7 +39,7 @@ namespace PDBot.Core.API
 
         static DateTime LastUpdate;
 
-        public static void CheckForNewList()
+        public static Bug[] CheckForNewList()
         {
             try
             {
@@ -52,9 +52,12 @@ namespace PDBot.Core.API
                         lock (Bugs)
                         {
                             Bugs.Clear();
-                            Bugs.AddRange(JsonConvert.DeserializeObject<Bug[]>(blob));
+                            Bug[] bugarray = JsonConvert.DeserializeObject<Bug[]>(blob);
+                            Bugs.AddRange(bugarray);
+                            LastUpdate = DateTime.Now;
+                            return bugarray;
                         }
-                        LastUpdate = DateTime.Now;
+                        
                     }
                 }
             }
@@ -62,6 +65,7 @@ namespace PDBot.Core.API
             {
                 Console.WriteLine($"Failed to update bugged cards\n{c}");
             }
+            return [.. Bugs];
         }
 
         public static Bug IsCardBugged(string CardName)

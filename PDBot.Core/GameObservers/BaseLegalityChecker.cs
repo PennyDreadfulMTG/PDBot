@@ -105,6 +105,7 @@ namespace PDBot.Core.GameObservers
 
             var url = $"https://api.scryfall.com/cards/named?exact={name}";
             using var wc = new WebClient();
+            wc.Headers[HttpRequestHeader.UserAgent] = "PDBot";
             try
             {
                 var blob = wc.DownloadString(url);
