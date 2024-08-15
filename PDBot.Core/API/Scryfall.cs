@@ -49,15 +49,15 @@ namespace PDBot.Core.API
 
             try
             {
-                using (var wc = new WebClient
+                using var wc = new WebClient
                 {
-                    BaseAddress = "https://api.scryfall.com/"
-                })
-                {
-                    var blob = wc.DownloadString(address);
-                    var json = Newtonsoft.Json.JsonConvert.DeserializeObject(blob) as JObject;
-                    return ParseJson(json);
-                }
+                    BaseAddress = "https://api.scryfall.com/",
+
+                };
+                wc.Headers[HttpRequestHeader.UserAgent] = "PDBot";
+                var blob = wc.DownloadString(address);
+                var json = Newtonsoft.Json.JsonConvert.DeserializeObject(blob) as JObject;
+                return ParseJson(json);
             }
             catch (WebException)
             {
@@ -98,14 +98,13 @@ namespace PDBot.Core.API
             try
             {
 
-                using (var wc = new WebClient
+                using var wc = new WebClient
                 {
                     BaseAddress = "https://api.scryfall.com/"
-                })
-                {
-                    Console.WriteLine(address);
-                    blob = wc.DownloadString(address);
-                }
+                };
+                wc.Headers[HttpRequestHeader.UserAgent] = "PDBot";
+                Console.WriteLine(address);
+                blob = wc.DownloadString(address);
             }
             catch (WebException)
             {
