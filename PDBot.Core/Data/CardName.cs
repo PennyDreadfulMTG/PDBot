@@ -36,6 +36,7 @@ namespace PDBot.Data
         static readonly Regex ÉomerMarshalOfRohan = new(".{1,3}omer, Marshal of Rohan", RegexOptions.Compiled);
         static readonly Regex Éowyn = new(".{1,3}owyn", RegexOptions.Compiled);
         static readonly Regex Bartolomé = new("Bartolom.{1,3}", RegexOptions.Compiled);
+        static readonly Regex Ratonhnhaketon = new ("Ratonhnhak.{1,5}ton");
 
         /// <summary>
         /// Takes a name, and fixes up any messy encoding issues that might have occured.
@@ -70,6 +71,7 @@ namespace PDBot.Data
             name = ÉomerMarshalOfRohan.Replace(name, "Éomer, Marshal of Rohan");
             name = Éowyn.Replace(name, "Éowyn");
             name = Bartolomé.Replace(name, "Bartolomé");
+            name = Ratonhnhaketon.Replace(name, "Ratonhnhaké꞉ton");
             return name;
         }
 
