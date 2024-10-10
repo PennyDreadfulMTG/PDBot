@@ -52,7 +52,7 @@ namespace Tests
             Assert.AreEqual("Ifh-Bíff Efreet", new CardName("Ifh-BÃ­ff Efreet").FullName);
         }
 
-        //[Test]
+        [Test]
         public void TestLegalCardsForAccents()
         {
             var legality = new PennyDreadfulLegality();
@@ -60,7 +60,7 @@ namespace Tests
             foreach (var name in legality.LegalCards)
             {
                 var n = CardName.FixAccents(name);
-                Assert.That(!n.Contains("Ã"), $"{name} contains an Ã.");
+                Assert.IsFalse(n.Contains("Ã"), $"{name} contains an Ã.");
             }
         }
         
