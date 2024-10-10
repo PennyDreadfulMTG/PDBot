@@ -12,6 +12,8 @@ namespace PDBot.Core.API
     public static class Scryfall
     {
 
+        static string[] CardNames = null;
+
         static Dictionary<string, Card> Cache { get; } = new Dictionary<string, Card>();
         static Dictionary<int, Card> IDCache { get; } = new Dictionary<int, Card>();
 
@@ -38,6 +40,31 @@ namespace PDBot.Core.API
             var address = $"cards/mtgo/{id}";
             var card = HitAPI(address);
             return card;
+        }
+
+        public static string[] CardCatalog()
+        {
+            if (CardNames == null)
+            {
+                // https://api.scryfall.com/catalog/card-names
+                try
+                {
+                    using var wc = new WebClient
+                    {
+                        BaseAddress = "https://api.scryfall.com/",
+
+                    };
+                    wc.Headers[HttpRequestHeader.UserAgent] = "PDBot";
+                    var blob = wc.DownloadString("catalog/card-names");
+                    var json = Newtonsoft.Json.JsonConvert.DeserializeObject(blob) as JObject;
+                    CardNames = json["data"].Values<string>().ToArray<string>();
+                }
+                catch (WebException)
+                {
+                    return null;
+                }
+            }
+            return CardNames;
         }
 
         private static Card HitAPI(string address)

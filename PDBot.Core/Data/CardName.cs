@@ -4,12 +4,16 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 
 namespace PDBot.Data
 {
     public class CardName : IEquatable<CardName>, IEquatable<string>
     {
+        /// <summary>
+        /// A list of cards that meet a regex below, but are not the card in that regex.
+        /// </summary>
+        static string[] RealCards = ["Sunlance"];
+
         static readonly Regex LimDul = new("Lim-D.{1,2}l", RegexOptions.Compiled);
         static readonly Regex Seance = new("S.{1,2}ance", RegexOptions.Compiled);
         static readonly Regex Jotun = new("J.{1,2}tun", RegexOptions.Compiled);
@@ -110,7 +114,8 @@ namespace PDBot.Data
             FullName = FullName.Trim('\r');
             if (FullName.StartsWith("\""))
                 FullName = FullName.Trim('\"');
-            FullName = FixAccents(FullName);
+            if (!RealCards.Contains(FullName))
+                FullName = FixAccents(FullName);
             if (Regex.IsMatch(FullName, @"(\w+)/(\w+)"))
                 FullName = FullName.Replace("/", " // ");
             this.FullName = FullName;
@@ -130,6 +135,7 @@ namespace PDBot.Data
                 var realname = FullName.Replace(" // ", "/");
                 names.Add(realname);
                 names.Add(realname.Replace("/", " & "));
+                names.Add(realname.Replace("/", " && "));
                 names.AddRange(realname.Split('/'));
             }
             Names = names.ToArray();
