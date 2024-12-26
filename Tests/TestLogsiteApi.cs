@@ -35,7 +35,16 @@ namespace Tests
         [Test]
         public async Task TestSwitcheroo()
         {
-            var stats = await LogsiteApi.GetStatsAsync();
+            LogsiteApi.StatsJson stats;
+            try
+            {
+                stats = await LogsiteApi.GetStatsAsync();
+            }
+            catch (WebException ex)
+            {
+                Assert.Inconclusive(ex.Message);
+                return;
+            }
             if (DateTimeOffset.UtcNow.Subtract(stats.LastSwitcheroo).TotalHours < 6)
             {
                 Assert.That(!Features.PublishResults);
