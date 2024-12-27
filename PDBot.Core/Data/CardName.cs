@@ -1,7 +1,9 @@
+using PDBot.Core.API;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -14,6 +16,18 @@ namespace PDBot.Data
         /// </summary>
         static string[] RealCards = ["Sunlance"];
 
+        static CardName()
+        {
+            try
+            {
+                var names = Scryfall.CardCatalog();
+                if (names != null)
+                {
+                    RealCards = names;
+                }
+            }
+            catch (WebException) { }
+        }
 
         /// <summary>
         /// Takes a name, and fixes up any messy encoding issues that might have occured.

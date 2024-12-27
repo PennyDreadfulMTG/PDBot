@@ -29,6 +29,19 @@ namespace PDBot.Core.API
             return card;
         }
 
+        public static Card GetFuzzyCard(string name)
+        {
+            if (Cache.ContainsKey(name))
+            {
+                return Cache[name];
+            }
+
+            var address = $"cards/named?fuzzy={name}";
+            var card = HitAPI(address);
+            return card;
+
+        }
+
         public static Card GetCardFromCatID(int id)
         {
             if (IDCache.ContainsKey(id))
@@ -52,7 +65,7 @@ namespace PDBot.Core.API
                     using var wc = new WebClient
                     {
                         BaseAddress = "https://api.scryfall.com/",
-
+                        Encoding = Encoding.UTF8,
                     };
                     wc.Headers[HttpRequestHeader.UserAgent] = "PDBot";
                     var blob = wc.DownloadString("catalog/card-names");

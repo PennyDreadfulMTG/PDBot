@@ -40,7 +40,7 @@ namespace Tests
             Assert.IsNull(checker.HandleLine(new GameLogLine("[Black Lotus] is never going to be 0.01 TIX.", match)));
         }
 
-        //[Test]
+        [Test]
         public void TestAccents()
         {
             Assert.AreEqual("Dandân", new CardName("Dandân").FullName);
@@ -52,7 +52,7 @@ namespace Tests
             Assert.AreEqual("Ifh-Bíff Efreet", new CardName("Ifh-BÃ­ff Efreet").FullName);
         }
 
-        //[Test]
+        [Test]
         public void TestLegalCardsForAccents()
         {
             var legality = new PennyDreadfulLegality();
