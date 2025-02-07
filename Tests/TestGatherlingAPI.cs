@@ -1,5 +1,6 @@
 using Gatherling;
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using PDBot.API;
 using PDBot.Core.Tournaments;
 using System;
@@ -16,16 +17,16 @@ namespace Tests
         public async Task TestGatherlingDecks()
         {
             var deck = await GatherlingClient.GatherlingDotCom.GetDeckAsync(87052);
-            Assert.AreEqual(true, deck.Found);
-            Assert.AreEqual(87052, deck.Id);
-            Assert.AreEqual("PD Drake", deck.Name);
+            ClassicAssert.AreEqual(true, deck.Found);
+            ClassicAssert.AreEqual(87052, deck.Id);
+            ClassicAssert.AreEqual("PD Drake", deck.Name);
         }
 
         //[TestCase]
         //public void TestVerification()
         //{
         //    var code = GatherlingClient.PennyDreadful.GetVerificationCodeAsync(nameof(PDBot)).GetAwaiter().GetResult();
-        //    Assert.IsNotNull(code);
+        //    ClassicAssert.IsNotNull(code);
         //}
 
         [Theory]
@@ -40,15 +41,15 @@ namespace Tests
             Assume.That(events.Length > 0);
             var first = events.First();
             var pairings = await first.GetCurrentPairingsAsync();
-            Assert.That(pairings.Matches.Any());
-            Assert.That(first.Channel != null);
+            ClassicAssert.That(pairings.Matches.Any());
+            ClassicAssert.That(first.Channel != null);
         }
 
         [Test]
         public async Task ParseStandings()
         {
             var @event = await GatherlingClient.GatherlingDotCom.GetEvent("Penny Dreadful Thursdays 12.01");
-            Assert.NotNull(@event.Standings);
+            ClassicAssert.NotNull(@event.Standings);
         }
     }
 }

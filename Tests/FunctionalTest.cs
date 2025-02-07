@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using PDBot.Core;
 using System;
 using System.Collections.Generic;
@@ -42,7 +43,7 @@ namespace Tests
             var foundObservers = match.Observers.Select(o => o.GetType().Name).ToArray();
             foreach (var observer in expectedObservers)
             {
-                Assert.Contains(observer.Trim(), foundObservers);
+                ClassicAssert.Contains(observer.Trim(), foundObservers);
             }
 
             var GameHeader = new Regex(@"== Game (?<n>[0-9]) \((?<gameId>[0-9]+)\) ==");
@@ -59,7 +60,7 @@ namespace Tests
                 else if ((rxmatch = GameHeader.Match(input)).Success)
                 {
                     int.TryParse(rxmatch.Groups["gameId"].Value, out gameID);
-                    Assert.AreEqual(++gameNum, int.Parse(rxmatch.Groups["n"].Value), "Game Number was not as expected");
+                    ClassicAssert.AreEqual(++gameNum, int.Parse(rxmatch.Groups["n"].Value), "Game Number was not as expected");
                 }
                 else if (input.StartsWith("Winner:"))
                 {
@@ -72,8 +73,8 @@ namespace Tests
                 {
                     var parts = input.Split(':');
                     match.Winners.GetRecordData(out var winner, out var record);
-                    Assert.AreEqual(winner.Player, parts[1].Trim());
-                    Assert.AreEqual(record, parts[2].Trim());
+                    ClassicAssert.AreEqual(winner.Player, parts[1].Trim());
+                    ClassicAssert.AreEqual(record, parts[2].Trim());
                 }
                 else
                 {

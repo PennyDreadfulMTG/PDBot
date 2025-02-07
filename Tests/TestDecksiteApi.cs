@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using PDBot.Core.API;
 using System;
 using System.Collections.Generic;
@@ -15,12 +16,12 @@ namespace Tests
         public async Task CheckPopularCards()
         {
             var cards = await DecksiteApi.PopularCardsAsync();
-            Assert.IsNotEmpty(cards);
+            ClassicAssert.IsNotEmpty(cards);
             var first = cards.First();
-            Assert.IsNotEmpty(first.name);
+            ClassicAssert.IsNotEmpty(first.name);
             foreach (var item in cards)
             {
-                Assert.IsNotNull(item.id);
+                ClassicAssert.IsNotNull(item.id);
             }
         }
 
@@ -28,14 +29,14 @@ namespace Tests
         public async Task TestPersonApi(string name)
         {
             var person = await DecksiteApi.GetPersonAsync(name);
-            Assert.AreEqual(person.Name, name);
+            ClassicAssert.AreEqual(person.Name, name);
         }
 
         [Test]
         public async Task TestGetTournaments()
         {
             var info = await DecksiteApi.GetTournaments();
-            Assert.NotNull(info);
+            ClassicAssert.NotNull(info);
         }
 
         //[Test]

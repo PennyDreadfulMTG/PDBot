@@ -1,4 +1,5 @@
-﻿using NUnit.Framework;
+using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using PDBot.Commands;
 using PDBot.Core;
 using PDBot.Core.Interfaces;
@@ -17,7 +18,7 @@ namespace Tests
         public void TestCommands()
         {
             var commands = Resolver.GetInstances<ICommand>();
-            Assert.IsNotEmpty(commands);
+            ClassicAssert.IsNotEmpty(commands);
         }
 
         [Test]
@@ -27,7 +28,7 @@ namespace Tests
             foreach (var observer in Resolver.GetInstances<IGameObserver>())
             {
                 var actual = observer.GetInstanceForMatchAsync(match);
-                Assert.IsNotNull(actual, $"{observer.GetType().Name} returned null.  Should have returned a task.");
+                ClassicAssert.IsNotNull(actual, $"{observer.GetType().Name} returned null.  Should have returned a task.");
             }
         }
     }

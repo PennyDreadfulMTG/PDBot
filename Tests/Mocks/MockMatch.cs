@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using PDBot.Core;
+using NUnit.Framework.Legacy;
 
 namespace Tests.Mocks
 {
@@ -68,8 +69,8 @@ namespace Tests.Mocks
 
         public void SendChat(string message)
         {
-            Assert.IsNotNull(message);
-            Assert.IsNotEmpty(message);
+            ClassicAssert.IsNotNull(message);
+            ClassicAssert.IsNotEmpty(message);
         }
     }
 }

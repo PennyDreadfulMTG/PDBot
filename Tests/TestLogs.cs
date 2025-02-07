@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using NUnit.Framework.Legacy;
 using PDBot.Core;
 using PDBot.Core.Data;
 using PDBot.Core.GameObservers;
@@ -27,8 +28,8 @@ namespace Tests
         private static void CountCards(string line, int cards, int tokens, IMatch match)
         {
             var parser = new GameLogLine(line, match);
-            Assert.AreEqual(cards, parser.Cards.Count());
-            Assert.AreEqual(tokens, parser.Tokens.Count());
+            ClassicAssert.AreEqual(cards, parser.Cards.Count());
+            ClassicAssert.AreEqual(tokens, parser.Tokens.Count());
         }
 
         [Test]
@@ -36,20 +37,20 @@ namespace Tests
         {
             var match = new MockMatch();
             var checker = match.Observers.OfType<PennyDreadfulLegality>().Single();
-            Assert.IsNotNull(checker.HandleLine(new GameLogLine("[Black Lotus] is never going to be 0.01 TIX.", match)));
-            Assert.IsNull(checker.HandleLine(new GameLogLine("[Black Lotus] is never going to be 0.01 TIX.", match)));
+            ClassicAssert.IsNotNull(checker.HandleLine(new GameLogLine("[Black Lotus] is never going to be 0.01 TIX.", match)));
+            ClassicAssert.IsNull(checker.HandleLine(new GameLogLine("[Black Lotus] is never going to be 0.01 TIX.", match)));
         }
 
         [Test]
         public void TestAccents()
         {
-            Assert.AreEqual("Dandân", new CardName("Dandân").FullName);
-            Assert.AreEqual("Junún Efreet", new CardName("Junún Efreet"));
-            Assert.AreEqual("Márton Stromgald", new CardName("Márton Stromgald").FullName);
-            Assert.AreEqual("Dandân", new CardName("DandÃ¢n").FullName);
-            Assert.AreEqual("Lim-Dûl the Necromancer", new CardName("Lim-DÃ»l the Necromancer").FullName);
-            Assert.AreEqual("Barad-dûr", new CardName("Barad-dÃ»r").FullName);
-            Assert.AreEqual("Ifh-Bíff Efreet", new CardName("Ifh-BÃ­ff Efreet").FullName);
+            ClassicAssert.AreEqual("Dandân", new CardName("Dandân").FullName);
+            ClassicAssert.AreEqual("Junún Efreet", new CardName("Junún Efreet"));
+            ClassicAssert.AreEqual("Márton Stromgald", new CardName("Márton Stromgald").FullName);
+            ClassicAssert.AreEqual("Dandân", new CardName("DandÃ¢n").FullName);
+            ClassicAssert.AreEqual("Lim-Dûl the Necromancer", new CardName("Lim-DÃ»l the Necromancer").FullName);
+            ClassicAssert.AreEqual("Barad-dûr", new CardName("Barad-dÃ»r").FullName);
+            ClassicAssert.AreEqual("Ifh-Bíff Efreet", new CardName("Ifh-BÃ­ff Efreet").FullName);
         }
 
         [Test]
@@ -60,7 +61,7 @@ namespace Tests
             foreach (var name in legality.LegalCards)
             {
                 var n = CardName.FixAccents(name);
-                Assert.IsFalse(n.Contains("Ã"), $"{name} contains an Ã.");
+                ClassicAssert.IsFalse(n.Contains("Ã"), $"{name} contains an Ã.");
             }
         }
         
