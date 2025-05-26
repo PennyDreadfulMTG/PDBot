@@ -46,5 +46,12 @@ namespace Tests
         {
             ClassicAssert.IsTrue(BaseLegalityChecker.IsRearFace("Tomb of Annihilation"));
         }
+
+        [Test]
+        public void TestOmens()
+        {
+            ClassicAssert.IsFalse(BaseLegalityChecker.IsRearFace("Purging Stormbrood"));
+            ClassicAssert.IsTrue(BaseLegalityChecker.IsRearFace("Absorb Essence"));
+        }
     }
 }
