@@ -331,7 +331,7 @@ namespace PDBot.Core.Tournaments
                     builder.Append($"There are prizes from {tournamentInfo?.SponsorName} for the Top 8 finishes and a door prize for one other randomly-selected player completing the Swiss rounds. "); ;
                 if (tournamentInfo?.SponsorName == "Cardhoarder")
                     builder.Append("Prizes will be credited to your Cardhoarder account automatically some time at the end of this week.");
-                builder.AppendLine().Append("Please make your games in Constructed, Specialty, Freeform Tournament Practice with 'Penny Dreadful' and your opponent's name in the comments with watchers allowed."
+                builder.AppendLine().Append("Please make your games in Constructed, Specialty, Freeform Best-of-Three with 'Penny Dreadful' and your opponent's name in the comments with watchers allowed."
                     + $" If your opponent doesn't show up please message them directly on Magic Online and Discord and if they are not there at :{FreeWinTime(eventModel.Name, round.RoundNum):D2} contact the host for your free 2-0 win."
                     + "\nGood luck everyone!\n");
             }
