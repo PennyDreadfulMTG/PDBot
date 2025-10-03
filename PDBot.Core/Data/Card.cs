@@ -1,13 +1,10 @@
-﻿using Newtonsoft.Json.Linq;
+using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PDBot.Data
 {
-    public enum CardLayouts { Unknown, Normal, Split };
+    public enum CardLayouts { Unknown, Normal, Split, Flip };
 
     public class Card : IEquatable<Card>
     {
@@ -30,7 +27,7 @@ namespace PDBot.Data
             if (blob.TryGetValue("card_faces", out var card_faces))
             {
                 var faces = card_faces as JArray;
-                //Names = from f in faces select f.Value<>
+                Names = [FullName, .. (from f in faces select f.Value<string>("name"))];
             }
 
             if (blob.TryGetValue("mtgo_id", out var catId))
@@ -40,8 +37,18 @@ namespace PDBot.Data
             else
                 CatID = -1;
 
-            if (Names == null)
-                Names = new string[] { FullName };
+            Names ??= [FullName];
+
+            if (blob.TryGetValue("printed_name", out var printed_name))
+            {
+                Names = [.. Names, (string)printed_name];
+            }
+
+            if (blob.TryGetValue("flavor_name", out var flavor_name))
+            {
+                Names = [.. Names, (string)flavor_name];
+            }
+
         }
 
         public string FullName { get; private set; }

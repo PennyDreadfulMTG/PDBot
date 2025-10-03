@@ -1,5 +1,6 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using PDBot.Core.API;
 using PDBot.Core.Data;
 using PDBot.Core.Interfaces;
 using PDBot.Data;
@@ -20,9 +21,11 @@ namespace PDBot.Core.GameObservers
 
         public abstract string MoreInfo { get; }
 
-        public string[] LegalCards { get; private set; }
+        public string[] LegalCards { get; protected set; }
 
         public static List<string> Transforms { get; private set; }
+
+        public static Dictionary<string, string> FlavourNameToName { get; private set; } = [];
 
         protected abstract string LegalListUrl { get; }
 
@@ -79,6 +82,23 @@ namespace PDBot.Core.GameObservers
                 return true;
             if (IsRearFace(name))
                 return true;
+            if (!CardName.RealCards.Contains(name))
+            {
+                if (FlavourNameToName.TryGetValue(name, out string fname))
+                {
+                    return LegalCards.Contains(fname);
+                }
+                var card = Scryfall.GetCardFromSearch(name);
+                if (card != null)
+                {
+                    FlavourNameToName[name] = card.FullName;
+                    return LegalCards.Contains(card.FullName);
+                }
+                else
+                {
+                    FlavourNameToName[name] = null;
+                }
+            }
 
             return false;
         }

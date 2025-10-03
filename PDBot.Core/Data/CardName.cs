@@ -14,7 +14,7 @@ namespace PDBot.Data
         /// <summary>
         /// A list of cards that meet a regex below, but are not the card in that regex.
         /// </summary>
-        static string[] RealCards = ["Sunlance"];
+        public static string[] RealCards = ["Sunlance"];
 
         static CardName()
         {

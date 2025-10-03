@@ -42,6 +42,19 @@ namespace PDBot.Core.API
 
         }
 
+        public static Card GetCardFromSearch(string name)
+        {
+            if (Cache.ContainsKey(name))
+            {
+                return Cache[name];
+            }
+
+            var address = $"/cards/search?q={name}+lang:en&include_multilingual=true";
+            var cards = HitMultiCardAPI(address).ToArray();
+            var card = cards.FirstOrDefault(c => c.Names.Contains(name));
+            return card;
+        }
+
         public static Card GetCardFromCatID(int id)
         {
             if (IDCache.ContainsKey(id))
