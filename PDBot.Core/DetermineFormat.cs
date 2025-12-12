@@ -12,14 +12,14 @@ namespace PDBot.Core
     public enum MagicFormat
     {
         Standard = 0, Modern, Legacy, Vintage, Commander, Pauper, Commander1v1 = 18,
-        Freeform = 6, FreeformVanguard, Test,
+        Freeform = 6, FreeformVanguard, Test, Contraption = 24,
         PennyDreadful = 9, PennyDreadfulCommander,
         MomirBasic = 11, Planechase, Planeswalker,
         Heirloom = 14, Frontier,
         JhioraBasic = 16, MoStoJho,
         Squire = 19, // SilverBlack, but with a points system.
         MTGBrawl = 20, Pioneer,
-        FreeformCommander = 22, DuelCommander
+        FreeformCommander = 22, DuelCommander,
     };
 
     public static class DetermineFormat
