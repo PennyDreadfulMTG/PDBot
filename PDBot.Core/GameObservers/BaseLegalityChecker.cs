@@ -25,8 +25,6 @@ namespace PDBot.Core.GameObservers
 
         public static List<string> Transforms { get; private set; }
 
-        public static Dictionary<string, string> FlavourNameToName { get; private set; } = [];
-
         protected abstract string LegalListUrl { get; }
 
         public static List<string> NotTransforms = new List<string>();
@@ -82,22 +80,9 @@ namespace PDBot.Core.GameObservers
                 return true;
             if (IsRearFace(name))
                 return true;
-            if (!CardName.RealCards.Contains(name))
+            if (FlavorNameChecker.IsFlavorName(name, out var realName))
             {
-                if (FlavourNameToName.TryGetValue(name, out string fname))
-                {
-                    return LegalCards.Contains(fname);
-                }
-                var card = Scryfall.GetCardFromSearch(name);
-                if (card != null)
-                {
-                    FlavourNameToName[name] = card.FullName;
-                    return LegalCards.Contains(card.FullName);
-                }
-                else
-                {
-                    FlavourNameToName[name] = null;
-                }
+               return LegalCards.Contains(realName, StringComparer.InvariantCultureIgnoreCase);
             }
 
             return false;
