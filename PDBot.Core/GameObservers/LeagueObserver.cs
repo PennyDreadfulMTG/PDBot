@@ -52,9 +52,8 @@ namespace PDBot.Core.GameObservers
             {
                 if (HostRun == null || LeagueRunOpp == null)
                     return null;
-
-                var InList = HostRun.ContainsCard(name) || LeagueRunOpp.ContainsCard(name) || BaseLegalityChecker.IsRearFace(name);
-                if (!InList)
+                
+                if (!IsInList(name))
                 {
                     HostRun = LeagueRunOpp = null;
                     match.Log("[League] Invalid Match");
@@ -66,6 +65,31 @@ namespace PDBot.Core.GameObservers
                 //DiscordService.SendLogToChannelAsync()
             }
             return null;
+        }
+
+        private bool IsInList(string cardName)
+        {
+            if (AnyDeckContainsCard(cardName))
+            {
+                return true;
+            }
+
+            if (BaseLegalityChecker.IsRearFace(cardName))
+            {
+                return true;
+            }
+
+            if (FlavorNameChecker.IsFlavorName(cardName, out var realName))
+            {
+                return AnyDeckContainsCard(realName);
+            }
+
+            return false;
+        }
+        
+        private bool AnyDeckContainsCard(string cardName)
+        {
+            return HostRun.ContainsCard(cardName) || LeagueRunOpp.ContainsCard(cardName);
         }
 
         private async Task<bool> CheckForLeagueAsync()
