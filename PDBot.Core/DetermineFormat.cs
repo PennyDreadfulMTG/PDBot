@@ -20,6 +20,7 @@ namespace PDBot.Core
         Squire = 19, // SilverBlack, but with a points system.
         MTGBrawl = 20, Pioneer,
         FreeformCommander = 22, DuelCommander,
+        Premodern = 25,
     };
 
     public static class DetermineFormat
