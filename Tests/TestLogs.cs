@@ -76,5 +76,23 @@ namespace Tests
             CountCards("WookieeGT's [Sparkspitter] creates a Spark Elemental.", 1, 0, match);
             CountCards("TheFancyMusterd is being attacked by [Spark Elemental] and [Fusion Elemental].", 1, 1, match);
         }
+
+        [Test]
+        public void TestPreparedSpells()
+        {
+            // Given empty whitelist
+            var match = new MockMatch();
+            ClassicAssert.IsEmpty(match.NamedTokensAndPreparedSpells);
+            
+            // When some creatures become prepared with some spells
+            var logLine = new GameLogLine("[Studious First-Year] prepares Rampant Growth", match);
+            var logline2 = new GameLogLine("[Vastlands Scavenger] prepares Bind to Life", match);
+
+            // Then the spells should be whitelisted
+            ClassicAssert.True(match.NamedTokensAndPreparedSpells.Contains("Rampant Growth"));
+            ClassicAssert.True(match.NamedTokensAndPreparedSpells.Contains("Bind to Life"));
+            CountCards("frzpop casts [Rampant Growth].", cards:0, tokens:1, match);
+            CountCards("frzpop casts [Bind to Life].", cards:0, tokens:1, match);
+        }
     }
 }
