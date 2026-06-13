@@ -40,30 +40,6 @@ namespace Tests
             ClassicAssert.IsNotNull(checker.HandleLine(new GameLogLine("[Black Lotus] is never going to be 0.01 TIX.", match)));
             ClassicAssert.IsNull(checker.HandleLine(new GameLogLine("[Black Lotus] is never going to be 0.01 TIX.", match)));
         }
-
-        [Test]
-        public void TestAccents()
-        {
-            ClassicAssert.AreEqual("Dandân", new CardName("Dandân").FullName);
-            ClassicAssert.AreEqual("Junún Efreet", new CardName("Junún Efreet"));
-            ClassicAssert.AreEqual("Márton Stromgald", new CardName("Márton Stromgald").FullName);
-            ClassicAssert.AreEqual("Dandân", new CardName("DandÃ¢n").FullName);
-            ClassicAssert.AreEqual("Lim-Dûl the Necromancer", new CardName("Lim-DÃ»l the Necromancer").FullName);
-            ClassicAssert.AreEqual("Barad-dûr", new CardName("Barad-dÃ»r").FullName);
-            ClassicAssert.AreEqual("Ifh-Bíff Efreet", new CardName("Ifh-BÃ­ff Efreet").FullName);
-        }
-
-        [Test]
-        public void TestLegalCardsForAccents()
-        {
-            var legality = new PennyDreadfulLegality();
-            Assume.That(legality.IsCardLegal("Island"));
-            foreach (var name in legality.LegalCards)
-            {
-                var n = CardName.FixAccents(name);
-                ClassicAssert.IsFalse(n.Contains("Ã"), $"{name} contains an Ã.");
-            }
-        }
         
         [Test]
         public void TestSparkSpitter()

@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace PDBot.Core.API
 {
@@ -49,7 +48,9 @@ namespace PDBot.Core.API
                 return Cache[name];
             }
 
-            var address = $"/cards/search?q={name}+lang:en&include_multilingual=true";
+            var query = $"{name} lang:en";
+            var encodedQuery = Uri.EscapeDataString(query);
+            var address = $"/cards/search?q={encodedQuery}&include_multilingual=true";
             var cards = HitMultiCardAPI(address).ToArray();
             var card = cards.FirstOrDefault(c => c.Names.Contains(name));
             return card;
@@ -80,7 +81,7 @@ namespace PDBot.Core.API
                         BaseAddress = "https://api.scryfall.com/",
                         Encoding = Encoding.UTF8,
                     };
-                    wc.Headers[HttpRequestHeader.UserAgent] = "PDBot";
+                    SetUpHeaders(wc);
                     var blob = wc.DownloadString("catalog/card-names");
                     var json = Newtonsoft.Json.JsonConvert.DeserializeObject(blob) as JObject;
                     CardNames = json["data"].Values<string>().ToArray<string>();
@@ -105,9 +106,8 @@ namespace PDBot.Core.API
                 using var wc = new WebClient
                 {
                     BaseAddress = "https://api.scryfall.com/",
-
                 };
-                wc.Headers[HttpRequestHeader.UserAgent] = "PDBot";
+                SetUpHeaders(wc);
                 var blob = wc.DownloadString(address);
                 var json = Newtonsoft.Json.JsonConvert.DeserializeObject(blob) as JObject;
                 return ParseJson(json);
@@ -150,12 +150,13 @@ namespace PDBot.Core.API
             string blob;
             try
             {
-
                 using var wc = new WebClient
                 {
                     BaseAddress = "https://api.scryfall.com/"
                 };
-                wc.Headers[HttpRequestHeader.UserAgent] = "PDBot";
+
+                SetUpHeaders(wc);
+                
                 Console.WriteLine(address);
                 blob = wc.DownloadString(address);
             }
@@ -190,6 +191,12 @@ namespace PDBot.Core.API
                 else
                     yield break;
             }
+        }
+
+        static void SetUpHeaders(WebClient wc)
+        {
+            wc.Headers[HttpRequestHeader.UserAgent] = "PDBot";
+            wc.Headers[HttpRequestHeader.Accept] = "application/json";
         }
     }
 }

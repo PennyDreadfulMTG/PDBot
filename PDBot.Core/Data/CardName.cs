@@ -28,17 +28,7 @@ namespace PDBot.Data
             }
             catch (WebException) { }
         }
-
-        /// <summary>
-        /// Takes a name, and fixes up any messy encoding issues that might have occured.
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        public static string FixAccents(string name)
-        {
-            return Encoding.UTF8.GetString(Encoding.GetEncoding("iso-8859-1").GetBytes(name));
-        }
-
+        
         public static string NormalizeString(string name)
         {
             var normalizedString = name.Normalize(NormalizationForm.FormKD);
@@ -74,8 +64,6 @@ namespace PDBot.Data
             FullName = FullName.Trim('\r');
             if (FullName.StartsWith("\""))
                 FullName = FullName.Trim('\"');
-            if (!RealCards.Contains(FullName))
-                FullName = FixAccents(FullName);
             if (Regex.IsMatch(FullName, @"(\w+)/(\w+)"))
                 FullName = FullName.Replace("/", " // ");
             this.FullName = FullName;
