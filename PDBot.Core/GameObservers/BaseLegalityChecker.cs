@@ -109,9 +109,11 @@ namespace PDBot.Core.GameObservers
             if (NotTransforms.Contains(name))
                 return false;
 
-            var url = $"https://api.scryfall.com/cards/named?exact={name}";
+            var escapedCardName = Uri.EscapeDataString(name);
+            var url = $"https://api.scryfall.com/cards/named?exact={escapedCardName}";
             using var wc = new WebClient();
             wc.Headers[HttpRequestHeader.UserAgent] = "PDBot";
+            wc.Headers[HttpRequestHeader.Accept] = "application/json";
             try
             {
                 var blob = wc.DownloadString(url);
