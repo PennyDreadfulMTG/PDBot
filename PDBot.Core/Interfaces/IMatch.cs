@@ -22,6 +22,6 @@ namespace PDBot.Core.Interfaces
         void SendChat(string message);
         string Log(string message);
 
-        List<string> NamedTokens { get; }
+        List<string> NamedTokensAndPreparedSpells { get; }
     }
 }

@@ -53,7 +53,7 @@ namespace Tests.Mocks
 
         public MagicFormat Format { get; }
 
-        public List<string> NamedTokens { get; } = new List<string>();
+        public List<string> NamedTokensAndPreparedSpells { get; } = new List<string>();
 
         public int MatchID => 1;
 

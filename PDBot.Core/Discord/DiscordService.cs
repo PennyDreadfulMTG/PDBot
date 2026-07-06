@@ -348,6 +348,15 @@ namespace PDBot.Discord
             return (await SendMessageAsync(msg, channel)) != null;
         }
 
+        public static async void SendToMomirLFG(string msg)
+        {
+            var channel = FindChannel(697980769930444931);
+            if (channel != null)
+            {
+                await SendMessageAsync(msg, channel);
+            }
+        }
+
         public static async Task<bool> SendToArbiraryChannelAsync(string msg, ulong Channel)
         {
             var channel = FindChannel(Channel);

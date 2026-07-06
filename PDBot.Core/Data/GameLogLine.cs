@@ -13,6 +13,8 @@ namespace PDBot.Core.Data
     {
         static Regex NewToken = new Regex(@"creates (a|an|two) (?<name>[\w\s]+).", RegexOptions.Compiled);
         static Regex Transreliquat = new Regex(@"targeting \[(?<name>[\w\s]+)\] token \(.* becomes a copy of target", RegexOptions.Compiled);
+        static Regex NewPrepared = new Regex(@"prepares (?<name>[\w\s',\-]+)$", RegexOptions.Compiled);
+        
         /// <summary>
         /// A list of tokens that are too good for the word "token"
         /// </summary>
@@ -33,19 +35,27 @@ namespace PDBot.Core.Data
             if (createsMatch.Success)
             {
                 var name = createsMatch.Groups["name"].Value;
-                if (!name.EndsWith("token", StringComparison.InvariantCultureIgnoreCase) && !LegendaryTokens.Contains(name) && !match.NamedTokens.Contains(name))
+                if (!name.EndsWith("token", StringComparison.InvariantCultureIgnoreCase) && !LegendaryTokens.Contains(name) && !match.NamedTokensAndPreparedSpells.Contains(name))
                 {
-                    match.NamedTokens.Add(name);
+                    match.NamedTokensAndPreparedSpells.Add(name);
                 }
             }
             var copiesToken = Transreliquat.Match(line);
             if (copiesToken.Success)
             {
                 var name = copiesToken.Groups["name"].Value;
-                if (!LegendaryTokens.Contains(name) && !match.NamedTokens.Contains(name))
+                if (!LegendaryTokens.Contains(name) && !match.NamedTokensAndPreparedSpells.Contains(name))
                 {
-                    match.NamedTokens.Add(name);
+                    match.NamedTokensAndPreparedSpells.Add(name);
                 }
+            }
+            
+            var preparedMatch = NewPrepared.Match(line);
+            if (preparedMatch.Success)
+            {
+                var name = preparedMatch.Groups["name"].Value;
+                if (!match.NamedTokensAndPreparedSpells.Contains(name))
+                    match.NamedTokensAndPreparedSpells.Add(name);
             }
 
             this.Line = line;
@@ -60,12 +70,11 @@ namespace PDBot.Core.Data
                     return;
                 }
                 var name = line.Substring(1, end - 1);
-                name = CardName.FixAccents(name);
                 line = line.Substring(end + 1);
                 var IsToken = line.TrimStart().StartsWith("token", StringComparison.InvariantCultureIgnoreCase);
                 if (name.EndsWith("Token", StringComparison.InvariantCultureIgnoreCase))
                     IsToken = true;
-                if (LegendaryTokens.Contains(name) || match.NamedTokens.Contains(name))
+                if (LegendaryTokens.Contains(name) || match.NamedTokensAndPreparedSpells.Contains(name))
                     IsToken = true;
 
                 if (IsToken)
@@ -76,9 +85,9 @@ namespace PDBot.Core.Data
                 {
                     this.Cards.Add(name);
                 }
-                if (name == "Garth One-Eye" && !match.NamedTokens.Contains("Disenchant"))
+                if (name == "Garth One-Eye" && !match.NamedTokensAndPreparedSpells.Contains("Disenchant"))
                 {
-                    match.NamedTokens.AddRange(new string[] { "Disenchant", "Braingeyser", "Terror", "Shivan Dragon", "Regrowth", "Black Lotus" });
+                    match.NamedTokensAndPreparedSpells.AddRange(new string[] { "Disenchant", "Braingeyser", "Terror", "Shivan Dragon", "Regrowth", "Black Lotus" });
                 }
             }
         }

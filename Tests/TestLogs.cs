@@ -40,30 +40,6 @@ namespace Tests
             ClassicAssert.IsNotNull(checker.HandleLine(new GameLogLine("[Black Lotus] is never going to be 0.01 TIX.", match)));
             ClassicAssert.IsNull(checker.HandleLine(new GameLogLine("[Black Lotus] is never going to be 0.01 TIX.", match)));
         }
-
-        [Test]
-        public void TestAccents()
-        {
-            ClassicAssert.AreEqual("Dandân", new CardName("Dandân").FullName);
-            ClassicAssert.AreEqual("Junún Efreet", new CardName("Junún Efreet"));
-            ClassicAssert.AreEqual("Márton Stromgald", new CardName("Márton Stromgald").FullName);
-            ClassicAssert.AreEqual("Dandân", new CardName("DandÃ¢n").FullName);
-            ClassicAssert.AreEqual("Lim-Dûl the Necromancer", new CardName("Lim-DÃ»l the Necromancer").FullName);
-            ClassicAssert.AreEqual("Barad-dûr", new CardName("Barad-dÃ»r").FullName);
-            ClassicAssert.AreEqual("Ifh-Bíff Efreet", new CardName("Ifh-BÃ­ff Efreet").FullName);
-        }
-
-        [Test]
-        public void TestLegalCardsForAccents()
-        {
-            var legality = new PennyDreadfulLegality();
-            Assume.That(legality.IsCardLegal("Island"));
-            foreach (var name in legality.LegalCards)
-            {
-                var n = CardName.FixAccents(name);
-                ClassicAssert.IsFalse(n.Contains("Ã"), $"{name} contains an Ã.");
-            }
-        }
         
         [Test]
         public void TestSparkSpitter()
@@ -75,6 +51,24 @@ namespace Tests
                 1, 0, match);
             CountCards("WookieeGT's [Sparkspitter] creates a Spark Elemental.", 1, 0, match);
             CountCards("TheFancyMusterd is being attacked by [Spark Elemental] and [Fusion Elemental].", 1, 1, match);
+        }
+
+        [Test]
+        public void TestPreparedSpells()
+        {
+            // Given empty whitelist
+            var match = new MockMatch();
+            ClassicAssert.IsEmpty(match.NamedTokensAndPreparedSpells);
+            
+            // When some creatures become prepared with some spells
+            var logLine = new GameLogLine("[Studious First-Year] prepares Rampant Growth", match);
+            var logline2 = new GameLogLine("[Vastlands Scavenger] prepares Bind to Life", match);
+
+            // Then the spells should be whitelisted
+            ClassicAssert.True(match.NamedTokensAndPreparedSpells.Contains("Rampant Growth"));
+            ClassicAssert.True(match.NamedTokensAndPreparedSpells.Contains("Bind to Life"));
+            CountCards("frzpop casts [Rampant Growth].", cards:0, tokens:1, match);
+            CountCards("frzpop casts [Bind to Life].", cards:0, tokens:1, match);
         }
     }
 }

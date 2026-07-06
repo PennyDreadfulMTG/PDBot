@@ -20,6 +20,7 @@ namespace PDBot.Core
         Squire = 19, // SilverBlack, but with a points system.
         MTGBrawl = 20, Pioneer,
         FreeformCommander = 22, DuelCommander,
+        Premodern = 25, SevenPointHighlander
     };
 
     public static class DetermineFormat
@@ -47,6 +48,8 @@ namespace PDBot.Core
                 value = MagicFormat.Squire;
             else if (value == MagicFormat.FreeformVanguard && IsMoStoJho(comment))
                 value = MagicFormat.MoStoJho;
+            else if (value == MagicFormat.Freeform && Is7PH(comment))
+                value = MagicFormat.SevenPointHighlander;
             // If we want to someday support other weird formats, add checks them here.
             return value;
         }
@@ -90,6 +93,11 @@ namespace PDBot.Core
         private static bool IsMoStoJho(string comment)
         {
             return comment.ToLower().Contains("mostojho");
+        }
+
+        private static bool Is7PH(string comment)
+        {
+            return comment.ToLower().Contains("7ph");
         }
     }
 }
