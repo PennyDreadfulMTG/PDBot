@@ -16,7 +16,7 @@ namespace PDBot.Core.GameObservers
     {
         public override string FormatName => "Penny Dreadful";
 
-        public override string MoreInfo => "pennydreadfulmagic.com or reddit.com/r/PennyDreadfulMTG";
+        public override string MoreInfo => "pennydreadfulmagic.com";
 
         protected override string LegalListUrl => "https://pennydreadfulmtg.github.io/legal_cards.txt";
 

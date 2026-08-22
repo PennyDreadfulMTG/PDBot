@@ -21,7 +21,7 @@ namespace PDBot.Commands
         public Task<string> RunAsync(string user, IMatch game, string[] args)
         {
             return Task.FromResult($"[sU] Penny Dreadful is a Player-run format for MTGO where only cards that cost 0.01 tix online are legal.\n" +
-                $"For more information about Penny Dreadful, see pennydreadfulmagic.com or reddit.com/r/PennyDreadfulMTG");
+                $"For more information about Penny Dreadful, see pennydreadfulmagic.com");
         }
     }
 }
