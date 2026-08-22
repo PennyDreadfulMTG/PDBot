@@ -362,7 +362,7 @@ namespace PDBot.Core
             }
             if (pairingsText.Length >= 2000)
             {
-                pairingsText = pairingsText.Split('\n')[0] + $"\n{AtTournamentPlayers(TournamentRoom.Guild)} Check Gatherling for your pairings!";
+                pairingsText = SummarizeTournamentPairings(pairingsText, AtTournamentPlayers(TournamentRoom.Guild));
             }
 
             string[] lines = pairingsText.Split('\n');
@@ -413,7 +413,17 @@ namespace PDBot.Core
                 await DiscordService.SendToTournamentRoomAsync(doorPrize);
         }
 
-        private static object AtTournamentPlayers(SocketGuild guild)
+        internal static string SummarizeTournamentPairings(string pairingsText, string tournamentPlayers)
+        {
+            var lines = pairingsText.Split('\n');
+            var summary = $"{lines[0]}\n{tournamentPlayers} Check Gatherling for your pairings!";
+            var noShowTime = lines.FirstOrDefault(line => line.IndexOf("No-Show win time:", StringComparison.Ordinal) >= 0);
+            if (noShowTime != null)
+                summary += $"\n{noShowTime}";
+            return summary;
+        }
+
+        private static string AtTournamentPlayers(SocketGuild guild)
         {
             foreach (var role in guild.Roles)
             {
