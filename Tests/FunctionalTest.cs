@@ -55,7 +55,7 @@ namespace Tests
             {
                 var input = lines[i];
                 Match rxmatch;
-                if (input.StartsWith("[CHAT]"))
+                if (input.StartsWith("[CHAT]") || input.StartsWith("[Time]") || input.StartsWith("[League]"))
                     continue;
                 else if ((rxmatch = GameHeader.Match(input)).Success)
                 {
