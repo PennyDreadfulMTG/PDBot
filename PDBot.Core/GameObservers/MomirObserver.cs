@@ -17,7 +17,7 @@ namespace PDBot.Core.GameObservers
             //{
             //    return Task.FromResult<IGameObserver>(new MomirObserver());
             //}
-            return new Task<IGameObserver>(null);
+            return Task.FromResult<IGameObserver>(null);
         }
 
         public string HandleLine(GameLogLine gameLogLine)
