@@ -150,6 +150,18 @@ namespace PDBot.Core.API
             }
         }
 
+        static WebClient MakeWebClient()
+        {
+            var wc = new WebClient
+            {
+                BaseAddress = "https://pennydreadfulmagic.com/",
+                Encoding = Encoding.UTF8,
+            };
+            wc.Headers[HttpRequestHeader.UserAgent] = "PennyDeadfulBot";
+            wc.Headers[HttpRequestHeader.Accept] = "application/json";
+            return wc;
+        }
+
         public static Deck GetRunSync(string player)
         {
             var task = GetRunAsync(player);
@@ -293,11 +305,18 @@ namespace PDBot.Core.API
                 catch (TaskCanceledException c)
                 {
                     SentrySdk.CaptureException(c);
-                    return new Tournament[0];
+                    return [];
                 }
 
             }
             return tournaments;
+        }
+
+        public static CardStat GetCard(string cardname)
+        {
+            using var wc = MakeWebClient();
+            var blob = wc.DownloadString($"/api/card/{cardname}");
+            return JsonConvert.DeserializeObject<CardStat>(blob);
         }
     }
 }

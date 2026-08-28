@@ -23,15 +23,20 @@ public static class FlavorNameChecker
         }
             
         var card = Scryfall.GetCardFromSearch(name);
-
+        DecksiteApi.CardStat dscard = null;
         if (card == null)
+        {
+            dscard = DecksiteApi.GetCard(name);
+        }
+
+        if (card == null && dscard == null)
         {
             flavourNameToName[name] = null;
             return false;
         }
             
-        realName = card.FullName;
-        flavourNameToName[name] = card.FullName;
+        realName = card?.FullName ?? dscard?.name;
+        flavourNameToName[name] = realName;
         return true;
     }
 }
