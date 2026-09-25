@@ -17,7 +17,11 @@ namespace Tests
         public void TestBuggedCards()
         {
             BuggedCards.CheckForNewList();
-            Assume.That(BuggedCards.Bugs.Any());
+            lock (BuggedCards.Bugs)
+            {
+                Assume.That(BuggedCards.Bugs.Any());
+            }
+
             var bug = BuggedCards.Bugs.FirstOrDefault();
             ClassicAssert.NotNull(bug);
             ClassicAssert.NotNull(bug.CardName);
